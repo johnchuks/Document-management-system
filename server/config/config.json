@@ -1,0 +1,25 @@
+{
+  "development": {
+    "username": "andela-johia",
+    "password": null,
+    "database": "doc-management",
+    "host": "127.0.0.1",
+    "port":"5433",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "andela-johia",
+    "password": null,
+    "database": "doc-management-test",
+    "host": "127.0.0.1",
+    "port":"5433",
+    "dialect": "postgres"
+  }
+  // "production": {
+  //   "username": "andela-johia",
+  //   "password": null,
+  //   "database": "doc-management-prod",
+  //   "host": "127.0.0.1",
+  //   "dialect": "postgres"
+  //}
+}
