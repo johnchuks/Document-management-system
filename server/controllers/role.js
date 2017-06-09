@@ -1,8 +1,13 @@
-const models = require('../models/role');
+const models = require('../models');
 
-exports.createRole = (req, res) => {
-  models.Role
-    .create({
-      title: req.body.title,
-    })
-}
+const Role = models.Role;
+
+module.exports = {
+  createRole(req, res) {
+    return Role
+      .create({
+        title: req.body.title
+      }).then(role => res.json(role))
+      .catch(error => res.json(error));
+  },
+};

@@ -4,13 +4,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true
-
-    }
+    },
   }, {
     classMethods: {
       associate: (models) => {
-        Role.belongsTo(models.User, {
-          foreignKey: 'userId'
+        Role.hasMany(models.User, {
+          foreignKey: 'roleId'
         });
       }
     },

@@ -13,13 +13,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true
     },
-
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      unique: true
-    },
-
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -29,16 +22,20 @@ module.exports = (sequelize, DataTypes) => {
     password: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    roleId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, {
     classMethods: {
       associate: (models) => {
         User.hasMany(models.Document, {
-          foreignkey: 'userId'
+          foreignKey: 'userId'
         });
         User.belongsTo(models.Role, {
           onDelete: 'CASCADE',
-          foreignkey: 'roleId'
+          foreignKey: 'roleId'
         });
       }
     },

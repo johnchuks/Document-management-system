@@ -14,6 +14,12 @@ module.exports = {
       .then(documentResponse => res.status(201).send(documentResponse))
       .catch(error => res.status(400).send(error));
   },
+  loadDocument(req, res) {
+    return Document
+      .all()
+      .then(document => res.status(200).send(document))
+      .catch(error => res.status(400).send(error));
+  }
 };
 
 // exports.updateDocument = (req, res) => {

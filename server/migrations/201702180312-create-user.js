@@ -14,11 +14,6 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: false
     },
-    userId: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      unique: true
-    },
     userName: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -36,8 +31,12 @@ module.exports = {
     },
     roleId: {
       type: Sequelize.INTEGER,
-      allowNull: false,
-      defaultValue: 2
+      references: {
+        model: 'Role',
+        key: 'id',
+        as: 'roleId'
+      },
+      allowNull: false
     },
     createdAt: {
       allowNull: false,
