@@ -10,4 +10,10 @@ module.exports = {
       }).then(role => res.json(role))
       .catch(error => res.json(error));
   },
+  getRole(req, res) {
+    return Role
+      .findAll()
+      .then(role => res.json(role))
+      .catch(role => res.json(role));
+  }
 };
