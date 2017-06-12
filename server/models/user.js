@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt-nodejs');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     firstName: {
@@ -26,9 +28,14 @@ module.exports = (sequelize, DataTypes) => {
     roleId: {
       type: DataTypes.INTEGER,
       allowNull: false
-    }
+    },
+
+
   }, {
     classMethods: {
+      generateHash: (password) => {
+        return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+      },
       associate: (models) => {
         User.hasMany(models.Document, {
           foreignKey: 'userId'
@@ -39,7 +46,12 @@ module.exports = (sequelize, DataTypes) => {
         });
       }
     },
-    freezeTableName: true
+    freezeTableName: true,
+    instanceMethods: {
+      validPassword: (password) => {
+        return bcrypt.compareSync(password, this.password);
+      },
+    }
   });
   return User;
 };

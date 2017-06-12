@@ -4,10 +4,10 @@ const env = require('dotenv').config();
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const config = {
-  entry: './app/components/main.jsx',
+  entry: './client/app/src/components/App.jsx',
   output: {
     filename: 'bundle.js',
-    path: `${__dirname}/public`
+    path: `${__dirname}/client/app/public`
   },
   resolve: {
     extensions: ['.jsx', '.js', '.json']
