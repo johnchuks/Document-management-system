@@ -51,5 +51,14 @@ const config = {
       { test: /\.json$/, loader: 'json-loader' },
     ]
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process': {
+        'env': {
+          'JWT_SECRET': JSON.stringify(process.env.JWT_SECRET),
+        }
+      }
+    })
+  ]
 };
 module.exports = config;
