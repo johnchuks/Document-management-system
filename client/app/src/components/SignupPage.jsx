@@ -23,9 +23,10 @@ class SignupPage extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     console.log(this.state);
-    this.props.signup(this.state);
-   //this.props.history.push('/dashboard');
-  };
+    this.props.signup(this.state).then(() => {
+      this.props.history.push('/dashboard');
+    });
+ };
   render() {
     const login = {
       border: "10px solid #444",
@@ -85,4 +86,4 @@ const mapDispatchToProps = (dispatch) => {
     signup: signupCredentials => dispatch(signupAction(signupCredentials))
   };
 };
-export default connect(null, mapDispatchToProps)(SignupPage);
+export default connect(null, mapDispatchToProps)(withRouter(SignupPage));

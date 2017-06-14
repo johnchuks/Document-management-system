@@ -1,10 +1,10 @@
 import { createUser } from '../api/Api';
 
-export const CREATE_USER = 'CREATE_USER'
+export const CREATE_FLASH_MESSAGES = 'CREATE_FLASH_MESSAGES';
 
 const signupAction = (userData) => createUser(userData)
   .then(result => ({
-    type: 'CREATE_USER',
+    type: 'CREATE_FLASH_MESSAGES',
     payload: result
   }));
 export default signupAction;
