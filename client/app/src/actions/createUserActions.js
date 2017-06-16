@@ -1,10 +1,15 @@
+import axios from 'axios';
 import { createUser } from '../api/Api';
+import { CREATE_USERS, FETCH_USERS } from '../constants/actionTypes';
 
-export const CREATE_FLASH_MESSAGES = 'CREATE_FLASH_MESSAGES';
-
-const signupAction = (userData) => createUser(userData)
+export const signupAction = (userData) => createUser(userData)
   .then(result => ({
-    type: 'CREATE_FLASH_MESSAGES',
+    type: CREATE_USERS,
     payload: result
   }));
-export default signupAction;
+
+export const fetchUserAction = () => ({
+  type: FETCH_USERS,
+  payload: axios.get('/api/users').then(response => response.data)
+});
+

@@ -29,49 +29,57 @@ class SignupPage extends React.Component {
  };
   render() {
     const login = {
-      border: "10px solid #444",
+      border: "10px solid #F5F3EE",
       padding: "inherit",
       width: "50%",
       height: "50%",
       marginLeft: '300px',
-      backgroundColor: "#444",
-  }
+      backgroundColor: "#F5F3EE",
+  };
+  console.log('this.props.signup', (this.state));
     return (
       <div>
-        <h1>Signup</h1>
         <div>
         <div className="row">
-          <form className="col s12" style={login}>
+            <form className="col s12 z-depth-5" style={login}>
+              <div class="row">
+                <div class="col s12">
+                  <h5> Sign Up to DocMe</h5>
+                  </div>
+                </div>
             <div className="row">
-              <div className="input-field col s6">
-                <input id="first_Name" name="firstName" type="text" className="validate" placeholder="firstName" onChange={this.handleChange}/>
-                {/*<label htmlFor="first_Name">First Name</label>*/}
+              <div className="input-field col s12">
+                <input id="first_Name" name="firstName" type="text" className="validate" onChange={this.handleChange}/>
+                <label htmlFor="first_Name">First Name</label>
               </div>
-              <div className="input-field col s6">
-                <input id="last_Name" name="lastName" type="text" placeholder="Last Name" className="validate" onChange={this.handleChange}/>
-                {/*<label htmlFor="last_Name">Last Name</label>*/}
+              <div className="input-field col s12">
+                <input id="last_Name" name="lastName" type="text" className="validate" onChange={this.handleChange}/>
+                <label htmlFor="last_Name">Last Name</label>
               </div>
             </div>
             <div className="row">
               <div className="input-field col s12">
-                <input id="user_Name" name="userName" type="text" placeholder=" User Name" className="validate" onChange={this.handleChange}/>
-                {/*<label htmlFor="user_Name">User Name</label>*/}
+                <input id="user_Name" name="userName" type="text" className="validate" onChange={this.handleChange}/>
+                <label htmlFor="user_Name">User Name</label>
               </div>
             </div>
             <div className="row">
               <div className="input-field col s12">
-                <input id="password" name="password" type="password" placeholder="Password" className="validate" onChange={this.handleChange} />
-                {/*<label htmlFor="password">Password</label>*/}
+                <input id="password" name="email" type="email" className="validate" onChange={this.handleChange} />
+                <label htmlFor="password">Password</label>
               </div>
             </div>
             <div className="row">
               <div className="input-field col s12">
-                <input id="email" name="email" type="email" placeholder="Email" className="validate" onChange={this.handleChange} />
-                {/*<label htmlFor="email">Email</label>*/}
+                <input id="email" name="email" type="password" className="validate" onChange={this.handleChange} />
+                <label htmlFor="email">Email</label>
               </div>
             </div>
             <div className="row">
-            <a className="waves-effect wave-light btn"type="submit"name="action" onClick={this.onSubmit}>SignUp</a>
+              <div className="col m6 s12">
+                  <a className="waves-effect wave-light btn" type="submit" name="action" onClick={this.onSubmit}>SignUp</a>
+            </div>
+
             </div>
           </form>
         </div>
@@ -86,4 +94,4 @@ const mapDispatchToProps = (dispatch) => {
     signup: signupCredentials => dispatch(signupAction(signupCredentials))
   };
 };
-export default connect(null, mapDispatchToProps)(withRouter(SignupPage));
+export default connect(mapDispatchToProps)(withRouter(SignupPage));

@@ -1,15 +1,14 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import promise from 'redux-promise';
-import userCreateReducer from '../reducers/userReducer';
+import { fetchUsers, signUpUsers } from '../reducers/userReducer';
 
 
 const reducer = combineReducers({
-  userCreateReducer
+  fetchUsers,
+  signUpUsers
 });
-const store = createStore(reducer, applyMiddleware(thunk, promise));
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk, promise), ));
 
 export default store;
-
-// store.dispatch({type:"CHANGE_NAME", payload:"jb"});
-// store.dispatch({type: "CHANGE_EMAIL", payload:"27"});
