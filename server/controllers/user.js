@@ -9,27 +9,19 @@ const User = models.User;
 module.exports = {
   // create a user
   createUser(req, res) {
-    User.create({
+    return User.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       userName: req.body.userName,
       email: req.body.email,
       password: req.body.password,
-      roleId: req.body.roleId
+      roleId: req.body.roleId || 1
     }).then((user) => {
+      console.log(user);
       res.json(user);
     }).catch((error) => {
       res.json(error);
     });
-    return User;
-  },
-  // get all the users
-
-  getUser(req, res) {
-    return User
-      .findAll()
-      .then(user => res.status(200).send(user))
-     .catch(error => res.status(400).send(error));
   },
   // find a user by Id
   findUser(req, res) {
@@ -105,8 +97,14 @@ module.exports = {
           }
         }
       }).catch(error => res.status(400).send(error));
+  },
+  // get all users
+  getAllUsers(req, res) {
+    const limit = req.query.limit;
+    const offset = req.query.offset;
+    return User
+    .findAndCountAll({ limit, offset })
+    .then(user => res.status(200).send(user))
+    .catch(error => res.status(400).send(error));
   }
-  // logoutWithJwt(req, res) {
-  //   delete req.body.use
-  // }
 };

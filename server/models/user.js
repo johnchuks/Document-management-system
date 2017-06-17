@@ -33,9 +33,6 @@ module.exports = (sequelize, DataTypes) => {
 
   }, {
     classMethods: {
-      generateHash: (password) => {
-        return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-      },
       associate: (models) => {
         User.hasMany(models.Document, {
           foreignKey: 'userId'
@@ -48,9 +45,17 @@ module.exports = (sequelize, DataTypes) => {
     },
     freezeTableName: true,
     instanceMethods: {
-      validPassword: (password) => {
+      validPassword(password) {
         return bcrypt.compareSync(password, this.password);
       },
+      generateHashPassword() {
+        this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8), null);
+      },
+    },
+    hooks: {
+      beforeCreate(user) {
+        user.generateHashPassword();
+      }
     }
   });
   return User;

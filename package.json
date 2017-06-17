@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": " npm run build",
-    "build": "webpack -p && babel-node server/config/server.js"
+    "build": "webpack -w & nodemon server/config/server.js --exec babel-node server/config/server.js"
   },
   "repository": {
     "type": "git",
@@ -24,12 +24,16 @@
   },
   "homepage": "https://github.com/andela-johia/Document-management-system#readme",
   "dependencies": {
+    "axios": "^0.16.2",
+    "babel-polyfill": "^6.23.0",
     "bcrypt": "^1.0.2",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.2",
     "dotenv": "^4.0.0",
     "eslint": "^3.19.0",
     "express": "^4.15.3",
+    "history": "^4.6.1",
+    "jquery": "^3.2.1",
     "jsonwebtoken": "^7.4.1",
     "morgan": "^1.8.2",
     "path": "^0.12.7",
@@ -37,9 +41,14 @@
     "pg-hstore": "^2.3.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-materialize": "^1.0.1",
+    "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "redux": "^3.6.0",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-promise": "^0.5.3",
+    "redux-thunk": "^2.2.0",
     "sequelize": "^3.30.4",
     "webpack": "^2.6.1",
     "webpack-dev-middleware": "^1.10.2"

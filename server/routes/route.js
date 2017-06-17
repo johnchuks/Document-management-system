@@ -5,17 +5,17 @@ const roleController = require('../controllers/role');
 module.exports = (app) => {
  // User Routes
   app.post('/users/', userController.createUser);
-  app.get('/users/', userController.getUser);
-  app.get('/users/:id', userController.findUser);
-  app.put('/users/:id', userController.updateUser);
-  app.delete('/users/:id', userController.deleteUser);
+  app.get('/api/users/', userController.getAllUsers);
+  app.get('/api/users/:id', userController.findUser);
+  app.put('/api/users/:id', userController.updateUser);
+  app.delete('/api/users/:id', userController.deleteUser);
 
- // Docuemnt Routes
-  app.post('/documents/', documentController.createDocument);
-  app.get('/documents/', documentController.loadDocument);
-  app.get('/documents/:id', documentController.findDocument);
-  app.put('/documents/:id', documentController.updateDocument);
-  app.delete('/documents/:id', documentController.deleteDocument);
+ // Document Routes
+  app.post('/api/documents/', documentController.createDocument);
+  app.get('/api/documents/', documentController.getAllDocuments);
+  app.get('/api/documents/:id', documentController.findDocument);
+  app.put('/api/documents/:id', documentController.updateDocument);
+  app.delete('/api/documents/:id', documentController.deleteDocument);
 
   // Role Routes
   app.post('/roles/', roleController.createRole);
