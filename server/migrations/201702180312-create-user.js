@@ -6,11 +6,7 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER
     },
-    firstName: {
-      type: Sequelize.STRING,
-      allowNull: false
-    },
-    lastName: {
+    fullName: {
       type: Sequelize.STRING,
       allowNull: false
     },
@@ -36,7 +32,8 @@ module.exports = {
         key: 'id',
         as: 'roleId'
       },
-      allowNull: false
+      allowNull: false,
+      defaultValue: 2
     },
     createdAt: {
       allowNull: false,

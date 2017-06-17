@@ -9,18 +9,52 @@ const User = models.User;
 module.exports = {
   // create a user
   createUser(req, res) {
-    return User.create({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      userName: req.body.userName,
-      email: req.body.email,
-      password: req.body.password,
-      roleId: req.body.roleId || 1
-    }).then((user) => {
-      console.log(user);
-      res.json(user);
-    }).catch((error) => {
-      res.json(error);
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+
+    if (!req.body.fullName) {
+      return res.status(401).json({
+        message: 'This Field is Required'
+      });
+    }
+    if (!req.body.userName) {
+      return res.status(401).json({
+        message: 'This Field is Required'
+      });
+    }
+    if (!req.body.email) {
+      return res.status(401).json({
+        message: 'This Field is Required'
+      });
+    }
+    if (!emailRegex.test(req.body.email)) {
+      return res.status(401).json({
+        message: 'Email is not rightly formatted'
+      });
+    }
+    if (!req.body.password) {
+      return res.status(401).json({
+        message: 'This Field is Required'
+      });
+    }
+
+    User.findAll({
+      where: { email: req.body.email }
+    }).then((err, existingUser) => {
+      if (!existingUser) {
+        User.provider = 'jwt';
+        return User.create({
+          fullName: req.body.fullName,
+          userName: req.body.userName,
+          email: req.body.email,
+          password: req.body.password,
+          roleId: req.body.roleId || 2
+        }).then((userDetails) => {
+          console.log(userDetails);
+          res.json(userDetails);
+        }).catch((error) => {
+          res.json(error);
+        });
+      }
     });
   },
   // find a user by Id
