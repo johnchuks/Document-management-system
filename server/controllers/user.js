@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const models = require('../models');
 
-const jwtSecret = 'johnboscodocmanager'; // process.env.JWTSECRET;
+const jwtSecret = process.env.JWT_SECRET;
 
 
 const User = models.User;
