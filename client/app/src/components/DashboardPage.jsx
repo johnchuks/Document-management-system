@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchUserAction } from '../actions/createUserActions';
+import { createDocumentAction } from '../actions/documentActions';
 import { Modal, Button } from 'react-materialize';
 
 class DashboardPage extends React.Component {
@@ -9,26 +9,30 @@ class DashboardPage extends React.Component {
     this.state = {
       title:'',
       document: '',
-      option: 'public',
+      value: '',
     };
     this.handleChange = this.handleChange.bind(this);
+    this.optionChange = this.optionChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
   handleChange(event) {
-    this.setState({[event.target.name]: event.target.value });
+    this.setState({ [event.target.name]: event.target.value });
+  }
+  optionChange(event) {
+    this.setState({ value: event.target.value });
   }
   onSubmit(event) {
     event.preventDefault();
     console.log(this.state);
   }
-  // componentWillMount() {
-  //   // this.props.dispatch(fetchUserAction());
-  // }
+  componentWillMount() {
+    // this.props.dispatch(fetchUserAction());
+  }
   // componentWillUnmount() {
 
   // }
   render() {
-     console.log(this.state);
+    console.log(this.state);
     return (
       <div>
         <Modal
@@ -48,7 +52,7 @@ class DashboardPage extends React.Component {
               </div>
                 <div className="col s6">
                  <label>Select role type</label>
-                 <select className="browser-default" onChange={this.handleChange} value={this.state.option}>
+                 <select className="browser-default" onChange={this.optionChange} value={this.state.value}>
                     <option value="" disabled selected>Choose your option</option>
                     <option value="public">Public</option>
                     <option value="private">Private</option>

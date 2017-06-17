@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
 import 'babel-polyfill';
-import $ from 'jquery';
 import DashboardPage from './DashboardPage.jsx';
 import SignupPage from './SignupPage';
 import store from '../store/store';

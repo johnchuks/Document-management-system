@@ -18,3 +18,11 @@ export const fetchUsers = () => {
     .catch(error => error);
 };
 
+export const createDocument = (document) => {
+  return new Promise((resolve, reject) => {
+    axios.post('/api/documents', document)
+      .then(response => resolve(response.data))
+      .catch(error => reject(error));
+  });
+};
+
