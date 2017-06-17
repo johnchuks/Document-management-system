@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const models = require('../models');
 
-const jwtSecret = 'johnboscodocmanager'; //process.env.JWTSECRET;
+const jwtSecret = 'johnboscodocmanager'; // process.env.JWTSECRET;
 
 
 const User = models.User;
@@ -9,21 +9,22 @@ const User = models.User;
 module.exports = {
   // create a user
   createUser(req, res) {
-    return User.create({
+    User.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       userName: req.body.userName,
       email: req.body.email,
       password: req.body.password,
       roleId: req.body.roleId
-
     }).then((user) => {
       res.json(user);
     }).catch((error) => {
       res.json(error);
     });
+    return User;
   },
   // get all the users
+
   getUser(req, res) {
     return User
       .findAll()
@@ -37,7 +38,7 @@ module.exports = {
       .then(user => res.status(200).send(user))
       .catch(error => res.status(400).send(error));
   },
-  //update a user by Id
+  // update a user by Id
   updateUser(req, res) {
     return User
       .findById(req.params.id)
@@ -78,13 +79,13 @@ module.exports = {
     })
     .catch(error => res.status(400).send(error));
   },
-  //log In user with JWT
+  // log In user with JWT
   logInWithJwt(req, res) {
     return User
       .findAll({ where: { userName: req.body.userName } })
       .then((user) => {
         const existingUser = user[0];
-        //console.log(existingUser, 'userpeople');
+        // console.log(existingUser, 'userpeople');
         if (!existingUser) {
           res.json({ success: false, message: 'User Not Found' });
         } else if (existingUser) {
