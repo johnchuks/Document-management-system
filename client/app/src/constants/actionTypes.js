@@ -1,3 +1,4 @@
 export const CREATE_USERS = 'CREATE_USERS';
 export const FETCH_USERS = 'FETCH_USERS';
 export const CREATE_DOCUMENT = 'CREATE_DOCUMENT';
+export const LOGIN_USERS = 'LOGIN_USERS';

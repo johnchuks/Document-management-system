@@ -18,3 +18,11 @@ export const fetchUsers = () => {
     .catch(error => error);
 };
 
+export const loginUsers = (user) => {
+  return new Promise((resolve, reject) => {
+    axios.post('/users/login', user)
+      .then(response => resolve(response.data))
+      .catch(error => reject(error));
+  });
+};
+

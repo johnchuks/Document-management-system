@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { loginAction } from '../actions/userActions';
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -17,12 +19,18 @@ class LoginPage extends React.Component {
   onSubmit(event) {
     this.setState({ errors: {} });
     event.preventDefault();
-    console.log(this.state)
+    this.props.login(this.state).then((response) => {
+      return response.data;
+    }, error => this.setState({ errors: error.response.data }));
+
   }
   render() {
+    console.log(this.state.errors);
     const rowStyle = {
       marginTop: '100px',
     };
+    const { errors } = this.state;
+
     return (
       <div>
         <div className="loginContainer">
@@ -36,11 +44,11 @@ class LoginPage extends React.Component {
         <div className="row">
               <div className="input-field col s12">
             <i className="material-icons" id="iconEmailPassword">
-              lock_outline</i>
+              email</i>
             <input id="email" name="email" type="text"
               className="validate" onChange={this.handleChange} />
-
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email" id="label">Email</label>
+            {errors.message && <span id="errorAlert" className="help-block">{errors.message}</span>}
               </div>
             </div>
             <div className="row">
@@ -49,7 +57,8 @@ class LoginPage extends React.Component {
               lock_outline</i>
             <input id="password" name="password" type="text"
               className="validate" onChange={this.handleChange} />
-                <label htmlFor="password">Password</label>
+            <label htmlFor="password" id="label">Password</label>
+             {errors.message && <span id="errorAlert" className="help-block">{errors.message}</span>}
               </div>
             </div>
             <div className="row">
@@ -58,7 +67,7 @@ class LoginPage extends React.Component {
                   Log in</button>
                 <div className="row">
                   <div className="col s12">
-                    <p> Don't have an account? <a href="/signup">SignUp</a></p>
+                    <p> Don't have an account? <a href="/signup" id="signupLink">SignUp</a></p>
                   </div>
                   </div>
               </div>
@@ -70,5 +79,10 @@ class LoginPage extends React.Component {
     );
   }
 }
-export default LoginPage;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login: loginCrendentials => dispatch(loginAction(loginCrendentials))
+  };
+};
+export default connect(null, mapDispatchToProps)(LoginPage);
 

@@ -5,12 +5,11 @@ const jwtSecret = process.env.JWT_SECRET;
 
 
 const User = models.User;
+const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 module.exports = {
   // create a user
   createUser(req, res) {
-    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-
     if (!req.body.fullName) {
       return res.status(401).json({
         message: 'This Field is Required'
@@ -107,8 +106,21 @@ module.exports = {
   },
   // log In user with JWT
   logInWithJwt(req, res) {
+    if (!req.body.email) {
+      return res.status(401).json({
+        message: 'This field is required'
+      });
+    } else if (!emailRegex.test(req.body.email)) {
+      return res.status(401).json({
+        message: 'Email is invalid'
+      });
+    } else if (!req.body.password) {
+      return res.status(401).json({
+        message: 'This field is required'
+      });
+    }
     return User
-      .findAll({ where: { userName: req.body.userName } })
+      .findAll({ where: { email: req.body.email } })
       .then((user) => {
         const existingUser = user[0];
         // console.log(existingUser, 'userpeople');
@@ -119,14 +131,15 @@ module.exports = {
             console.log(existingUser.password, 'user');
             res.json({ success: false, message: 'Password Incorrect' });
           } else {
-            const payLoad = { userName: existingUser.userName };
+            const payLoad = { email: existingUser.email };
             const token = jwt.sign(payLoad, jwtSecret, {
               expiresIn: 2880
             });
             res.json({
               success: true,
               message: 'Enjoy your token',
-              token
+              token,
+              existingUser
             });
           }
         }
