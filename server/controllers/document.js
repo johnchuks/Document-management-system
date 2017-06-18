@@ -16,7 +16,7 @@ module.exports = {
       .catch(error => res.status(400).send(error));
   },
   // load all documents available
-  loadDocument(req, res) {
+  getAllDocuments(req, res) {
     return Document
       .all()
       .then(document => res.status(200).send(document))

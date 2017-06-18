@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { signupAction } from '../actions/createUserActions';
+import { signupAction } from '../actions/userActions';
 
 
 class SignupPage extends React.Component {

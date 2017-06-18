@@ -6,7 +6,9 @@ import { createBrowserHistory } from 'history';
 import 'babel-polyfill';
 import DashboardPage from './DashboardPage.jsx';
 import SignupPage from './SignupPage';
+import LoginPage from './LoginPage';
 import store from '../store/store';
+import '../sass/style.scss';
 
 const history = createBrowserHistory();
 
@@ -17,7 +19,8 @@ ReactDOM.render(
 <Provider store={store}>
 <Router history={history}>
   <Switch>
-  <Route exact path="/" component={SignupPage} />
+  <Route exact path="/signup" component={SignupPage} />
+  <Route path="/" component={LoginPage} />
   <Route path = "/dashboard" component={DashboardPage} />
   </Switch>
 </Router>

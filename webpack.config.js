@@ -52,6 +52,7 @@ const config = {
     ]
   },
   plugins: [
+    new ExtractTextPlugin('css/style.css'),
     new webpack.DefinePlugin({
       'process': {
         'env': {
