@@ -47,7 +47,6 @@ module.exports = {
           password: req.body.password,
           roleId: req.body.roleId || 2
         }).then((userDetails) => {
-          console.log(userDetails);
           res.json(userDetails);
         }).catch((error) => {
           res.json(error);

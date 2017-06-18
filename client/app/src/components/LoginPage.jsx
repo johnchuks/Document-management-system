@@ -22,10 +22,14 @@ class LoginPage extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     this.setState({ errors: {}, isLoading: true });
-    this.props.login(this.state).then((response) =>
-      this.props.history.push('/dashboard'),
-    (error) => this.setState({ errors: error.response.data, isLoading: false }));
-
+    this.props.login(this.state).then((error) => {
+      if (!error) {
+        this.props.history.push('/dashboard');
+      } else {
+        this.setState({ errors: error.response.data, isLoading: false });
+        this.props.history.push('/');
+      }
+    });
   }
   render() {
     const rowStyle = {
