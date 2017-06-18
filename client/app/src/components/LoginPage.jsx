@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { loginAction } from '../actions/userActions';
@@ -86,8 +87,13 @@ const mapDispatchToProps = (dispatch) => {
     login: loginCrendentials => dispatch(loginAction(loginCrendentials))
   };
 };
-// LoginPage.propTypes = {
-//   login: React.propTypes.func.isRequired
-// };
+
 export default connect(null, mapDispatchToProps)(withRouter(LoginPage));
+
+LoginPage.propTypes = {
+  history: PropTypes.object.isRequired,
+};
+LoginPage.propTypes = {
+  login: PropTypes.func.isRequired,
+};
 
