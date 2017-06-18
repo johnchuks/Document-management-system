@@ -128,7 +128,7 @@ module.exports = {
           if (bcrypt.compareSync(req.body.password, existingUser.password)) {
             console.log(existingUser.password, 'user');
             const payLoad = (
-              { email: existingUser.email, id: existingUser.id }
+              { email: existingUser.email, id: existingUser.id, fullName: existingUser.fullName }
             );
             const token = jwt.sign(payLoad, jwtSecret, {
               expiresIn: 2880
@@ -138,10 +138,6 @@ module.exports = {
               success: true,
               message: 'Enjoy your token',
               token,
-              fullName: existingUser.fullName,
-              id: existingUser.id,
-              email: existingUser.email,
-              password: existingUser.password
             });
           } else {
             res.status(401).json({ success: false, password: 'Password is Invalid' });

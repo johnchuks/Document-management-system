@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const env = require('dotenv').config();
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const jwtDecode = require('jwt-decode');
 
 const config = {
   entry: './client/app/src/components/App.jsx',

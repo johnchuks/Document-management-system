@@ -27,11 +27,10 @@ class LoginPage extends React.Component {
 
   }
   render() {
-    console.log(this.state.errors);
     const rowStyle = {
       marginTop: '100px',
     };
-    const { errors, email, password } = this.state;
+    const { errors } = this.state;
 
     return (
       <div>

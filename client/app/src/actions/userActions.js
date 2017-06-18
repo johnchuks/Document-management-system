@@ -1,6 +1,9 @@
 import axios from 'axios';
-import { createUser, loginUsers } from '../api/Api';
-import { CREATE_USERS, FETCH_USERS, LOGIN_USERS } from '../constants/actionTypes';
+import jwtDecode from 'jwt-decode';
+import { createUser } from '../api/Api';
+import { CREATE_USERS, FETCH_USERS, SET_LOGIN_USERS } from '../constants/actionTypes';
+import Authorization from '../../utils/authorization';
+
 
 const signupAction = (userData) => {
   return createUser(userData)
@@ -15,14 +18,24 @@ const fetchUserAction = () => ({
   payload: axios.get('/api/users').then(response => response.data)
 });
 
-const loginAction = (user) => {
-  return loginUsers(user).then((response) => {
-    return {
-      type: LOGIN_USERS,
-      payload: response
-    };
-  });
+const setLoginUser = (user) => {
+  return {
+    type: SET_LOGIN_USERS,
+    payload: user
+  }
 };
 
-export { signupAction, fetchUserAction, loginAction };
+const loginAction = (user) => {
+  return (dispatch) => {
+    return axios.post('/users/login', user).then((response) => {
+      const token = response.data.token;
+      localStorage.setItem('jwtToken', JSON.stringify(token));
+      Authorization.setAuthToken(token);
+      dispatch(setLoginUser(jwtDecode(token)));
+    }).catch(error => (error));
+  }
+};
+
+
+export { signupAction, fetchUserAction, loginAction, setLoginUser };
 
