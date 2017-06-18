@@ -1,4 +1,6 @@
 import axios from 'axios';
+import Authorization from '../../utils/authorization';
+import jwtDecode from 'jwt-decode';
 
 export const createUser = (userData) => {
   return new Promise((resolve, reject) => {
@@ -17,12 +19,11 @@ export const fetchUsers = () => {
     })
     .catch(error => error);
 };
-
+=
 export const createDocument = (document) => {
   return new Promise((resolve, reject) => {
     axios.post('/api/documents', document)
       .then(response => resolve(response.data))
-      .catch(error => reject(error));
   });
 };
 

@@ -1,5 +1,7 @@
+import { SET_LOGIN_USERS } from '../constants/actionTypes';
+import isEmpty from 'lodash/isEmpty';
 
- const signUpUsers = (state = [], action) => {
+const signUpUsers = (state = [], action) => {
   switch (action.type) {
     case 'CREATE_USERS': {
       return Object.assign(...state, { user: action.payload });
@@ -17,4 +19,20 @@ const fetchUsers = (state = [], action) => {
       return state;
   }
 };
-export { fetchUsers, signUpUsers };
+const initialState = {
+  isAuthenicated: false,
+  user: {}
+};
+const loginUsersReducer = (state = initialState, action = {}) => {
+  switch (action.type) {
+    case SET_LOGIN_USERS: {
+      return {
+        user: action.payload,
+        isAuthenicated: !isEmpty(action.payload)
+      };
+    }
+    default:
+      return state;
+  }
+}
+export { fetchUsers, signUpUsers, loginUsersReducer };
