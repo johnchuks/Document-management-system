@@ -1,44 +1,42 @@
 const jwt = require('jsonwebtoken');
 const models = require('../models');
+const bcrypt = require('bcrypt-nodejs');
 
 const jwtSecret = process.env.JWT_SECRET;
-
-
 const User = models.User;
+const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 module.exports = {
   // create a user
   createUser(req, res) {
-    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-
     if (!req.body.fullName) {
       return res.status(401).json({
-        message: 'This Field is Required'
+        fullName: 'This Field is Required'
       });
     }
     if (!req.body.userName) {
       return res.status(401).json({
-        message: 'This Field is Required'
+        userName: 'This Field is Required'
       });
     }
     if (!req.body.email) {
       return res.status(401).json({
-        message: 'This Field is Required'
+        email: 'This Field is Required'
       });
     }
     if (!emailRegex.test(req.body.email)) {
       return res.status(401).json({
-        message: 'Email is not rightly formatted'
+        email: 'Email is not rightly formatted'
       });
     }
     if (!req.body.password) {
       return res.status(401).json({
-        message: 'This Field is Required'
+        password: 'This Field is Required'
       });
     }
 
     User.findAll({
-      where: { email: req.body.email }
+      where: { email: req.body.email, userName: req.body.userName } // big edge case to fix for username
     }).then((err, existingUser) => {
       if (!existingUser) {
         User.provider = 'jwt';
@@ -49,7 +47,6 @@ module.exports = {
           password: req.body.password,
           roleId: req.body.roleId || 2
         }).then((userDetails) => {
-          console.log(userDetails);
           res.json(userDetails);
         }).catch((error) => {
           res.json(error);
@@ -107,27 +104,42 @@ module.exports = {
   },
   // log In user with JWT
   logInWithJwt(req, res) {
+    if (!req.body.email) {
+      return res.status(401).json({
+        email: 'This field is required'
+      });
+    } else if (!emailRegex.test(req.body.email)) {
+      return res.status(401).json({
+        email: 'Email is invalid'
+      });
+    } else if (!req.body.password) {
+      return res.status(401).json({
+        password: 'This field is required'
+      });
+    }
     return User
-      .findAll({ where: { userName: req.body.userName } })
+      .findAll({ where: { email: req.body.email } })
       .then((user) => {
         const existingUser = user[0];
-        // console.log(existingUser, 'userpeople');
         if (!existingUser) {
-          res.json({ success: false, message: 'User Not Found' });
+          res.status(401).json({ success: false, message: 'User Not Found' });
         } else if (existingUser) {
-          if (req.body.password !== existingUser.password) {
+          if (bcrypt.compareSync(req.body.password, existingUser.password)) {
             console.log(existingUser.password, 'user');
-            res.json({ success: false, message: 'Password Incorrect' });
-          } else {
-            const payLoad = { userName: existingUser.userName };
+            const payLoad = (
+              { email: existingUser.email, id: existingUser.id, fullName: existingUser.fullName }
+            );
             const token = jwt.sign(payLoad, jwtSecret, {
               expiresIn: 2880
             });
-            res.json({
+            console.log(payLoad, 'payload');
+            res.status(200).json({
               success: true,
               message: 'Enjoy your token',
-              token
+              token,
             });
+          } else {
+            res.status(401).json({ success: false, password: 'Password is Invalid' });
           }
         }
       }).catch(error => res.status(400).send(error));
