@@ -25,7 +25,7 @@ class SignupPage extends React.Component {
     event.preventDefault();
     console.log(this.state);
     this.props.signup(this.state).then(() => {
-      this.props.history.push('/dashboard')
+      this.props.history.push('/dashboard');
     }, error => this.setState({ errors: error.response.data }));
   };
   render() {
@@ -55,28 +55,28 @@ class SignupPage extends React.Component {
               <div className="input-field col s12">
                 <input id="full_Name" name="fullName" type="text" className="validate" onChange={this.handleChange}/>
                 <label htmlFor="full_Name">Full Name</label>
-                {errors.message && <span className="help-block" style={errorAlert}>{errors.message}</span>}
+                {errors.fullName && <span className="help-block" style={errorAlert}>{errors.fullName}</span>}
               </div>
             </div>
             <div className="row">
               <div className="input-field col s12">
                 <input id="user_Name" name="userName" type="text" className="validate" onChange={this.handleChange}/>
                 <label htmlFor="user_Name">User Name</label>
-                {errors.message && <span className="help-block" style={errorAlert}>{errors.message}</span>}
+                {errors.userName && <span className="help-block" style={errorAlert}>{errors.userName}</span>}
               </div>
             </div>
             <div className="row">
               <div className="input-field col s12">
                 <input id="password" name="email" type="email" className="validate" onChange={this.handleChange} />
                 <label htmlFor="email">Email</label>
-                {errors.message && <span className="help-block"style={errorAlert}>{errors.message}</span>}
+                {errors.email && <span className="help-block"style={errorAlert}>{errors.email}</span>}
               </div>
             </div>
             <div className="row">
               <div className="input-field col s12">
                 <input id="email" name="password" type="password" className="validate" onChange={this.handleChange} />
                 <label htmlFor="password">Password</label>
-                {errors.message && <span className="help-block"style={errorAlert}>{errors.message}</span>}
+                {errors.password && <span className="help-block"style={errorAlert}>{errors.password}</span>}
               </div>
             </div>
             <div className="row">

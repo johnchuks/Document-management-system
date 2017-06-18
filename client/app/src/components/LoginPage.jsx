@@ -9,6 +9,7 @@ class LoginPage extends React.Component {
       email: '',
       password: '',
       errors: {},
+      isLoading: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -17,11 +18,11 @@ class LoginPage extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
   onSubmit(event) {
-    this.setState({ errors: {} });
     event.preventDefault();
-    this.props.login(this.state).then((response) => {
-      return response.data;
-    }, error => this.setState({ errors: error.response.data }));
+    this.setState({ errors: {}, isLoading: true });
+    this.props.login(this.state).then((response) =>
+      this.props.history.push('/'),
+    (error) => this.setState({ errors: error.response.data, isLoading: false }));
 
   }
   render() {
@@ -29,7 +30,7 @@ class LoginPage extends React.Component {
     const rowStyle = {
       marginTop: '100px',
     };
-    const { errors } = this.state;
+    const { errors, email, password } = this.state;
 
     return (
       <div>
@@ -48,7 +49,7 @@ class LoginPage extends React.Component {
             <input id="email" name="email" type="text"
               className="validate" onChange={this.handleChange} />
             <label htmlFor="email" id="label">Email</label>
-            {errors.message && <span id="errorAlert" className="help-block">{errors.message}</span>}
+            {errors.email && <span id="errorAlert" className="help-block">{errors.email}</span>}
               </div>
             </div>
             <div className="row">
@@ -58,7 +59,7 @@ class LoginPage extends React.Component {
             <input id="password" name="password" type="text"
               className="validate" onChange={this.handleChange} />
             <label htmlFor="password" id="label">Password</label>
-             {errors.message && <span id="errorAlert" className="help-block">{errors.message}</span>}
+             {errors.password && <span id="errorAlert" className="help-block">{errors.password}</span>}
               </div>
             </div>
             <div className="row">
@@ -67,7 +68,7 @@ class LoginPage extends React.Component {
                   Log in</button>
                 <div className="row">
                   <div className="col s12">
-                    <p> Don't have an account? <a href="/signup" id="signupLink">SignUp</a></p>
+                    <p> Don't have an account? <a href="/signup" id="signupLink">SignUp Here</a></p>
                   </div>
                   </div>
               </div>
@@ -83,6 +84,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     login: loginCrendentials => dispatch(loginAction(loginCrendentials))
   };
+};
+LoginPage.propTypes = {
+  login: React.propTypes.func.isRequired
 };
 export default connect(null, mapDispatchToProps)(LoginPage);
 
