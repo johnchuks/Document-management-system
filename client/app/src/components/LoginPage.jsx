@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { loginAction } from '../actions/userActions';
 
 class LoginPage extends React.Component {
@@ -21,7 +22,7 @@ class LoginPage extends React.Component {
     event.preventDefault();
     this.setState({ errors: {}, isLoading: true });
     this.props.login(this.state).then((response) =>
-      this.props.history.push('/'),
+      this.props.history.push('/dashboard'),
     (error) => this.setState({ errors: error.response.data, isLoading: false }));
 
   }
@@ -89,5 +90,5 @@ const mapDispatchToProps = (dispatch) => {
 // LoginPage.propTypes = {
 //   login: React.propTypes.func.isRequired
 // };
-export default connect(null, mapDispatchToProps)(LoginPage);
+export default connect(null, mapDispatchToProps)(withRouter(LoginPage));
 

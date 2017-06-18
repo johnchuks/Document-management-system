@@ -19,9 +19,9 @@ ReactDOM.render(
 <Provider store={store}>
 <Router history={history}>
   <Switch>
-  <Route exact path="/signup" component={SignupPage} />
-  <Route path="/" component={LoginPage} />
-  <Route path = "/dashboard" component={DashboardPage} />
+  <Route path="/signup" component={SignupPage} />
+  <Route exact path="/" component={LoginPage} />
+  <Route exact path = "/dashboard" component={DashboardPage} />
   </Switch>
 </Router>
 </Provider>
