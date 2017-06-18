@@ -7265,3 +7265,7 @@ h5 {
 
 #signupLink {
   color: orange; }
+
+.alert {
+  margin-left: 200px;
+  color: red; }

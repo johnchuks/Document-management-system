@@ -39,7 +39,8 @@ class LoginPage extends React.Component {
           <div className="col s12  z-depth-5" id="login">
         <div className="row">
           <div className="col s12">
-            <h5>Login into your account</h5>
+                  <h5>Login into your account</h5>
+            {errors.message && <div className="alert alert-danger">{errors.message}</div> }
           </div>
         </div>
         <div className="row">
@@ -85,8 +86,8 @@ const mapDispatchToProps = (dispatch) => {
     login: loginCrendentials => dispatch(loginAction(loginCrendentials))
   };
 };
-LoginPage.propTypes = {
-  login: React.propTypes.func.isRequired
-};
+// LoginPage.propTypes = {
+//   login: React.propTypes.func.isRequired
+// };
 export default connect(null, mapDispatchToProps)(LoginPage);
 

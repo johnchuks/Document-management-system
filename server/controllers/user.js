@@ -123,15 +123,18 @@ module.exports = {
       .then((user) => {
         const existingUser = user[0];
         if (!existingUser) {
-          res.json({ success: false, message: 'User Not Found' });
+          res.status(401).json({ success: false, message: 'User Not Found' });
         } else if (existingUser) {
           if (bcrypt.compareSync(req.body.password, existingUser.password)) {
             console.log(existingUser.password, 'user');
-            const payLoad = { email: existingUser.email };
+            const payLoad = (
+              { email: existingUser.email, id: existingUser.id }
+            );
             const token = jwt.sign(payLoad, jwtSecret, {
               expiresIn: 2880
             });
-            res.json({
+            console.log(payLoad, 'payload');
+            res.status(200).json({
               success: true,
               message: 'Enjoy your token',
               token,
@@ -141,7 +144,7 @@ module.exports = {
               password: existingUser.password
             });
           } else {
-            res.json({ success: false, message: 'Password Incorrect' });
+            res.status(401).json({ success: false, password: 'Password is Invalid' });
           }
         }
       }).catch(error => res.status(400).send(error));
