@@ -11,7 +11,7 @@ import LoginPage from './LoginPage';
 import store from '../store/store';
 import '../sass/style.scss';
 import Authorization from '../../utils/authorization';
-import { setLoginUser } from '../actions/userActions';
+import { setLoginUser, createUserAction } from '../actions/userActions';
 
 const history = createBrowserHistory();
 
@@ -20,6 +20,7 @@ if (localStorage.jwtToken) {
   console.log('token', jwtDecode(localStorage.jwtToken));
   Authorization.setAuthToken(localStorage.jwtToken);
   store.dispatch(setLoginUser(jwtDecode(localStorage.jwtToken)));
+  store.dispatch(createUserAction(jwtDecode(localStorage.jwtToken)));
 }
 
 

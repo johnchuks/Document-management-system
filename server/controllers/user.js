@@ -34,7 +34,6 @@ module.exports = {
         password: 'This Field is Required'
       });
     }
-
     User.findAll({
       where: { email: req.body.email, userName: req.body.userName } // big edge case to fix for username
     }).then((err, existingUser) => {
@@ -47,9 +46,17 @@ module.exports = {
           password: req.body.password,
           roleId: req.body.roleId || 2
         }).then((userDetails) => {
-          res.json(userDetails);
+          const payload = { email: userDetails.email, fullName: userDetails.fullName, id: userDetails.id };
+          const token = jwt.sign(payload, jwtSecret, {
+            expiresIn: 2880
+          });
+          res.status(200).json({
+            success: true,
+            message: 'Enjoy your token',
+            token
+          });
         }).catch((error) => {
-          res.json(error);
+          res.status(401).json(error);
         });
       }
     });

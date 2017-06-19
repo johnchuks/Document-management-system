@@ -1,6 +1,7 @@
 const models = require('../models');
 
 const Document = models.Document;
+const User = models.User;
 
 module.exports = {
   // create a new document
@@ -70,7 +71,17 @@ module.exports = {
     .findAll({ limit, offset })
     .then(document => res.status(200).send(document))
     .catch(error => res.status(400).send(error));
+  },
+  getSpecificUserDocuments(req, res) {
+    User.findById(req.params.id).then((user) => {
+      console.log(user.id, 'user');
+      return Document.findAll({
+        where: {
+          userId: user.id
+        }
+      }).then((document => res.status(200).send(document)))
+              .catch(error => res.status(404).send(error))
+    }).catch(error => res.status(400).send(error));
   }
-
 };
 

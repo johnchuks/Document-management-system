@@ -15,8 +15,8 @@ const createDocument = (document) => {
     });
   };
 };
-const fetchDocumentAction = (documentId) => {
-  return axios.get(`/api/documents/${documentId}`).then((response) => {
+const fetchDocumentAction = (userId) => {
+  return axios.get(`/api/users/${userId}/documents`).then((response) => {
     return response.data;
   });
 };

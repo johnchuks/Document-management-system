@@ -6,7 +6,7 @@ import { Modal, Button } from 'react-materialize';
 
 class DashboardPage extends React.Component {
   constructor(props) {
-      super(props);
+    super(props);
     this.state = {
       title:'',
       content: '',
@@ -27,11 +27,12 @@ class DashboardPage extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     this.props.document(this.state);
+    this.props.userDocument(this.state.userId);
     console.log(this.state);
   }
-  componentDidMount() {
-    this.props.dispatch(fetchDocumentAction(this.state.documentsId));
-  }
+  // componentDidMount() {
+  //   this.props.documentId;
+  // }
   // componentWillUnmount() {
 
   // }
@@ -79,13 +80,14 @@ class DashboardPage extends React.Component {
 }
 const mapStateToProps = (state) => {
   return {
-    userId: state.loginUsersReducer.user.id,
+    userId: state.createUsersReducer.user.id,
     documentId: state.fetchDocuments.document.id,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    document: (documentDetails) => dispatch(createDocument(documentDetails))
+    document: (documentDetails) => dispatch(createDocument(documentDetails)),
+    userDocument: (userId) => dispatch(fetchDocumentAction(userId))
   };
 };
 

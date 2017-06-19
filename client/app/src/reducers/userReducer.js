@@ -1,16 +1,23 @@
-import { SET_LOGIN_USERS } from '../constants/actionTypes';
+import { SET_LOGIN_USERS, CREATE_USERS } from '../constants/actionTypes';
 import isEmpty from 'lodash/isEmpty';
 
-const signUpUsers = (state = [], action) => {
-  switch (action.type) {
-    case 'CREATE_USERS': {
-      return Object.assign(...state, { user: action.payload });
-    }
-    default:
-      return state;
-  }
+const initialState = {
+  isAuthenticated: false,
+  user: {}
 };
-const fetchUsers = (state = [], action) => {
+// const signUpUsers = (state = initialState, action) => {
+//   switch (action.type) {
+//     case CREATE_USERS: {
+//       return {
+//         isAuthenticated: !isEmpty(action.payload),
+//         user: action.payload
+//       };
+//     }
+//     default:
+//       return state;
+//   }
+// };
+const fetchUsers = (state = initialState, action) => {
   switch (action.type) {
     case 'FETCH_USERS': {
       return Object.assign(...state, { users: action.payload, error: null });
@@ -19,13 +26,16 @@ const fetchUsers = (state = [], action) => {
       return state;
   }
 };
-const initialState = {
-  isAuthenticated: false,
-  user: {}
-};
-const loginUsersReducer = (state = initialState, action = {}) => {
+
+const createUsersReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case SET_LOGIN_USERS: {
+      return {
+        user: action.payload,
+        isAuthenticated: !isEmpty(action.payload)
+      };
+    }
+    case CREATE_USERS: {
       return {
         user: action.payload,
         isAuthenticated: !isEmpty(action.payload)
@@ -34,5 +44,5 @@ const loginUsersReducer = (state = initialState, action = {}) => {
     default:
       return state;
   }
-}
-export { fetchUsers, signUpUsers, loginUsersReducer };
+};
+export { fetchUsers, createUsersReducer };
