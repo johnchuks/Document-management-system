@@ -20,7 +20,7 @@ const fetchUsers = (state = [], action) => {
   }
 };
 const initialState = {
-  isAuthenicated: false,
+  isAuthenticated: false,
   user: {}
 };
 const loginUsersReducer = (state = initialState, action = {}) => {
@@ -28,7 +28,7 @@ const loginUsersReducer = (state = initialState, action = {}) => {
     case SET_LOGIN_USERS: {
       return {
         user: action.payload,
-        isAuthenicated: !isEmpty(action.payload)
+        isAuthenticated: !isEmpty(action.payload)
       };
     }
     default:

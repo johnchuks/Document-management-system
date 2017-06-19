@@ -1,10 +1,18 @@
+import { CREATE_DOCUMENT } from '../constants/actionTypes';
 
-export const fetchDocuments = (state = [], action) => {
+const initialState = {
+  document: {}
+};
+
+export const fetchDocuments = (state = initialState, action) => {
   switch (action.type) {
-    case 'CREATE_DOCUMENT': {
-      return Object.assign(...state, { document: action.payload });
+    case CREATE_DOCUMENT: {
+      return {
+        document: action.document
+      };
     }
     default:
       return state;
   }
 };
+

@@ -122,7 +122,7 @@ module.exports = {
       .then((user) => {
         const existingUser = user[0];
         if (!existingUser) {
-          res.status(401).json({ success: false, message: 'User Not Found' });
+          res.status(401).json({ success: false, message: 'Invalid User Credentials' });
         } else if (existingUser) {
           if (bcrypt.compareSync(req.body.password, existingUser.password)) {
             console.log(existingUser.password, 'user');

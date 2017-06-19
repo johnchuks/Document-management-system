@@ -9,13 +9,13 @@ module.exports = {
       .create({
         title: req.body.title,
         content: req.body.content,
-        access: req.body.access,
+        access: req.body.value,
         userId: req.body.userId
       })
       .then(documentResponse => res.status(201).send(documentResponse))
       .catch(error => res.status(400).send(error));
   },
-  
+
   // update a sigle document for the user
   updateDocument(req, res) {
     return Document

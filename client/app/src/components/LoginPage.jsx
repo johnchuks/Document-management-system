@@ -70,7 +70,7 @@ class LoginPage extends React.Component {
             </div>
             <div className="row">
               <div className="col s12">
-                  <button className="waves-effect waves-light btn orange" type="submit" onClick={this.onSubmit}>
+                  <button className="waves-effect waves-light btn orange" id="loginButton" type="submit" onClick={this.onSubmit}>
                   Log in</button>
                 <div className="row">
                   <div className="col s12">

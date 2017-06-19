@@ -16,9 +16,10 @@ import { setLoginUser } from '../actions/userActions';
 const history = createBrowserHistory();
 
 
-if (localStorage.userToken) {
-  Authorization.setAuthToken(localStorage.userToken);
-  store.dispatch(setLoginUser(jwtDecode(localStorage.userToken)));
+if (localStorage.jwtToken) {
+  console.log('token', jwtDecode(localStorage.jwtToken));
+  Authorization.setAuthToken(localStorage.jwtToken);
+  store.dispatch(setLoginUser(jwtDecode(localStorage.jwtToken)));
 }
 
 
