@@ -15,6 +15,7 @@ class ViewUserDocuments extends React.Component {
   }
 
   render() {
+    console.log(this.state);
     const docs = this.props.document;
     return (
       <div>

@@ -1,7 +1,9 @@
+const Sequelize = require('sequelize');
 const models = require('../models');
 
 const Document = models.Document;
 const User = models.User;
+
 
 module.exports = {
   // create a new document
@@ -17,7 +19,7 @@ module.exports = {
       .catch(error => res.status(400).send(error));
   },
 
-  // update a sigle document for the user
+  // update a single document for the user
   updateDocument(req, res) {
     return Document
       .findById(req.params.id)
@@ -49,7 +51,7 @@ module.exports = {
   // Delete a document by Id
   deleteDocument(req, res) {
     return Document
-      .findById(req, params.id)
+      .findById(req.params.id)
       .then((document) => {
         if(!document) {
           return res.status(404).send({
@@ -68,7 +70,12 @@ module.exports = {
     const limit = req.query.limit;
     const offset = req.query.offset;
     return Document
-    .findAll({ limit, offset })
+    .findAll({ limit,
+      offset,
+      include: [{
+        model: User,
+        attributes: ['userName', 'roleId']
+      }], })
     .then(document => res.status(200).send(document))
     .catch(error => res.status(400).send(error));
   },
