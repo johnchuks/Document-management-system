@@ -1,18 +1,26 @@
-import { CREATE_DOCUMENT } from '../constants/actionTypes';
+import { CREATE_DOCUMENT, FETCH_USER_DOCUMENTS, FETCH_ALL_DOCUMENTS  } from '../constants/actionTypes';
 
 const initialState = {
-  document: {}
+  document: []
 };
 
 export const fetchDocuments = (state = initialState, action) => {
   switch (action.type) {
-    case CREATE_DOCUMENT: {
+    case FETCH_USER_DOCUMENTS: {
       return {
-        document: action.document
+        document: action.payload
       };
+    }
+    case FETCH_ALL_DOCUMENTS: {
+      return {
+            document: action.payload
+          }
     }
     default:
       return state;
   }
 };
+
+
+
 

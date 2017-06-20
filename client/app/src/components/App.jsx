@@ -12,6 +12,7 @@ import store from '../store/store';
 import '../sass/style.scss';
 import Authorization from '../../utils/authorization';
 import { setLoginUser, createUserAction } from '../actions/userActions';
+import ViewUserDocuments from './ViewUserDocuments';
 
 const history = createBrowserHistory();
 
@@ -29,8 +30,9 @@ ReactDOM.render(
 <Router history={history}>
   <Switch>
   <Route path="/signup" component={SignupPage} />
-  <Route exact path="/" component={LoginPage} />
-  <Route exact path = "/dashboard" component={DashboardPage} />
+  <Route exact path="/login" component={LoginPage} />
+  <Route exact path="/dashboard" component={DashboardPage} />
+  <Route path="/documents" component={ViewUserDocuments} />
   </Switch>
 </Router>
 </Provider>
