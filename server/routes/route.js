@@ -10,6 +10,7 @@ module.exports = (app) => {
   app.put('/api/users/:id', userController.updateUser);
   app.delete('/api/users/:id', userController.deleteUser);
 
+
  // Document Routes
   app.post('/api/documents/', documentController.createDocument);
   app.get('/api/documents/', documentController.getAllDocuments);
@@ -24,5 +25,6 @@ module.exports = (app) => {
 
   // Login and Logout User Route
   app.post('/users/login', userController.logInWithJwt);
+  app.post('api/logout', userController.logOutUser);
 };
 
