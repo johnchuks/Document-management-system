@@ -29,6 +29,7 @@ ReactDOM.render(
 <Provider store={store}>
 <Router history={history}>
   <Switch>
+  {/*<Route exact path="/" component={LandingPage} />*/}
   <Route path="/signup" component={SignupPage} />
   <Route exact path="/login" component={LoginPage} />
   <Route exact path="/dashboard" component={DashboardPage} />

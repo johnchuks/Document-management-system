@@ -4,7 +4,7 @@ const roleController = require('../controllers/role');
 
 module.exports = (app) => {
  // User Routes
-  app.post('/users/', userController.createUser);
+  app.post('/users/', userController.createUserWithJwt);
   app.get('/api/users/', userController.getAllUsers);
   app.get('/api/users/:id', userController.findUser);
   app.put('/api/users/:id', userController.updateUser);

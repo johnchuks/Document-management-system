@@ -8,7 +8,7 @@ const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 module.exports = {
   // create a user
-  createUser(req, res) {
+  createUserWithJwt(req, res) {
     if (!req.body.fullName) {
       return res.status(401).json({
         fullName: 'This Field is Required'
@@ -169,6 +169,7 @@ module.exports = {
     .then(user => res.status(200).send(user))
     .catch(error => res.status(400).send(error));
   },
+  // log the user out
   logOutUser(req, res) {
     res.status(200).json({
       message: 'You have logged out successfully'

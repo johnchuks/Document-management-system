@@ -12,6 +12,7 @@ class DocumentForm extends React.Component {
       content: '',
       value: '',
       userId: this.props.user,
+      errors: {},
 
     };
     this.handleChange = this.handleChange.bind(this);
@@ -26,10 +27,14 @@ class DocumentForm extends React.Component {
   }
   onSubmit(event) {
     event.preventDefault();
-    this.props.document(this.state);
-  }
+    this.setState({ errors: {} });
+    this.props.document(this.state).then(() => {
+    }, error => this.setState({ errors: error.response.data }));
+    console.log(this.state.errors);
+  };
 
   render() {
+    const { errors } = this.state;
     return (
       <div>
         <Modal id="titleHeader"
@@ -42,13 +47,15 @@ class DocumentForm extends React.Component {
                 <div className="input-field col s12">
                 <input id="title" name="title"
                   onChange={this.handleChange} />
-                  <label htmlFor="title">Title</label>
+                <label htmlFor="title">Title</label>
+                {errors.title && <span className="alert alert-danger">{errors.title}</span> }
               </div>
                 <div className="input-field col s12">
                 <textarea id="textarea" name="content"
                   className="materialize-textarea" onChange={this.handleChange}>
                 </textarea>
                 <label htmlFor="textarea">Content</label>
+                {errors.content && <div className="alert alert-danger">{errors.content}</div> }
               </div>
                 <div className="col s6">
                  <label>Select role type</label>
@@ -58,9 +65,10 @@ class DocumentForm extends React.Component {
                     <option value="public">Public</option>
                     <option value="private">Private</option>
                     <option value="role">Role</option>
-                  </select>
+                </select>
+                {errors.value && <div className="alert alert-danger">{errors.value}</div> }
                 </div>
-                <Button className="btn modal-action modal-close btn-large blue"
+                <Button className="btn modal-action btn-large blue"
                   id="documentbutton"
                   onClick={this.onSubmit}>Create</Button>
               </div>
@@ -72,8 +80,7 @@ class DocumentForm extends React.Component {
 }
 const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.usersReducer.user.id
-
+    user: state.usersReducer.user.id,
   }
 }
 const mapDispatchToProps = (dispatch) => {
