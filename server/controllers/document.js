@@ -7,7 +7,7 @@ const User = models.User;
 
 module.exports = {
   // create a new document
-  createDocument(req, res) {
+  createDocument(req, res) {  // edge cases here !!!!!!!!!!!
     return Document
       .create({
         title: req.body.title,
@@ -72,6 +72,11 @@ module.exports = {
     return Document
     .findAll({ limit,
       offset,
+      where: {
+        access: {
+          $ne: 'private'
+        }
+      },
       include: [{
         model: User,
         attributes: ['userName', 'roleId']
@@ -79,6 +84,7 @@ module.exports = {
     .then(document => res.status(200).send(document))
     .catch(error => res.status(400).send(error));
   },
+  // get documents for a particular user
   getSpecificUserDocuments(req, res) {
     User.findById(req.params.id).then((user) => {
       console.log(user.id, 'user');
@@ -89,6 +95,8 @@ module.exports = {
       }).then((document => res.status(200).send(document)))
               .catch(error => res.status(404).send(error))
     }).catch(error => res.status(400).send(error));
-  }
+  },
+  // get private documents for user
+
 };
 

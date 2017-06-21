@@ -2,21 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchAllDocuments } from '../actions/documentActions';
 
-class ViewPublicDouments extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      document: this.props.publicDocument,
-    };
-  }
+class ViewRoleDouments extends React.Component {
   componentDidMount() {
     this.props.dispatch(fetchAllDocuments());
   }
-
   render() {
-    console.log(this.state.document);
-    const publicDocs = this.state.document.filter((documents) => {
-      return documents.access === 'public'; //&& documents.User.roleId === this.props.userDetails;
+    const roleDocs = this.props.roleDocument.filter((documents) => {
+      return documents.access === 'public'; && documents.User.roleId === this.props.userDetails;
     });
 
     return (
@@ -39,8 +31,8 @@ class ViewPublicDouments extends React.Component {
 }
 const mapStateToProps = (state, ownProps) => {
   return {
-    publicDocument: state.fetchDocuments.document,
+    roleDocument: state.fetchDocuments.document,
     userDetails: state.usersReducer.user.id
   }
 };
-export default connect(mapStateToProps, null)(ViewPublicDouments);
+export default connect(mapStateToProps, null)(ViewRoleDouments);

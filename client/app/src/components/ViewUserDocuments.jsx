@@ -1,24 +1,34 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchDocument } from '../actions/documentActions';
+import DocumentForm from '../components/DocumentForm';
+import NavigationBar from './NavigationBar';
 
 class ViewUserDocuments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       userId: this.props.user,
+      document: []
     };
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchDocument(this.state.userId));
+    this.props.dispatch(fetchDocument(this.state.userId)).then(() => {
+      this.setState({ document: this.props.document });
+    });
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({ document: nextProps.document });
   }
 
   render() {
-    console.log(this.state);
-    const docs = this.props.document;
+    console.log(this.state, 'next props');
+    const docs = this.state.document;
     return (
       <div>
+        <NavigationBar />
+        <DocumentForm />
         {
           docs.map((doc) => {
             return (
@@ -41,7 +51,7 @@ class ViewUserDocuments extends React.Component {
 }
 const mapStateToProps = (state) => {
   return {
-    user: state.createUsersReducer.user.id,
+    user: state.usersReducer.user.id,
     document: state.fetchDocuments.document
   };
 };

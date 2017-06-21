@@ -72,7 +72,7 @@ class DocumentForm extends React.Component {
 }
 const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.createUsersReducer.user.id
+    user: state.usersReducer.user.id
 
   }
 }

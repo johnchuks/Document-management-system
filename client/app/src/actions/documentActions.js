@@ -7,6 +7,12 @@ const createDocumentAction = (document) => {
     document,
   };
 };
+const fetchAllDocumentsAction = (documents) => {
+  return {
+    type: FETCH_ALL_DOCUMENTS,
+    payload: documents
+  };
+};
 const createDocument = (document) => {
   return (dispatch) => {
     return axios.post('/api/documents', document).then((response) => {
@@ -15,12 +21,7 @@ const createDocument = (document) => {
     });
   };
 };
-const fetchAllDocumentsAction = (documents) => {
-  return {
-    type: FETCH_ALL_DOCUMENTS,
-    payload: documents
-  };
-};
+
 const fetchAllDocuments = () => {
   return (dispatch) => {
     return axios.get('/api/documents').then((response) => {
