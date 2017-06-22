@@ -1,6 +1,6 @@
 import React from 'react';
 import DocumentForm from './DocumentForm.jsx';
-import ViewUserDocuments from './ViewPublicDocuments';
+import ViewPublicDocuments from './ViewPublicDocuments';
 import NavigationBar from './NavigationBar';
 
 class Dashboard extends React.Component {
@@ -9,7 +9,7 @@ class Dashboard extends React.Component {
     return (
         <div>
         <NavigationBar />
-        <ViewUserDocuments />
+        <ViewPublicDocuments />
         <DocumentForm />
       </div>
     )

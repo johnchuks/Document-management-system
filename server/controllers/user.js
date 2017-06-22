@@ -146,7 +146,6 @@ module.exports = {
           res.status(401).json({ success: false, message: 'Invalid User Credentials' });
         } else if (existingUser) {
           if (bcrypt.compareSync(req.body.password, existingUser.password)) {
-            console.log(existingUser.password, 'user');
             const payLoad = (
               {
                 email: existingUser.email,
@@ -158,7 +157,6 @@ module.exports = {
             const token = jwt.sign(payLoad, jwtSecret, {
               expiresIn: 2880
             });
-            console.log(payLoad, 'payload');
             res.status(200).json({
               success: true,
               message: 'Enjoy your token',

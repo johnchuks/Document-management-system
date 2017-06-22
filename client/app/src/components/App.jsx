@@ -18,7 +18,6 @@ const history = createBrowserHistory();
 
 
 if (localStorage.jwtToken) {
-  console.log('token', jwtDecode(localStorage.jwtToken));
   Authorization.setAuthToken(localStorage.jwtToken);
   store.dispatch(setLoginUser(jwtDecode(localStorage.jwtToken)));
   store.dispatch(createUserAction(jwtDecode(localStorage.jwtToken)));

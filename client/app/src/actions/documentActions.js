@@ -24,12 +24,17 @@ const createDocument = (document) => {
 
 const fetchAllDocuments = () => {
   return (dispatch) => {
-    return axios.get('/api/documents').then((response) => {
+    const token = localStorage.getItem('jwtToken');
+    return axios.get('/api/documents', {
+      headers: {
+        authorization: token
+      }
+    }).then((response) => {
       const documents = response.data;
       dispatch(fetchAllDocumentsAction(documents));
     });
-  }
-}
+  };
+};
 const fetchDocumentAction = (document) => {
   return {
     type: FETCH_USER_DOCUMENTS,
