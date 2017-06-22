@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signupAction } from '../actions/userActions';
+import  Navigation from './Navigation';
 
 
 class SignupPage extends React.Component {
@@ -29,26 +30,19 @@ class SignupPage extends React.Component {
     }, error => this.setState({ errors: error.response.data }));
   };
   render() {
-    const login = {
-      border: "10px solid #F5F3EE",
-      padding: "inherit",
-      width: "50%",
-      height: "50%",
-      marginLeft: '300px',
-      backgroundColor: "#F5F3EE",
-    };
     const errorAlert = {
       color: 'red',
     };
     const { errors } = this.state;
     return (
       <div>
-        <div>
+        <Navigation />
+        <div className="signupContainer">
         <div className="row">
-            <form className="col s12 z-depth-5" style={login}>
+            <form className="col s12 z-depth-5" id="signup">
               <div className="row">
                 <div className="col s12">
-                  <h5> Sign Up to DocMe</h5>
+                  <h5> Sign Up to DOCMe</h5>
                   </div>
                 </div>
             <div className="row">
@@ -81,7 +75,7 @@ class SignupPage extends React.Component {
             </div>
             <div className="row">
               <div className="col m6 s12">
-                  <a className="waves-effect wave-light btn" type="submit" name="action" onClick={this.onSubmit}>SignUp</a>
+                  <a className="waves-effect wave-light btn orange" type="submit" name="action" onClick={this.onSubmit}>SignUp</a>
             </div>
 
             </div>

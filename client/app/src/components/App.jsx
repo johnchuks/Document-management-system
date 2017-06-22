@@ -11,22 +11,28 @@ import LoginPage from './LoginPage';
 import store from '../store/store';
 import '../sass/style.scss';
 import Authorization from '../../utils/authorization';
-import { setLoginUser } from '../actions/userActions';
+import { setLoginUser, createUserAction } from '../actions/userActions';
+import ViewUserDocuments from './ViewUserDocuments';
 
 const history = createBrowserHistory();
 
-if (localStorage.userToken) {
-  Authorization.setAuthToken(localStorage.userToken);
-  store.dispatch(setLoginUser(jwtDecode(localStorage.userToken)));
+
+if (localStorage.jwtToken) {
+  console.log('token', jwtDecode(localStorage.jwtToken));
+  Authorization.setAuthToken(localStorage.jwtToken);
+  store.dispatch(setLoginUser(jwtDecode(localStorage.jwtToken)));
+  store.dispatch(createUserAction(jwtDecode(localStorage.jwtToken)));
 }
+
 
 ReactDOM.render(
 <Provider store={store}>
 <Router history={history}>
   <Switch>
   <Route path="/signup" component={SignupPage} />
-  <Route exact path="/" component={LoginPage} />
-  <Route exact path = "/dashboard" component={DashboardPage} />
+  <Route exact path="/login" component={LoginPage} />
+  <Route exact path="/dashboard" component={DashboardPage} />
+  <Route path="/documents" component={ViewUserDocuments} />
   </Switch>
 </Router>
 </Provider>

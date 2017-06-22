@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { loginAction } from '../actions/userActions';
+//import { fetchdocument } from '../actions/documentActions';
+import Navigation from './Navigation';
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -12,7 +14,9 @@ class LoginPage extends React.Component {
       password: '',
       errors: {},
       isLoading: false,
-    };
+      userId:''
+    }
+
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -24,7 +28,8 @@ class LoginPage extends React.Component {
     this.setState({ errors: {}, isLoading: true });
     this.props.login(this.state).then((error) => {
       if (!error) {
-        this.props.history.push('/dashboard');
+        ////this.props.dispatch(fetchdocument(this.state.userId));
+        this.props.history.push('/documents');
       } else {
         this.setState({ errors: error.response.data, isLoading: false });
         this.props.history.push('/');
@@ -39,6 +44,7 @@ class LoginPage extends React.Component {
 
     return (
       <div>
+        <Navigation />
         <div className="loginContainer">
         <div className="row" style={rowStyle}>
           <div className="col s12  z-depth-5" id="login">
@@ -70,7 +76,7 @@ class LoginPage extends React.Component {
             </div>
             <div className="row">
               <div className="col s12">
-                  <button className="waves-effect waves-light btn orange" type="submit" onClick={this.onSubmit}>
+                  <button className="waves-effect waves-light btn orange" id="loginButton" type="submit" onClick={this.onSubmit}>
                   Log in</button>
                 <div className="row">
                   <div className="col s12">
@@ -86,13 +92,18 @@ class LoginPage extends React.Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    user: state.createUsersReducer.user.id,
+  };
+};
 const mapDispatchToProps = (dispatch) => {
   return {
     login: loginCrendentials => dispatch(loginAction(loginCrendentials))
   };
 };
 
-export default connect(null, mapDispatchToProps)(withRouter(LoginPage));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LoginPage));
 
 LoginPage.propTypes = {
   history: PropTypes.object.isRequired,

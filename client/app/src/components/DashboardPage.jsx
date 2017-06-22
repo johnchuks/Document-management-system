@@ -1,14 +1,18 @@
 import React from 'react';
+import DocumentForm from './DocumentForm.jsx';
+import ViewUserDocuments from './ViewPublicDocuments';
+import NavigationBar from './NavigationBar';
 
-class DashboardPage extends React.Component {
+class Dashboard extends React.Component {
 
   render() {
     return (
-      <div>
-       <h1>Welcome to DocumentMe</h1>
-        </div>
-
-    );
+        <div>
+        <NavigationBar />
+        <ViewUserDocuments />
+        <DocumentForm />
+      </div>
+    )
   }
 }
-export default DashboardPage;
+export default Dashboard;
