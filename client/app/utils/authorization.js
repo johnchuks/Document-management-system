@@ -3,9 +3,9 @@ import axios from 'axios';
 class Authorization {
   static setAuthToken(token) {
     if (token) {
-      axios.defaults.headers.common['Authorization'] = token;
+      axios.defaults.headers.common['x-access-token'] = token;
     } else {
-      delete axios.defaults.headers.common['Authorization'];
+      delete axios.defaults.headers.common['x-access-token'];
     }
   };
 }
