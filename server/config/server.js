@@ -5,6 +5,7 @@ const express = require('express');
 const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('../../webpack.config');
+const auth = require('../middlewares/authentication.js');
 
 
 const bodyParser = require('body-parser');
@@ -19,9 +20,10 @@ const env = process.env.NODE_ENV || 'development';
 app.use(express.static(`${__dirname}/client/app/public`));
 app.use(webpackMiddleware(compiler));
 app.use(webpackHotMiddleware(compiler));
-app.set('jswtSecret', process.env.JWTSECRET);
+app.set('jwtSecret', process.env.JWTSECRET);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/api', auth.verifyJwtToken);
 
 
 app.listen(port, () => {

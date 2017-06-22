@@ -8,7 +8,7 @@ const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 module.exports = {
   // create a user
-  createUser(req, res) {
+  createUserWithJwt(req, res) {
     if (!req.body.fullName) {
       return res.status(401).json({
         fullName: 'This Field is Required'
@@ -46,7 +46,12 @@ module.exports = {
           password: req.body.password,
           roleId: req.body.roleId || 2
         }).then((userDetails) => {
-          const payload = { email: userDetails.email, fullName: userDetails.fullName, id: userDetails.id };
+          const payload = {
+            email: userDetails.email,
+            fullName: userDetails.fullName,
+            id: userDetails.id,
+            roleId: userDetails.roleId
+          };
           const token = jwt.sign(payload, jwtSecret, {
             expiresIn: 2880
           });
@@ -63,6 +68,11 @@ module.exports = {
   },
   // find a user by Id
   findUser(req, res) {
+    if (req.decoded.roleId !== 1) {
+      return res.status(401).json({
+        message: 'Unauthorized Access'
+      });
+    }
     return User
       .findById(req.params.id)
       .then(user => res.status(200).send(user))
@@ -70,6 +80,11 @@ module.exports = {
   },
   // update a user by Id
   updateUser(req, res) {
+    if (req.decoded.roleId !== 1) {
+      return res.status(403).json({
+        message: 'You are not authorized to access this user'
+      });
+    }
     return User
       .findById(req.params.id)
       .then((user) => {
@@ -80,8 +95,7 @@ module.exports = {
         }
         return user
           .update({
-            firstName: req.body.firstName || user.firstName,
-            lastName: req.body.lastName || user.lastName,
+            fullName: req.body.fullName || user.fullName,
             userName: req.body.userName || user.userName,
             email: req.body.email || user.email,
             password: req.body.password || user.password,
@@ -134,7 +148,12 @@ module.exports = {
           if (bcrypt.compareSync(req.body.password, existingUser.password)) {
             console.log(existingUser.password, 'user');
             const payLoad = (
-              { email: existingUser.email, id: existingUser.id, fullName: existingUser.fullName }
+              {
+                email: existingUser.email,
+                id: existingUser.id,
+                fullName: existingUser.fullName,
+                roleId: existingUser.roleId,
+              }
             );
             const token = jwt.sign(payLoad, jwtSecret, {
               expiresIn: 2880
@@ -159,5 +178,11 @@ module.exports = {
     .findAndCountAll({ limit, offset })
     .then(user => res.status(200).send(user))
     .catch(error => res.status(400).send(error));
+  },
+  // log the user out
+  logOutUser(req, res) {
+    res.status(200).json({
+      message: 'You have logged out successfully'
+    });
   }
 };
