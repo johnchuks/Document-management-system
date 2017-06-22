@@ -5,11 +5,11 @@ const models = require('../models/');
 module.exports = {
 
   verifyJwtToken(req, res, next) {
-    const token = req.headers.Authorization || req.headers['x-access-token'];
+    const token = req.headers.authorization || req.headers['x-access-token'];
     if (token) {
       jwt.verify(token, secret, (error, decoded) => {
         if (error) {
-          return res.json({ success: false, message: 'Token authentication failed' });
+          return res.json({ success: false, error });
         } else {
           req.decoded = decoded;
           next();

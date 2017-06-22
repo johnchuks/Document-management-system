@@ -24,7 +24,6 @@ class SignupPage extends React.Component {
   onSubmit(event) {
     this.setState({ errors: {} });
     event.preventDefault();
-    console.log(this.state);
     this.props.signup(this.state).then(() => {
       this.props.history.push('/dashboard'); //big edge case
     }, error => this.setState({ errors: error.response.data }));

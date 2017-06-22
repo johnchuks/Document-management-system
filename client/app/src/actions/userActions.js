@@ -19,8 +19,7 @@ const signupAction = (userData) => {
   return (dispatch) => {
     return axios.post('/users', userData).then((response) => {
       const token = response.data.token;
-      console.log(token);
-      localStorage.setItem('jwtToken', JSON.stringify(token));
+      localStorage.setItem('jwtToken', token);
       Authorization.setAuthToken(token);
       dispatch(createUserAction(jwtDecode(token)));
     }).catch(error => error);
@@ -38,7 +37,7 @@ const loginAction = (user) => {
   return (dispatch) => {
     return axios.post('/users/login', user).then((response) => {
       const token = response.data.token;
-      localStorage.setItem('jwtToken', JSON.stringify(token));
+      localStorage.setItem('jwtToken', token);
       Authorization.setAuthToken(token);
       dispatch(setLoginUser(jwtDecode(token)));
     }).catch(error => (error));

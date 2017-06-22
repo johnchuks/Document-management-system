@@ -14,20 +14,19 @@ class ViewPublicDouments extends React.Component {
   }
 
   render() {
-    console.log(this.state.document);
-    const publicDocs = this.state.document.filter((documents) => {
-      return documents.access === 'public'; //&& documents.User.roleId === this.props.userDetails;
+    const publicDocument = this.props.publicDocument.filter((documents) => {
+      return documents.access === 'public';
     });
 
     return (
         <div>
-            {publicDocs.map((document) => (
-                <div className="row"key={document.id}>
+            {publicDocument.map((documents) => (
+                <div className="row"key={documents.id}>
                 <div className="col s12 m4">
                   <div className="card">
                     <div className="card-content black-text">
-                      <span className="card-title">{document.title}</span>
-                      <p>{document.content}</p>
+                      <span className="card-title">{documents.title}</span>
+                      <p>{documents.content}</p>
                     </div>
                   </div>
                 </div>

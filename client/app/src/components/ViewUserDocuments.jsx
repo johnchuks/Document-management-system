@@ -9,21 +9,18 @@ class ViewUserDocuments extends React.Component {
     super(props);
     this.state = {
       userId: this.props.user,
-      document: []
+      document: this.props.document
     };
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchDocument(this.state.userId)).then(() => {
-      this.setState({ document: this.props.document });
-    });
+    this.props.dispatch(fetchDocument(this.state.userId));
   }
   componentWillReceiveProps(nextProps) {
     this.setState({ document: nextProps.document });
   }
 
   render() {
-    console.log(this.state, 'next props');
     const docs = this.state.document;
     return (
       <div>
