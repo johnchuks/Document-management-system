@@ -68,6 +68,11 @@ module.exports = {
   },
   // find a user by Id
   findUser(req, res) {
+    if (req.decoded.roleId !== 1) {
+      return res.status(401).json({
+        message: 'Unauthorized Access'
+      });
+    }
     return User
       .findById(req.params.id)
       .then(user => res.status(200).send(user))
@@ -75,6 +80,11 @@ module.exports = {
   },
   // update a user by Id
   updateUser(req, res) {
+    if (req.decoded.roleId !== 1) {
+      return res.status(403).json({
+        message: 'You are not authorized to access this user'
+      });
+    }
     return User
       .findById(req.params.id)
       .then((user) => {

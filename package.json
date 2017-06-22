@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": " npm run build",
-    "build": "webpack -w & nodemon server/config/server.js --exec babel-node server/config/server.js"
+    "build": "webpack -w & babel-node -- server/config/server.js & nodemon server/config/server.js"
   },
   "repository": {
     "type": "git",

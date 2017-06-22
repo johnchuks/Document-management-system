@@ -1,14 +1,15 @@
 const documentController = require('../controllers/document');
 const userController = require('../controllers/user');
 const roleController = require('../controllers/role');
+const auth = require('../middlewares/authentication.js');
 
 module.exports = (app) => {
  // User Routes
   app.post('/users/', userController.createUserWithJwt);
-  app.get('/api/users/', userController.getAllUsers);
-  app.get('/api/users/:id', userController.findUser);
+  app.get('/api/users/', auth.adminAccess, userController.getAllUsers);
+  app.get('/api/users/:id', auth.adminAccess, userController.findUser);
   app.put('/api/users/:id', userController.updateUser);
-  app.delete('/api/users/:id', userController.deleteUser);
+  app.delete('/api/users/:id', auth.adminAccess, userController.deleteUser);
 
 
  // Document Routes

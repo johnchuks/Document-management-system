@@ -7,6 +7,13 @@ const User = models.User;
 
 module.exports = {
   // create a new document
+  /**
+   *
+   *
+   * @param {any} req
+   * @param {any} res
+   * @returns
+   */
   createDocument(req, res) {
     if (!req.body.title) {
       return res.status(401).json({
@@ -39,7 +46,7 @@ module.exports = {
     return Document
       .findById(req.params.id)
       .then((document) => {
-        if (!document) {
+        if (!document || document.userId !== req.decoded.id) {
           return res.status(404).send({
             message: 'Document Not Found',
           });
@@ -62,8 +69,29 @@ module.exports = {
   findDocument(req, res) {
     return Document
       .findById(req.params.id)
-      .then(document => res.status(200).send(document))
-      .catch(error => res.status(404).send(error));
+      .then((document) => {
+        if (!document) {
+          return res.status(400).json({ success: false, message: 'Document not found' });
+        }
+        if (document.access === 'public') {
+          res.status(200).send(document);
+        }
+        if (document.access === 'private' && document.userId === req.decoded.id) {
+          res.status(200).send(document);
+        }
+        if (document.access === 'role') {
+          return models.User.findById(document.userId)
+            .then((documentOwner) => {
+              if (documentOwner.roleId !== req.decoded.roleId || req.decoded.roleId !== 1) {
+                return res.status(401).json({
+                  success: false,
+                  message: 'You are not authorized to view this document'
+                });
+              }
+              return res.status(200).send(document);
+            }).catch(error => res.status(404).send(error));
+        }
+      }).catch(error => res.status(404).send(error));
   },
   // Delete a document by Id
   deleteDocument(req, res) {
