@@ -11,7 +11,6 @@ module.exports = (app) => {
   app.put('/api/users/:id', userController.updateUser);
   app.delete('/api/users/:id', auth.adminAccess, userController.deleteUser);
 
-
  // Document Routes
   app.post('/api/documents/', documentController.createDocument);
   app.get('/api/documents/', documentController.getAllDocuments);
@@ -21,8 +20,11 @@ module.exports = (app) => {
   app.get('/api/users/:id/documents', documentController.getSpecificUserDocuments);
 
   // Role Routes
-  app.post('/roles/', roleController.createRole);
-  app.get('/roles/', roleController.getRole);
+  app.post('/api/roles/', auth.adminAccess, roleController.createRole);
+  app.get('/api/roles/', auth.adminAccess, roleController.getAllRoles);
+  app.put('/api/roles/:id', auth.adminAccess, roleController.updateRole);
+  app.get('/api/roles/:id', auth.adminAccess, roleController.findRole);
+  app.delete('/api/roles/:id', auth.adminAccess, roleController.deleteRole);
 
   // Login and Logout User Route
   app.post('/users/login', userController.logInWithJwt);

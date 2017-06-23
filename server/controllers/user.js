@@ -11,17 +11,17 @@ module.exports = {
   createUserWithJwt(req, res) {
     if (!req.body.fullName) {
       return res.status(401).json({
-        fullName: 'This Field is Required'
+        message: 'This Field is Required'
       });
     }
     if (!req.body.userName) {
       return res.status(401).json({
-        userName: 'This Field is Required'
+        message: 'This Field is Required'
       });
     }
     if (!req.body.email) {
       return res.status(401).json({
-        email: 'This Field is Required'
+        message: 'This Field is Required'
       });
     }
     if (!emailRegex.test(req.body.email)) {
@@ -31,7 +31,7 @@ module.exports = {
     }
     if (!req.body.password) {
       return res.status(401).json({
-        password: 'This Field is Required'
+        message: 'This Field is Required'
       });
     }
     User.findAll({
@@ -155,12 +155,13 @@ module.exports = {
               }
             );
             const token = jwt.sign(payLoad, jwtSecret, {
-              expiresIn: 2880
+              expiresIn: 60 * 60 * 24
             });
             res.status(200).json({
               success: true,
               message: 'Enjoy your token',
               token,
+              existingUser
             });
           } else {
             res.status(401).json({ success: false, password: 'Password is Invalid' });
