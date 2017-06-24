@@ -119,7 +119,7 @@ describe('Roles', () => {
         .set({ 'x-access-token': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.have.length(3);
+          expect(res.body).to.have.length(4);
           expect(res.body).to.be.a('array');
           done();
         });
@@ -252,7 +252,7 @@ describe('Roles', () => {
     });
   });
   describe('/DELETE/:id Role', () => {
-    it('Should delete a role given the user had admin access', (done) => {
+    it('Should delete a role given the user has admin access', (done) => {
       const id = 3;
       chai.request(server)
         .delete(`/api/roles/${id}`)

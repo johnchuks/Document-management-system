@@ -11,17 +11,17 @@ module.exports = {
   createUserWithJwt(req, res) {
     if (!req.body.fullName) {
       return res.status(401).json({
-        message: 'This Field is Required'
+        fullName: 'This Field is Required'
       });
     }
     if (!req.body.userName) {
       return res.status(401).json({
-        message: 'This Field is Required'
+        userName: 'This Field is Required'
       });
     }
     if (!req.body.email) {
       return res.status(401).json({
-        message: 'This Field is Required'
+        email: 'This Field is Required'
       });
     }
     if (!emailRegex.test(req.body.email)) {
@@ -31,7 +31,7 @@ module.exports = {
     }
     if (!req.body.password) {
       return res.status(401).json({
-        message: 'This Field is Required'
+        password: 'This Field is Required'
       });
     }
     if (req.body.roleId === 1) {
@@ -41,7 +41,7 @@ module.exports = {
     }
 
     User.findAll({
-      where: { email: req.body.email, userName: req.body.userName } // big edge case to fix for username
+      where: { email: req.body.email }
     }).then((err, existingUser) => {
       if (!existingUser) {
         User.provider = 'jwt';
@@ -94,7 +94,6 @@ module.exports = {
   },
   // update a user by Id
   updateUser(req, res) {
-    console.log('decoded', req.decoded.id);
     if (Number(req.decoded.id) !== Number(req.params.id)) {
       return res.status(403).json({
         message: 'You are not authorized to access this user'

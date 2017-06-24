@@ -19,7 +19,15 @@ module.exports = {
       roleId: 2,
       createdAt: new Date(),
       updatedAt: new Date(),
-    }
+    }, {
+      fullName: 'jame doe',
+      userName: 'testdoe',
+      email: 'testdoe@andela.com',
+      password: bcrypt.hashSync('jamestest', bcrypt.genSaltSync(8), null),
+      roleId: 4,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
     ], {});
   },
 

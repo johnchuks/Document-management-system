@@ -37,7 +37,7 @@ module.exports = {
         access: req.body.value,
         userId: req.body.userId
       })
-      .then(documentResponse => res.status(201).send(documentResponse))
+      .then(documentResponse => res.status(200).send(documentResponse))
       .catch(error => res.status(400).send(error));
   },
 
@@ -46,12 +46,15 @@ module.exports = {
     return Document
       .findById(req.params.id)
       .then((document) => {
-        if (!document || document.userId !== req.decoded.id) {
+        if (!document) {
           return res.status(404).send({
             message: 'Document Not Found',
           });
-        } else if (req.body.title === document.title) {
-          return res.status(400).send({ message: 'This title already exists' });
+        }
+        if (req.decoded.roleId !== 1 && Number(document.userId) !== Number(req.decoded.id)) {
+          return res.status(403).json({
+            message: 'You are not authorized to delete this document'
+          });
         }
         return document
            .update({
@@ -71,18 +74,25 @@ module.exports = {
       .findById(req.params.id)
       .then((document) => {
         if (!document) {
-          return res.status(400).json({ success: false, message: 'Document not found' });
+          return res.status(400).json({
+            success: false,
+            message: 'Document not found' });
         }
         if (document.access === 'public') {
-          res.status(200).send(document);
+          return res.status(200).send(document);
         }
-        if (document.access === 'private' && document.userId === req.decoded.id) {
-          res.status(200).send(document);
+        if (document.access === 'private') {
+          if (document.userId !== req.decoded.id) {
+            return res.status(403).json({
+              message: 'You are not authorized to view this document'
+            });
+          }
+          return res.status(200).send(document);
         }
         if (document.access === 'role') {
           return models.User.findById(document.userId)
             .then((documentOwner) => {
-              if (documentOwner.roleId !== req.decoded.roleId || req.decoded.roleId !== 1) {
+              if (req.decoded.roleId !== 1 && Number(documentOwner.roleId) !== Number(req.decoded.roleId)) {
                 return res.status(401).json({
                   success: false,
                   message: 'You are not authorized to view this document'
@@ -103,8 +113,13 @@ module.exports = {
             message: 'Document Not Found',
           });
         }
-        return Document
-          .delete()
+        if (req.decoded.roleId !== 1 && Number(document.userId) !== Number(req.decoded.id)) {
+          return res.status(403).json({
+            message: 'You are not authorized to delete this document'
+          });
+        }
+        return document
+          .destroy()
           .then(() => res.status(200).send())
           .catch(error => res.status(404).send(error));
       })
@@ -142,7 +157,7 @@ module.exports = {
           userId: user.id
         }
       }).then((document => res.status(200).send(document)))
-              .catch(error => res.status(404).send(error))
+              .catch(error => res.status(404).send(error));
     }).catch(error => res.status(400).send(error));
   },
 

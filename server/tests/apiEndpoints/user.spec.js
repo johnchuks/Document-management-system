@@ -29,11 +29,59 @@ describe('Users', () => {
       });
   });
   describe('/POST users', () => {
-    it('it should not post a user without the required field', (done) => {
+    it('it should not post a user without a full name', (done) => {
       const user = {
         fullName: '',
+        userName: 'jerk',
+        email: 'jerk@yahoo.com',
+        password: 'jameskhan',
+      };
+      chai.request(server)
+        .post('/users/')
+        .send(user)
+        .end((err, res) => {
+          expect(res.status).to.equal(401);
+          expect(res.body).to.have.property('fullName').to.equal('This Field is Required');
+          done();
+        });
+    });
+    it('it should not post a user without a userName', (done) => {
+      const user = {
+        fullName: 'james',
         userName: '',
+        email: 'jerk@yahoo.com',
+        password: 'jameskhan',
+      };
+      chai.request(server)
+        .post('/users/')
+        .send(user)
+        .end((err, res) => {
+          expect(res.status).to.equal(401);
+          expect(res.body).to.have.property('userName').to.equal('This Field is Required');
+          done();
+        });
+    });
+    it('it should not post a user without an email address', (done) => {
+      const user = {
+        fullName: 'james',
+        userName: 'jerk',
         email: '',
+        password: 'jameskhan',
+      };
+      chai.request(server)
+        .post('/users/')
+        .send(user)
+        .end((err, res) => {
+          expect(res.status).to.equal(401);
+          expect(res.body).to.have.property('email').to.equal('This Field is Required');
+          done();
+        });
+    });
+   it('it should not post a user without a password', (done) => {
+      const user = {
+        fullName: 'james',
+        userName: 'jerk',
+        email: 'jerk@yahoo.com',
         password: '',
       };
       chai.request(server)
@@ -41,10 +89,7 @@ describe('Users', () => {
         .send(user)
         .end((err, res) => {
           expect(res.status).to.equal(401);
-          expect(res.body).to.have.property('message').to.equal('This Field is Required');
-          expect(res.body).to.have.property('message').to.equal('This Field is Required');
-          expect(res.body).to.have.property('message').to.equal('This Field is Required');
-          expect(res.body).to.have.property('message').to.equal('This Field is Required');
+          expect(res.body).to.have.property('password').to.equal('This Field is Required');
           done();
         });
     });
@@ -199,7 +244,7 @@ describe('Users', () => {
           done();
         });
     });
-    it('Should fail to get all users with correct limit as a query', (done) => {
+    it('Should get all users with correct limit as a query', (done) => {
       const limit = 1;
       chai.request(server)
         .get(`/api/users?limit=${limit}`)
@@ -210,7 +255,7 @@ describe('Users', () => {
           done();
         });
     });
-    it('Should fail to get all users with correct offset as a query', (done) => {
+    it('Should get all users with correct offset as a query', (done) => {
       const offset = 0;
       chai.request(server)
         .get(`/api/users?limit=${offset}`)
@@ -287,7 +332,8 @@ describe('Users', () => {
     });
   });
   describe('/PUT/:id, User', () => {
-    it('Should update a user`s full name by id if the user has the same id', (done) => {
+    it('Should update a user`s full name by id if the user has the same id',
+     (done) => {
       const id = 2;
       chai.request(server)
         .put(`/api/users/${id}`)
@@ -315,7 +361,8 @@ describe('Users', () => {
           done();
         });
     });
-    it('Should update a user`s email by id if the user has the same id', (done) => {
+    it('Should update a user`s email by id if the user has the same id',
+     (done) => {
       const id = 2;
       chai.request(server)
         .put(`/api/users/${id}`)
@@ -329,7 +376,8 @@ describe('Users', () => {
           done();
         });
     });
-    it('Should update a user`s username by id if the user has the same id', (done) => {
+    it('Should update a user`s username by id if the user has the same id',
+     (done) => {
       const id = 2;
       chai.request(server)
         .put(`/api/users/${id}`)

@@ -14,6 +14,11 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date(),
     },
+    {
+      title: 'class26',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
     ], {});
   },
 
