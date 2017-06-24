@@ -9,7 +9,7 @@ module.exports = (app) => {
   app.get('/api/users/', auth.adminAccess, userController.getAllUsers);
   app.get('/api/users/:id', auth.adminAccess, userController.findUser);
   app.put('/api/users/:id', userController.updateUser);
-  app.delete('/api/users/:id', auth.adminAccess, userController.deleteUser);
+  app.delete('/api/users/:id', userController.deleteUser);
 
  // Document Routes
   app.post('/api/documents/', documentController.createDocument);

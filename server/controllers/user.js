@@ -34,6 +34,12 @@ module.exports = {
         message: 'This Field is Required'
       });
     }
+    if (req.body.roleId === 1) {
+      return res.status(403).json({
+        message: 'An admin role cannot be created'
+      });
+    }
+
     User.findAll({
       where: { email: req.body.email, userName: req.body.userName } // big edge case to fix for username
     }).then((err, existingUser) => {
@@ -75,12 +81,21 @@ module.exports = {
     }
     return User
       .findById(req.params.id)
-      .then(user => res.status(200).send(user))
+      .then((user) => {
+        if (!user) {
+          return res.status(400).json({
+            message: 'User not found'
+          });
+        } else {
+          res.status(200).send(user);
+        }
+      })
       .catch(error => res.status(400).send(error));
   },
   // update a user by Id
   updateUser(req, res) {
-    if (req.decoded.roleId !== 1) {
+    console.log('decoded', req.decoded.id);
+    if (Number(req.decoded.id) !== Number(req.params.id)) {
       return res.status(403).json({
         message: 'You are not authorized to access this user'
       });
@@ -108,6 +123,11 @@ module.exports = {
   },
   // delete a user by Id
   deleteUser(req, res) {
+    if (req.decoded.roleId !== 1) {
+      return res.status(403).json({
+        message: 'You are not authorized to access this field'
+      });
+    }
     return User
     .findById(req.params.id)
     .then((user) => {
@@ -118,7 +138,7 @@ module.exports = {
       }
       return user
         .destroy()
-        .then(() => res.status(204).send())
+        .then(() => res.status(204).json({ message: 'User has been deleted successfully' }))
         .catch(error => res.status(400).send(error));
     })
     .catch(error => res.status(400).send(error));
@@ -127,7 +147,7 @@ module.exports = {
   logInWithJwt(req, res) {
     if (!req.body.email) {
       return res.status(401).json({
-        email: 'This field is required'
+        message: 'This field is required'
       });
     } else if (!emailRegex.test(req.body.email)) {
       return res.status(401).json({
@@ -135,7 +155,7 @@ module.exports = {
       });
     } else if (!req.body.password) {
       return res.status(401).json({
-        password: 'This field is required'
+        message: 'This field is required'
       });
     }
     return User

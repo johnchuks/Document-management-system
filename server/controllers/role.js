@@ -4,12 +4,6 @@ const Role = models.Role;
 
 module.exports = {
   createRole(req, res) {
-    if (req.decoded.roleId !== 1) {
-      return res.status(401).json({
-        success: false,
-        message: 'You are not authorized to create a role'
-      });
-    }
     if (!req.body.title) {
       return res.status(401).json({
         message: 'This field is required'
@@ -39,25 +33,12 @@ module.exports = {
       }).catch(error => res.json(error));
   },
   getAllRoles(req, res) {
-    if (req.decoded.roleId !== 1) {
-      res.status(401).json({
-        success: false,
-        message: 'You are not authorized to access this field'
-      });
-    } else {
-      return Role
+    return Role
       .findAll()
       .then(role => res.status(200).json(role))
       .catch(error => res.json(error));
-    }
   },
   findRole(req, res) {
-    if (req.decoded.roleId !== 1) {
-      return res.status(401).json({
-        success: false,
-        message: 'You are not authorized to access this field'
-      });
-    }
     return Role
       .findById(req.params.id)
       .then((role) => {
@@ -71,13 +52,6 @@ module.exports = {
       }).catch(error => res.status(400).json(error));
   },
   deleteRole(req, res) {
-    if (req.decoded.roleId !== 1) {
-      return res.status(401).json({
-        success: false,
-        message: 'You are not authorized'
-      });
-    }
-    
     return Role
       .findById(req.params.id)
       .then((role) => {

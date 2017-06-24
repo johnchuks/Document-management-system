@@ -1,8 +1,7 @@
 process.NODE_ENV = 'test';
-const Role = require('../models/');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../config/server');
+const server = require('../../config/server');
 const samples = require('./mockdata');
 
 const expect = chai.expect;
