@@ -67,7 +67,7 @@ class LoginPage extends React.Component {
               <div className="input-field col s12">
                 <i className="material-icons" id="iconEmailPassword">
               lock_outline</i>
-            <input id="password" name="password" type="text"
+            <input id="password" name="password" type="password"
               className="validate" onChange={this.handleChange} />
             <label htmlFor="password" id="label">Password</label>
              {errors.password && <span id="errorAlert" className="help-block">{errors.password}</span>}

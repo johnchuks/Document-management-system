@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import toastr from 'toastr';
 import { editProfile } from '../actions/userActions';
 
 class EditProfile extends React.Component {
@@ -20,13 +21,21 @@ class EditProfile extends React.Component {
   }
   onSubmit(event) {
     event.preventDefault();
-    this.props.profile(this.state);
+    this.props.profile(this.state).then(() => {
+      toastr.success('Profile updated successfully');
+    });
   }
   render() {
     return (
       <div>
+        <ul id="slide-out" className="side-nav fixed">
+      <li><a href="#!">First Sidebar Link</a></li>
+      <li><a href="#!">Second Sidebar Link</a></li>
+    </ul>
+    <a href="#" data-activates="slide-out" className="button-collapse"><i className="material-icons">menu</i></a>
+
         <div className="formField">
-          <form className="col s6">
+          <div className="col s12 z-depth 5" >
          <div className="row">
         <div className="input-field col s6">
           <input id="full_name" name="fullName" type="text" onChange={this.onChange} className="validate" />
@@ -57,7 +66,7 @@ class EditProfile extends React.Component {
        Edit Profile</button>
        </div>
        </div>
-    </form>
+    </div>
     </div>
 </div>
      );

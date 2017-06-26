@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { CREATE_DOCUMENT, FETCH_USER_DOCUMENTS, FETCH_ALL_DOCUMENTS, DELETE_DOCUMENT } from '../constants/actionTypes';
+import { CREATE_DOCUMENT, FETCH_USER_DOCUMENTS, FETCH_ALL_DOCUMENTS, DELETE_DOCUMENT,
+UPDATE_DOCUMENT } from '../constants/actionTypes';
 
 const createDocumentAction = (document) => {
   return {
@@ -48,19 +49,27 @@ const fetchDocument = (userId) => {
     });
   };
 };
+const updateDocumentAction = (document) => {
+  return {
+    type: UPDATE_DOCUMENT,
+    document
+  };
+};
 const updateDocument = (document) => {
+  const documentId = document.documentId;
   return (dispatch) => {
     return axios.put(`/api/documents/${documentId}`, document).then((response) => {
-     return response.data;
+      dispatch(updateDocumentAction(response.data));
+      return response;
     });
-  }
-}
+  };
+};
 const deleteDocumentAction = (documentId) => {
   return {
     type: DELETE_DOCUMENT,
     payload: documentId
-  }
-}
+  };
+};
 const deleteDocument = (document) => {
   return (dispatch) => {
     return axios.delete(`api/documents/${document.documentId}`).then(() => {

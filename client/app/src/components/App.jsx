@@ -14,6 +14,7 @@ import Authorization from '../../utils/authorization';
 import { setLoginUser, createUserAction } from '../actions/userActions';
 import ViewUserDocuments from './ViewUserDocuments';
 import EditProfile from './EditProfile';
+import '../../../../node_modules/toastr/toastr.scss';
 
 const history = createBrowserHistory();
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal, Button } from 'react-materialize';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import toastr from 'toastr';
 import { updateDocument } from '../actions/documentActions';
 
 class UpdateDocumentForm extends React.Component {
@@ -11,8 +12,7 @@ class UpdateDocumentForm extends React.Component {
       title: '',
       content: '',
       value: '',
-      documentId: this.props.cardDocuments.id,
-      errors: {},
+      documentId: this.props.cardDocuments,
     };
     this.handleChange = this.handleChange.bind(this);
     this.optionChange = this.optionChange.bind(this);
@@ -27,18 +27,19 @@ class UpdateDocumentForm extends React.Component {
   }
   onSubmit(event) {
     event.preventDefault();
-    this.setState({ errors: {} });
     console.log(this.state);
     this.props.dispatch(updateDocument(this.state)).then(() => {
+      toastr.success('document updated successfully');
     });
   }
 
   render() {
+    console.log(this.props.cardDocuments);
     return (
       <div>
         <Modal id="titleHeader"
 	header='update document'
-	trigger={<i className="material-icons md-36">create</i>}>
+	trigger={<i className="material-icons md-36" id="editIcon">create</i>}>
           <form className="col s12">
               <div className="row">
                 <div className="input-field col s12">
@@ -62,7 +63,7 @@ class UpdateDocumentForm extends React.Component {
                     <option value="role">Role</option>
                 </select>
                 </div>
-                <Button className="btn modal-action btn-large blue"
+                <Button className="btn modal-action modal-close orange"
                   id="documentbutton"
                   onClick={this.onSubmit}>update</Button>
               </div>
@@ -73,7 +74,7 @@ class UpdateDocumentForm extends React.Component {
   }
 }
 UpdateDocumentForm.propTypes = {
-  cardDocuments: PropTypes.object.isRequired,
+  cardDocuments: PropTypes.number.isRequired,
 };
 const mapStateToProps = (state) => {
   return {

@@ -1,6 +1,6 @@
 import {
   CREATE_DOCUMENT, FETCH_USER_DOCUMENTS,
-  FETCH_ALL_DOCUMENTS, DELETE_DOCUMENT
+  FETCH_ALL_DOCUMENTS, DELETE_DOCUMENT, UPDATE_DOCUMENT
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -29,6 +29,15 @@ export const fetchDocuments = (state = initialState, action) => {
       const result = [action.document, ...state.document];
       return {
         document: result,
+      };
+    }
+    case UPDATE_DOCUMENT: {
+      const updatedDocument = state.document.map((document) => {
+        if (document.id === action.document.id) return action.document;
+        return document;
+      });
+      return {
+        document: updatedDocument
       };
     }
 

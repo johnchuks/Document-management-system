@@ -1,6 +1,8 @@
 import React from 'react';
 import { Modal, Button } from 'react-materialize';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import toastr from 'toastr';
 import { deleteDocument } from '../actions/documentActions';
 
 class DeleteDocument extends React.Component {
@@ -14,22 +16,28 @@ class DeleteDocument extends React.Component {
   }
   onDelete() {
     event.preventDefault();
-    this.props.dispatch(deleteDocument(this.state));
-    console.log(this.state);
+    this.props.dispatch(deleteDocument(this.state)).then(() => {
+      toastr.success('document deleted successfully');
+    })
   }
   render() {
-    console.log(this.props.cardDocument);
     return (
     <div>
     <Modal
-    trigger={<i className="material-icons md-36">delete</i>}>
-      <h5>Are you sure you want to delete this document</h5>
-      <Button className="btn modal-action blue" onClick={this.onDelete} type="submit" data-dismiss="">Delete</Button>
+    trigger={<i className="material-icons md-36" id="deleteIcon">delete</i>}
+    actions={<div><Button
+    className="modal-action modal-close btn orange" id="noButton">No</Button>
+    <Button className="modal-action modal-close btn orange" id="yesButton" onClick={this.onDelete}>Yes</Button></div>}>
+      <h5 id="h5">Are you sure you want to delete this document</h5>
       </Modal>
       </div>
     );
   }
 }
+DeleteDocument.propTypes = {
+  cardDocument: PropTypes.number.isRequired,
+  user: PropTypes.number.isRequired,
+};
 const mapStateToProps = (state) => {
   return {
     user: state.usersReducer.user.id

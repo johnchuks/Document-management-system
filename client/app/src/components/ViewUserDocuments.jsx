@@ -35,7 +35,7 @@ class ViewUserDocuments extends React.Component {
                 <div className="col s12 m4">
                   <div className="card">
                     <div className="card-content black-text">
-                      <span className="card-title">{doc.title}</span>
+                      <span className="card-title" value={doc.id}>{doc.title}</span>
                       <p>{doc.content}</p>
                     </div>
                     <div className="card-action">
@@ -43,7 +43,7 @@ class ViewUserDocuments extends React.Component {
                         <DeleteDocument cardDocument={doc.id}/>
                       </div>
                       <div className=" m6">
-                        <UpdateDocumentForm cardDocuments={doc}/>
+                        <UpdateDocumentForm cardDocuments={doc.id}/>
                       </div>
                       </div>
                   </div>
