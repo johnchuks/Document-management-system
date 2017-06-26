@@ -13,6 +13,7 @@ import '../sass/style.scss';
 import Authorization from '../../utils/authorization';
 import { setLoginUser, createUserAction } from '../actions/userActions';
 import ViewUserDocuments from './ViewUserDocuments';
+import EditProfile from './EditProfile';
 
 const history = createBrowserHistory();
 
@@ -33,6 +34,7 @@ ReactDOM.render(
   <Route exact path="/login" component={LoginPage} />
   <Route exact path="/dashboard" component={DashboardPage} />
   <Route path="/documents" component={ViewUserDocuments} />
+  <Route path="/profile" component={EditProfile} />
   </Switch>
 </Router>
 </Provider>

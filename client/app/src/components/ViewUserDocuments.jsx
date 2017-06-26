@@ -3,13 +3,16 @@ import { connect } from 'react-redux';
 import { fetchDocument } from '../actions/documentActions';
 import DocumentForm from '../components/DocumentForm';
 import NavigationBar from './NavigationBar';
+import UpdateDocumentForm from './UpdateDocumentForm';
+import DeleteDocument from './DeleteDocument';
 
 class ViewUserDocuments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       userId: this.props.user,
-      document: this.props.document
+      document: this.props.document,
+      delete: ''
     };
   }
 
@@ -25,7 +28,6 @@ class ViewUserDocuments extends React.Component {
     return (
       <div>
         <NavigationBar />
-        <DocumentForm />
         {
           docs.map((doc) => {
             return (
@@ -36,6 +38,14 @@ class ViewUserDocuments extends React.Component {
                       <span className="card-title">{doc.title}</span>
                       <p>{doc.content}</p>
                     </div>
+                    <div className="card-action">
+                        <div className="m6">
+                        <DeleteDocument cardDocument={doc.id}/>
+                      </div>
+                      <div className=" m6">
+                        <UpdateDocumentForm cardDocuments={doc}/>
+                      </div>
+                      </div>
                   </div>
                 </div>
               </div>
@@ -46,6 +56,7 @@ class ViewUserDocuments extends React.Component {
     );
   }
 }
+
 const mapStateToProps = (state) => {
   return {
     user: state.usersReducer.user.id,

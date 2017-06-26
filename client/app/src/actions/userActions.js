@@ -1,6 +1,6 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import { CREATE_USERS, FETCH_USERS, SET_LOGIN_USERS } from '../constants/actionTypes';
+import { CREATE_USERS, FETCH_USERS, SET_LOGIN_USERS, EDIT_PROFILE } from '../constants/actionTypes';
 import Authorization from '../../utils/authorization';
 
 
@@ -43,7 +43,21 @@ const loginAction = (user) => {
     }).catch(error => (error));
   };
 };
+const editProfileAction = (user) => {
+  return {
+    type: EDIT_PROFILE,
+    payload: user
+  };
+};
+const editProfile = (user) => {
+  const id = user.userId;
+  return (dispatch) => {
+    return axios.put(`/api/users/${id}`, user).then((response) => {
+      dispatch(editProfileAction(response.data));
+    });
+  };
+};
 
 
-export { signupAction, fetchUserAction, loginAction, setLoginUser, createUserAction };
+export { signupAction, fetchUserAction, loginAction, setLoginUser, createUserAction, editProfile };
 

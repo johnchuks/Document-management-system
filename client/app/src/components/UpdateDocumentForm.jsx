@@ -1,24 +1,24 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { createDocument, fetchDocument } from '../actions/documentActions';
-
 import { Modal, Button } from 'react-materialize';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { updateDocument } from '../actions/documentActions';
 
-class DocumentForm extends React.Component {
+class UpdateDocumentForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title:'',
+      title: '',
       content: '',
       value: '',
-      userId: this.props.user,
+      documentId: this.props.cardDocuments.id,
       errors: {},
-
     };
     this.handleChange = this.handleChange.bind(this);
     this.optionChange = this.optionChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
@@ -28,33 +28,29 @@ class DocumentForm extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     this.setState({ errors: {} });
-    this.props.document(this.state).then(() => {
-    }, error => this.setState({ errors: error.response.data }));
-  };
+    console.log(this.state);
+    this.props.dispatch(updateDocument(this.state)).then(() => {
+    });
+  }
 
   render() {
-    const { errors } = this.state;
     return (
       <div>
         <Modal id="titleHeader"
-	header='Create new Document'
-	trigger={<Button className="btn-floating btn-large red">
-            <i className="material-icons md-36">create</i>
-  </Button>}>
+	header='update document'
+	trigger={<i className="material-icons md-36">create</i>}>
           <form className="col s12">
               <div className="row">
                 <div className="input-field col s12">
                 <input id="title" name="title"
                   onChange={this.handleChange} />
                 <label htmlFor="title">Title</label>
-                {errors.title && <span className="alert alert-danger">{errors.title}</span> }
               </div>
                 <div className="input-field col s12">
                 <textarea id="textarea" name="content"
                   className="materialize-textarea" onChange={this.handleChange}>
                 </textarea>
                 <label htmlFor="textarea">Content</label>
-                {errors.content && <div className="alert alert-danger">{errors.content}</div> }
               </div>
                 <div className="col s6">
                  <label>Select role type</label>
@@ -65,27 +61,23 @@ class DocumentForm extends React.Component {
                     <option value="private">Private</option>
                     <option value="role">Role</option>
                 </select>
-                {errors.value && <div className="alert alert-danger">{errors.value}</div> }
                 </div>
                 <Button className="btn modal-action btn-large blue"
                   id="documentbutton"
-                  onClick={this.onSubmit}>Create</Button>
+                  onClick={this.onSubmit}>update</Button>
               </div>
            </form>
         </Modal>
       </div>
-    );
+    )
   }
 }
-const mapStateToProps = (state, ownProps) => {
+UpdateDocumentForm.propTypes = {
+  cardDocuments: PropTypes.object.isRequired,
+};
+const mapStateToProps = (state) => {
   return {
-    user: state.usersReducer.user.id,
-  }
-}
-const mapDispatchToProps = (dispatch) => {
-  return {
-    document: (documentDetails) => dispatch(createDocument(documentDetails)),
+    document: state.fetchDocuments.document
   };
 };
-
-export default connect(mapStateToProps, mapDispatchToProps)(DocumentForm);
+export default connect(mapStateToProps)(UpdateDocumentForm);

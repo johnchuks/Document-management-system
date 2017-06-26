@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CREATE_DOCUMENT, FETCH_USER_DOCUMENTS, FETCH_ALL_DOCUMENTS } from '../constants/actionTypes';
+import { CREATE_DOCUMENT, FETCH_USER_DOCUMENTS, FETCH_ALL_DOCUMENTS, DELETE_DOCUMENT } from '../constants/actionTypes';
 
 const createDocumentAction = (document) => {
   return {
@@ -21,7 +21,6 @@ const createDocument = (document) => {
     });
   };
 };
-
 const fetchAllDocuments = () => {
   return (dispatch) => {
     const token = localStorage.getItem('jwtToken');
@@ -49,6 +48,30 @@ const fetchDocument = (userId) => {
     });
   };
 };
+const updateDocument = (document) => {
+  return (dispatch) => {
+    return axios.put(`/api/documents/${documentId}`, document).then((response) => {
+     return response.data;
+    });
+  }
+}
+const deleteDocumentAction = (documentId) => {
+  return {
+    type: DELETE_DOCUMENT,
+    payload: documentId
+  }
+}
+const deleteDocument = (document) => {
+  return (dispatch) => {
+    return axios.delete(`api/documents/${document.documentId}`).then(() => {
+      dispatch(deleteDocumentAction(document.documentId));
+    });
+  };
+};
 
-export { createDocumentAction, createDocument, fetchDocumentAction, fetchDocument, fetchAllDocuments, fetchAllDocumentsAction };
+
+export { createDocumentAction,
+   createDocument, fetchDocumentAction,
+  fetchDocument, fetchAllDocuments,
+  fetchAllDocumentsAction, updateDocument, deleteDocument };
 
