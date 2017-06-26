@@ -47,28 +47,28 @@ class SignupPage extends React.Component {
             <div className="row">
               <div className="input-field col s12">
                 <input id="full_Name" name="fullName" type="text" className="validate" onChange={this.handleChange}/>
-                <label htmlFor="full_Name">Full Name</label>
+                <label htmlFor="full_Name" id="label">Full Name</label>
                 {errors.fullName && <span className="help-block" style={errorAlert}>{errors.fullName}</span>}
               </div>
             </div>
             <div className="row">
               <div className="input-field col s12">
                 <input id="user_Name" name="userName" type="text" className="validate" onChange={this.handleChange}/>
-                <label htmlFor="user_Name">User Name</label>
+                <label htmlFor="user_Name" id="label">User Name</label>
                 {errors.userName && <span className="help-block" style={errorAlert}>{errors.userName}</span>}
               </div>
             </div>
             <div className="row">
               <div className="input-field col s12">
                 <input id="password" name="email" type="email" className="validate" onChange={this.handleChange} />
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email" id="label">Email</label>
                 {errors.email && <span className="help-block"style={errorAlert}>{errors.email}</span>}
               </div>
             </div>
             <div className="row">
               <div className="input-field col s12">
                 <input id="email" name="password" type="password" className="validate" onChange={this.handleChange} />
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password" id="label">Password</label>
                 {errors.password && <span className="help-block"style={errorAlert}>{errors.password}</span>}
               </div>
             </div>

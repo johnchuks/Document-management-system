@@ -28,7 +28,7 @@ class LoginPage extends React.Component {
     this.setState({ errors: {}, isLoading: true });
     this.props.login(this.state).then((error) => {
       if (!error) {
-        this.props.history.push('/documents');
+        this.props.history.push('/dashboard');
       } else {
         this.setState({ errors: error.response.data, isLoading: false });
         this.props.history.push('/login');
@@ -79,7 +79,7 @@ class LoginPage extends React.Component {
                   Log in</button>
                 <div className="row">
                   <div className="col s12">
-                    <p> Don't have an account? <a href="/signup" id="signupLink">SignUp Here</a></p>
+                    <p id="loginLink"> Don't have an account? <a href="/signup" id="signupLink">SignUp Here</a></p>
                   </div>
                   </div>
               </div>

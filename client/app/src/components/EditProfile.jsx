@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
 import { editProfile } from '../actions/userActions';
+import NavigationBar from '../components/NavigationBar';
 
 class EditProfile extends React.Component {
   constructor(props) {
@@ -26,15 +27,13 @@ class EditProfile extends React.Component {
     });
   }
   render() {
+    const profileStyle = {
+      marginLeft: '400px',
+    };
     return (
       <div>
-        <ul id="slide-out" className="side-nav fixed">
-      <li><a href="#!">First Sidebar Link</a></li>
-      <li><a href="#!">Second Sidebar Link</a></li>
-    </ul>
-    <a href="#" data-activates="slide-out" className="button-collapse"><i className="material-icons">menu</i></a>
-
-        <div className="formField">
+      <NavigationBar />
+        <div id="formField" style={profileStyle}>
           <div className="col s12 z-depth 5" >
          <div className="row">
         <div className="input-field col s6">

@@ -24,34 +24,38 @@ class ViewUserDocuments extends React.Component {
   }
 
   render() {
-    const docs = this.state.document;
+    const rowStyle = {
+      marginLeft: '200px',
+      marginTop: '60px',
+    };
+    const userDocuments = this.state.document;
     return (
       <div>
         <NavigationBar />
+        <div className="container">
+          <div className="row"style={rowStyle}>
         {
-          docs.map((doc) => {
+          userDocuments.map((document) => {
             return (
-              <div className="row"key={doc.id}>
-                <div className="col s12 m4">
-                  <div className="card">
+                <div className="col s12 m4" key={document.id}>
+                  <div className="card small  grey lighten-4">
                     <div className="card-content black-text">
-                      <span className="card-title" value={doc.id}>{doc.title}</span>
-                      <p>{doc.content}</p>
+                      <span className="card-title" value={document.id}>{document.title}</span>
+                      <p>{document.content}</p>
                     </div>
                     <div className="card-action">
-                        <div className="m6">
-                        <DeleteDocument cardDocument={doc.id}/>
-                      </div>
-                      <div className=" m6">
-                        <UpdateDocumentForm cardDocuments={doc.id}/>
-                      </div>
-                      </div>
+                       <p>{document.access}</p>
+                        <DeleteDocument cardDocument={document.id}/>
+                        <UpdateDocumentForm cardDocuments={document.id}/>
                   </div>
                 </div>
-              </div>
+                </div>
             );
           })
         }
+         </div>
+      </div>
+      <DocumentForm />
       </div>
     );
   }

@@ -14,6 +14,7 @@ import Authorization from '../../utils/authorization';
 import { setLoginUser, createUserAction } from '../actions/userActions';
 import ViewUserDocuments from './ViewUserDocuments';
 import EditProfile from './EditProfile';
+import NavigationBar from './NavigationBar';
 import '../../../../node_modules/toastr/toastr.scss';
 
 const history = createBrowserHistory();
@@ -36,6 +37,7 @@ ReactDOM.render(
   <Route exact path="/dashboard" component={DashboardPage} />
   <Route path="/documents" component={ViewUserDocuments} />
   <Route path="/profile" component={EditProfile} />
+  <Route path="/navigation" component={NavigationBar} />
   </Switch>
 </Router>
 </Provider>

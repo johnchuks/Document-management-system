@@ -33,13 +33,17 @@ class DocumentForm extends React.Component {
   };
 
   render() {
+    const buttonStyle = {
+      marginLeft: '1200px',
+      marginBottom: '50px',
+    };
     const { errors } = this.state;
     return (
       <div>
-        <Modal id="titleHeader" header='Create new Document' trigger={
+        <Modal id="titleHeader" header='Create new Document' trigger={<div className="fixed-action-btn horizontal">
           <Button className="btn-floating btn-large red">
             <i className="material-icons md-36">create</i>
-  </Button>}>
+  </Button></div>}>
           <form className="col s12">
               <div className="row">
                 <div className="input-field col s12">
@@ -61,7 +65,6 @@ class DocumentForm extends React.Component {
                  <label>Select role type</label>
                  <select className="browser-default"
                    onChange={this.optionChange} value={this.state.value}>
-                    <option value="" disabled>Choose your option</option>
                     <option value="public">Public</option>
                     <option value="private">Private</option>
                     <option value="role">Role</option>

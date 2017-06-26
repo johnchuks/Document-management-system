@@ -81,10 +81,7 @@
     margin-top: inherit;
     color: white
   }
-  p {
-    text-align: center;
-    color: white;
-  }
+
   h5 {
     text-align: center;
     color: white;
@@ -110,11 +107,12 @@
     margin-bottom: 40px;
     margin-top: 35px;
   }
-  .formField {
-    margin-left: 300px;
-    color:#F5F3EE;
+  #formField {
+    margin-left: 400px !important;
+    z-index: -1;
+
   }
-  
+
   #h5 {
     color: black;
   }
@@ -127,9 +125,29 @@
   }
   #deleteIcon {
     cursor: pointer;
+    margin-left: 150px;
+    margin-top: -45px;
   }
   #editIcon {
     cursor: pointer;
+    margin-top: -100px;
+    float: left;
+    margin-top: -26px;
   }
-
-
+  #DocModal {
+    margin-left: 1200px !important;
+    margin-bottom: 50px !important;
+ }
+input[type=text] {
+  color: white;
+}
+input[type=email] {
+  color: white;
+}
+input[type=password] {
+  color: white;
+}
+#loginLink {
+  color: white;
+  margin-left: 150px;
+}
