@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import UpdateDocumentForm from './UpdateDocumentForm';
-import { fetchAllDocuments } from '../actions/documentActions';
+import { fetchAllDocuments } from '../../actions/documentActions';
 
 class ViewPublicDouments extends React.Component {
   constructor(props) {

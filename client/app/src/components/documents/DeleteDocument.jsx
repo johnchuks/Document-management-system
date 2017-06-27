@@ -3,7 +3,7 @@ import { Modal, Button } from 'react-materialize';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import toastr from 'toastr';
-import { deleteDocument } from '../actions/documentActions';
+import { deleteDocument } from '../../actions/documentActions';
 
 class DeleteDocument extends React.Component {
   constructor(props) {

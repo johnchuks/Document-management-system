@@ -42,6 +42,13 @@ module.exports = {
   },
 
   // update a single document for the user
+  /**
+   *
+   *
+   * @param {any} req
+   * @param {any} res
+   * @returns
+   */
   updateDocument(req, res) {
     return Document
       .findById(req.params.id)
@@ -69,6 +76,13 @@ module.exports = {
       .catch(error => res.status(400).send(error));
   },
   // find a document by Id
+  /**
+   *
+   *
+   * @param {any} req
+   * @param {any} res
+   * @returns
+   */
   findDocument(req, res) {
     return Document
       .findById(req.params.id)
@@ -104,6 +118,13 @@ module.exports = {
       }).catch(error => res.status(404).send(error));
   },
   // Delete a document by Id
+  /**
+   *
+   *
+   * @param {any} req
+   * @param {any} res
+   * @returns
+   */
   deleteDocument(req, res) {
     return Document
       .findById(req.params.id)
@@ -126,6 +147,13 @@ module.exports = {
       .catch(error => res.status(400).send(error));
   },
   // get all documents
+  /**
+   *
+   *
+   * @param {string} req
+   * @param {object} res
+   * @returns
+   */
   getAllDocuments(req, res) {
     const limit = req.query.limit;
     const offset = req.query.offset;
@@ -144,7 +172,13 @@ module.exports = {
     .then(document => res.status(200).send(document))
     .catch(error => res.status(400).send(error));
   },
-  // get documents for a particular user
+
+  /**
+   *
+   *
+   * @param {string} req
+   * @param {object} res
+   */
   getSpecificUserDocuments(req, res) {
     User.findById(req.params.id).then((user) => {
       if (!user) {
@@ -159,6 +193,35 @@ module.exports = {
       }).then((document => res.status(200).send(document)))
               .catch(error => res.status(404).send(error));
     }).catch(error => res.status(400).send(error));
+  },
+
+  /**
+   *
+   *
+   * @param {string} req
+   * @param {array} res
+   * @returns
+   */
+  searchDocuments(req, res) {
+    const queryString = req.query.q;
+    return Document
+      .findAndCountAll({
+        where: {
+          title: {
+            $like: `%${queryString}%`
+          }
+        },
+        include: [{
+          model: User,
+          attributes: ['roleId']
+        }], }).then((document) => {
+          if (!document) {
+            res.status(404).json({
+              message: 'Document not found'
+            });
+          }
+          res.status(200).send(document);
+        }).catch(error => res.status(400).send(error));
   },
 
 };

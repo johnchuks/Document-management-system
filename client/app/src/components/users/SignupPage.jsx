@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { signupAction } from '../actions/userActions';
+import { signupAction } from '../../actions/userActions';
 import  Navigation from './Navigation';
 
 
@@ -74,7 +74,7 @@ class SignupPage extends React.Component {
             </div>
             <div className="row">
               <div className="col m6 s12">
-                  <a className="waves-effect wave-light btn orange" type="submit" name="action" onClick={this.onSubmit}>SignUp</a>
+                  <a className="waves-effect wave-light btn orange" id="signupButton" type="submit" name="action" onClick={this.onSubmit}>SignUp</a>
             </div>
 
             </div>

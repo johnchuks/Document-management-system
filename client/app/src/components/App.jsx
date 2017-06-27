@@ -5,16 +5,17 @@ import jwtDecode from 'jwt-decode';
 import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
 import 'babel-polyfill';
-import DashboardPage from './DashboardPage.jsx';
-import SignupPage from './SignupPage';
-import LoginPage from './LoginPage';
+import DashboardPage from './users/DashboardPage.jsx';
+import SignupPage from './users/SignupPage';
+import LoginPage from './users/LoginPage';
 import store from '../store/store';
 import '../sass/style.scss';
 import Authorization from '../../utils/authorization';
 import { setLoginUser, createUserAction } from '../actions/userActions';
-import ViewUserDocuments from './ViewUserDocuments';
-import EditProfile from './EditProfile';
-import NavigationBar from './NavigationBar';
+import ViewUserDocuments from './documents/ViewUserDocuments';
+import EditProfile from './users/EditProfile';
+import NavigationBar from './users/NavigationBar';
+import SearchDocuments from './documents/SearchDocuments';
 import '../../../../node_modules/toastr/toastr.scss';
 
 const history = createBrowserHistory();
@@ -37,7 +38,7 @@ ReactDOM.render(
   <Route exact path="/dashboard" component={DashboardPage} />
   <Route path="/documents" component={ViewUserDocuments} />
   <Route path="/profile" component={EditProfile} />
-  <Route path="/navigation" component={NavigationBar} />
+  <Route path="/searchdocument" component={SearchDocuments} />
   </Switch>
 </Router>
 </Provider>

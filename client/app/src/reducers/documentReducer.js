@@ -1,6 +1,6 @@
 import {
   CREATE_DOCUMENT, FETCH_USER_DOCUMENTS,
-  FETCH_ALL_DOCUMENTS, DELETE_DOCUMENT, UPDATE_DOCUMENT
+  FETCH_ALL_DOCUMENTS, DELETE_DOCUMENT, UPDATE_DOCUMENT, SEARCH_DOCUMENT
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -39,6 +39,9 @@ export const fetchDocuments = (state = initialState, action) => {
       return {
         document: updatedDocument
       };
+    }
+    case SEARCH_DOCUMENT: {
+      return Object.assign({ document: action.searchDocuments });
     }
 
     default:

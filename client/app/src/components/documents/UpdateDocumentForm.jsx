@@ -1,24 +1,24 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { createDocument } from '../actions/documentActions';
-
 import { Modal, Button } from 'react-materialize';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import toastr from 'toastr';
+import { updateDocument } from '../../actions/documentActions';
 
-class DocumentForm extends React.Component {
+class UpdateDocumentForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       title: '',
       content: '',
       value: '',
-      userId: this.props.user,
-      errors: {},
-
+      documentId: this.props.cardDocuments,
     };
     this.handleChange = this.handleChange.bind(this);
     this.optionChange = this.optionChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
@@ -27,70 +27,58 @@ class DocumentForm extends React.Component {
   }
   onSubmit(event) {
     event.preventDefault();
-    this.setState({ errors: {} });
-    this.props.document(this.state).then(() => {
-    }, error => this.setState({ errors: error.response.data }));
-  };
+    console.log(this.state);
+    this.props.dispatch(updateDocument(this.state)).then(() => {
+      toastr.success('document updated successfully');
+    });
+  }
 
   render() {
-    const buttonStyle = {
-      marginLeft: '1200px',
-      marginBottom: '50px',
-    };
-    const { errors } = this.state;
+    console.log(this.props.cardDocuments);
     return (
       <div>
-        <Modal id="titleHeader" header='Create new Document' trigger={<div className="fixed-action-btn horizontal">
-          <Button className="btn-floating btn-large red">
-            <i className="material-icons md-36">create</i>
-  </Button></div>}>
+        <Modal id="titleHeader2"
+	header="update document"
+	trigger={<i className="material-icons md-36" id="editIcon">create</i>}>
           <form className="col s12">
               <div className="row">
                 <div className="input-field col s12">
                 <input id="title" name="title"
                   onChange={this.handleChange} />
                 <label htmlFor="title">Title</label>
-                {errors.title && <span className="alert alert-danger">
-                  {errors.title}</span> }
               </div>
                 <div className="input-field col s12">
                 <textarea id="textarea" name="content"
                   className="materialize-textarea" onChange={this.handleChange}>
                 </textarea>
                 <label htmlFor="textarea">Content</label>
-                {errors.content && <div className="alert alert-danger">
-                  {errors.content}</div> }
               </div>
                 <div className="col s6">
                  <label>Select role type</label>
                  <select className="browser-default"
                    onChange={this.optionChange} value={this.state.value}>
+                    <option value="" disabled>Choose your option</option>
                     <option value="public">Public</option>
                     <option value="private">Private</option>
                     <option value="role">Role</option>
                 </select>
-                {errors.value && <div className="alert alert-danger">
-                  {errors.value}</div> }
                 </div>
-                <Button className="btn modal-action btn-large blue"
+                <Button className="btn modal-action modal-close orange"
                   id="documentbutton"
-                  onClick={this.onSubmit}>Create</Button>
+                  onClick={this.onSubmit}>update</Button>
               </div>
            </form>
         </Modal>
       </div>
-    );
+    )
   }
 }
+UpdateDocumentForm.propTypes = {
+  cardDocuments: PropTypes.number.isRequired,
+};
 const mapStateToProps = (state) => {
   return {
-    user: state.usersReducer.user.id,
+    document: state.fetchDocuments.document
   };
 };
-const mapDispatchToProps = (dispatch) => {
-  return {
-    document: (documentDetails) => dispatch(createDocument(documentDetails)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(DocumentForm);
+export default connect(mapStateToProps)(UpdateDocumentForm);

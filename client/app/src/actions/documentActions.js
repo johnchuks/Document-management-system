@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { CREATE_DOCUMENT, FETCH_USER_DOCUMENTS, FETCH_ALL_DOCUMENTS, DELETE_DOCUMENT,
-UPDATE_DOCUMENT } from '../constants/actionTypes';
+UPDATE_DOCUMENT, SEARCH_DOCUMENT } from '../constants/actionTypes';
 
 const createDocumentAction = (document) => {
   return {
@@ -77,10 +77,24 @@ const deleteDocument = (document) => {
     });
   };
 };
+const searchDocumentAction = (searchDocuments) => {
+  return {
+    type: SEARCH_DOCUMENT,
+    searchDocuments,
+  }
+};
+const searchDocument = (search) => {
+  const title = search.searchString;
+  return (dispatch) => {
+    return axios.get(`api/search/documents/?q=${title}`).then((response) => {
+      dispatch(searchDocumentAction(response.data));
+    }).catch(error => error);
+  };
+};
 
 
 export { createDocumentAction,
    createDocument, fetchDocumentAction,
   fetchDocument, fetchAllDocuments,
-  fetchAllDocumentsAction, updateDocument, deleteDocument };
+  fetchAllDocumentsAction, updateDocument, searchDocument, deleteDocument };
 

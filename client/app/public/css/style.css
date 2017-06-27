@@ -7277,10 +7277,10 @@ button.picker__close:focus {
   color: red; }
 
 #loginButton {
-  width: 575px; }
+  width: 100%; }
 
 #signupButton {
-  width: 575px; }
+  width: 200%; }
 
 #iconEmailPassword {
   margin-left: 90%;
@@ -7336,22 +7336,21 @@ h5 {
   float: left;
   margin-top: -26px; }
 
-#DocModal {
-  margin-left: 1200px !important;
-  margin-bottom: 50px !important; }
-
 input[type=text] {
-  color: white; }
+  color: black; }
 
 input[type=email] {
-  color: white; }
+  color: black; }
 
 input[type=password] {
-  color: white; }
+  color: black; }
 
 #loginLink {
   color: white;
   margin-left: 150px; }
+
+#navLogo {
+  margin-left: 3%; }
 .toast-title {
   font-weight: bold; }
 

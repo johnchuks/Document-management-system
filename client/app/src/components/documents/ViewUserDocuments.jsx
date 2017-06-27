@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchDocument } from '../actions/documentActions';
-import DocumentForm from '../components/DocumentForm';
-import NavigationBar from './NavigationBar';
+import { fetchDocument } from '../../actions/documentActions';
+import DocumentForm from './DocumentForm';
+import NavigationBar from '../users/NavigationBar';
 import UpdateDocumentForm from './UpdateDocumentForm';
 import DeleteDocument from './DeleteDocument';
 
@@ -31,6 +31,7 @@ class ViewUserDocuments extends React.Component {
     const userDocuments = this.state.document;
     return (
       <div>
+        <DocumentForm />
         <NavigationBar />
         <div className="container">
           <div className="row"style={rowStyle}>
@@ -55,7 +56,6 @@ class ViewUserDocuments extends React.Component {
         }
          </div>
       </div>
-      <DocumentForm />
       </div>
     );
   }

@@ -10,6 +10,7 @@ module.exports = (app) => {
   app.get('/api/users/:id', auth.adminAccess, userController.findUser);
   app.put('/api/users/:id', userController.updateUser);
   app.delete('/api/users/:id', userController.deleteUser);
+  app.get('/api/search/users/', auth.adminAccess, userController.searchUser);
 
  // Document Routes
   app.post('/api/documents/', documentController.createDocument);
@@ -18,6 +19,7 @@ module.exports = (app) => {
   app.put('/api/documents/:id', documentController.updateDocument);
   app.delete('/api/documents/:id', documentController.deleteDocument);
   app.get('/api/users/:id/documents', documentController.getSpecificUserDocuments);
+  app.get('/api/search/documents/', documentController.searchDocuments);
 
   // Role Routes
   app.post('/api/roles/', auth.adminAccess, roleController.createRole);

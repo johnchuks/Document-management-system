@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { loginAction } from '../actions/userActions';
+import { loginAction } from '../../actions/userActions';
 import Navigation from './Navigation';
 
 class LoginPage extends React.Component {

@@ -202,5 +202,23 @@ module.exports = {
     res.status(200).json({
       message: 'You have logged out successfully'
     });
+  },
+  searchUser(req, res) {
+    const searchQuery = req.query.q;
+    return User
+    .findAndCountAll({
+      where: {
+        fullName: {
+          $like: `%${searchQuery}%`
+        }
+      }
+    }).then((user) => {
+      if (!user) {
+        return res.status(404).json({
+          message: 'User not found'
+        });
+      }
+      res.status(200).send(user);
+    }).catch(error => res.status(400).send(error));
   }
 };

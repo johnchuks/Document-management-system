@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchAllDocuments } from '../actions/documentActions';
+import { fetchAllDocuments } from '../../actions/documentActions';
 
 class ViewRoleDouments extends React.Component {
   componentDidMount() {
@@ -41,7 +41,7 @@ class ViewRoleDouments extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     roleDocument: state.fetchDocuments.document,
-    userDetails: state.usersReducer.user.id
+    userDetails: state.usersReducer.user.roleId
   }
 };
 export default connect(mapStateToProps, null)(ViewRoleDouments);
