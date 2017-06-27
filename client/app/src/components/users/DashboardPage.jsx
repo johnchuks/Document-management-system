@@ -9,8 +9,8 @@ class Dashboard extends React.Component {
     return (
         <div>
         <NavigationBar />
+        <h4 id="searchHeading">Public And Role Documents</h4>
         <ViewPublicDocuments />
-        <ViewRoleDocuments />
          <DocumentForm />
     </div>
     );

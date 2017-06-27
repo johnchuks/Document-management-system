@@ -20,7 +20,8 @@ export const fetchDocuments = (state = initialState, action) => {
       };
     }
     case DELETE_DOCUMENT: {
-      const documentsRemaining = state.document.filter(document => document.id !== action.payload);
+      const documentsRemaining = state.document.filter(document =>
+       document.id !== action.payload);
       return {
         document: documentsRemaining
       };

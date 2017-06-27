@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { createDocument } from '../../actions/documentActions';
 
 import { Modal, Button } from 'react-materialize';
@@ -33,10 +34,6 @@ class DocumentForm extends React.Component {
   };
 
   render() {
-    const buttonStyle = {
-      marginLeft: '1200px',
-      marginBottom: '50px',
-    };
     const { errors } = this.state;
     return (
       <div>

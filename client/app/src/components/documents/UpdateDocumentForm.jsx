@@ -39,7 +39,7 @@ class UpdateDocumentForm extends React.Component {
       <div>
         <Modal id="titleHeader2"
 	header="update document"
-	trigger={<i className="material-icons md-36" id="editIcon">create</i>}>
+	trigger={<div id="editIcon"><i className="material-icons md-36" >create</i></div>}>
           <form className="col s12">
               <div className="row">
                 <div className="input-field col s12">

@@ -204,11 +204,20 @@ module.exports = {
    */
   searchDocuments(req, res) {
     const queryString = req.query.q;
+    if (!queryString) {
+      return res.status(400).json({
+        message: 'Invalid search input'
+      });
+    }
     return Document
       .findAndCountAll({
         where: {
           title: {
             $like: `%${queryString}%`
+          },
+          access: {
+            $ne: 'private'
+
           }
         },
         include: [{

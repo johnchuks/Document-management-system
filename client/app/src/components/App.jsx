@@ -17,6 +17,7 @@ import EditProfile from './users/EditProfile';
 import NavigationBar from './users/NavigationBar';
 import SearchDocuments from './documents/SearchDocuments';
 import '../../../../node_modules/toastr/toastr.scss';
+import ViewAllUsers from './users/ViewAllUsers';
 
 const history = createBrowserHistory();
 
@@ -39,6 +40,7 @@ ReactDOM.render(
   <Route path="/documents" component={ViewUserDocuments} />
   <Route path="/profile" component={EditProfile} />
   <Route path="/searchdocument" component={SearchDocuments} />
+  <Route path="/viewusers" component={ViewAllUsers} />
   </Switch>
 </Router>
 </Provider>

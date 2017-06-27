@@ -37,20 +37,19 @@ class NavigationBar extends React.Component {
         <li>
         <div className="user-view">
            <div className="background">
-        <img src="../../public/Library-Books1.jpg" />
+        <img src="../../public/Library-Books1.jpeg" />
       </div>
-      <a href="#!user"><img className="circle" src="" /></a>
-      <a href="#!name"><span className="white-text name">{this.state.name}</span></a>
-      <a href="#!email"><span className="white-text email">{this.state.email}</span></a>
+      <img className="circle" src="" />
+      <span className="name">{this.state.name}</span>
+      <br />
+    <span className="email">{this.state.email}</span>
     </div></li>
-      <li><a href="">View all documents</a></li>
-      <li><a href="">My documents</a></li>
-      <li><a href="">View All Users</a></li>
-      <li><a href="">Search for users></a></li>
-      <li><a href="">Search Document</a></li>
-      <li><a href = "">Edit Profile</a></li>
-       <a href="#" data-activates="slide-out" className="button-collapse">
-      <i className="material-icons">menu</i></a>
+      <li><a href="/dashboard">View all documents</a></li>
+      <li><a href="/documents">My documents</a></li>
+      <li><a href="/viewusers">View All Users</a></li>
+      <li><a href="/searchusers">Search for users</a></li>
+      <li><a href="/searchdocument">Search Document</a></li>
+      <li><a href = "/profile">Edit Profile</a></li>
     </ul>;
     }
     return (

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { fetchDocument } from '../../actions/documentActions';
 import DocumentForm from './DocumentForm';
 import NavigationBar from '../users/NavigationBar';
@@ -33,6 +34,7 @@ class ViewUserDocuments extends React.Component {
       <div>
         <DocumentForm />
         <NavigationBar />
+        <h4 id="searchHeading">My Documents</h4>
         <div className="container">
           <div className="row"style={rowStyle}>
         {

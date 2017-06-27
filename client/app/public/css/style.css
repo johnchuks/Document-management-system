@@ -7351,6 +7351,16 @@ input[type=password] {
 
 #navLogo {
   margin-left: 3%; }
+
+.searchBar {
+  margin-top: 20px; }
+
+#searchButton {
+  margin-top: 3%;
+  margin-left: 3%; }
+
+#searchHeading {
+  margin-left: 30%; }
 .toast-title {
   font-weight: bold; }
 

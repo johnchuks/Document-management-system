@@ -22,10 +22,10 @@ const createDocument = (document) => {
     });
   };
 };
-const fetchAllDocuments = () => {
+const fetchAllDocuments = (params) => {
   return (dispatch) => {
     const token = localStorage.getItem('jwtToken');
-    return axios.get('/api/documents', {
+    return axios.get(`/api/documents/?limit=${params.limit}&?offset=${params.offset}`, {
       headers: {
         authorization: token
       }
