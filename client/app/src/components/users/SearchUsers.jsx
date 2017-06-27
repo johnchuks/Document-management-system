@@ -3,17 +3,17 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import toastr from 'toastr';
 import NavigationBar from '../users/NavigationBar';
-import { searchDocument } from '../../actions/documentActions';
-import SearchedList from '../documents/SearchedList';
+import { searchUser } from '../../actions/userActions';
+import SearchedUsersList from './SearchedUsersList';
 
-class SearchDocument extends React.Component {
+class SearchUsers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       searchString: '',
       searchList: [],
       error: {}
-    }
+    };
     this.onHandleChange = this.onHandleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -23,7 +23,7 @@ class SearchDocument extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     this.setState({ errors: {} });
-    this.props.searchDocument(this.state).then((error) => {
+    this.props.searchUser(this.state).then((error) => {
       if (!error) {
         this.setState({ searchList: this.props.search });
       } else {
@@ -33,16 +33,9 @@ class SearchDocument extends React.Component {
     });
   }
   render() {
-    const searchList = this.state.searchList;
-    const searchListFiltered = searchList.filter((document) => {
-      if (document.access === 'role') {
-        if (document.User.roleId === this.props.user || this.props.user === 1) {
-          return document;
-        }
-      }
-      if (document.access === 'public') {
-        return document;
-      }
+    const searchUsersList = this.state.searchList;
+    const searchUsersListFiltered = searchUsersList.filter((user) => {
+      return user.roleId !== 1;
     });
     const inputStyle = {
       width: '50%',
@@ -52,20 +45,19 @@ class SearchDocument extends React.Component {
       <div>
       <NavigationBar />
       <br/>
-      <h4 id="searchHeading">Search For Documents</h4>
+      <h4 id="searchHeading">Search For Users</h4>
       <div className="searchBar">
         <input id="searchBar" type="text" name="search" onChange={this.onHandleChange} placeholder="Search.." style={inputStyle} />
         <button className="waves-effect waves-light btn orange" id="searchButton" onClick={this.onSubmit} type="submit">Search</button>
         </div>
-        <SearchedList document={searchListFiltered} />
+        <SearchedUsersList users={searchUsersListFiltered} />
     </div>
-    )
+    );
   }
 }
 const mapStateToProps = (state) => {
   return {
-    search: state.fetchDocuments.document.rows,
-    user: state.usersReducer.user.roleId
+    search: state.usersReducer.users
   };
 };
-export default connect(mapStateToProps, { searchDocument })(SearchDocument);
+export default connect(mapStateToProps, { searchUser })(SearchUsers);

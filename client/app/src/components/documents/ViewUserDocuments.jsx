@@ -49,7 +49,7 @@ class ViewUserDocuments extends React.Component {
                     <div className="card-action">
                        <p>{document.access}</p>
                         <DeleteDocument cardDocument={document.id}/>
-                        <UpdateDocumentForm cardDocuments={document.id}/>
+                        <UpdateDocumentForm cardDocuments={document}/>
                   </div>
                 </div>
                 </div>

@@ -1,9 +1,10 @@
-import { SET_LOGIN_USERS, CREATE_USERS, FETCH_USERS, EDIT_USER } from '../constants/actionTypes';
+import { SET_LOGIN_USERS, CREATE_USERS, FETCH_USERS, SEARCH_USERS, EDIT_USER } from '../constants/actionTypes';
 import isEmpty from 'lodash/isEmpty';
 
 const initialState = {
   isAuthenticated: false,
-  user: {}
+  user: {},
+  users: {}
 };
 
 export const usersReducer = (state = initialState, action = {}) => {
@@ -21,7 +22,10 @@ export const usersReducer = (state = initialState, action = {}) => {
       };
     }
     case FETCH_USERS: {
-      return Object.assign(...state, { users: action.payload });
+      return Object.assign({ ...state, users: action.users });
+    }
+    case SEARCH_USERS: {
+      return Object.assign({...state, users: action.users });
     }
 
     case EDIT_USER: {

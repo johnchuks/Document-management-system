@@ -47,7 +47,7 @@ class NavigationBar extends React.Component {
       <li><a href="/dashboard">View all documents</a></li>
       <li><a href="/documents">My documents</a></li>
       <li><a href="/viewusers">View All Users</a></li>
-      <li><a href="/searchusers">Search for users</a></li>
+      <li><a href="/searchuser">Search for users</a></li>
       <li><a href="/searchdocument">Search Document</a></li>
       <li><a href = "/profile">Edit Profile</a></li>
     </ul>;

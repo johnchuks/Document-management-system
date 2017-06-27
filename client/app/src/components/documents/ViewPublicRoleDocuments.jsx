@@ -7,13 +7,16 @@ class ViewPublicDouments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      documents: [],
       offset: 0,
       limit: 6
     };
   }
   componentDidMount() {
     this.props.dispatch(fetchAllDocuments(this.state));
-    console.log(this.state)
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({ documents: nextProps.publicDocument });
   }
 
   render() {
@@ -21,16 +24,16 @@ class ViewPublicDouments extends React.Component {
       marginLeft: '200px',
       marginTop: '60px',
     };
-    const publicRoleDocument = this.props.publicDocument.filter((documents) => {
+    const publicRoleDocument = this.state.documents.filter((documents) => {
       if (documents.access === 'public') {
         return documents;
-      } else if (documents.access === 'role') {
+      }
+      if (documents.access === 'role') {
         if (this.props.userDetails === documents.User.roleId || this.props.userDetails === 1) {
           return documents;
         }
       }
     });
-    console.log(publicRoleDocument);
     return (
         <div>
           <div className="container">
@@ -54,8 +57,8 @@ class ViewPublicDouments extends React.Component {
     );
   }
 }
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state) => ({
   publicDocument: state.fetchDocuments.document,
   userDetails: state.usersReducer.user.id
 });
-export default connect(mapStateToProps, null)(ViewPublicDouments);
+export default connect(mapStateToProps)(ViewPublicDouments);

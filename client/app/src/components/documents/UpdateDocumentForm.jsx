@@ -9,10 +9,10 @@ class UpdateDocumentForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: '',
-      content: '',
-      value: '',
-      documentId: this.props.cardDocuments,
+      title: this.props.cardDocuments.title,
+      content: this.props.cardDocuments.content,
+      value: this.props.cardDocuments.access,
+      documentId: this.props.cardDocuments.id,
     };
     this.handleChange = this.handleChange.bind(this);
     this.optionChange = this.optionChange.bind(this);
@@ -44,13 +44,12 @@ class UpdateDocumentForm extends React.Component {
               <div className="row">
                 <div className="input-field col s12">
                 <input id="title" name="title"
-                  onChange={this.handleChange} />
+                  onChange={this.handleChange} value={this.state.title} />
                 <label htmlFor="title">Title</label>
               </div>
                 <div className="input-field col s12">
                 <textarea id="textarea" name="content"
-                  className="materialize-textarea" onChange={this.handleChange}>
-                </textarea>
+                  className="materialize-textarea" onChange={this.handleChange} value={this.state.content} />
                 <label htmlFor="textarea">Content</label>
               </div>
                 <div className="col s6">
@@ -74,7 +73,7 @@ class UpdateDocumentForm extends React.Component {
   }
 }
 UpdateDocumentForm.propTypes = {
-  cardDocuments: PropTypes.number.isRequired,
+  cardDocuments: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => {
   return {

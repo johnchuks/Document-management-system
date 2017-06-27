@@ -62,6 +62,7 @@ class DocumentForm extends React.Component {
                  <label>Select role type</label>
                  <select className="browser-default"
                    onChange={this.optionChange} value={this.state.value}>
+                   <option value="" disabled>Choose your option</option>
                     <option value="public">Public</option>
                     <option value="private">Private</option>
                     <option value="role">Role</option>

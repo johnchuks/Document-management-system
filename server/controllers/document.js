@@ -67,7 +67,7 @@ module.exports = {
            .update({
              title: req.body.title || document.title,
              content: req.body.content || document.content,
-             access: req.body.access || document.access,
+             access: req.body.value || document.access,
              userId: req.body.userId || document.userId
            })
            .then(() => res.status(200).send(document))

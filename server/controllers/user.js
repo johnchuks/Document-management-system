@@ -205,6 +205,11 @@ module.exports = {
   },
   searchUser(req, res) {
     const searchQuery = req.query.q;
+    if (!searchQuery) {
+      return res.status(400).json({
+        message: 'Invalid search input'
+      });
+    }
     return User
     .findAndCountAll({
       where: {
