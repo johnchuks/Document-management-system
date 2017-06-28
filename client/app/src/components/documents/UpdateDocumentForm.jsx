@@ -12,7 +12,7 @@ class UpdateDocumentForm extends React.Component {
       title: this.props.cardDocuments.title,
       content: this.props.cardDocuments.content,
       value: this.props.cardDocuments.access,
-      documentId: this.props.cardDocuments.id,
+      documentId: this.props.cardDocuments.id
     };
     this.handleChange = this.handleChange.bind(this);
     this.optionChange = this.optionChange.bind(this);
@@ -34,50 +34,70 @@ class UpdateDocumentForm extends React.Component {
   }
 
   render() {
-    console.log(this.props.cardDocuments);
     return (
       <div>
-        <Modal id="titleHeader2"
-	header="update document"
-	trigger={<div id="editIcon"><i className="material-icons md-36" >create</i></div>}>
+        <Modal
+          id={`titleHeader${this.state.documentId}`}
+          header="update document"
+          trigger={
+            <div id="editIcon">
+              <i className="material-icons md-36" id={this.state.documentId}>
+                create
+              </i>
+            </div>
+          }
+        >
           <form className="col s12">
-              <div className="row">
-                <div className="input-field col s12">
-                <input id="title" name="title"
-                  onChange={this.handleChange} value={this.state.title} />
+            <div className="row">
+              <div className="input-field col s12">
+                <input
+                  id={`title${this.state.documentId}`}
+                  name="title"
+                  onChange={this.handleChange}
+                  value={this.state.title}
+                />
                 <label htmlFor="title">Title</label>
               </div>
-                <div className="input-field col s12">
-                <textarea id="textarea" name="content"
-                  className="materialize-textarea" onChange={this.handleChange} value={this.state.content} />
+              <div className="input-field col s12">
+                <textarea
+                  name="content"
+                  id={this.state.documentId}
+                  className="materialize-textarea"
+                  onChange={this.handleChange}
+                  value={this.state.content}
+                />
                 <label htmlFor="textarea">Content</label>
               </div>
-                <div className="col s6">
-                 <label>Select role type</label>
-                 <select className="browser-default"
-                   onChange={this.optionChange} value={this.state.value}>
-                    <option value="" disabled>Choose your option</option>
-                    <option value="public">Public</option>
-                    <option value="private">Private</option>
-                    <option value="role">Role</option>
+              <div className="col s6">
+                <label>Select role type</label>
+                <select
+                  className="browser-default"
+                  onChange={this.optionChange}
+                  value={this.state.value}
+                >
+                  <option value="" disabled>Choose your option</option>
+                  <option value="public">Public</option>
+                  <option value="private">Private</option>
+                  <option value="role">Role</option>
                 </select>
-                </div>
-                <Button className="btn modal-action modal-close orange"
-                  id="documentbutton"
-                  onClick={this.onSubmit}>update</Button>
               </div>
-           </form>
+              <Button id="documentbutton"
+                className="btn modal-action modal-close orange"
+                onClick={this.onSubmit}
+              >
+                update
+              </Button>
+            </div>
+          </form>
         </Modal>
       </div>
-    )
+    );
   }
 }
 UpdateDocumentForm.propTypes = {
-  cardDocuments: PropTypes.object.isRequired,
+  cardDocuments: PropTypes.object.isRequired
 };
-const mapStateToProps = (state) => {
-  return {
-    document: state.fetchDocuments.document
-  };
-};
+const mapStateToProps = state => ({
+  document: state.fetchDocuments.document
+});
 export default connect(mapStateToProps)(UpdateDocumentForm);

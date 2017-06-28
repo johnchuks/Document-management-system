@@ -6,19 +6,18 @@ import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
 import 'babel-polyfill';
 import DashboardPage from './users/DashboardPage.jsx';
-import SignupPage from './users/SignupPage';
-import LoginPage from './users/LoginPage';
+import SignupPage from './users/SignupPage.jsx';
+import LoginPage from './users/LoginPage.jsx';
 import store from '../store/store';
 import '../sass/style.scss';
 import Authorization from '../../utils/authorization';
 import { setLoginUser, createUserAction } from '../actions/userActions';
-import ViewUserDocuments from './documents/ViewUserDocuments';
-import EditProfile from './users/EditProfile';
-import NavigationBar from './users/NavigationBar';
-import SearchDocuments from './documents/SearchDocuments';
+import ViewUserDocuments from './documents/ViewUserDocuments.jsx';
+import EditProfile from './users/EditProfile.jsx';
+import SearchDocuments from './documents/SearchDocuments.jsx';
 import '../../../../node_modules/toastr/toastr.scss';
-import ViewAllUsers from './users/ViewAllUsers';
-import SearchUsers from './users/SearchUsers';
+import ViewAllUsers from './users/ViewAllUsers.jsx';
+import SearchUsers from './users/SearchUsers.jsx';
 
 const history = createBrowserHistory();
 

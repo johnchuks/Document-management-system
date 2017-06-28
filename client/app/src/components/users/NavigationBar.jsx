@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar } from 'react-materialize';
 import { connect } from 'react-redux';
-import LogoutPage from './LogoutPage';
+import LogoutPage from './LogoutPage.jsx';
 
 class NavigationBar extends React.Component {
   constructor(props) {
@@ -46,7 +46,7 @@ class NavigationBar extends React.Component {
     </div></li>
       <li><a href="/dashboard">View all documents</a></li>
       <li><a href="/documents">My documents</a></li>
-      <li><a href="/viewusers">View All Users</a></li>
+      <li><a href="/viewusers">Manage Users</a></li>
       <li><a href="/searchuser">Search for users</a></li>
       <li><a href="/searchdocument">Search Document</a></li>
       <li><a href = "/profile">Edit Profile</a></li>
@@ -54,7 +54,7 @@ class NavigationBar extends React.Component {
     }
     return (
       <div id="navBar">
-        <Navbar brand='DOCMe'right>
+        <Navbar brand='DocumentMe'>
         <LogoutPage />
           </Navbar>
           {Navigation}
@@ -62,11 +62,9 @@ class NavigationBar extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    profileId: state.usersReducer.user.roleId,
-    profileName: state.usersReducer.user.fullName,
-    profileEmail: state.usersReducer.user.email,
-  };
-};
+const mapStateToProps = state => ({
+  profileId: state.usersReducer.user.roleId,
+  profileName: state.usersReducer.user.fullName,
+  profileEmail: state.usersReducer.user.email,
+});
 export default connect(mapStateToProps)(NavigationBar);

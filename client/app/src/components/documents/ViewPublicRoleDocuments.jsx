@@ -29,10 +29,12 @@ class ViewPublicDouments extends React.Component {
         return documents;
       }
       if (documents.access === 'role') {
-        if (this.props.userDetails === documents.User.roleId || this.props.userDetails === 1) {
+        if (this.props.userDetails === documents.User.roleId
+         || this.props.userDetails === 1) {
           return documents;
         }
       }
+      return 'No documents found';
     });
     return (
         <div>
@@ -57,7 +59,7 @@ class ViewPublicDouments extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   publicDocument: state.fetchDocuments.document,
   userDetails: state.usersReducer.user.id
 });

@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchDocument } from '../../actions/documentActions';
-import DocumentForm from './DocumentForm';
-import NavigationBar from '../users/NavigationBar';
-import UpdateDocumentForm from './UpdateDocumentForm';
-import DeleteDocument from './DeleteDocument';
+import DocumentForm from './DocumentForm.jsx';
+import NavigationBar from '../users/NavigationBar.jsx';
+import UpdateDocumentForm from './UpdateDocumentForm.jsx';
+import DeleteDocument from './DeleteDocument.jsx';
 
 class ViewUserDocuments extends React.Component {
   constructor(props) {
@@ -38,12 +38,12 @@ class ViewUserDocuments extends React.Component {
         <div className="container">
           <div className="row"style={rowStyle}>
         {
-          userDocuments.map((document) => {
-            return (
+          userDocuments.map(document => (
                 <div className="col s12 m4" key={document.id}>
                   <div className="card small  grey lighten-4">
                     <div className="card-content black-text">
-                      <span className="card-title" value={document.id}>{document.title}</span>
+                      <span className="card-title"
+                       value={document.id}>{document.title}</span>
                       <p>{document.content}</p>
                     </div>
                     <div className="card-action">
@@ -53,8 +53,7 @@ class ViewUserDocuments extends React.Component {
                   </div>
                 </div>
                 </div>
-            );
-          })
+            ))
         }
          </div>
       </div>
@@ -63,10 +62,8 @@ class ViewUserDocuments extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.usersReducer.user.id,
-    document: state.fetchDocuments.document
-  };
-};
+const mapStateToProps = state => ({
+  user: state.usersReducer.user.id,
+  document: state.fetchDocuments.document
+});
 export default connect(mapStateToProps)(ViewUserDocuments);

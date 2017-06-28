@@ -18,7 +18,8 @@ module.exports = (app) => {
   app.get('/api/documents/:id', documentController.findDocument);
   app.put('/api/documents/:id', documentController.updateDocument);
   app.delete('/api/documents/:id', documentController.deleteDocument);
-  app.get('/api/users/:id/documents', documentController.getSpecificUserDocuments);
+  app.get('/api/users/:id/documents',
+  documentController.getSpecificUserDocuments);
   app.get('/api/search/documents/', documentController.searchDocuments);
 
   // Role Routes

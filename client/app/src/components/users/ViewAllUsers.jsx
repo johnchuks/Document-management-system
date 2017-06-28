@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchUser } from '../../actions/userActions';
-import NavigationBar from './NavigationBar';
+import NavigationBar from './NavigationBar.jsx';
 
 class ViewAllUsers extends React.Component {
   constructor(props) {
@@ -18,9 +18,7 @@ class ViewAllUsers extends React.Component {
     this.setState({ allUsers: nextProps.usersList });
   }
   render() {
-    const users = this.state.allUsers.filter((user) => {
-      return user.roleId !== 1;
-    });
+    const users = this.state.allUsers.filter(user => user.roleId !== 1);
     console.log(users, 'user');
     return (
       <div>
@@ -29,9 +27,7 @@ class ViewAllUsers extends React.Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    usersList: state.usersReducer.users
-  };
-};
+const mapStateToProps = state => ({
+  usersList: state.usersReducer.users
+});
 export default connect(mapStateToProps, { fetchUser })(ViewAllUsers);

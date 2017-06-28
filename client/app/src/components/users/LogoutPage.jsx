@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { NavItem } from 'react-materialize';
+
 
 class LogoutPage extends React.Component {
   constructor(props) {
@@ -14,7 +14,16 @@ class LogoutPage extends React.Component {
   render() {
     return (
       <div>
-        <NavItem href= '/login' onClick={this.onSubmit}>Logout</NavItem>
+        <nav>
+          <div className="nav-wrapper" >
+            <div className="brand-logo left" id="navLogout">DocumentME</div>
+            <ul id="nav-mobile" className="right hide-on-med-and-down">
+              <li><a className="waves-effect wave-light"
+               href= '/login' onClick={this.onSubmit}>Logout</a></li>
+            </ul>
+          </div>
+        </nav>
+
       </div>
     );
   }

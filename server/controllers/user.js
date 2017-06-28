@@ -86,9 +86,8 @@ module.exports = {
           return res.status(400).json({
             message: 'User not found'
           });
-        } else {
-          res.status(200).send(user);
         }
+        res.status(200).send(user);
       })
       .catch(error => res.status(400).send(error));
   },
@@ -137,7 +136,8 @@ module.exports = {
       }
       return user
         .destroy()
-        .then(() => res.status(204).json({ message: 'User has been deleted successfully' }))
+        .then(() => res.status(204).json({
+          message: 'User has been deleted successfully' }))
         .catch(error => res.status(400).send(error));
     })
     .catch(error => res.status(400).send(error));
@@ -162,7 +162,9 @@ module.exports = {
       .then((user) => {
         const existingUser = user[0];
         if (!existingUser) {
-          res.status(401).json({ success: false, message: 'Invalid User Credentials' });
+          res.status(401).json({
+            success: false,
+            message: 'Invalid User Credentials' });
         } else if (existingUser) {
           if (bcrypt.compareSync(req.body.password, existingUser.password)) {
             const payLoad = (
@@ -183,7 +185,10 @@ module.exports = {
               existingUser
             });
           } else {
-            res.status(401).json({ success: false, password: 'Password is Invalid' });
+            res.status(401).json({
+              success: false,
+              password: 'Password is Invalid'
+            });
           }
         }
       }).catch(error => res.status(400).send(error));

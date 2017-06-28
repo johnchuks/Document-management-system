@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import toastr from 'toastr';
-import NavigationBar from '../users/NavigationBar';
+import NavigationBar from '../users/NavigationBar.jsx';
 import { searchDocument } from '../../actions/documentActions';
-import SearchedList from '../documents/SearchedList';
+import SearchedList from '../documents/SearchedList.jsx';
 
 class SearchDocument extends React.Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class SearchDocument extends React.Component {
       searchString: '',
       searchList: [],
       error: {}
-    }
+    };
     this.onHandleChange = this.onHandleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
@@ -43,29 +43,31 @@ class SearchDocument extends React.Component {
       if (document.access === 'public') {
         return document;
       }
+      return 'No documents found';
     });
     const inputStyle = {
       width: '50%',
-      marginLeft:'350px'
+      marginLeft: '350px'
     };
     return (
       <div>
       <NavigationBar />
       <br/>
-      <h4 id="searchHeading">Search For Documents</h4>
+      <h6 id="searchHeading">Search For Documents</h6>
       <div className="searchBar">
-        <input id="searchBar" type="text" name="search" onChange={this.onHandleChange} placeholder="Search.." style={inputStyle} />
-        <button className="waves-effect waves-light btn orange" id="searchButton" onClick={this.onSubmit} type="submit">Search</button>
+        <input id="searchBar" type="text" name="search"
+        onChange={this.onHandleChange} placeholder="Search.."
+        style={inputStyle} />
+        <button className="waves-effect waves-light btn orange"
+         id="searchButton" onClick={this.onSubmit} type="submit">Search</button>
         </div>
         <SearchedList document={searchListFiltered} />
     </div>
-    )
+    );
   }
 }
-const mapStateToProps = (state) => {
-  return {
-    search: state.fetchDocuments.document.rows,
-    user: state.usersReducer.user.roleId
-  };
-};
+const mapStateToProps = state => ({
+  search: state.fetchDocuments.document.rows,
+  user: state.usersReducer.user.roleId
+});
 export default connect(mapStateToProps, { searchDocument })(SearchDocument);

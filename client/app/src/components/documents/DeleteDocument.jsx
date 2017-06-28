@@ -18,7 +18,7 @@ class DeleteDocument extends React.Component {
     event.preventDefault();
     this.props.dispatch(deleteDocument(this.state)).then(() => {
       toastr.success('document deleted successfully');
-    })
+    });
   }
   render() {
     return (
@@ -27,7 +27,8 @@ class DeleteDocument extends React.Component {
     trigger={<i className="material-icons md-36" id="deleteIcon">delete</i>}
     actions={<div><Button
     className="modal-action modal-close btn orange" id="noButton">No</Button>
-    <Button className="modal-action modal-close btn orange" id="yesButton" onClick={this.onDelete}>Yes</Button></div>}>
+    <Button className="modal-action modal-close btn orange" id="yesButton"
+     onClick={this.onDelete}>Yes</Button></div>}>
       <h5 id="h5">Are you sure you want to delete this document</h5>
       </Modal>
       </div>
@@ -38,9 +39,7 @@ DeleteDocument.propTypes = {
   cardDocument: PropTypes.number.isRequired,
   user: PropTypes.number.isRequired,
 };
-const mapStateToProps = (state) => {
-  return {
-    user: state.usersReducer.user.id
-  };
-};
+const mapStateToProps = state => ({
+  user: state.usersReducer.user.id
+});
 export default connect(mapStateToProps)(DeleteDocument);

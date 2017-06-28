@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
 import { editProfile } from '../../actions/userActions';
-import NavigationBar from './NavigationBar';
+import NavigationBar from './NavigationBar.jsx';
 
 class EditProfile extends React.Component {
   constructor(props) {
@@ -19,7 +19,6 @@ class EditProfile extends React.Component {
   }
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
-    console.log('input',event.target.value)
   }
   onSubmit(event) {
     event.preventDefault();
@@ -28,7 +27,6 @@ class EditProfile extends React.Component {
     });
   }
   render() {
-    console.log('first name', this.props.user.email)
     const profileStyle = {
       marginLeft: '400px',
     };
@@ -50,44 +48,44 @@ class EditProfile extends React.Component {
         </div>
         <div className="row">
         <div className="input-field col s6">
-          <input id="user_name" name="userName" type="text" onChange={this.onChange} className="validate"
+          <input id="user_name" name="userName"
+          type="text" onChange={this.onChange} className="validate"
           value={this.state.userName} />
           <label htmlFor="user_name">Username</label>
         </div>
       </div>
       <div className="row">
         <div className="input-field col s6">
-          <input id="password" name="email" type="email" onChange={this.onChange} className="validate"
+          <input id="password" name="email" type="email"
+           onChange={this.onChange} className="validate"
                     value={this.state.email} />
           <label htmlFor="password">Email</label>
         </div>
       </div>
       <div className="row">
         <div className="input-field col s6">
-          <input id="email" name="password" type="password" onChange={this.onChange} className="validate" />
+          <input id="email" name="password" type="password"
+           onChange={this.onChange} className="validate" />
           <label htmlFor="email">Password</label>
         </div>
       </div>
       <div className="row">
         <div className="col s12">
-       <button className="waves-effect waves-light btn orange" id="editButton" type="submit" onClick={this.onSubmit}>
+       <button className="waves-effect waves-light btn orange"
+        id="editButton" type="submit" onClick={this.onSubmit}>
        Edit Profile</button>
        </div>
        </div>
     </div>
     </div>
 </div>
-     );
-  }
-};
-const mapStateToProps = (state) => {
-  return {
-    user: state.usersReducer.user
-  };
-};
-const mapDispatchToProps = (dispatch) => {
-  return {
-    profile: profileCredentials => dispatch(editProfile(profileCredentials))
+    );
   }
 }
+const mapStateToProps = state => ({
+  user: state.usersReducer.user
+});
+const mapDispatchToProps = dispatch => ({
+  profile: profileCredentials => dispatch(editProfile(profileCredentials))
+});
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);

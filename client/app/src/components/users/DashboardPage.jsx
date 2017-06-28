@@ -1,7 +1,7 @@
 import React from 'react';
-import DocumentForm from '../documents/DocumentForm';
-import ViewPublicRoleDocuments from '../documents/ViewPublicRoleDocuments';
-import NavigationBar from './NavigationBar';
+import DocumentForm from '../documents/DocumentForm.jsx';
+import ViewPublicRoleDocuments from '../documents/ViewPublicRoleDocuments.jsx';
+import NavigationBar from './NavigationBar.jsx';
 
 class Dashboard extends React.Component {
   render() {

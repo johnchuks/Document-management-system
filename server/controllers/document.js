@@ -58,7 +58,8 @@ module.exports = {
             message: 'Document Not Found',
           });
         }
-        if (req.decoded.roleId !== 1 && Number(document.userId) !== Number(req.decoded.id)) {
+        if (req.decoded.roleId !== 1 && Number(document.userId)
+         !== Number(req.decoded.id)) {
           return res.status(403).json({
             message: 'You are not authorized to delete this document'
           });
@@ -106,7 +107,8 @@ module.exports = {
         if (document.access === 'role') {
           return models.User.findById(document.userId)
             .then((documentOwner) => {
-              if (req.decoded.roleId !== 1 && Number(documentOwner.roleId) !== Number(req.decoded.roleId)) {
+              if (req.decoded.roleId !== 1 && Number(documentOwner.roleId)
+               !== Number(req.decoded.roleId)) {
                 return res.status(401).json({
                   success: false,
                   message: 'You are not authorized to view this document'
@@ -134,7 +136,8 @@ module.exports = {
             message: 'Document Not Found',
           });
         }
-        if (req.decoded.roleId !== 1 && Number(document.userId) !== Number(req.decoded.id)) {
+        if (req.decoded.roleId !== 1 && Number(document.userId)
+        !== Number(req.decoded.id)) {
           return res.status(403).json({
             message: 'You are not authorized to delete this document'
           });
