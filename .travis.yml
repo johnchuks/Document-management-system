@@ -5,8 +5,7 @@ after_success: npm run coverage
 services:
   - postgresql
 before_script:
-  - psql -c "CREATE DATABASE docmanagementtest;" -U postgres
-  - psql -c "CREATE USER johnboscoohia;" -U postgres
+  - psql -c "create database travis;" -U postgres
   - npm install -g mocha
   - npm install -g nyc
   - npm install -g sequelize-cli
