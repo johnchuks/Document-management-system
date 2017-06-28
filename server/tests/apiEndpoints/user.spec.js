@@ -216,7 +216,7 @@ describe('Users', () => {
     it('Should get all users if the user is an admin ', (done) => {
       chai.request(server)
         .get('/api/users')
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
@@ -226,7 +226,7 @@ describe('Users', () => {
     it('Should fail to get all users if the user has no admin access ', (done) => {
       chai.request(server)
         .get('/api/users')
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(403);
           expect(res.body).to.be.a('object');
@@ -248,7 +248,7 @@ describe('Users', () => {
       const limit = 1;
       chai.request(server)
         .get(`/api/users?limit=${limit}`)
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
@@ -259,7 +259,7 @@ describe('Users', () => {
       const offset = 0;
       chai.request(server)
         .get(`/api/users?limit=${offset}`)
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
@@ -272,7 +272,7 @@ describe('Users', () => {
       const id = 2;
       chai.request(server)
         .get(`/api/users/${id}`)
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).be.a('object');
@@ -289,7 +289,7 @@ describe('Users', () => {
       const id = 2;
       chai.request(server)
         .get(`/api/users/${id}`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(403);
           expect(res.body).be.a('object');
@@ -301,7 +301,7 @@ describe('Users', () => {
       const id = 'fddjsdcdjn';
       chai.request(server)
         .get(`/api/users/${id}`)
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(400);
           expect(res.body).to.have.property('message').to.equal(`invalid input syntax for integer: "${id}"`);
@@ -312,7 +312,7 @@ describe('Users', () => {
       const id = 250;
       chai.request(server)
         .get(`/api/users/${id}`)
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(400);
           expect(res.body).to.have.property('message').to.equal('User not found');
@@ -323,7 +323,7 @@ describe('Users', () => {
       const id = 500000000000000000;
       chai.request(server)
         .get(`/api/users/${id}`)
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(400);
           expect(res.body).to.have.property('message').to.equal(`value "${id}" is out of range for type integer`);
@@ -337,7 +337,7 @@ describe('Users', () => {
       const id = 2;
       chai.request(server)
         .put(`/api/users/${id}`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .send({ fullName: 'jake doe' })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -351,7 +351,7 @@ describe('Users', () => {
       const id = 2;
       chai.request(server)
         .put(`/api/users/${id}`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .send({ email: 'jakedoe@andela.com' })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -366,7 +366,7 @@ describe('Users', () => {
       const id = 2;
       chai.request(server)
         .put(`/api/users/${id}`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .send({ email: 'jakedoe@andela.com' })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -381,7 +381,7 @@ describe('Users', () => {
       const id = 2;
       chai.request(server)
         .put(`/api/users/${id}`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .send({ userName: 'jakedoe12' })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -395,7 +395,7 @@ describe('Users', () => {
       const id = 3;
       chai.request(server)
         .put(`/api/users/${id}`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .send({ email: 'jakedoe@andela.com' })
         .end((err, res) => {
           expect(res.status).to.equal(403);
@@ -408,7 +408,7 @@ describe('Users', () => {
       const id = 2302;
       chai.request(server)
         .put(`/api/users/${id}`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .send({ email: 'jakedoe@andela.com' })
         .end((err, res) => {
           expect(res.status).to.equal(403);
@@ -423,7 +423,7 @@ describe('Users', () => {
       const id = 3;
       chai.request(server)
         .delete(`/api/users/${id}`)
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(204);
           expect(res.body).to.be.a('object');
@@ -434,7 +434,7 @@ describe('Users', () => {
       const id = 3;
       chai.request(server)
         .delete(`/api/users/${id}`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(403);
           expect(res.body).to.be.a('object');
@@ -446,7 +446,7 @@ describe('Users', () => {
       const id = 23;
       chai.request(server)
         .delete(`/api/users/${id}`)
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(400);
           expect(res.body).to.be.a('object');

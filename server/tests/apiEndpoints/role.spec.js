@@ -33,7 +33,7 @@ describe('Roles', () => {
       chai.request(server)
       .post('/api/roles')
       .send({ title: 'kiba' })
-      .set({ 'x-access-token': adminToken })
+      .set({ 'authorization': adminToken })
       .end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body).to.be.a('object');
@@ -49,7 +49,7 @@ describe('Roles', () => {
       chai.request(server)
       .post('/api/roles')
       .send({ title: 'king' })
-      .set({ 'x-access-token': adminToken })
+      .set({ 'authorization': adminToken })
       .end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body).to.be.a('object');
@@ -64,7 +64,7 @@ describe('Roles', () => {
       };
       chai.request(server)
         .post('/api/roles/')
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
       .send(role)
       .end((err, res) => {
         expect(res.status).to.equal(403);
@@ -76,7 +76,7 @@ describe('Roles', () => {
     it('Should return an error if the title field is not given', (done) => {
       chai.request(server)
         .post('/api/roles')
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .send({ title: '' })
         .end((err, res) => {
           expect(res.status).to.equal(401);
@@ -88,7 +88,7 @@ describe('Roles', () => {
     it('Should return an error if the title is not a string', (done) => {
       chai.request(server)
         .post('/api/roles')
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .send({ title: 358583 })
         .end((err, res) => {
           expect(res.status).to.equal(403);
@@ -101,7 +101,7 @@ describe('Roles', () => {
     it('Should return an error if the title field is not given', (done) => {
       chai.request(server)
         .post('/api/roles')
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .send({ title: '' })
         .end((err, res) => {
           expect(res.status).to.equal(401);
@@ -116,7 +116,7 @@ describe('Roles', () => {
     it('Should get all the roles if the user is an admin', (done) => {
       chai.request(server)
         .get('/api/roles')
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.have.length(4);
@@ -127,7 +127,7 @@ describe('Roles', () => {
     it('Should fail to get the roles if the user is not admin', (done) => {
       chai.request(server)
         .get('/api/roles')
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(403);
           expect(res.body).to.be.have.property('message').to.equal('You are not authorized');
@@ -141,7 +141,7 @@ describe('Roles', () => {
       const id = 2;
       chai.request(server)
         .get(`/api/roles/${id}`)
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).be.a('object');
@@ -154,7 +154,7 @@ describe('Roles', () => {
       const id = 2;
       chai.request(server)
         .get(`/api/roles/${id}`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(403);
           expect(res.body).to.have.property('message').to.equal('You are not authorized');
@@ -165,7 +165,7 @@ describe('Roles', () => {
       const id = 'fddjsdcdjn';
       chai.request(server)
         .get(`/api/roles/${id}`)
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(400);
           expect(res.body).to.have.property('message').to.equal(`invalid input syntax for integer: "${id}"`);
@@ -176,7 +176,7 @@ describe('Roles', () => {
       const id = 250;
       chai.request(server)
         .get(`/api/roles/${id}`)
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(400);
           expect(res.body).to.have.property('message').to.equal('Role not found');
@@ -187,7 +187,7 @@ describe('Roles', () => {
       const id = 500000000000000000000;
       chai.request(server)
         .get(`/api/roles/${id}`)
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(400);
           expect(res.body).to.have.property('message').to.equal(`value "${id}" is out of range for type integer`);
@@ -200,7 +200,7 @@ describe('Roles', () => {
       const id = 2;
       chai.request(server)
           .put(`/api/roles/${id}`)
-         .set({ 'x-access-token': adminToken })
+         .set({ 'authorization': adminToken })
         .send({ title: 'kiba' })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -214,7 +214,7 @@ describe('Roles', () => {
       const id = 2;
       chai.request(server)
           .put(`/api/roles/${id}`)
-         .set({ 'x-access-token': userToken })
+         .set({ 'authorization': userToken })
         .send({ title: 'kiba' })
         .end((err, res) => {
           expect(res.status).to.equal(403);
@@ -228,7 +228,7 @@ describe('Roles', () => {
         const id = 200;
         chai.request(server)
           .put(`/api/roles/${id}`)
-         .set({ 'x-access-token': adminToken })
+         .set({ 'authorization': adminToken })
         .send({ title: 'kiba' })
         .end((err, res) => {
           expect(res.status).to.equal(400);
@@ -241,7 +241,7 @@ describe('Roles', () => {
       const id = 2000000000000000;
       chai.request(server)
           .put(`/api/roles/${id}`)
-         .set({ 'x-access-token': adminToken })
+         .set({ 'authorization': adminToken })
         .send({ title: 'regular' })
         .end((err, res) => {
           expect(res.status).to.equal(400);
@@ -256,7 +256,7 @@ describe('Roles', () => {
       const id = 3;
       chai.request(server)
         .delete(`/api/roles/${id}`)
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
@@ -268,7 +268,7 @@ describe('Roles', () => {
       const id = 3;
       chai.request(server)
         .delete(`/api/roles/${id}`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(403);
           expect(res.body).to.be.a('object');
@@ -280,7 +280,7 @@ describe('Roles', () => {
       const id = 300;
       chai.request(server)
         .delete(`/api/roles/${id}`)
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(400);
           expect(res.body).to.be.a('object');
@@ -292,7 +292,7 @@ describe('Roles', () => {
       const id = 3000000000000000;
       chai.request(server)
         .delete(`/api/roles/${id}`)
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');

@@ -47,7 +47,7 @@ describe('Documents', () => {
       chai.request(server)
       .post('/api/documents')
       .send(document)
-      .set({ 'x-access-token': userToken })
+      .set({ 'authorization': userToken })
       .end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body).to.be.a('object');
@@ -68,7 +68,7 @@ describe('Documents', () => {
       chai.request(server)
       .post('/api/documents')
       .send(document)
-      .set({ 'x-access-token': userToken })
+      .set({ 'authorization': userToken })
       .end((err, res) => {
         expect(res.status).to.equal(401);
         expect(res.body).to.be.a('object');
@@ -86,7 +86,7 @@ describe('Documents', () => {
       chai.request(server)
       .post('/api/documents')
       .send(document)
-      .set({ 'x-access-token': userToken })
+      .set({ 'authorization': userToken })
       .end((err, res) => {
         expect(res.status).to.equal(401);
         expect(res.body).to.be.a('object');
@@ -104,7 +104,7 @@ describe('Documents', () => {
       chai.request(server)
       .post('/api/documents')
       .send(document)
-      .set({ 'x-access-token': userToken })
+      .set({ 'authorization': userToken })
       .end((err, res) => {
         expect(res.status).to.equal(401);
         expect(res.body).to.be.a('object');
@@ -134,7 +134,7 @@ describe('Documents', () => {
     it('Should get all documents for the user that is logged in', (done) => {
       chai.request(server)
       .get('/api/documents')
-      .set({ 'x-access-token': userToken })
+      .set({ 'authorization': userToken })
       .end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body).to.be.a('array');
@@ -156,7 +156,7 @@ describe('Documents', () => {
       const limit = 1;
       chai.request(server)
         .get(`/api/documents?limit=${limit}`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('array');
@@ -167,7 +167,7 @@ describe('Documents', () => {
       const offset = 0;
       chai.request(server)
         .get(`/api/documents?limit=${offset}`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('array');
@@ -180,7 +180,7 @@ describe('Documents', () => {
       const userId = 9;
       chai.request(server)
         .get(`/api/users/${userId}/documents`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(400);
           expect(res.body).be.a('object');
@@ -204,7 +204,7 @@ describe('Documents', () => {
       const userId = 2;
       chai.request(server)
         .get(`/api/users/${userId}/documents`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).be.a('array');
@@ -218,7 +218,7 @@ describe('Documents', () => {
       const documentId = 8;
       chai.request(server)
         .get(`/api/documents/${documentId}/`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(400);
           expect(res.body).to.be.a('object');
@@ -230,7 +230,7 @@ describe('Documents', () => {
       const documentId = 4;
       chai.request(server)
         .get(`/api/documents/${documentId}/`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
@@ -244,7 +244,7 @@ describe('Documents', () => {
       const documentId = 2;
       chai.request(server)
         .get(`/api/documents/${documentId}/`)
-        .set({ 'x-access-token': sampleUserToken })
+        .set({ 'authorization': sampleUserToken })
         .end((err, res) => {
           expect(res.status).to.equal(403);
           expect(res.body).to.be.a('object');
@@ -256,7 +256,7 @@ describe('Documents', () => {
       const documentId = 2;
       chai.request(server)
         .get(`/api/documents/${documentId}/`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
@@ -270,7 +270,7 @@ describe('Documents', () => {
       const documentId = 3;
       chai.request(server)
         .get(`/api/documents/${documentId}/`)
-        .set({ 'x-access-token': sampleUserToken })
+        .set({ 'authorization': sampleUserToken })
         .end((err, res) => {
           expect(res.status).to.equal(401);
           expect(res.body).to.be.a('object');
@@ -282,7 +282,7 @@ describe('Documents', () => {
       const documentId = 3;
       chai.request(server)
         .get(`/api/documents/${documentId}/`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
@@ -296,7 +296,7 @@ describe('Documents', () => {
       const documentId = 3;
       chai.request(server)
         .get(`/api/documents/${documentId}/`)
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
@@ -313,7 +313,7 @@ describe('Documents', () => {
       const id = 2;
       chai.request(server)
         .put(`/api/documents/${id}`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .send({ title: 'narruto shippuden' })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -328,7 +328,7 @@ describe('Documents', () => {
       const id = 2;
       chai.request(server)
         .put(`/api/documents/${id}`)
-        .set({ 'x-access-token': sampleUserToken })
+        .set({ 'authorization': sampleUserToken })
         .send({ title: 'narruto shippuden' })
         .end((err, res) => {
           expect(res.status).to.equal(403);
@@ -342,7 +342,7 @@ describe('Documents', () => {
       const id = 2;
       chai.request(server)
         .put(`/api/documents/${id}`)
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .send({ title: 'narruto' })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -357,7 +357,7 @@ describe('Documents', () => {
       const id = 10;
       chai.request(server)
         .put(`/api/documents/${id}`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .send({ title: 'narruto shippuden' })
         .end((err, res) => {
           expect(res.status).to.equal(404);
@@ -373,7 +373,7 @@ describe('Documents', () => {
       const id = 3;
       chai.request(server)
         .delete(`/api/documents/${id}`)
-        .set({ 'x-access-token': adminToken })
+        .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
@@ -384,7 +384,7 @@ describe('Documents', () => {
       const id = 2;
       chai.request(server)
         .delete(`/api/documents/${id}`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
@@ -395,7 +395,7 @@ describe('Documents', () => {
       const id = 1;
       chai.request(server)
         .delete(`/api/documents/${id}`)
-        .set({ 'x-access-token': sampleUserToken })
+        .set({ 'authorization': sampleUserToken })
         .end((err, res) => {
           expect(res.status).to.equal(403);
           expect(res.body).to.be.a('object');
@@ -407,7 +407,7 @@ describe('Documents', () => {
       const id = 234;
       chai.request(server)
         .delete(`/api/documents/${id}`)
-        .set({ 'x-access-token': userToken })
+        .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(404);
           expect(res.body).to.be.a('object');
