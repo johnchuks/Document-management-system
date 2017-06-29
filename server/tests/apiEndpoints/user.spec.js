@@ -455,6 +455,29 @@ describe('Users', () => {
         });
     });
   });
+  describe('/SEARCH/users/?q={name}', () => {
+     it('Should return an error if no querystring is provided', () => {
+       const query='';
+       chai.request(server)
+        .get(`/api/search/users/?q=${query}`)
+        .set({'authorization': userToken })
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body).to.have.property('message').to.equal('Invalid search input')
+        });
+     });
+       it('Should return a search list response of the required search input', () => {
+       const query='jame';
+       chai.request(server)
+        .get(`/api/search/users/?q=${query}`)
+        .set({'authorization': userToken })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body).to.have.property('fullName').to.equal('jame doe');
+          expect(res.body).to.have.property('userName').to.equal('testdoe');
+        });
+     });
+   });
 
 });
 

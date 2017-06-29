@@ -223,11 +223,6 @@ module.exports = {
         }
       }
     }).then((user) => {
-      if (!user) {
-        return res.status(404).json({
-          message: 'User not found'
-        });
-      }
       res.status(200).send(user);
     }).catch(error => res.status(400).send(error));
   }

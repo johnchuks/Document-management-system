@@ -416,4 +416,27 @@ describe('Documents', () => {
         });
     });
    });
+   describe('/SEARCH/documents/?q=', () => {
+     it('Should return an error if no querystring is provided', () => {
+       const query='';
+       chai.request(server)
+        .get(`/api/search/documents/?q=${query}`)
+        .set({'authorization': userToken })
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body).to.have.property('message').to.equal('Invalid search input')
+        });
+     });
+     it('Should return a search list of the required search input', () => {
+       const query='John';
+       chai.request(server)
+        .get(`/api/search/documents/?q=${query}`)
+        .set({'authorization': userToken })
+        .end((err, res) => {
+          expect(res.status).to.equal(200);
+          expect(res.body).to.have.property('count');
+          expect(res.body).to.have.property('rows');
+        });
+     });
+   });
 });
