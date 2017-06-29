@@ -220,18 +220,12 @@ module.exports = {
           },
           access: {
             $ne: 'private'
-
           }
         },
         include: [{
           model: User,
           attributes: ['roleId']
         }], }).then((document) => {
-          if (!document) {
-            res.status(404).json({
-              message: 'Document not found'
-            });
-          }
           res.status(200).send(document);
         }).catch(error => res.status(400).send(error));
   },

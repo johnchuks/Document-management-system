@@ -428,23 +428,14 @@ describe('Documents', () => {
         });
      });
      it('Should return a search list of the required search input', () => {
-       const query='Jo';
+       const query='John';
        chai.request(server)
         .get(`/api/search/documents/?q=${query}`)
         .set({'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.have.property('title')
-        });
-     });
-       it('Should return an error response if no document is found', () => {
-       const query='Jo';
-       chai.request(server)
-        .get(`/api/search/documents/?q=${query}`)
-        .set({'authorization': userToken })
-        .end((err, res) => {
-          expect(res.status).to.equal(404);
-          expect(res.body).to.have.property('message').to.equal('Document not found');
+          expect(res.body).to.have.property('count');
+          expect(res.body).to.have.property('rows');
         });
      });
    });
