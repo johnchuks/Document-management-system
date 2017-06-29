@@ -7,7 +7,7 @@
     "dialect": "postgres"
   },
   "test": {
-    "database": "doc-management-test",
+    "use_env_variable": "DATABASE_URL",
     "dialect": "postgres"
   }
 }

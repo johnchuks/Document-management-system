@@ -34,6 +34,10 @@
     z-index: -1;
 
 }
+// #background {
+//   background:url('https://s-media-cache-ak0.pinimg.com/236x/6d/83/76/6d837628f4dedc36e0eb9cfec50daac4.jpg')
+// }
+
 #signup {
   border: 10px solid #F5F3EE;
   padding: inherit;
@@ -71,20 +75,17 @@
   color: red;
 }
   #loginButton {
-    width: 575px;
+    width: 100%;
   }
   #signupButton {
-    width: 575px;
+    width: 200%;
   }
   #iconEmailPassword {
     margin-left: 90%;
     margin-top: inherit;
     color: white
   }
-  p {
-    text-align: center;
-    color: white;
-  }
+
   h5 {
     text-align: center;
     color: white;
@@ -110,4 +111,90 @@
     margin-bottom: 40px;
     margin-top: 35px;
   }
+  #formField {
+    margin-left: 400px !important;
+    z-index: -1;
 
+  }
+
+  #h5 {
+    color: black;
+  }
+  #yesButton {
+    margin-right: 200px;
+    margin-bottom: 40px;
+  }
+  #noButton {
+    margin-right: 150px;
+  }
+  #deleteIcon {
+    cursor: pointer;
+    margin-left: 150px;
+    margin-top: -45px;
+  }
+  #editIcon {
+    cursor: pointer;
+    margin-top: -100px;
+    float: left;
+    margin-top: -26px;
+  }
+
+input[type=text] {
+  color: black;
+}
+input[type=email] {
+  color: black;
+}
+input[type=password] {
+  color:black;
+}
+#loginLink {
+  color: white;
+  margin-left: 150px;
+}
+
+#navLogo {
+  margin-left: 3%;
+}
+
+.searchBar {
+  margin-top: 20px;
+}
+#searchButton {
+  margin-top: 3%;
+  margin-left: 3%
+}
+#searchHeading {
+  margin-left: 40%;
+}
+#navLogin {
+  margin-left: 3%;
+}
+
+.navigationCollapse {
+  display: block !important;
+}
+.profile {
+  border: 1px solid #90A4AE;
+  border-radius: 10rem;
+  padding: 2rem;
+  width: 8rem;
+  height: 8rem;
+  margin: 0 auto;
+
+}
+.intitalTag {
+ font-size: 6rem !important;
+ margin: 0;
+ padding-left: 5px !important;
+ padding-top: 0px !important;
+
+}
+
+#welcomeName {
+  margin-left: 80px;
+  color:white;
+}
+.user-view {
+  background: #ee6e73;
+}

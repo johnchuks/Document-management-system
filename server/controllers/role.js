@@ -4,38 +4,70 @@ const Role = models.Role;
 
 module.exports = {
   createRole(req, res) {
-    if (req.decoded.title !== 'admin' || req.decoded.id !== 1) {
+    if (!req.body.title) {
       return res.status(401).json({
-        success: false,
-        message: 'You are not authorized to create a role'
+        message: 'This field is required'
       });
     }
-    return Role
-      .create({
-        title: req.body.title
-      }).then(role => res.json(role))
-      .catch(error => res.json(error));
+    if (typeof (req.body.title) !== 'string') {
+      return res.status(403).json({
+        message: 'Invalid input credentials'
+      });
+    }
+    Role.findAll({ where: { title: req.body.title } })
+      .then((existingRole) => {
+        if (!existingRole) {
+          return Role
+            .create({
+              title: req.body.title
+            }).then((role) => {
+              res.send({
+                message: 'Role successfully created',
+                role
+              });
+            })
+            .catch((error) => {
+              res.json(error);
+            });
+        }
+      }).catch(error => res.json(error));
   },
-  getRole(req, res) {
+  getAllRoles(req, res) {
     return Role
       .findAll()
-      .then(role => res.json(role))
-      .catch(role => res.json(role));
+      .then(role => res.status(200).json(role))
+      .catch(error => res.json(error));
+  },
+  findRole(req, res) {
+    return Role
+      .findById(req.params.id)
+      .then((role) => {
+        if (!role) {
+          return res.status(400).json({
+            message: 'Role not found'
+          });
+        } else {
+          res.status(200).json(role);
+        }
+      }).catch(error => res.status(400).json(error));
   },
   deleteRole(req, res) {
-    if (req.decoded.title !== 'admin' || req.decoded.id !== 1) {
-      return res.status(401).json({
-        success: false,
-        message: 'You are not authorized'
-      });
-    }
     return Role
-      .destroy()
-      .then(() => res.status(200).json({ message: 'Role has been deleted sucessfully' }))
-      .catch(error => res.status(400).send(error));
+      .findById(req.params.id)
+      .then((role) => {
+        if (!role) {
+          return res.status(400).json({
+            message: 'Role not found'
+          });
+        }
+        return role
+            .destroy()
+            .then(() => res.status(200).json({ message: 'Role has been deleted successfully' }))
+            .catch(error => res.status(400).send(error));
+      }).catch(error => res.json(error));
   },
   updateRole(req, res) {
-    if (req.decoded.title !== 'admin' || req.decoded.id !== 1) {
+    if (req.decoded.roleId !== 1) {
       return res.status(401).json({ message: 'You are not authorized access the role' });
     }
     return Role
@@ -50,8 +82,11 @@ module.exports = {
           .update({
             title: req.body.title || role.title
           })
-          .then(() => res.status(200).send(role))
-          .catch(error => res.status(400).send(error));
-      }).catch(error => res.status(400).send(error));
+          .then(() => res.status(200).json({
+            message: 'Role updated successfully',
+            role
+          }))
+          .catch(error => res.status(400).json(error));
+      }).catch(error => res.status(400).json(error));
   }
 };

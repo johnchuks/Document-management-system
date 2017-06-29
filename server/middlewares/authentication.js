@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken'),
   secret = process.env.JWT_SECRET;
-const models = require('../models/');
+
 
 module.exports = {
 
@@ -24,13 +24,12 @@ module.exports = {
   },
 
   adminAccess(req, res, next) {
-    models.Role.findById(req.decoded.id).then((role) => {
-      if (role.id === 1 || role.title === 'admin') {
-        next();
-      }
+    if (req.decoded.roleId === 1) {
+      next();
+    } else {
       return res.status(403).json({
-        message: 'You are not authorized'
+        message: 'You are not authorized',
       });
-    });
+    }
   }
 };

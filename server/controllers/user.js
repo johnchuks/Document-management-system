@@ -34,8 +34,14 @@ module.exports = {
         password: 'This Field is Required'
       });
     }
+    if (req.body.roleId === 1) {
+      return res.status(403).json({
+        message: 'An admin role cannot be created'
+      });
+    }
+
     User.findAll({
-      where: { email: req.body.email, userName: req.body.userName } // big edge case to fix for username
+      where: { email: req.body.email }
     }).then((err, existingUser) => {
       if (!existingUser) {
         User.provider = 'jwt';
@@ -75,12 +81,19 @@ module.exports = {
     }
     return User
       .findById(req.params.id)
-      .then(user => res.status(200).send(user))
+      .then((user) => {
+        if (!user) {
+          return res.status(400).json({
+            message: 'User not found'
+          });
+        }
+        res.status(200).send(user);
+      })
       .catch(error => res.status(400).send(error));
   },
   // update a user by Id
   updateUser(req, res) {
-    if (req.decoded.roleId !== 1) {
+    if (Number(req.decoded.id) !== Number(req.params.id)) {
       return res.status(403).json({
         message: 'You are not authorized to access this user'
       });
@@ -108,6 +121,11 @@ module.exports = {
   },
   // delete a user by Id
   deleteUser(req, res) {
+    if (req.decoded.roleId !== 1) {
+      return res.status(403).json({
+        message: 'You are not authorized to access this field'
+      });
+    }
     return User
     .findById(req.params.id)
     .then((user) => {
@@ -118,7 +136,8 @@ module.exports = {
       }
       return user
         .destroy()
-        .then(() => res.status(204).send())
+        .then(() => res.status(204).json({
+          message: 'User has been deleted successfully' }))
         .catch(error => res.status(400).send(error));
     })
     .catch(error => res.status(400).send(error));
@@ -127,7 +146,7 @@ module.exports = {
   logInWithJwt(req, res) {
     if (!req.body.email) {
       return res.status(401).json({
-        email: 'This field is required'
+        message: 'This field is required'
       });
     } else if (!emailRegex.test(req.body.email)) {
       return res.status(401).json({
@@ -135,7 +154,7 @@ module.exports = {
       });
     } else if (!req.body.password) {
       return res.status(401).json({
-        password: 'This field is required'
+        message: 'This field is required'
       });
     }
     return User
@@ -143,7 +162,9 @@ module.exports = {
       .then((user) => {
         const existingUser = user[0];
         if (!existingUser) {
-          res.status(401).json({ success: false, message: 'Invalid User Credentials' });
+          res.status(401).json({
+            success: false,
+            message: 'Invalid User Credentials' });
         } else if (existingUser) {
           if (bcrypt.compareSync(req.body.password, existingUser.password)) {
             const payLoad = (
@@ -155,15 +176,19 @@ module.exports = {
               }
             );
             const token = jwt.sign(payLoad, jwtSecret, {
-              expiresIn: 2880
+              expiresIn: 60 * 60 * 24
             });
             res.status(200).json({
               success: true,
               message: 'Enjoy your token',
               token,
+              existingUser
             });
           } else {
-            res.status(401).json({ success: false, password: 'Password is Invalid' });
+            res.status(401).json({
+              success: false,
+              password: 'Password is Invalid'
+            });
           }
         }
       }).catch(error => res.status(400).send(error));
@@ -182,5 +207,28 @@ module.exports = {
     res.status(200).json({
       message: 'You have logged out successfully'
     });
+  },
+  searchUser(req, res) {
+    const searchQuery = req.query.q;
+    if (!searchQuery) {
+      return res.status(400).json({
+        message: 'Invalid search input'
+      });
+    }
+    return User
+    .findAndCountAll({
+      where: {
+        fullName: {
+          $like: `%${searchQuery}%`
+        }
+      }
+    }).then((user) => {
+      if (!user) {
+        return res.status(404).json({
+          message: 'User not found'
+        });
+      }
+      res.status(200).send(user);
+    }).catch(error => res.status(400).send(error));
   }
 };
