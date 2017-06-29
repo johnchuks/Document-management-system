@@ -18,6 +18,7 @@ import SearchDocuments from './documents/SearchDocuments.jsx';
 import '../../../../node_modules/toastr/toastr.scss';
 import ViewAllUsers from './users/ViewAllUsers.jsx';
 import SearchUsers from './users/SearchUsers.jsx';
+import clientAuth from './ClientAuth.jsx';
 
 const history = createBrowserHistory();
 
@@ -36,7 +37,7 @@ ReactDOM.render(
   {/*<Route exact path="/" component={LandingPage} />*/}
   <Route path="/signup" component={SignupPage} />
   <Route exact path="/login" component={LoginPage} />
-  <Route exact path="/dashboard" component={DashboardPage} />
+  <Route exact path="/dashboard" component={DashboardPage}/>
   <Route path="/documents" component={ViewUserDocuments} />
   <Route path="/profile" component={EditProfile} />
   <Route path="/searchdocument" component={SearchDocuments} />

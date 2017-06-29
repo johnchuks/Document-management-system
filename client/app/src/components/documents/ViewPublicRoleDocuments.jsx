@@ -20,10 +20,6 @@ class ViewPublicDouments extends React.Component {
   }
 
   render() {
-    const rowStyle = {
-      marginLeft: '200px',
-      marginTop: '60px',
-    };
     const publicRoleDocument = this.state.documents.filter((documents) => {
       if (documents.access === 'public') {
         return documents;
@@ -34,12 +30,17 @@ class ViewPublicDouments extends React.Component {
           return documents;
         }
       }
+      // if (document.access === 'private') {
+      //   if (this.props.userDetails === 1) {
+      //     return document;
+      //   }
+      // }
       return 'No documents found';
     });
     return (
         <div>
           <div className="container">
-            <div className="row" style={rowStyle} >
+            <div className="row">
             {publicRoleDocument.map((documents, index) => (
                 <div className="col s12 m4" key={index}>
                   <div className="card small grey lighten-4">

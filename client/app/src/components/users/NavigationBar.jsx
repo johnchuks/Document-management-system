@@ -1,5 +1,4 @@
 import React from 'react';
-import { Navbar } from 'react-materialize';
 import { connect } from 'react-redux';
 import LogoutPage from './LogoutPage.jsx';
 
@@ -12,59 +11,107 @@ class NavigationBar extends React.Component {
       email: this.props.profileEmail
     };
   }
+
+  componentDidMount() {
+     $('.button-collapse').sideNav();
+     $('.collapsible').collapsible();
+   }
+
   render() {
-    let Navigation =
-      <ul id="slide-out" className="side-nav fixed">
-      <li>
-          <div className="user-view">
-            <div className="background">
+    const userName = this.state.name.split('');
+    const initials = userName[0].toUpperCase();
+    let Navigation = (
+      <div>
+        <ul id="slide-out" className="side-nav">
+          <li>
+            <div className="user-view">
+              <div className="background profile grey lighten-4">
+              <h1 className="initialTag">{initials}</h1>
+              </div>
+              <span className="name" id="welcomeName">Welcome {this.state.name}!</span>
+
             </div>
-           <img className="circle" src="" />
-            <span className="name">{this.state.name}</span>
-            <br />
-         <span className="email">{this.state.email}</span>
-          </div>
-        </li>
-          <li><a href="/dashboard">View all documents</a></li>
-          <li><a href="/documents">My documents</a></li>
-          <li><a href="/searchdocument">Search Document</a></li>
-          <li><a href="/profile">Edit Profile</a></li>
-        </ul>;
+          </li>
+          <li>
+            <a href="/dashboard">
+              <i className="material-icons">dashboard</i>View documents
+            </a>
+          </li>
+          <li>
+            <a href="/documents">
+              <i className="material-icons">work</i>My documents
+            </a>
+          </li>
+          <li>
+            <a href="/searchdocument">
+              <i className="material-icons">search</i>Search Document
+            </a>
+          </li>
+          <li>
+            <a href="/profile">
+              <i className="material-icons">account_box</i>Edit Profile
+            </a>
+          </li>
+        </ul>
+
+      </div>
+    );
 
     if (this.state.profile === 1) {
-      Navigation =
-         <ul id="slide-out" className="side-nav fixed">
-        <li>
-        <div className="user-view">
-           <div className="background">
-        <img src="../../public/Library-Books1.jpeg" />
-      </div>
-      <img className="circle" src="" />
-      <span className="name">{this.state.name}</span>
-      <br />
-    <span className="email">{this.state.email}</span>
-    </div></li>
-      <li><a href="/dashboard">View all documents</a></li>
-      <li><a href="/documents">My documents</a></li>
-      <li><a href="/viewusers">Manage Users</a></li>
-      <li><a href="/searchuser">Search for users</a></li>
-      <li><a href="/searchdocument">Search Document</a></li>
-      <li><a href = "/profile">Edit Profile</a></li>
-    </ul>;
+      Navigation = (
+        <ul id="slide-out" className="side-nav">
+          <li>
+            <div className="user-view">
+              <div className="background profile grey lighten-4">
+                <h1 className="intitalTag">{initials}</h1>
+              </div>
+              <span className="name" id="welcomeName">Welcome {this.state.name}!</span>
+            </div>
+          </li>
+          <li>
+            <a href="/dashboard">
+              <i className="material-icons">work</i>View all documents
+            </a>
+          </li>
+          <li>
+            <a href="/documents">
+              <i className="material-icons">work</i>My documents
+            </a>
+          </li>
+          <li>
+            <a href="/viewusers">
+              <i className="material-icons">people</i>Manage Users
+            </a>
+          </li>
+          <li>
+            <a href="/searchuser">
+              <i className="material-icons">search</i>Search for users
+            </a>
+          </li>
+          <li>
+            <a href="/searchdocument">
+              <i className="material-icons">search</i>Search Document
+            </a>
+          </li>
+          <li>
+            <a href="/profile">
+              <i className="material-icons">account_box</i>Edit Profile
+            </a>
+          </li>
+        </ul>
+      );
     }
     return (
       <div id="navBar">
-        <Navbar brand='DocumentMe'>
         <LogoutPage />
-          </Navbar>
-          {Navigation}
-        </div>
+        {Navigation}
+      </div>
     );
   }
 }
 const mapStateToProps = state => ({
   profileId: state.usersReducer.user.roleId,
   profileName: state.usersReducer.user.fullName,
-  profileEmail: state.usersReducer.user.email,
+  profileEmail: state.usersReducer.user.email
 });
 export default connect(mapStateToProps)(NavigationBar);

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { fetchUser } from '../../actions/userActions';
 import NavigationBar from './NavigationBar.jsx';
+import AllUsersList from './AllUsersList.jsx';
 
 class ViewAllUsers extends React.Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class ViewAllUsers extends React.Component {
     };
   }
   componentDidMount() {
-    this.props.fetchUser();
+    this.props.dispatch(fetchUser());
   }
   componentWillReceiveProps(nextProps) {
     this.setState({ allUsers: nextProps.usersList });
@@ -23,6 +24,7 @@ class ViewAllUsers extends React.Component {
     return (
       <div>
         <NavigationBar />
+        <AllUsersList allUsers={users} />
         </div>
     );
   }
@@ -30,4 +32,4 @@ class ViewAllUsers extends React.Component {
 const mapStateToProps = state => ({
   usersList: state.usersReducer.users
 });
-export default connect(mapStateToProps, { fetchUser })(ViewAllUsers);
+export default connect(mapStateToProps)(ViewAllUsers);

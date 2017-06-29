@@ -12,7 +12,7 @@ class EditProfile extends React.Component {
       userName: this.props.user.userName,
       email: this.props.user.email,
       password: '',
-      userId: this.props.user,
+      userId: this.props.user
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -28,57 +28,81 @@ class EditProfile extends React.Component {
   }
   render() {
     const profileStyle = {
-      marginLeft: '400px',
+      marginLeft: '400px'
     };
     return (
       <div>
-      <NavigationBar />
-      <br />
-      <h4 id="searchHeading">Edit Profile</h4>
+        <NavigationBar />
+        <br />
+        <h4 id="searchHeading">Edit Profile</h4>
         <div id="formField" style={profileStyle}>
-          <div className="col s12 z-depth 5" >
-         <div className="row">
-        <div className="input-field col s6">
-          <input id="full_name" name="fullName" type="text"
-          onChange={this.onChange}
-          value={this.state.fullName}
-          className="validate" />
-          <label htmlFor="full_name">Full Name</label>
-        </div>
-        </div>
-        <div className="row">
-        <div className="input-field col s6">
-          <input id="user_name" name="userName"
-          type="text" onChange={this.onChange} className="validate"
-          value={this.state.userName} />
-          <label htmlFor="user_name">Username</label>
+          <div className="col s12 z-depth 5">
+            <div className="row">
+              <div className="input-field col s6">
+                <input
+                  id="full_name"
+                  name="fullName"
+                  type="text"
+                  onChange={this.onChange}
+                  value={this.state.fullName}
+                  className="validate"
+                />
+                <label htmlFor="full_name">Full Name</label>
+              </div>
+            </div>
+            <div className="row">
+              <div className="input-field col s6">
+                <input
+                  id="user_name"
+                  name="userName"
+                  type="text"
+                  onChange={this.onChange}
+                  className="validate"
+                  value={this.state.userName}
+                />
+                <label htmlFor="user_name">Username</label>
+              </div>
+            </div>
+            <div className="row">
+              <div className="input-field col s6">
+                <input
+                  id="password"
+                  name="email"
+                  type="email"
+                  onChange={this.onChange}
+                  className="validate"
+                  value={this.state.email}
+                />
+                <label htmlFor="password">Email</label>
+              </div>
+            </div>
+            <div className="row">
+              <div className="input-field col s6">
+                <input
+                  id="email"
+                  name="password"
+                  type="password"
+                  onChange={this.onChange}
+                  className="validate"
+                />
+                <label htmlFor="email">Password</label>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col s12">
+                <button
+                  className="waves-effect waves-light btn orange"
+                  id="editButton"
+                  type="submit"
+                  onClick={this.onSubmit}
+                >
+                  Edit Profile
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="row">
-        <div className="input-field col s6">
-          <input id="password" name="email" type="email"
-           onChange={this.onChange} className="validate"
-                    value={this.state.email} />
-          <label htmlFor="password">Email</label>
-        </div>
-      </div>
-      <div className="row">
-        <div className="input-field col s6">
-          <input id="email" name="password" type="password"
-           onChange={this.onChange} className="validate" />
-          <label htmlFor="email">Password</label>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col s12">
-       <button className="waves-effect waves-light btn orange"
-        id="editButton" type="submit" onClick={this.onSubmit}>
-       Edit Profile</button>
-       </div>
-       </div>
-    </div>
-    </div>
-</div>
     );
   }
 }

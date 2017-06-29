@@ -7365,8 +7365,29 @@ input[type=password] {
 #navLogin {
   margin-left: 3%; }
 
-#navLogout {
-  margin-left: 24%; }
+.navigationCollapse {
+  display: block !important; }
+
+.profile {
+  border: 1px solid #90A4AE;
+  border-radius: 10rem;
+  padding: 2rem;
+  width: 8rem;
+  height: 8rem;
+  margin: 0 auto; }
+
+.intitalTag {
+  font-size: 6rem !important;
+  margin: 0;
+  padding-left: 5px !important;
+  padding-top: 0px !important; }
+
+#welcomeName {
+  margin-left: 80px;
+  color: white; }
+
+.user-view {
+  background: #ee6e73; }
 .toast-title {
   font-weight: bold; }
 

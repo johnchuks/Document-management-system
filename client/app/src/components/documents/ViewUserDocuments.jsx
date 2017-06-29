@@ -27,7 +27,7 @@ class ViewUserDocuments extends React.Component {
   render() {
     const rowStyle = {
       marginLeft: '200px',
-      marginTop: '60px',
+      marginTop: '60px'
     };
     const userDocuments = this.state.document;
     return (
@@ -36,27 +36,26 @@ class ViewUserDocuments extends React.Component {
         <NavigationBar />
         <h4 id="searchHeading">My Documents</h4>
         <div className="container">
-          <div className="row"style={rowStyle}>
-        {
-          userDocuments.map(document => (
-                <div className="col s12 m4" key={document.id}>
-                  <div className="card small  grey lighten-4">
-                    <div className="card-content black-text">
-                      <span className="card-title"
-                       value={document.id}>{document.title}</span>
-                      <p>{document.content}</p>
-                    </div>
-                    <div className="card-action">
-                       <p>{document.access}</p>
-                        <DeleteDocument cardDocument={document.id}/>
-                        <UpdateDocumentForm cardDocuments={document}/>
+          <div className="row">
+            {userDocuments.map(document => (
+              <div className="col s12 m4" key={document.id}>
+                <div className="card small  grey lighten-4">
+                  <div className="card-content black-text">
+                    <span className="card-title" value={document.id}>
+                      {document.title}
+                    </span>
+                    <p>{document.content}</p>
+                  </div>
+                  <div className="card-action">
+                    <p>{document.access}</p>
+                    <DeleteDocument cardDocument={document.id} />
+                    <UpdateDocumentForm cardDocuments={document} />
                   </div>
                 </div>
-                </div>
-            ))
-        }
-         </div>
-      </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }

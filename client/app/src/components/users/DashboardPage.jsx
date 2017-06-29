@@ -6,12 +6,12 @@ import NavigationBar from './NavigationBar.jsx';
 class Dashboard extends React.Component {
   render() {
     return (
-        <div>
+      <div>
         <NavigationBar />
         <h4 id="searchHeading">Public And Role Documents</h4>
         <ViewPublicRoleDocuments />
-         <DocumentForm />
-    </div>
+        <DocumentForm />
+      </div>
     );
   }
 }

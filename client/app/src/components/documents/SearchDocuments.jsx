@@ -51,18 +51,28 @@ class SearchDocument extends React.Component {
     };
     return (
       <div>
-      <NavigationBar />
-      <br/>
-      <h6 id="searchHeading">Search For Documents</h6>
-      <div className="searchBar">
-        <input id="searchBar" type="text" name="search"
-        onChange={this.onHandleChange} placeholder="Search.."
-        style={inputStyle} />
-        <button className="waves-effect waves-light btn orange"
-         id="searchButton" onClick={this.onSubmit} type="submit">Search</button>
+        <NavigationBar />
+        <br />
+        <h6 id="searchHeading">Search For Documents</h6>
+        <div className="searchBar">
+          <input
+            id="searchBar"
+            type="text"
+            name="search"
+            onChange={this.onHandleChange}
+            placeholder="Search.."
+          />
+          <button
+            className="waves-effect waves-light btn orange"
+            id="searchButton"
+            onClick={this.onSubmit}
+            type="submit"
+          >
+            Search
+          </button>
         </div>
         <SearchedList document={searchListFiltered} />
-    </div>
+      </div>
     );
   }
 }

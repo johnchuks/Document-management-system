@@ -10,7 +10,7 @@ class DeleteDocument extends React.Component {
     super(props);
     this.state = {
       documentId: this.props.cardDocument,
-      userId: this.props.user,
+      userId: this.props.user
     };
     this.onDelete = this.onDelete.bind(this);
   }
@@ -22,22 +22,38 @@ class DeleteDocument extends React.Component {
   }
   render() {
     return (
-    <div>
-    <Modal
-    trigger={<i className="material-icons md-36" id="deleteIcon">delete</i>}
-    actions={<div><Button
-    className="modal-action modal-close btn orange" id="noButton">No</Button>
-    <Button className="modal-action modal-close btn orange" id="yesButton"
-     onClick={this.onDelete}>Yes</Button></div>}>
-      <h5 id="h5">Are you sure you want to delete this document</h5>
-      </Modal>
+      <div>
+        <Modal
+          trigger={
+            <i className="material-icons md-36" id="deleteIcon">delete</i>
+          }
+          actions={
+            <div>
+              <Button
+                className="modal-action modal-close btn orange"
+                id="noButton"
+              >
+                No
+              </Button>
+              <Button
+                className="modal-action modal-close btn orange"
+                id="yesButton"
+                onClick={this.onDelete}
+              >
+                Yes
+              </Button>
+            </div>
+          }
+        >
+          <h5 id="h5">Are you sure you want to delete this document</h5>
+        </Modal>
       </div>
     );
   }
 }
 DeleteDocument.propTypes = {
   cardDocument: PropTypes.number.isRequired,
-  user: PropTypes.number.isRequired,
+  user: PropTypes.number.isRequired
 };
 const mapStateToProps = state => ({
   user: state.usersReducer.user.id

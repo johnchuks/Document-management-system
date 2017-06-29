@@ -34,26 +34,38 @@ class SearchUsers extends React.Component {
   }
   render() {
     const searchUsersList = this.state.searchList;
-    const searchUsersListFiltered = searchUsersList.filter(user =>
-     user.roleId !== 1);
+    const searchUsersListFiltered = searchUsersList.filter(
+      user => user.roleId !== 1
+    );
     const inputStyle = {
       width: '50%',
       marginLeft: '350px'
     };
     return (
       <div>
-      <NavigationBar />
-      <br/>
-      <h4 id="searchHeading">Search For Users</h4>
-      <div className="searchBar">
-        <input id="searchBar" type="text" name="search"
-        onChange={this.onHandleChange} placeholder="Search.."
-        style={inputStyle} />
-        <button className="waves-effect waves-light btn orange"
-         id="searchButton" onClick={this.onSubmit} type="submit">Search</button>
+        <NavigationBar />
+        <br />
+        <h4 id="searchHeading">Search For Users</h4>
+        <div className="searchBar">
+          <input
+            id="searchBar"
+            type="text"
+            name="search"
+            onChange={this.onHandleChange}
+            placeholder="Search.."
+            style={inputStyle}
+          />
+          <button
+            className="waves-effect waves-light btn orange"
+            id="searchButton"
+            onClick={this.onSubmit}
+            type="submit"
+          >
+            Search
+          </button>
         </div>
         <SearchedUsersList users={searchUsersListFiltered} />
-    </div>
+      </div>
     );
   }
 }

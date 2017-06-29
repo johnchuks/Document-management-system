@@ -24,14 +24,14 @@ export const usersReducer = (state = initialState, action = {}) => {
       };
     }
     case FETCH_USERS: {
-      return Object.assign({ ...state, users: action.users });
+      return { ...state, users: action.users };
     }
     case SEARCH_USERS: {
       return Object.assign({ ...state, users: action.users });
     }
 
     case EDIT_USER: {
-      return Object.assign(...state, { user: action.payload });
+      return { ...state, user: action.payload };
     }
     default:
       return state;

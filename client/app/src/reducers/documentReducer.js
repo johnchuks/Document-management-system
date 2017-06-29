@@ -42,7 +42,7 @@ export const fetchDocuments = (state = initialState, action) => {
       };
     }
     case SEARCH_DOCUMENT: {
-      return Object.assign({ document: action.searchDocuments });
+      return Object.assign({}, { document: action.searchDocuments });
     }
 
     default:
