@@ -19,7 +19,7 @@ axios.post('/api/documents', document).then((response) => {
 const fetchAllDocuments = params => (dispatch) => {
   const token = localStorage.getItem('jwtToken');
   return axios
-  .get(`/api/documents/?limit=${params.limit}&?offset=${params.offset}`, {
+  .get(`/api/documents/?limit=${params.limit}&offset=${params.offset}`, {
     headers: {
       authorization: token
     }
@@ -32,8 +32,8 @@ const fetchDocumentAction = document => ({
   type: FETCH_USER_DOCUMENTS,
   payload: document
 });
-const fetchDocument = userId => dispatch =>
-axios.get(`/api/users/${userId}/documents`).then((response) => {
+const fetchDocument = user => dispatch =>
+axios.get(`/api/users/${user.id}/documents/?limit=${user.limit}&offset=${user.offset}`).then((response) => {
   const userDocuments = response.data;
   dispatch(fetchDocumentAction(userDocuments));
 });

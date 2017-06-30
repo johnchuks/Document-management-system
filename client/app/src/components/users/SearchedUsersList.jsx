@@ -9,24 +9,22 @@ class SearchedUsersList extends React.Component {
     };
     return (
       <div>
-        <div className="container">
-          <div className="row" style={rowStyle}>
+        <table className="bordered">
+          <thead>
+            <tr>
+              <th>Full Name</th>
+              <th>Email</th>
+            </tr>
+          </thead>
+          <tbody>
             {this.props.users.map(user => (
-              <div className="col s12 m4" key={user.id}>
-                <div className="card small  grey lighten-4">
-                  <div className="card-content black-text">
-                    <span className="card-title" value={user.id}>
-                      {user.fullName}
-                    </span>
-                    <p>User Name :{user.userName}</p>
-                    <br />
-                    <p>Email Address: {user.email}</p>
-                  </div>
-                </div>
-              </div>
+              <tr>
+                <td>{user.fullName}</td>
+                <td>{user.email}</td>
+              </tr>
             ))}
-          </div>
-        </div>
+          </tbody>
+        </table>
       </div>
     );
   }

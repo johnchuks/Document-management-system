@@ -187,9 +187,17 @@ input[type=password] {
  font-size: 6rem !important;
  margin: 0;
  padding-left: 5px !important;
- padding-top: 0px !important;
+ margin-top: -25px;
+ margin-left: -5px;
 
 }
+
+// #deleteUserIcon {
+//   margin-right: 40px;
+//   margin-left: 35px;
+//   padding-top: 25px;
+// }
+
 
 #welcomeName {
   margin-left: 80px;
@@ -197,4 +205,15 @@ input[type=password] {
 }
 .user-view {
   background: #ee6e73;
+}
+.bordered {
+  max-width: 70%;
+  margin-left: 200px;
+}
+
+tbody tr td {
+  text-align: center;
+}
+thead tr th {
+  text-align: center;
 }

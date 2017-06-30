@@ -6,6 +6,7 @@ const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('../../webpack.config');
 const app = require('./app');
+const models = require('../models/');
 
 const compiler = webpack(config);
 app.use(logger('dev'));
@@ -22,6 +23,7 @@ app.set('jwtSecret', process.env.JWTSECRET);
 
 
 app.listen(port, () => {
+  models.sequelize.sync();
   console.log(`server is listening on port ${port}`);
 });
 

@@ -4,19 +4,22 @@ import {
 } from '../constants/actionTypes';
 
 const initialState = {
-  document: []
+  document: [],
+  pagination: {}
 };
 
 export const fetchDocuments = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ALL_DOCUMENTS: {
       return {
-        document: action.payload
+        document: action.payload.document,
+        pagination: action.payload.pagination
       };
     }
     case FETCH_USER_DOCUMENTS: {
       return {
-        document: action.payload,
+        document: action.payload.document,
+        pagination: action.payload.pagination
       };
     }
     case DELETE_DOCUMENT: {

@@ -159,9 +159,10 @@ module.exports = {
    */
   getAllDocuments(req, res) {
     const limit = req.query.limit;
+    console.log(req.query.offset)
     const offset = req.query.offset;
     return Document
-    .findAll({ limit,
+    .findAndCountAll({ limit,
       offset,
       where: {
         access: {
@@ -172,7 +173,20 @@ module.exports = {
         model: User,
         attributes: ['userName', 'roleId']
       }], })
-    .then(document => res.status(200).send(document))
+    .then((document) => {
+      const pagination = {
+        totalCount: document.count,
+        pageCount: Math.ceil(document.count / limit),
+        page: Math.floor(offset / limit) + 1,
+        pageSize: document.rows.length
+      };
+      res.status(200).send({
+        document: document.rows,
+        pagination,
+        offset,
+        limit
+      });
+    })
     .catch(error => res.status(400).send(error));
   },
 
@@ -183,18 +197,32 @@ module.exports = {
    * @param {object} res
    */
   getSpecificUserDocuments(req, res) {
+    const limit = req.query.limit;
+    const offset = req.query.offset;
     User.findById(req.params.id).then((user) => {
       if (!user) {
         return res.status(400).json({
           message: 'User not found'
         });
       }
-      return Document.findAll({
+      return Document.findAndCountAll({
+        limit,
+        offset,
         where: {
           userId: user.id
         }
-      }).then((document => res.status(200).send(document)))
-              .catch(error => res.status(404).send(error));
+      }).then((document) => {
+        const pagination = {
+          totalCount: document.count,
+          pageCount: Math.ceil(document.count / limit),
+          page: Math.floor(offset / limit) + 1,
+          pageSize: document.rows.length
+        };
+        res.status(200).send({
+          document: document.rows,
+          pagination
+        });
+      }).catch(error => res.status(404).send(error));
     }).catch(error => res.status(400).send(error));
   },
 

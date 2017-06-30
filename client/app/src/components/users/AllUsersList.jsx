@@ -1,11 +1,12 @@
 import React from 'react';
+import DeleteUser from './DeleteUser.jsx'
 
 class AllUsersList extends React.Component {
   render() {
     return (
       <div>
         <h5> Manage Users</h5>
-        <table className="striped">
+        <table className="bordered">
           <thead>
             <tr>
               <th>Full Name</th>
@@ -18,7 +19,7 @@ class AllUsersList extends React.Component {
               <tr>
                 <td>{user.fullName}</td>
                 <td>{user.email}</td>
-                <td>Delete</td>
+                <td><DeleteUser user={user.id} /></td>
               </tr>
             ))}
           </tbody>
