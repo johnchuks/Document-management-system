@@ -101,16 +101,16 @@ module.exports = {
         if (!document) {
           return res.status(400).json({
             success: false,
-            message: "Document not found"
+            message: 'Document not found'
           });
         }
-        if (document.access === "public") {
+        if (document.access === 'public') {
           return res.status(200).send(document);
         }
-        if (document.access === "private") {
+        if (document.access === 'private') {
           if (document.userId !== req.decoded.id) {
             return res.status(403).json({
-              message: "You are not authorized to view this document"
+              message: 'You are not authorized to view this document'
             });
           }
           return res.status(200).send(document);
