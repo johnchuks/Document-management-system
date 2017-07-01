@@ -29,14 +29,26 @@ module.exports = {
         value: "This Field is Required"
       });
     }
-    return Document.create({
-      title: req.body.title,
-      content: req.body.content,
-      access: req.body.value,
-      userId: req.body.userId
-    })
+    Document.findAll({
+      where: {
+        title: req.body.title
+      }
+    }).then((document) => {
+      if (document.length === 0) {
+        return Document.create({
+          title: req.body.title,
+          content: req.body.content,
+          access: req.body.value,
+          userId: req.body.userId
+        })
       .then(documentResponse => res.status(200).send(documentResponse))
       .catch(error => res.status(400).send(error));
+      } else {
+        return res.status(403).json({
+          title: 'Document already exists'
+        });
+      }
+    }).catch(error => res.status(400).send(error));
   },
 
   // update a single document for the user
@@ -207,7 +219,7 @@ module.exports = {
             where: {
               roleId: req.decoded.roleId
             },
-          }, 
+          },
         ],
         where: {
           access: {
