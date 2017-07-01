@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 
 class SearchedUsersList extends React.Component {
   render() {
-    const rowStyle = {
-      marginLeft: '200px',
-      marginTop: '60px'
-    };
+
     return (
       <div>
         <table className="bordered">
@@ -18,7 +15,7 @@ class SearchedUsersList extends React.Component {
           </thead>
           <tbody>
             {this.props.users.map(user => (
-              <tr>
+              <tr key={user.id}>
                 <td>{user.fullName}</td>
                 <td>{user.email}</td>
               </tr>

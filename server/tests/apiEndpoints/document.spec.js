@@ -137,7 +137,7 @@ describe('Documents', () => {
       .set({ 'authorization': userToken })
       .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body).to.be.a('array');
+        expect(res.body).to.be.a('object');
         done();
       });
     });
@@ -159,7 +159,7 @@ describe('Documents', () => {
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('array');
+          expect(res.body).to.be.a('object');
           done();
         });
     });
@@ -170,7 +170,7 @@ describe('Documents', () => {
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('array');
+          expect(res.body).to.be.a('object');
           done();
         });
     });
@@ -207,7 +207,7 @@ describe('Documents', () => {
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).be.a('array');
+          expect(res.body).be.a('object');
           done();
         });
     });

@@ -159,7 +159,6 @@ module.exports = {
    */
   getAllDocuments(req, res) {
     const limit = req.query.limit;
-    console.log(req.query.offset)
     const offset = req.query.offset;
     return Document
     .findAndCountAll({ limit,

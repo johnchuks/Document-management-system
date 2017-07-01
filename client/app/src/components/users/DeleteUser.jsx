@@ -25,7 +25,7 @@ class DeleteUser extends React.Component {
       <div>
         <Modal
           trigger={
-            <Button className="waves-effect waves-light btn orange" id="deleteUserButton"><i className="material-icons" id="deleteUserIcon">delete</i></Button>
+        <Button className="waves-effect waves-light btn orange" id="deleteUserButton"><i className="material-icons" id="deleteUserIcon">delete</i></Button>
           }
           actions={
             <div>
@@ -48,7 +48,7 @@ class DeleteUser extends React.Component {
           <h5 id="h5">Are you sure you want to delete this user</h5>
         </Modal>
         </div>
-    )
+    );
   }
 }
 export default connect()(DeleteUser);

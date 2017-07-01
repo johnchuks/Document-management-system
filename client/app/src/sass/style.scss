@@ -88,7 +88,6 @@
 
   h5 {
     text-align: center;
-    color: white;
   }
   #label {
     color: white;
@@ -157,8 +156,9 @@ input[type=password] {
   margin-left: 3%;
 }
 
-.searchBar {
-  margin-top: 20px;
+#searchBar {
+  max-width: 50%;
+  margin-left: 250px;
 }
 #searchButton {
   margin-top: 3%;

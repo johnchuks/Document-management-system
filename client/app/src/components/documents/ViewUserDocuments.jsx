@@ -36,15 +36,12 @@ class ViewUserDocuments extends React.Component {
   }
 
   render() {
-    const rowStyle = {
-      marginLeft: '200px',
-      marginTop: '60px'
-    };
     const userDocuments = this.state.document;
     return (
       <div>
         <DocumentForm />
         <NavigationBar />
+        <h5>My Documents</h5>
         <ReactPaginate
           previousLabel={'previous'}
           nextLabel={'next'}
@@ -59,7 +56,7 @@ class ViewUserDocuments extends React.Component {
           subContainerClassName={'pages pagination'}
           activeClassName={'active'}
         />
-        <h4 id="searchHeading">My Documents</h4>
+
         <div className="container">
           <div className="row">
             {userDocuments.map(document => (

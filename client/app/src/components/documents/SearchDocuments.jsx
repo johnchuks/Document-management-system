@@ -45,15 +45,11 @@ class SearchDocument extends React.Component {
       }
       return 'No documents found';
     });
-    const inputStyle = {
-      width: '50%',
-      marginLeft: '350px'
-    };
     return (
       <div>
         <NavigationBar />
         <br />
-        <h6 id="searchHeading">Search For Documents</h6>
+        <h5>Search For Documents</h5>
         <div className="searchBar">
           <input
             id="searchBar"

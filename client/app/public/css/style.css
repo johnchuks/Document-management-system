@@ -7288,8 +7288,7 @@ button.picker__close:focus {
   color: white; }
 
 h5 {
-  text-align: center;
-  color: white; }
+  text-align: center; }
 
 #label {
   color: white; }
@@ -7352,8 +7351,9 @@ input[type=password] {
 #navLogo {
   margin-left: 3%; }
 
-.searchBar {
-  margin-top: 20px; }
+#searchBar {
+  max-width: 50%;
+  margin-left: 250px; }
 
 #searchButton {
   margin-top: 3%;

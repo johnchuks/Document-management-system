@@ -11,11 +11,11 @@ class NavigationBar extends React.Component {
       email: this.props.profileEmail
     };
   }
-
+  /* eslint */
   componentDidMount() {
-     $('.button-collapse').sideNav();
-     $('.collapsible').collapsible();
-   }
+    $('.button-collapse').sideNav();
+    $('.collapsible').collapsible();
+  }
 
   render() {
     const profileTag = {
@@ -29,9 +29,11 @@ class NavigationBar extends React.Component {
           <li>
             <div className="user-view">
               <div className="background profile grey lighten-4">
-              <h1 className="initialTag" style={profileTag}>{initials}</h1>
+                <h1 className="initialTag" style={profileTag}>{initials}</h1>
               </div>
-              <span className="name" id="welcomeName">Welcome {this.state.name}!</span>
+              <span className="name" id="welcomeName">
+                Welcome {this.state.name}!
+              </span>
 
             </div>
           </li>
@@ -68,7 +70,9 @@ class NavigationBar extends React.Component {
               <div className="background profile grey lighten-4">
                 <h1 className="intitalTag">{initials}</h1>
               </div>
-              <span className="name" id="welcomeName">Welcome {this.state.name}!</span>
+              <span className="name" id="welcomeName">
+                Welcome {this.state.name}!
+              </span>
             </div>
           </li>
           <li>
