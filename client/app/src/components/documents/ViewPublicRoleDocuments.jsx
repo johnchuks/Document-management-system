@@ -35,11 +35,7 @@ class ViewPublicDouments extends React.Component {
 
   render() {
     const userRole = this.state.roleId;
-    const publicRoleDocument = this.state.documents.filter((documents) => {
-      if (documents.access === 'public') return documents;
-      if (documents.User.roleId === userRole) return documents;
-      if (userRole === 1) return documents;
-    });
+    const publicRoleDocument = this.state.documents;
     return (
       <div>
         <ReactPaginate
