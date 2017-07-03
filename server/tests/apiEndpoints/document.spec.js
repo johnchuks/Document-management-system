@@ -58,6 +58,20 @@ describe('Documents', () => {
         done();
       });
     });
+    it('Should fail if document already exist', () => {
+      const document = {
+        title: 'kiba-team',
+        content: 'eze goes to school',
+        access: 'public',
+      };
+      chai.request(server)
+      .post('/api/documents')
+      .send({'authorization': userToken })
+      .end((err, res) => {
+        expect(res.status).to.equal(403);
+        expect(res.body).to.have.property('title').to.equal('Document already exists');
+      });
+    });
     it('should fail to  add a new document if the value field is missing', (done) => {
       const document = {
         title: 'kiba-team',
