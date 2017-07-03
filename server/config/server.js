@@ -14,7 +14,7 @@ app.use(logger('dev'));
 const port = process.env.PORT || 8080;
 const env = process.env.NODE_ENV || 'development';
 
-app.use(express.static(`${__dirname}/client/app/public`));
+app.use(express.static(`${__dirname}/../../client/app/public`));
 if (env === 'development') {
   app.use(webpackMiddleware(compiler));
   app.use(webpackHotMiddleware(compiler));
