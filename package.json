@@ -4,7 +4,7 @@
   "description": "managing documents, roles and privledges",
   "main": "server/config/server.js",
   "scripts": {
-    "test": "npm run test:server && npm run test:client",
+    "test": "npm run test:server",
     "test:server": "npm run test-build && NODE_ENV=test PORT=4000 nyc --reporter=text mocha --timeout 10000 --compilers js:babel-register -- ./server/tests/**/*.spec.js",
     "start": "npm run build",
     "test:client": " mocha --compilers js:babel-core/register ./client/app/tests/helpers/browser.js ./client/app/tests/**/*.spec.js --timeout 10000",
