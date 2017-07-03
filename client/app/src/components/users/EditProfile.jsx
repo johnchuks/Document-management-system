@@ -12,7 +12,7 @@ class EditProfile extends React.Component {
       userName: this.props.user.userName,
       email: this.props.user.email,
       password: '',
-      userId: this.props.user
+      userId: this.props.user.id
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);

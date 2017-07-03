@@ -18,7 +18,7 @@ import SearchDocuments from './documents/SearchDocuments.jsx';
 import '../../../../node_modules/toastr/toastr.scss';
 import ViewAllUsers from './users/ViewAllUsers.jsx';
 import SearchUsers from './users/SearchUsers.jsx';
-import clientAuth from './ClientAuth.jsx';
+
 
 const history = createBrowserHistory();
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import toastr from 'toastr';
 import NavigationBar from '../users/NavigationBar.jsx';
 import { searchDocument } from '../../actions/documentActions';
-import SearchedList from '../documents/SearchedList.jsx';
+import SearchedDocumentList from '../documents/SearchedDocumentList.jsx';
 
 class SearchDocument extends React.Component {
   constructor(props) {
@@ -67,7 +67,7 @@ class SearchDocument extends React.Component {
             Search
           </button>
         </div>
-        <SearchedList document={searchListFiltered} />
+        <SearchedDocumentList document={searchListFiltered} />
       </div>
     );
   }

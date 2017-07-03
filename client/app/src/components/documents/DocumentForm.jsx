@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import TinyMCE from 'react-tinymce';
-import striptags from 'striptags';
 import { Modal, Button } from 'react-materialize';
 import { createDocument } from '../../actions/documentActions';
 
@@ -25,7 +24,7 @@ class DocumentForm extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
   handleEditorChange(event) {
-    this.setState({ content: event.target.getContent()});
+    this.setState({ content: event.target.getContent() });
   }
   optionChange(event) {
     this.setState({ value: event.target.value });

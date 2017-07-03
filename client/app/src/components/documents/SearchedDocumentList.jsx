@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import striptags from 'striptags';
 
-class SearchedList extends React.Component {
+class SearchedDocumentList extends React.Component {
   render() {
     return (
       <div>
@@ -29,4 +29,4 @@ class SearchedList extends React.Component {
     );
   }
 }
-export default SearchedList;
+export default SearchedDocumentList;
