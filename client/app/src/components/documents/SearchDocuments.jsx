@@ -6,7 +6,7 @@ import NavigationBar from '../users/NavigationBar.jsx';
 import { searchDocument } from '../../actions/documentActions';
 import SearchedDocumentList from '../documents/SearchedDocumentList.jsx';
 
-class SearchDocument extends React.Component {
+export class SearchDocument extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

@@ -5,7 +5,7 @@ import TinyMCE from 'react-tinymce';
 import { Modal, Button } from 'react-materialize';
 import { createDocument } from '../../actions/documentActions';
 
-class DocumentForm extends React.Component {
+export class DocumentForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,8 +23,8 @@ class DocumentForm extends React.Component {
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
-  handleEditorChange(event) {
-    this.setState({ content: event.target.getContent() });
+  handleEditorChange(e) {
+    this.setState({ content: e.target.getContent() });
   }
   optionChange(event) {
     this.setState({ value: event.target.value });

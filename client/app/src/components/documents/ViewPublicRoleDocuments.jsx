@@ -61,10 +61,10 @@ class ViewPublicDouments extends React.Component {
                   <div className="card-content black-text">
                     <span className="card-title">{documents.title}</span>
                     <p>{striptags(documents.content)}</p>
-                    <DocumentView documentView={documents} />
                   </div>
                   <div className="card-action">
-                    <p>{documents.access}</p>
+                    <p>{documents.access}   <DocumentView documentView={documents} /></p>
+
                   </div>
                 </div>
               </div>
