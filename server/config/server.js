@@ -29,8 +29,8 @@ app.listen(port, () => {
 
 require('../routes/route')(app);
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../client/app/index.html'));
+app.use('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../client/app', 'index.html'));
 });
 
 
