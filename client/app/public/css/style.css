@@ -7288,8 +7288,7 @@ button.picker__close:focus {
   color: white; }
 
 h5 {
-  text-align: center;
-  color: white; }
+  text-align: center; }
 
 #label {
   color: white; }
@@ -7352,8 +7351,9 @@ input[type=password] {
 #navLogo {
   margin-left: 3%; }
 
-.searchBar {
-  margin-top: 20px; }
+#searchBar {
+  max-width: 50%;
+  margin-left: 250px; }
 
 #searchButton {
   margin-top: 3%;
@@ -7380,7 +7380,8 @@ input[type=password] {
   font-size: 6rem !important;
   margin: 0;
   padding-left: 5px !important;
-  padding-top: 0px !important; }
+  margin-top: -25px;
+  margin-left: -5px; }
 
 #welcomeName {
   margin-left: 80px;
@@ -7388,6 +7389,16 @@ input[type=password] {
 
 .user-view {
   background: #ee6e73; }
+
+.bordered {
+  max-width: 70%;
+  margin-left: 200px; }
+
+tbody tr td {
+  text-align: center; }
+
+thead tr th {
+  text-align: center; }
 .toast-title {
   font-weight: bold; }
 

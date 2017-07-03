@@ -1,7 +1,7 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { CREATE_USERS, FETCH_USERS, SET_LOGIN_USERS
-  , SEARCH_USERS, EDIT_PROFILE } from '../constants/actionTypes';
+  , SEARCH_USERS, EDIT_PROFILE, DELETE_USER } from '../constants/actionTypes';
 import Authorization from '../../utils/authorization';
 
 const fetchUserAction = users => ({
@@ -45,6 +45,7 @@ axios.post('/users/login', user).then((response) => {
   Authorization.setAuthToken(token);
   dispatch(setLoginUser(jwtDecode(token)));
 }).catch(error => (error));
+
 const editProfileAction = user => ({
   type: EDIT_PROFILE,
   payload: user
@@ -56,8 +57,23 @@ const editProfile = (user) => {
   });
 };
 
+const deleteUserAction = (user) => {
+  return {
+    type: DELETE_USER,
+    payload: user
+  };
+};
+
+const deleteUser = (user) => {
+  return (dispatch) => {
+    return axios.delete(`api/users/${user}`).then(() => {
+      dispatch(deleteUserAction(user));
+    }).catch(error => error);
+  };
+};
+
 
 export { signupAction, fetchUser,
    loginAction, setLoginUser,
-   createUserAction, editProfile, searchUser };
+   createUserAction, editProfile, searchUser, deleteUser };
 

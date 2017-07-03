@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import TinyMCE from 'react-tinymce';
+import striptags from 'striptags';
 import { Modal, Button } from 'react-materialize';
 import { createDocument } from '../../actions/documentActions';
 
@@ -17,9 +19,13 @@ class DocumentForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.optionChange = this.optionChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleEditorChange = this.handleEditorChange.bind(this);
   }
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
+  }
+  handleEditorChange(event) {
+    this.setState({ content: event.target.getContent()});
   }
   optionChange(event) {
     this.setState({ value: event.target.value });
@@ -58,13 +64,10 @@ class DocumentForm extends React.Component {
                   </span>}
               </div>
               <div className="input-field col s12">
-                <textarea
-                  id="textarea"
-                  name="content"
-                  className="materialize-textarea"
-                  onChange={this.handleChange}
+                <TinyMCE
+                content={this.state.content}
+                  onChange={this.handleEditorChange}
                 />
-                <label htmlFor="textarea">Content</label>
                 {errors.content &&
                   <div className="alert alert-danger">
                     {errors.content}

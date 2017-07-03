@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty';
 import { SET_LOGIN_USERS, CREATE_USERS,
-  FETCH_USERS, SEARCH_USERS, EDIT_USER } from '../constants/actionTypes';
+  FETCH_USERS, SEARCH_USERS, EDIT_USER, DELETE_USER } from '../constants/actionTypes';
 
 
 const initialState = {
@@ -27,11 +27,15 @@ export const usersReducer = (state = initialState, action = {}) => {
       return { ...state, users: action.users };
     }
     case SEARCH_USERS: {
-      return Object.assign({ ...state, users: action.users });
+      return { ...state, users: action.users };
     }
 
     case EDIT_USER: {
       return { ...state, user: action.payload };
+    }
+    case DELETE_USER: {
+      const remainingUsers = state.users.filter(user => user.id !== action.payload);
+      return { ...state, users: remainingUsers };
     }
     default:
       return state;

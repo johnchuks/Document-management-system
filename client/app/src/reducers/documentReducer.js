@@ -4,32 +4,36 @@ import {
 } from '../constants/actionTypes';
 
 const initialState = {
-  document: []
+  document: [],
+  pagination: {}
 };
 
 export const fetchDocuments = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ALL_DOCUMENTS: {
       return {
-        document: action.payload
+        document: action.payload.document,
+        pagination: action.payload.pagination
       };
     }
     case FETCH_USER_DOCUMENTS: {
       return {
-        document: action.payload,
+        document: action.payload.document,
+        pagination: action.payload.pagination
       };
     }
     case DELETE_DOCUMENT: {
       const documentsRemaining = state.document.filter(document =>
        document.id !== action.payload);
       return {
-        document: documentsRemaining
+        ...state, document: documentsRemaining
       };
     }
     case CREATE_DOCUMENT: {
-      const result = [action.document, ...state.document];
+      const result = [...state.document, action.document];
       return {
-        document: result,
+        ...state,
+        document: result
       };
     }
     case UPDATE_DOCUMENT: {
@@ -38,7 +42,7 @@ export const fetchDocuments = (state = initialState, action) => {
         return document;
       });
       return {
-        document: updatedDocument
+        ...state, document: updatedDocument
       };
     }
     case SEARCH_DOCUMENT: {

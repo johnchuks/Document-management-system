@@ -24,6 +24,7 @@ class ViewAllUsers extends React.Component {
     return (
       <div>
         <NavigationBar />
+        <h5>Manage Users </h5>
         <AllUsersList allUsers={users} />
         </div>
     );
