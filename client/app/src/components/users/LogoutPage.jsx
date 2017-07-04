@@ -8,7 +8,7 @@ class LogoutPage extends React.Component {
   }
   onSubmit() {
     localStorage.removeItem('jwtToken');
-    this.props.history.push('/login');
+    this.props.history.push('/');
   }
   render() {
     return (

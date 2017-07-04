@@ -6,7 +6,7 @@ import TinyMCE from 'react-tinymce';
 import toastr from 'toastr';
 import { updateDocument } from '../../actions/documentActions';
 
-class UpdateDocumentForm extends React.Component {
+export class UpdateDocumentForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

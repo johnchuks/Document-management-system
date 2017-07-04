@@ -36,7 +36,7 @@ ReactDOM.render(
   <Switch>
   {/*<Route exact path="/" component={LandingPage} />*/}
   <Route path="/signup" component={SignupPage} />
-  <Route exact path="/login" component={LoginPage} />
+  <Route exact path="/" component={LoginPage} />
   <Route exact path="/dashboard" component={DashboardPage}/>
   <Route path="/documents" component={ViewUserDocuments} />
   <Route path="/profile" component={EditProfile} />

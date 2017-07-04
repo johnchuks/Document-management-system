@@ -30,7 +30,7 @@ class LoginPage extends React.Component {
         this.props.history.push('/dashboard');
       } else {
         this.setState({ errors: error.response.data, isLoading: false });
-        this.props.history.push('/login');
+        this.props.history.push('/');
       }
     });
   }
