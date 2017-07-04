@@ -29,7 +29,7 @@ class LogoutPage extends React.Component {
               <li>
                 <a
                   className="waves-effect wave-light"
-                  href="/login"
+                  href="/"
                   onClick={this.onSubmit}
                 >
                   Logout
