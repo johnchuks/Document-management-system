@@ -11,7 +11,6 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "build": "webpack -w & babel-node -- server/config/server.js & nodemon server/config/server.js",
     "rebuild:testdb": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate",
-    "postinstall": "sequelize db:migrate:undo:all && sequelize db:migrate && sequelize db:seed:all",
     "seed:testdb": "NODE_ENV=test sequelize db:seed:all",
     "test-build": "npm run rebuild:testdb && npm run seed:testdb"
   },
