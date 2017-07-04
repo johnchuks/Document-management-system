@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import striptags from 'striptags';
 import ReactPaginate from 'react-paginate';
 import { fetchAllDocuments } from '../../actions/documentActions';
+import DocumentView from '../documents/DocumentView.jsx';
 
 class ViewPublicDouments extends React.Component {
   constructor(props) {
@@ -62,7 +63,8 @@ class ViewPublicDouments extends React.Component {
                     <p>{striptags(documents.content)}</p>
                   </div>
                   <div className="card-action">
-                    <p>{documents.access}</p>
+                    <p>{documents.access}   <DocumentView documentView={documents} /></p>
+
                   </div>
                 </div>
               </div>

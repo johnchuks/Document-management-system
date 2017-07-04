@@ -7,7 +7,13 @@ const User = models.User;
 const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 module.exports = {
-  // create a user
+  /**
+   *
+   * Create a user
+   * @param {any} req
+   * @param {any} res
+   * @returns - an object of a created user and a token
+   */
   createUserWithJwt(req, res) {
     if (!req.body.fullName) {
       return res.status(401).json({
@@ -72,7 +78,14 @@ module.exports = {
       }
     });
   },
-  // find a user by Id
+
+  /**
+   *
+   * Find a user by Id
+   * @param {any} req
+   * @param {any} res
+   * @returns - an object of found user
+   */
   findUser(req, res) {
     if (req.decoded.roleId !== 1) {
       return res.status(401).json({
@@ -91,7 +104,14 @@ module.exports = {
       })
       .catch(error => res.status(400).send(error));
   },
-  // update a user by Id
+
+  /**
+   *
+   *Update a user by Id
+   * @param {any} req
+   * @param {any} res
+   * @returns - return an object of the updated user
+   */
   updateUser(req, res) {
     if (Number(req.decoded.id) !== Number(req.params.id)) {
       return res.status(403).json({
@@ -119,7 +139,14 @@ module.exports = {
       })
       .catch(error => res.status(400).send(error));
   },
-  // delete a user by Id
+
+  /**
+   *
+   * delete a user by Id
+   * @param {any} req
+   * @param {any} res
+   * @returns - null
+   */
   deleteUser(req, res) {
     if (req.decoded.roleId !== 1) {
       return res.status(403).json({
@@ -142,7 +169,14 @@ module.exports = {
     })
     .catch(error => res.status(400).send(error));
   },
-  // log In user with JWT
+
+  /**
+   *
+   *log In user with JWT
+   * @param {object} req
+   * @param {object} res
+   * @returns - an object of the logged in user and a token
+   */
   logInWithJwt(req, res) {
     if (!req.body.email) {
       return res.status(401).json({
@@ -193,7 +227,14 @@ module.exports = {
         }
       }).catch(error => res.status(400).send(error));
   },
-  // get all users
+
+  /**
+   * get all users
+   *
+   * @param {number} req
+   * @param {number} res
+   * @returns - an array of users
+   */
   getAllUsers(req, res) {
     const limit = req.query.limit;
     const offset = req.query.offset;
@@ -202,12 +243,25 @@ module.exports = {
     .then(user => res.status(200).send(user))
     .catch(error => res.status(400).send(error));
   },
-  // log the user out
+
+  /**
+   *Log the user out
+   *
+   * @param {string} req
+   * @param {object} res
+   */
   logOutUser(req, res) {
     res.status(200).json({
       message: 'You have logged out successfully'
     });
   },
+  /**
+   *search for user using a query string
+   *
+   * @param {string} req
+   * @param {array} res
+   * @returns - array users searched
+   */
   searchUser(req, res) {
     const searchQuery = req.query.q;
     if (!searchQuery) {

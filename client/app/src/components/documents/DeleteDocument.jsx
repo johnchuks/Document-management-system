@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import toastr from 'toastr';
 import { deleteDocument } from '../../actions/documentActions';
 
-class DeleteDocument extends React.Component {
+export class DeleteDocument extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

@@ -1,8 +1,7 @@
 import React from 'react';
 import DeleteUser from './DeleteUser.jsx';
 
-class AllUsersList extends React.Component {
-  render() {
+const AllUsersList = (props) => {
     return (
       <div>
         <table className="bordered">
@@ -14,7 +13,7 @@ class AllUsersList extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.allUsers.map(user => (
+            {props.allUsers.map(user => (
               <tr key={user.id}>
                 <td>{user.fullName}</td>
                 <td>{user.email}</td>
@@ -25,6 +24,5 @@ class AllUsersList extends React.Component {
         </table>
       </div>
     );
-  }
 }
 export default AllUsersList;

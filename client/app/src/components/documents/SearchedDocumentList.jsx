@@ -2,13 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import striptags from 'striptags';
 
-class SearchedList extends React.Component {
-  render() {
+const SearchedDocumentList = (props) => {
     return (
       <div>
         <div className="container">
           <div className="row" >
-            {this.props.document.map(document => (
+            {props.document.map(document => (
               <div className="col s12 m4" key={document.id}>
                 <div className="card small  grey lighten-4">
                   <div className="card-content black-text">
@@ -27,6 +26,5 @@ class SearchedList extends React.Component {
         </div>
       </div>
     );
-  }
 }
-export default SearchedList;
+export default SearchedDocumentList;

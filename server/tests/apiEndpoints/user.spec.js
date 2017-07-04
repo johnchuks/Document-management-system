@@ -1,7 +1,7 @@
 process.env.NODE_ENV = 'test';
 // Require the dev-dependencies
 const chai = require('chai');
-
+require('dotenv').config()
 const expect = chai.expect;
 const chaiHttp = require('chai-http');
 const server = require('../../config/server');
@@ -13,7 +13,7 @@ describe('Users', () => {
   before((done) => {
     chai.request(server)
       .post('/users/login')
-      .send({ email: 'admin@admin.com', password: 'adminpassword' })
+      .send({ email: 'johnbosco.ohia@andela.com', password: process.env.PASSWORD })
         .end((err, res) => {
           adminToken = res.body.token;
           done();

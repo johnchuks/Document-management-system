@@ -8,6 +8,7 @@ import DocumentForm from './DocumentForm.jsx';
 import NavigationBar from '../users/NavigationBar.jsx';
 import UpdateDocumentForm from './UpdateDocumentForm.jsx';
 import DeleteDocument from './DeleteDocument.jsx';
+import DocumentView from './DocumentView.jsx';
 
 class ViewUserDocuments extends React.Component {
   constructor(props) {
@@ -71,7 +72,9 @@ class ViewUserDocuments extends React.Component {
                   <div className="card-action">
                     <p>{document.access}</p>
                     <DeleteDocument cardDocument={document.id} />
-                    <UpdateDocumentForm cardDocuments={document} />
+                    <UpdateDocumentForm cardDocuments={document}
+                     />
+                     <DocumentView documentView={document} />
                   </div>
                 </div>
               </div>

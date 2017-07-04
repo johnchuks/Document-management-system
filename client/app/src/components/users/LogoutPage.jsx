@@ -8,7 +8,7 @@ class LogoutPage extends React.Component {
   }
   onSubmit() {
     localStorage.removeItem('jwtToken');
-    this.props.history.push('/login');
+    this.props.history.push('/');
   }
   render() {
     return (
@@ -29,7 +29,7 @@ class LogoutPage extends React.Component {
               <li>
                 <a
                   className="waves-effect wave-light"
-                  href="/login"
+                  href="/"
                   onClick={this.onSubmit}
                 >
                   Logout

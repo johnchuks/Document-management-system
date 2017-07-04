@@ -4,9 +4,9 @@ const env = require('dotenv').config();
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('User', [{
-      fullName: 'admin',
+      fullName: 'Johnbosco Ohia',
       userName: 'admin',
-      email: 'admin@admin.com',
+      email: 'johnbosco.ohia@andela.com',
       password: bcrypt.hashSync(process.env.PASSWORD, bcrypt.genSaltSync(8), null),
       roleId: 1,
       createdAt: new Date(),
