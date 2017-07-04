@@ -1,6 +1,7 @@
 process.NODE_ENV = 'test';
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+require('dotenv').config();
 const server = require('../../config/server');
 const samples = require('./mockdata');
 
@@ -12,7 +13,7 @@ describe('Roles', () => {
   before((done) => {
     chai.request(server)
       .post('/users/login')
-      .send({ email: 'admin@admin.com', password: 'adminpassword' })
+      .send({ email: 'johnbosco.ohia@andela.com', password: process.env.PASSWORD })
       .end((err, res) => {
         adminToken = res.body.token;
         done();
