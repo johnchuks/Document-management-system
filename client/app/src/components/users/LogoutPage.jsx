@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
-class LogoutPage extends React.Component {
+export class LogoutPage extends React.Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
@@ -12,10 +12,9 @@ class LogoutPage extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div id="nav">
         <nav>
           <div className="nav-wrapper">
-
             <a
               href="#"
               data-activates="slide-out"

@@ -6,7 +6,7 @@ import ReactPaginate from 'react-paginate';
 import { fetchAllDocuments } from '../../actions/documentActions';
 import DocumentView from '../documents/DocumentView.jsx';
 
-class ViewPublicDouments extends React.Component {
+export class AllDocuments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -80,4 +80,4 @@ const mapStateToProps = state => ({
   pageCount: state.fetchDocuments.pagination.pageCount,
   userDetails: state.usersReducer.user.roleId
 });
-export default connect(mapStateToProps)(ViewPublicDouments);
+export default connect(mapStateToProps)(AllDocuments);

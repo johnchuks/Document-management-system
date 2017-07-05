@@ -55,7 +55,7 @@ export class DocumentForm extends React.Component {
           <form className="col s12">
             <div className="row">
               <div className="input-field col s12">
-                <input id="title" name="title" onChange={this.handleChange} />
+                <input id="title" name="title" onChange={this.handleChange} className="validate" />
                 <label htmlFor="title">Title</label>
                 {errors.title &&
                   <span className="alert alert-danger">

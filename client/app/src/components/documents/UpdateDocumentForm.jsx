@@ -56,10 +56,12 @@ export class UpdateDocumentForm extends React.Component {
             <div className="row">
               <div className="input-field col s12">
                 <input
-                  id={`title${this.state.documentId}`}
+                  id="title"
                   name="title"
+                  type="text"
                   onChange={this.handleChange}
                   value={this.state.title}
+                  className="validate"
                 />
                 <label htmlFor="title">Title</label>
               </div>
@@ -68,7 +70,6 @@ export class UpdateDocumentForm extends React.Component {
                   onChange={this.handleChange}
                   content={this.state.content}
                 />
-                <label htmlFor="textarea">Content</label>
               </div>
               <div className="col s6">
                 <label>Select role type</label>

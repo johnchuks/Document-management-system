@@ -5,7 +5,7 @@ import toastr from 'toastr';
 import { deleteUser } from '../../actions/userActions';
 
 
-class DeleteUser extends React.Component {
+export class DeleteUser extends React.Component {
   constructor(props) {
     super(props);
     this.onDeleteUser = this.onDeleteUser.bind(this);
