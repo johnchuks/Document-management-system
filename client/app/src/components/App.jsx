@@ -20,6 +20,7 @@ import ViewAllUsers from './users/ViewAllUsers.jsx';
 import SearchUsers from './users/SearchUsers.jsx';
 
 
+
 const history = createBrowserHistory();
 
 
@@ -34,15 +35,16 @@ ReactDOM.render(
 <Provider store={store}>
 <Router history={history}>
   <Switch>
-  {/*<Route exact path="/" component={LandingPage} />*/}
   <Route path="/signup" component={SignupPage} />
   <Route exact path="/" component={LoginPage} />
+
   <Route exact path="/dashboard" component={DashboardPage}/>
   <Route path="/documents" component={ViewUserDocuments} />
   <Route path="/profile" component={EditProfile} />
   <Route path="/searchdocument" component={SearchDocuments} />
   <Route path="/viewusers" component={ViewAllUsers} />
   <Route path="/searchuser" component={SearchUsers} />
+
   </Switch>
 </Router>
 </Provider>

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
 import striptags from 'striptags';
+import { withRouter } from 'react-router-dom';
 import { fetchDocument } from '../../actions/documentActions';
 import DocumentForm from './DocumentForm.jsx';
 import NavigationBar from '../users/NavigationBar.jsx';
@@ -23,6 +24,9 @@ class ViewUserDocuments extends React.Component {
   }
 
   componentDidMount() {
+    if (this.props.isAuthenticated === false) {
+      this.props.history.push('/');
+    }
     this.props.dispatch(fetchDocument(this.state));
   }
   componentWillReceiveProps(nextProps) {
@@ -37,6 +41,7 @@ class ViewUserDocuments extends React.Component {
   }
 
   render() {
+     if (this.props.isAuthenticated === false) return null;
     const userDocuments = this.state.document;
     return (
       <div>
@@ -88,7 +93,8 @@ class ViewUserDocuments extends React.Component {
 
 const mapStateToProps = state => ({
   user: state.usersReducer.user.id,
+  isAuthenticated: state.usersReducer.isAuthenticated,
   document: state.fetchDocuments.document,
   pageCount: state.fetchDocuments.pagination.pageCount
 });
-export default connect(mapStateToProps)(ViewUserDocuments);
+export default connect(mapStateToProps)(withRouter(ViewUserDocuments));
