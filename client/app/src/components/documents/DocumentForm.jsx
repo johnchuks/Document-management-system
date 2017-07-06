@@ -63,9 +63,12 @@ class DocumentForm extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     this.setState({ errors: {} });
-    this.props
-      .document(this.state)
-      .then(() => {}, error => this.setState({ errors: error.response.data }));
+    this.props.document(this.state).then((error) => {
+      if (error) {
+        console.log(error.response);
+        this.setState({ errors: error });
+      }
+    });
   }
 
   render() {

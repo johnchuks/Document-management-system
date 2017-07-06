@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import striptags from 'striptags';
+import { withRouter } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import { fetchAllDocuments } from '../../actions/documentActions';
 import DocumentView from '../documents/DocumentView.jsx';
@@ -32,6 +33,9 @@ class AllDocuments extends React.Component {
    */
   componentDidMount() {
     $('.button-collapse').sideNav('hide');
+    if (this.props.isAuthenticated === false) {
+      this.props.history.push('/');
+    }
     this.props.fetchAllDocuments(this.state);
   }
   /** updates the state of documents and role id upon rendering
@@ -63,6 +67,7 @@ class AllDocuments extends React.Component {
   }
 
   render() {
+    if (this.props.isAuthenticated === false) return null;
     const publicRoleDocument = this.state.documents;
     return (
       <div>
@@ -106,12 +111,15 @@ AllDocuments.propTypes = {
   publicDocument: PropTypes.array.isRequired,
   pageCount: PropTypes.number,
   roleId: PropTypes.number.isRequired,
-  fetchAllDocuments: PropTypes.func.isRequired
+  fetchAllDocuments: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
   publicDocument: state.fetchDocuments.document,
   pageCount: state.fetchDocuments.pagination.pageCount,
-  roleId: state.usersReducer.user.roleId
+  roleId: state.usersReducer.user.roleId,
+  isAuthenticated: state.usersReducer.isAuthenticated
 });
-export default connect(mapStateToProps, { fetchAllDocuments })(AllDocuments);
+export default
+  connect(mapStateToProps, { fetchAllDocuments })(withRouter(AllDocuments));

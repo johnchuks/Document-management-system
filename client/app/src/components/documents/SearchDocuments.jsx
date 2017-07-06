@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import toastr from 'toastr';
 import NavigationBar from '../users/NavigationBar.jsx';
 import { searchDocument } from '../../actions/documentActions';
@@ -31,6 +32,9 @@ class SearchDocuments extends React.Component {
    * @memberof SearchDocument
    */
   componentDidMount() {
+    if (this.props.isAuthenticated === false) {
+      return this.props.history.push('/');
+    }
     $('.button-collapse').sideNav('hide');
   }
   /**
@@ -61,6 +65,7 @@ class SearchDocuments extends React.Component {
     });
   }
   render() {
+    if (this.props.isAuthenticated === false) return null;
     const searchList = this.state.searchList;
     const searchListFiltered = searchList.filter((document) => {
       if (document.access === 'role') {
@@ -103,11 +108,15 @@ class SearchDocuments extends React.Component {
 }
 SearchDocuments.propTypes = {
   searchResult: PropTypes.array,
-  userRoleId: PropTypes.number.isRequired,
-  searchDocument: PropTypes.func.isRequired
+  userRoleId: PropTypes.number,
+  searchDocument: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  history: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
   searchResult: state.fetchDocuments.document.rows,
-  userRoleId: state.usersReducer.user.roleId
+  userRoleId: state.usersReducer.user.roleId,
+  isAuthenticated: state.usersReducer.isAuthenticated
 });
-export default connect(mapStateToProps, { searchDocument })(SearchDocuments);
+export default
+  connect(mapStateToProps, { searchDocument })(withRouter(SearchDocuments));
