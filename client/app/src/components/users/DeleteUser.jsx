@@ -1,19 +1,32 @@
 import React from 'react';
 import { Modal, Button } from 'react-materialize';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import toastr from 'toastr';
 import { deleteUser } from '../../actions/userActions';
 
 
+/**
+ *
+ * Deletes a user by id
+ * @export
+ * @class DeleteUser
+ * @extends {React.Component}
+ */
 export class DeleteUser extends React.Component {
   constructor(props) {
     super(props);
     this.onDeleteUser = this.onDeleteUser.bind(this);
   }
 
+  /**
+   *
+   * @returns {*} dispatches a delete user action
+   * @memberof DeleteUser
+   */
   onDeleteUser() {
     event.preventDefault();
-    this.props.dispatch(deleteUser(this.props.user)).then((error) => {
+    this.props.deleteUser(this.props.user).then((error) => {
       if (!error) {
         toastr.success('user deleted successfully');
       }
@@ -25,7 +38,9 @@ export class DeleteUser extends React.Component {
       <div>
         <Modal
           trigger={
-        <Button className="waves-effect waves-light btn orange" id="deleteUserButton"><i className="material-icons" id="deleteUserIcon">delete</i></Button>
+            <Button className="waves-effect waves-light btn orange"
+              id="deleteUserButton"><i className="material-icons"
+                id="deleteUserIcon">delete</i></Button>
           }
           actions={
             <div>
@@ -51,4 +66,8 @@ export class DeleteUser extends React.Component {
     );
   }
 }
-export default connect()(DeleteUser);
+DeleteUser.propTypes = {
+  deleteUser: PropTypes.func.isRequired,
+  user: PropTypes.number.isRequired
+};
+export default connect({ deleteUser })(DeleteUser);

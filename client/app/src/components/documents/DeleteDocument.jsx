@@ -5,7 +5,14 @@ import PropTypes from 'prop-types';
 import toastr from 'toastr';
 import { deleteDocument } from '../../actions/documentActions';
 
-export class DeleteDocument extends React.Component {
+/**
+ *
+ *Deletes a document by Id
+ * @export
+ * @class DeleteDocument
+ * @extends {React.Component}
+ */
+class DeleteDocument extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,9 +21,13 @@ export class DeleteDocument extends React.Component {
     };
     this.onDelete = this.onDelete.bind(this);
   }
+  /**
+   * @return {null}
+   *dispatches the delete document action on click event
+   * @memberof DeleteDocument
+   */
   onDelete() {
-    event.preventDefault();
-    this.props.dispatch(deleteDocument(this.state)).then(() => {
+    this.props.deleteDocument(this.state).then(() => {
       toastr.success('document deleted successfully');
     });
   }
@@ -53,9 +64,10 @@ export class DeleteDocument extends React.Component {
 }
 DeleteDocument.propTypes = {
   cardDocument: PropTypes.number.isRequired,
-  user: PropTypes.number.isRequired
+  user: PropTypes.number.isRequired,
+  deleteDocument: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
   user: state.usersReducer.user.id
 });
-export default connect(mapStateToProps)(DeleteDocument);
+export default connect(mapStateToProps, { deleteDocument })(DeleteDocument);

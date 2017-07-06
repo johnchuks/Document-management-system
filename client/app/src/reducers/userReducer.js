@@ -1,6 +1,8 @@
 import isEmpty from 'lodash/isEmpty';
 import { SET_LOGIN_USERS, CREATE_USERS,
-  FETCH_USERS, SEARCH_USERS, EDIT_USER, DELETE_USER } from '../constants/actionTypes';
+  FETCH_USERS, SEARCH_USERS, EDIT_USER,
+  DELETE_USER
+} from '../constants/actionTypes';
 
 
 const initialState = {
@@ -9,7 +11,14 @@ const initialState = {
   users: {}
 };
 
-export const usersReducer = (state = initialState, action = {}) => {
+ /**
+ *
+ *
+ * @param {object} [state=initialState] - sets the intialstate of users
+ * @param {object} [action={}] - object payload from the actions
+ * @returns {object} - returns users in an object
+ */
+const usersReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case SET_LOGIN_USERS: {
       return {
@@ -34,10 +43,12 @@ export const usersReducer = (state = initialState, action = {}) => {
       return { ...state, user: action.payload };
     }
     case DELETE_USER: {
-      const remainingUsers = state.users.filter(user => user.id !== action.payload);
+      const remainingUsers = state.users
+        .filter(user => user.id !== action.payload);
       return { ...state, users: remainingUsers };
     }
     default:
       return state;
   }
 };
+export default usersReducer;

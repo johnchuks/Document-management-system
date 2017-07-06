@@ -6,7 +6,14 @@ import ReactPaginate from 'react-paginate';
 import { fetchAllDocuments } from '../../actions/documentActions';
 import DocumentView from '../documents/DocumentView.jsx';
 
-export class AllDocuments extends React.Component {
+/**
+ *
+ *Renders all public and role documents
+ * @export
+ * @class AllDocuments
+ * @extends {React.Component}
+ */
+class AllDocuments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,25 +24,45 @@ export class AllDocuments extends React.Component {
     };
     this.handlePageChange = this.handlePageChange.bind(this);
   }
+  /**
+   * @returns {null}
+   *Dispatches the fetch All document action before the component
+   * mounts
+   * @memberof AllDocuments
+   */
   componentDidMount() {
-    this.props.dispatch(fetchAllDocuments(this.state));
+    $('.button-collapse').sideNav('hide');
+    this.props.fetchAllDocuments(this.state);
   }
+  /** updates the state of documents and role id upon rendering
+   *
+   *
+   * @param {object} nextProps - updated props from the store
+   * @return {null} - returns null
+   * @memberof AllDocuments
+   */
   componentWillReceiveProps(nextProps) {
     this.setState({
       documents: nextProps.publicDocument,
-      roleId: nextProps.userDetails
+      roleId: nextProps.roleId
     });
   }
-  handlePageChange(data) {
-    const selected = data.selected;
+  /** handles the pagination event and changes the offsets
+   * upon moving to a different page
+   *
+   * @param {number} page - the selected page number
+   * @returns {null} - returns null
+   * @memberof AllDocuments
+   */
+  handlePageChange(page) {
+    const selected = page.selected;
     const offset = Math.ceil(selected * this.state.limit);
     this.setState({ offset }, () => {
-      this.props.dispatch(fetchAllDocuments(this.state));
+      this.props.fetchAllDocuments(this.state);
     });
   }
 
   render() {
-    const userRole = this.state.roleId;
     const publicRoleDocument = this.state.documents;
     return (
       <div>
@@ -63,8 +90,8 @@ export class AllDocuments extends React.Component {
                     <p>{striptags(documents.content)}</p>
                   </div>
                   <div className="card-action">
-                    <p>{documents.access}   <DocumentView documentView={documents} /></p>
-
+                    <p>{documents.access}</p>
+                      <DocumentView documentView={documents} />
                   </div>
                 </div>
               </div>
@@ -75,9 +102,16 @@ export class AllDocuments extends React.Component {
     );
   }
 }
+AllDocuments.propTypes = {
+  publicDocument: PropTypes.array.isRequired,
+  pageCount: PropTypes.number,
+  roleId: PropTypes.number.isRequired,
+  fetchAllDocuments: PropTypes.func.isRequired
+};
+
 const mapStateToProps = state => ({
   publicDocument: state.fetchDocuments.document,
   pageCount: state.fetchDocuments.pagination.pageCount,
-  userDetails: state.usersReducer.user.roleId
+  roleId: state.usersReducer.user.roleId
 });
-export default connect(mapStateToProps)(AllDocuments);
+export default connect(mapStateToProps, { fetchAllDocuments })(AllDocuments);

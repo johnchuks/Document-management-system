@@ -20,16 +20,11 @@ describe('<DeleteDocument />', () => {
   });
   it('Should have a modal for rendering delete options', () => {
     expect(wrapper.find('Modal')).to.have.length(1);
-    expect(wrapper.node.props.children).to.equal(wrapper.node.props.children);
   });
   it('Should have Buttons for deciding options', () => {
     expect(wrapper.find('Button')).to.not.be.undefined;
   });
   it('Should have a h5 tag for displaying message',() => {
     expect(wrapper.find('h5')).to.not.be.undefined;
-  });
-  it('Should have an ondelete instance', () => {
-    const onDeleteSpy = sinon.spy(wrapper.instance(), "onDelete");
-    expect(wrapper.instance().onDelete).to.equal(onDeleteSpy);
   });
 });

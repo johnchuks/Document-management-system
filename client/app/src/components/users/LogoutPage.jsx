@@ -1,11 +1,24 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-export class LogoutPage extends React.Component {
+/**
+ *
+ * logs the user out of the application
+ * @export
+ * @class LogoutPage
+ * @extends {React.Component}
+ */
+class LogoutPage extends React.Component {
   constructor(props) {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  /**
+   *
+   * @return {*} - null
+   * @memberof LogoutPage
+   */
   onSubmit() {
     localStorage.removeItem('jwtToken');
     this.props.history.push('/');
@@ -42,4 +55,7 @@ export class LogoutPage extends React.Component {
     );
   }
 }
+LogoutPage.propTypes = {
+  history: PropTypes.object.isRequired
+};
 export default withRouter(LogoutPage);

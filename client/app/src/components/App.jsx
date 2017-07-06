@@ -19,10 +19,7 @@ import '../../../../node_modules/toastr/toastr.scss';
 import ViewAllUsers from './users/ViewAllUsers.jsx';
 import SearchUsers from './users/SearchUsers.jsx';
 
-
-
 const history = createBrowserHistory();
-
 
 if (localStorage.jwtToken) {
   Authorization.setAuthToken(localStorage.jwtToken);
