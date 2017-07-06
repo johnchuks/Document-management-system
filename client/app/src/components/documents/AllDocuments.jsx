@@ -112,7 +112,9 @@ AllDocuments.propTypes = {
   pageCount: PropTypes.number,
   roleId: PropTypes.number.isRequired,
   fetchAllDocuments: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired
+  isAuthenticated: PropTypes.bool.isRequired,
+  history: PropTypes.object.isRequired,
+
 };
 
 const mapStateToProps = state => ({

@@ -39,14 +39,12 @@ axios.post('/api/documents', document).then((response) => {
  * @param {object} params - limits and offset as queries
  */
 
-const fetchAllDocuments = params => (dispatch) => {
-  return axios
+const fetchAllDocuments = params => dispatch => axios
   .get(`/api/documents/?limit=${params.limit}&offset=${params.offset}`)
   .then((response) => {
     const documents = response.data;
     dispatch(fetchAllDocumentsSuccess(documents));
   }).catch(error => error);
-};
 
 /**
  * @return {array} - array of users document

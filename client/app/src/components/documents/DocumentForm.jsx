@@ -65,7 +65,6 @@ class DocumentForm extends React.Component {
     this.setState({ errors: {} });
     this.props.document(this.state).then((error) => {
       if (error) {
-        console.log(error.response);
         this.setState({ errors: error });
       }
     });
