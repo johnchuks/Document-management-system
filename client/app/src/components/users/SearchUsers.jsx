@@ -6,6 +6,12 @@ import NavigationBar from '../users/NavigationBar.jsx';
 import { searchUser } from '../../actions/userActions';
 import SearchedUsersList from './SearchedUsersList.jsx';
 
+/**
+ *
+ * searches for users and returns the search results
+ * @class SearchUsers
+ * @extends {React.Component}
+ */
 class SearchUsers extends React.Component {
   constructor(props) {
     super(props);
@@ -17,9 +23,29 @@ class SearchUsers extends React.Component {
     this.onHandleChange = this.onHandleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  /**
+   *
+   * @return {*} - null
+   * @memberof SearchUsers
+   */
+  componentDidMount() {
+    $('.button-collapse').sideNav('hide');
+  }
+  /**
+   *
+   * @return{*} - updated state of the searchString
+   * @param {string} event - onchange value for from search input field
+   * @memberof SearchUsers
+   */
   onHandleChange(event) {
     this.setState({ searchString: event.target.value });
   }
+  /**
+   *
+   * @return{*} returns the search list from redux store
+   * @param {*} event - null
+   * @memberof SearchUsers
+   */
   onSubmit(event) {
     event.preventDefault();
     this.setState({ errors: {} });
@@ -69,6 +95,10 @@ class SearchUsers extends React.Component {
     );
   }
 }
+SearchUsers.propTypes = {
+  search: PropTypes.array,
+  searchUser: PropTypes.func.isRequired
+};
 const mapStateToProps = state => ({
   search: state.usersReducer.users
 });

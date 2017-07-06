@@ -8,7 +8,14 @@ const initialState = {
   pagination: {}
 };
 
-export const fetchDocuments = (state = initialState, action) => {
+ /**
+ *
+ *
+ * @param {object} [state=initialState] sets the intial state of the documents
+ * @param {array} action - contains payload from the action
+ * @returns {array} - returns an array of documents after updating the state
+ */
+const fetchDocuments = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ALL_DOCUMENTS: {
       return {
@@ -54,3 +61,4 @@ export const fetchDocuments = (state = initialState, action) => {
   }
 };
 
+export default fetchDocuments;

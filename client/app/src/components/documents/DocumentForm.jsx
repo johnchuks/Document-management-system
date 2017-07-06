@@ -5,7 +5,14 @@ import TinyMCE from 'react-tinymce';
 import { Modal, Button } from 'react-materialize';
 import { createDocument } from '../../actions/documentActions';
 
-export class DocumentForm extends React.Component {
+/**
+ *
+ * creates a document by filling the form field
+ * @export
+ * @class DocumentForm
+ * @extends {React.Component}
+ */
+class DocumentForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,15 +27,39 @@ export class DocumentForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.handleEditorChange = this.handleEditorChange.bind(this);
   }
+  /**
+   * handles an on change event filling in the signup form
+   * @return {null} - return null
+   * @param {string} event - value from each field
+   * @memberof DocumentForm
+   */
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
+  /**
+   * Handles change in the Tiny mc editor
+   * @returns {null} returns null
+   * @param {string} e value from the editor field
+   * @memberof DocumentForm
+   */
   handleEditorChange(e) {
     this.setState({ content: e.target.getContent() });
   }
+  /**
+   * Handles the onClick funtion
+   * @returns {null}  returns null
+   * @param {string} event value from the option chnage
+   * @memberof DocumentForm
+   */
   optionChange(event) {
     this.setState({ value: event.target.value });
   }
+  /**
+   * Handles the onClick event
+   * @return {object} - returns on click of the submit button
+   * @param {string} event - null
+   * @memberof DocumentForm
+   */
   onSubmit(event) {
     event.preventDefault();
     this.setState({ errors: {} });
@@ -55,7 +86,8 @@ export class DocumentForm extends React.Component {
           <form className="col s12">
             <div className="row">
               <div className="input-field col s12">
-                <input id="title" name="title" onChange={this.handleChange} />
+                <input id="title" name="title" onChange={this.handleChange}
+                  className="validate" />
                 <label htmlFor="title">Title</label>
                 {errors.title &&
                   <span className="alert alert-danger">
@@ -103,6 +135,10 @@ export class DocumentForm extends React.Component {
     );
   }
 }
+DocumentForm.propTypes = {
+  document: PropTypes.func.isRequired,
+  user: PropTypes.number
+};
 const mapStateToProps = state => ({
   user: state.usersReducer.user.id
 });

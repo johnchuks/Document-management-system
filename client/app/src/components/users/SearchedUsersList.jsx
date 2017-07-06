@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ *
+ * renders the searched users list
+ * @class SearchedUsersList
+ * @extends {React.Component}
+ */
 class SearchedUsersList extends React.Component {
   render() {
-
     return (
       <div>
         <table className="bordered">
@@ -26,4 +31,7 @@ class SearchedUsersList extends React.Component {
     );
   }
 }
+SearchedUsersList.propTypes = {
+  users: PropTypes.array.isRequired
+};
 export default SearchedUsersList;

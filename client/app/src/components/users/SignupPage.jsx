@@ -1,9 +1,16 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { signupAction } from '../../actions/userActions';
 import Navigation from './Navigation.jsx';
 
+/**
+ *
+ *
+ * @class SignupPage
+ * @extends {React.Component}
+ */
 class SignupPage extends React.Component {
   constructor(props) {
     super(props);
@@ -17,15 +24,27 @@ class SignupPage extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  /**
+   *
+   * @return {*} - updated state of the inputs
+   * @param {string} event - returns the on change value from the input fields
+   * @memberof SignupPage
+   */
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
+  /**
+   *
+   * @return {*} - dispatches the action
+   * @param {*} event - null
+   * @memberof SignupPage
+   */
   onSubmit(event) {
     this.setState({ errors: {} });
     event.preventDefault();
     this.props.signup(this.state).then(
       () => {
-        this.props.history.push('/dashboard'); // big edge case
+        this.props.history.push('/dashboard');
       },
       error => this.setState({ errors: error.response.data })
     );
@@ -43,7 +62,7 @@ class SignupPage extends React.Component {
             <form className="col s12 z-depth-5" id="signup">
               <div className="row">
                 <div className="col s12">
-                  <h5> Sign Up to DocumentME</h5>
+                  <h5 id="signupId"> Sign Up to DocumentME</h5>
                 </div>
               </div>
               <div className="row">
@@ -131,6 +150,10 @@ class SignupPage extends React.Component {
     );
   }
 }
+SignupPage.propTypes = {
+  history: PropTypes.object.isRequired,
+  signup: PropTypes.func.isRequired
+};
 const mapDispatchToProps = dispatch => ({
   signup: signupCredentials => dispatch(signupAction(signupCredentials))
 });

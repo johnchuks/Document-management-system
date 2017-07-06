@@ -60,15 +60,7 @@ describe('<SearchDocuments />', () => {
   const container = wrapper.find(SearchDocuments);
   assert.isDefined(container.find('div'));
  });
- it('Should have an onClick function', () => {
-   const container = wrapper.find(SearchDocuments);
-   const onSubmitSpy = sinon.stub(wrapper.instance(), "onSubmit");
-    assert.isDefined(onSubmitSpy);
- });
- it('Should have an onChange function', () => {
-   const onHandleChangeSpy = sinon.stub(wrapper.instance(), "onHandleChange");
-   assert.isDefined(onHandleChangeSpy);
- });
+
  it('Should have a search button', () => {
    const container = wrapper.find(SearchDocuments);
    assert.isDefined(container.find('#searchButton'));

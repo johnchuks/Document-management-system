@@ -7399,6 +7399,30 @@ tbody tr td {
 
 thead tr th {
   text-align: center; }
+
+#loginId {
+  color: white; }
+
+#email {
+  color: white; }
+
+#password {
+  color: white; }
+
+#full_Name {
+  color: white; }
+
+#user_Name {
+  color: white; }
+
+#signupId {
+  color: white; }
+
+#editEmail {
+  color: black; }
+
+#editpassword {
+  color: black; }
 .toast-title {
   font-weight: bold; }
 

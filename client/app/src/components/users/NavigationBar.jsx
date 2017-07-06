@@ -1,8 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import LogoutPage from './LogoutPage.jsx';
 
-export class NavigationBar extends React.Component {
+/**
+ *
+ * this component renders the navigation for admin and non admin user
+ * @class NavigationBar
+ * @extends {React.Component}
+ */
+class NavigationBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,7 +19,13 @@ export class NavigationBar extends React.Component {
       email: this.props.profileEmail
     };
   }
-  /* eslint */
+
+  /**
+   *
+   * @return {*} - null
+   *
+   * @memberof NavigationBar
+   */
   componentDidMount() {
     $('.button-collapse').sideNav();
     $('.collapsible').collapsible();
@@ -38,24 +52,24 @@ export class NavigationBar extends React.Component {
             </div>
           </li>
           <li>
-            <a href="/dashboard">
+            <Link to="/dashboard">
               <i className="material-icons">dashboard</i>View documents
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/documents">
+            <Link to="/documents">
               <i className="material-icons">work</i>My documents
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/searchdocument">
+            <Link to="/searchdocument">
               <i className="material-icons">search</i>Search Document
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/profile">
+            <Link to="/profile">
               <i className="material-icons">account_box</i>Edit Profile
-            </a>
+            </Link>
           </li>
         </ul>
 
@@ -76,34 +90,34 @@ export class NavigationBar extends React.Component {
             </div>
           </li>
           <li>
-            <a href="/dashboard">
+            <Link to="/dashboard">
               <i className="material-icons">work</i>View all documents
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/documents">
+            <Link to="/documents">
               <i className="material-icons">work</i>My documents
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/viewusers">
+            <Link to="/viewusers">
               <i className="material-icons">people</i>Manage Users
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/searchuser">
+            <Link to="/searchuser">
               <i className="material-icons">search</i>Search for users
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/searchdocument">
+            <Link to="/searchdocument">
               <i className="material-icons">search</i>Search Document
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/profile">
+            <Link to="/profile">
               <i className="material-icons">account_box</i>Edit Profile
-            </a>
+            </Link>
           </li>
         </ul>
       );
@@ -116,6 +130,12 @@ export class NavigationBar extends React.Component {
     );
   }
 }
+NavigationBar.propTypes = {
+  profileId: PropTypes.number.isRequired,
+  profileEmail: PropTypes.string.isRequired,
+  profileName: PropTypes.string.isRequired
+};
+
 const mapStateToProps = state => ({
   profileId: state.usersReducer.user.roleId,
   profileName: state.usersReducer.user.fullName,

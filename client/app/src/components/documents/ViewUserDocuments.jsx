@@ -3,18 +3,25 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
 import striptags from 'striptags';
+import { withRouter } from 'react-router-dom';
 import { fetchDocument } from '../../actions/documentActions';
-import DocumentForm from './DocumentForm.jsx';
+import DocumentForm  from './DocumentForm.jsx';
 import NavigationBar from '../users/NavigationBar.jsx';
-import UpdateDocumentForm from './UpdateDocumentForm.jsx';
-import DeleteDocument from './DeleteDocument.jsx';
+import  UpdateDocumentForm  from './UpdateDocumentForm.jsx';
+import DeleteDocument  from './DeleteDocument.jsx';
 import DocumentView from './DocumentView.jsx';
 
+/**
+ *
+ * fetches all user document and displays and renders it
+ * @class ViewUserDocuments
+ * @extends {React.Component}
+ */
 class ViewUserDocuments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: this.props.user,
+      id: this.props.userId,
       document: [],
       offset: 0,
       limit: 6
@@ -22,21 +29,44 @@ class ViewUserDocuments extends React.Component {
     this.handlePageChange = this.handlePageChange.bind(this);
   }
 
+  /**
+   * @return {*} - null
+   * checks if the user is authenticated before mounting the component
+   * @memberof ViewUserDocuments
+   */
   componentDidMount() {
-    this.props.dispatch(fetchDocument(this.state));
+    $('.button-collapse').sideNav('hide');
+    if (this.props.isAuthenticated === false) {
+      this.props.history.push('/');
+    }
+    this.props.fetchDocument(this.state);
   }
+  /**
+   * @returns {*} - null
+   * recieves new props from the redux store as the
+   *  component renders or rerenders
+   * @param {array} nextProps - array of document recieved from redux store
+   * @memberof ViewUserDocuments
+   */
   componentWillReceiveProps(nextProps) {
-    this.setState({ document: nextProps.document });
+    this.setState({ document: nextProps.userDocument });
   }
+  /**
+   * updates the offset on page change
+   * @returns{*} returns a dispatch fetch document action
+   * @param {number} data -current page selected
+   * @memberof ViewUserDocuments
+   */
   handlePageChange(data) {
     const selected = data.selected;
     const offset = Math.ceil(selected * this.state.limit);
     this.setState({ offset }, () => {
-      this.props.dispatch(fetchDocument(this.state));
+      this.props.fetchDocument(this.state);
     });
   }
 
   render() {
+    if (this.props.isAuthenticated === false) return null;
     const userDocuments = this.state.document;
     return (
       <div>
@@ -85,10 +115,19 @@ class ViewUserDocuments extends React.Component {
     );
   }
 }
-
+ViewUserDocuments.propTypes = {
+  userId: PropTypes.number.isRequired,
+  userDocument: PropTypes.array.isRequired,
+  pageCount: PropTypes.number,
+  isAuthenticated: PropTypes.bool.isRequired,
+  history: PropTypes.object.isRequired,
+  fetchDocument: PropTypes.func.isRequired
+};
 const mapStateToProps = state => ({
-  user: state.usersReducer.user.id,
-  document: state.fetchDocuments.document,
+  userId: state.usersReducer.user.id,
+  isAuthenticated: state.usersReducer.isAuthenticated,
+  userDocument: state.fetchDocuments.document,
   pageCount: state.fetchDocuments.pagination.pageCount
 });
-export default connect(mapStateToProps)(ViewUserDocuments);
+export default
+  connect(mapStateToProps, { fetchDocument })(withRouter(ViewUserDocuments));

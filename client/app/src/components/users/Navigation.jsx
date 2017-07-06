@@ -1,5 +1,9 @@
 import React from 'react';
 
+/**
+ * displats static navigation header
+ * @return {*} - null
+ */
 const Navigation = () => (
   <div>
     <nav>

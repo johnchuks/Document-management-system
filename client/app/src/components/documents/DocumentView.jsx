@@ -1,10 +1,15 @@
 import React from 'react';
 import { Modal } from 'react-materialize';
+import PropTypes from 'prop-types';
 import striptags from 'striptags';
 
-const DocumentView = props => {
-  console.log(props.documentView);
-  return (
+/**
+ *
+ *
+ * @param {object} props - contains an object of documents to be rendered
+ * @returns {*} returns a jsx marrkup for the modal and document in it
+ */
+const DocumentView = props => (
     <div>
       <Modal
         id={`title${props.documentView.id}`}
@@ -19,5 +24,7 @@ const DocumentView = props => {
       </Modal>
     </div>
   );
-}
+DocumentView.propTypes = {
+  documentView: PropTypes.object.isRequired
+};
 export default DocumentView;

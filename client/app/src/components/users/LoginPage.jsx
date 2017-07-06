@@ -5,6 +5,12 @@ import { withRouter } from 'react-router-dom';
 import { loginAction } from '../../actions/userActions';
 import Navigation from './Navigation.jsx';
 
+/**
+ *
+ * renders the login page component
+ * @class LoginPage
+ * @extends {React.Component}
+ */
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
@@ -19,9 +25,21 @@ class LoginPage extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  /**
+   *
+   * @return {*} updated state of the user details
+   * @param {string} event - on change event value from the input field
+   * @memberof LoginPage
+   */
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
+  /**
+   *
+   * @return {*} the login action is dispatched
+   * @param {*} event - on click event
+   * @memberof LoginPage
+   */
   onSubmit(event) {
     event.preventDefault();
     this.setState({ errors: {}, isLoading: true });
@@ -48,7 +66,7 @@ class LoginPage extends React.Component {
             <div className="col s12  z-depth-5" id="login">
               <div className="row">
                 <div className="col s12">
-                  <h5>Login into your account</h5>
+                  <h5 id="loginId">Login into your account</h5>
                   {errors.message &&
                     <div className="alert alert-danger">
                       {errors.message}

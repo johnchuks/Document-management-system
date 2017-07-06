@@ -6,7 +6,14 @@ import TinyMCE from 'react-tinymce';
 import toastr from 'toastr';
 import { updateDocument } from '../../actions/documentActions';
 
-export class UpdateDocumentForm extends React.Component {
+/**
+ *  This component updates a specific document
+ *
+ * @export
+ * @class UpdateDocumentForm
+ * @extends {React.Component}
+ */
+class UpdateDocumentForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,19 +28,42 @@ export class UpdateDocumentForm extends React.Component {
     this.handleEditorChange = this.handleEditorChange.bind(this);
   }
 
+  /**
+   *
+   * @return {*} - null
+   * @param {*} event - on change value from the input field
+   * @memberof UpdateDocumentForm
+   */
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
+  /**
+   *
+   * @return {*} - null
+   * @param {*} event - on option change value from the select option field
+   * @memberof UpdateDocumentForm
+   */
   optionChange(event) {
     this.setState({ value: event.target.value });
   }
+  /**
+   *
+   * @return {*} - null
+   * @param {*} event - on change value from the text editor
+   * @memberof UpdateDocumentForm
+   */
   handleEditorChange(event) {
-    this.setState({ content: event.target.getContent()});
+    this.setState({ content: event.target.getContent() });
   }
+  /**
+   *
+   * @return {*} - null
+   * @param {*} event - on click event for submitting the form
+   * @memberof UpdateDocumentForm
+   */
   onSubmit(event) {
     event.preventDefault();
-    console.log(this.state);
-    this.props.dispatch(updateDocument(this.state)).then(() => {
+    this.props.updateDocument(this.state).then(() => {
       toastr.success('document updated successfully');
     });
   }
@@ -56,10 +86,12 @@ export class UpdateDocumentForm extends React.Component {
             <div className="row">
               <div className="input-field col s12">
                 <input
-                  id={`title${this.state.documentId}`}
+                  id="title"
                   name="title"
+                  type="text"
                   onChange={this.handleChange}
                   value={this.state.title}
+                  className="validate"
                 />
                 <label htmlFor="title">Title</label>
               </div>
@@ -68,7 +100,6 @@ export class UpdateDocumentForm extends React.Component {
                   onChange={this.handleChange}
                   content={this.state.content}
                 />
-                <label htmlFor="textarea">Content</label>
               </div>
               <div className="col s6">
                 <label>Select role type</label>
@@ -97,9 +128,10 @@ export class UpdateDocumentForm extends React.Component {
   }
 }
 UpdateDocumentForm.propTypes = {
-  cardDocuments: PropTypes.object.isRequired
+  cardDocuments: PropTypes.object.isRequired,
+  updateDocument: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
   document: state.fetchDocuments.document
 });
-export default connect(mapStateToProps)(UpdateDocumentForm);
+export default connect(mapStateToProps, { updateDocument })(UpdateDocumentForm);

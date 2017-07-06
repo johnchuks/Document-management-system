@@ -1,9 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
+import PropTypes from 'prop-types';
 import { editProfile } from '../../actions/userActions';
 import NavigationBar from './NavigationBar.jsx';
 
+/**
+ *
+ * updates the user profile
+ * @class EditProfile
+ * @extends {React.Component}
+ */
 class EditProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -17,9 +24,29 @@ class EditProfile extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  /**
+   * hides the side navigation when the component is rendered
+   * @return{*} - null
+   * @memberof EditProfile
+   */
+  componentDidMount() {
+    $('.button-collapse').sideNav('hide');
+  }
+  /**
+   *
+   * @return {*} - returns a new state of the inputs
+   * @param {string} event - on Change value from the inpput field
+   * @memberof EditProfile
+   */
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
+  /**
+   *
+   * @return {*} displays a toastr on success
+   * @param {*} event on click dispatches the edit profile action
+   * @memberof EditProfile
+   */
   onSubmit(event) {
     event.preventDefault();
     this.props.profile(this.state).then(() => {
@@ -66,26 +93,26 @@ class EditProfile extends React.Component {
             <div className="row">
               <div className="input-field col s6">
                 <input
-                  id="password"
+                  id="editEmail"
                   name="email"
                   type="email"
                   onChange={this.onChange}
                   className="validate"
                   value={this.state.email}
                 />
-                <label htmlFor="password">Email</label>
+                <label htmlFor="email">Email</label>
               </div>
             </div>
             <div className="row">
               <div className="input-field col s6">
                 <input
-                  id="email"
+                  id="editpassword"
                   name="password"
                   type="password"
                   onChange={this.onChange}
                   className="validate"
                 />
-                <label htmlFor="email">Password</label>
+                <label htmlFor="password">Password</label>
               </div>
             </div>
             <div className="row">
@@ -106,6 +133,11 @@ class EditProfile extends React.Component {
     );
   }
 }
+EditProfile.propTypes = {
+  profile: PropTypes.func.isRequired,
+  user: PropTypes.object
+};
+
 const mapStateToProps = state => ({
   user: state.usersReducer.user
 });
