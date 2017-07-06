@@ -1,8 +1,8 @@
 # DocumentME- Document Management System
 
-[![Build Status](https://travis-ci.org/andela-johia/Document-management-system.png?branch=master)](https://travis-ci.org/andela-johia/Document-management-system)
+[![Build Status](https://travis-ci.org/andela-johia/Document-management-system.svg?branch=staging)](https://travis-ci.org/andela-johia/Document-management-system)
 
-[![Coverage Status](https://coveralls.io/repos/github/andela-johia/Document-management-system/badge.png)](https://coveralls.io/github/andela-johia/Document-management-system)
+[![Coverage Status](https://coveralls.io/repos/github/andela-johia/Document-management-system/badge.svg?branch=feature%2F147917171%2Fget-users-and-search-documents)](https://coveralls.io/github/andela-johia/Document-management-system?branch=feature%2F147917171%2Fget-users-and-search-documents)
 
 
 ## Introduction
