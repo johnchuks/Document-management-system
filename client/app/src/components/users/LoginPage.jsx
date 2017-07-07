@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import toastr from 'toastr';
 import { loginAction } from '../../actions/userActions';
 import Navigation from './Navigation.jsx';
 
@@ -46,6 +47,7 @@ class LoginPage extends React.Component {
     this.props.login(this.state).then((error) => {
       if (!error) {
         this.props.history.push('/dashboard');
+        toastr.success('You are Logged in successfully');
       } else {
         this.setState({ errors: error.response.data, isLoading: false });
         this.props.history.push('/');

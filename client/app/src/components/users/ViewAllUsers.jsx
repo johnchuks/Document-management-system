@@ -54,7 +54,7 @@ class ViewAllUsers extends React.Component {
 }
 ViewAllUsers.propTypes = {
   fetchUser: PropTypes.func.isRequired,
-  usersList: PropTypes.array.isRequired,
+  usersList: PropTypes.array,
   isAuthenticated: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired
 };

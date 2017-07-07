@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import toastr from 'toastr';
 import TinyMCE from 'react-tinymce';
 import { Modal, Button } from 'react-materialize';
 import { createDocument } from '../../actions/documentActions';
@@ -38,7 +39,7 @@ class DocumentForm extends React.Component {
   }
   /**
    * Handles change in the Tiny mc editor
-   * @returns {null} returns null
+   * @returns {void} returns null
    * @param {string} e value from the editor field
    * @memberof DocumentForm
    */
@@ -47,7 +48,7 @@ class DocumentForm extends React.Component {
   }
   /**
    * Handles the onClick funtion
-   * @returns {null}  returns null
+   * @returns {void}  returns null
    * @param {string} event value from the option chnage
    * @memberof DocumentForm
    */
@@ -66,6 +67,8 @@ class DocumentForm extends React.Component {
     this.props.document(this.state).then((error) => {
       if (error) {
         this.setState({ errors: error });
+      } else {
+        toastr.success('Document created successfully');
       }
     });
   }
@@ -76,7 +79,7 @@ class DocumentForm extends React.Component {
       <div>
         <Modal
           id="titleHeader"
-          header="Create new Document"
+          header="New Document"
           trigger={
             <div className="fixed-action-btn horizontal">
               <Button className="btn-floating btn-large red">
@@ -88,9 +91,8 @@ class DocumentForm extends React.Component {
           <form className="col s12">
             <div className="row">
               <div className="input-field col s12">
-                <input id="title" name="title" onChange={this.handleChange}
-                  className="validate" />
-                <label htmlFor="title">Title</label>
+                <input name="title" onChange={this.handleChange}
+                  className="validate" placeholder="Title..." />
                 {errors.title &&
                   <span className="alert alert-danger">
                     {errors.title}

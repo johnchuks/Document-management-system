@@ -37,7 +37,7 @@ const fetchDocuments = (state = initialState, action) => {
       };
     }
     case CREATE_DOCUMENT: {
-      const result = [...state.document, action.document];
+      const result = [action.document, ...state.document];
       return {
         ...state,
         document: result

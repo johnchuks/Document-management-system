@@ -13,9 +13,10 @@ import { deleteUser } from '../../actions/userActions';
  * @class DeleteUser
  * @extends {React.Component}
  */
-export class DeleteUser extends React.Component {
+class DeleteUser extends React.Component {
   constructor(props) {
     super(props);
+
     this.onDeleteUser = this.onDeleteUser.bind(this);
   }
 
@@ -70,4 +71,4 @@ DeleteUser.propTypes = {
   deleteUser: PropTypes.func.isRequired,
   user: PropTypes.number.isRequired
 };
-export default connect({ deleteUser })(DeleteUser);
+export default connect(null, { deleteUser })(DeleteUser);

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { DeleteUser } from './DeleteUser.jsx';
+import DeleteUser from './DeleteUser.jsx';
 
 /**
  *

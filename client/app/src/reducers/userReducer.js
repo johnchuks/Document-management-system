@@ -1,5 +1,5 @@
 import isEmpty from 'lodash/isEmpty';
-import { SET_LOGIN_USERS, CREATE_USERS,
+import { SET_AUTH_USERS,
   FETCH_USERS, SEARCH_USERS, EDIT_USER,
   DELETE_USER
 } from '../constants/actionTypes';
@@ -20,16 +20,10 @@ const initialState = {
  */
 const usersReducer = (state = initialState, action = {}) => {
   switch (action.type) {
-    case SET_LOGIN_USERS: {
+    case SET_AUTH_USERS: {
       return {
-        user: action.payload,
-        isAuthenticated: !isEmpty(action.payload)
-      };
-    }
-    case CREATE_USERS: {
-      return {
-        user: action.payload,
-        isAuthenticated: !isEmpty(action.payload)
+        user: action.user,
+        isAuthenticated: !isEmpty(action.user)
       };
     }
     case FETCH_USERS: {

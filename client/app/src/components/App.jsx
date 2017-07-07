@@ -11,7 +11,7 @@ import LoginPage from './users/LoginPage.jsx';
 import store from '../store/store';
 import '../sass/style.scss';
 import Authorization from '../../utils/authorization';
-import { setLoginUser, createUserAction } from '../actions/userActions';
+import { setAuthUser } from '../actions/userActions';
 import ViewUserDocuments from './documents/ViewUserDocuments.jsx';
 import EditProfile from './users/EditProfile.jsx';
 import SearchDocuments from './documents/SearchDocuments.jsx';
@@ -23,8 +23,7 @@ const history = createBrowserHistory();
 
 if (localStorage.jwtToken) {
   Authorization.setAuthToken(localStorage.jwtToken);
-  store.dispatch(setLoginUser(jwtDecode(localStorage.jwtToken)));
-  store.dispatch(createUserAction(jwtDecode(localStorage.jwtToken)));
+  store.dispatch(setAuthUser(jwtDecode(localStorage.jwtToken)));
 }
 
 
