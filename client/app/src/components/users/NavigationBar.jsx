@@ -22,13 +22,15 @@ class NavigationBar extends React.Component {
 
   /**
    *
-   * @return {*} - null
+   * @return {void} - null
    *
    * @memberof NavigationBar
    */
   componentDidMount() {
-    $('.button-collapse').sideNav();
-    $('.collapsible').collapsible();
+    if (this.props.isAuthenticated === true) {
+      $('.button-collapse').sideNav();
+      $('.collapsible').collapsible();
+    }
   }
 
   render() {
@@ -133,12 +135,15 @@ class NavigationBar extends React.Component {
 NavigationBar.propTypes = {
   profileId: PropTypes.number.isRequired,
   profileEmail: PropTypes.string.isRequired,
-  profileName: PropTypes.string.isRequired
+  profileName: PropTypes.string.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+
 };
 
 const mapStateToProps = state => ({
   profileId: state.usersReducer.user.roleId,
   profileName: state.usersReducer.user.fullName,
-  profileEmail: state.usersReducer.user.email
+  profileEmail: state.usersReducer.user.email,
+  isAuthenticated: state.usersReducer.isAuthenticated
 });
 export default connect(mapStateToProps)(NavigationBar);

@@ -8,7 +8,7 @@ UPDATE_DOCUMENT, SEARCH_DOCUMENT } from '../constants/actionTypes';
  *Dispatches created document to the reducer
  * @param {object} document - created document
  */
-const createDocumentAction = document => ({
+const createDocumentSuccess = document => ({
   type: CREATE_DOCUMENT,
   document,
 });
@@ -18,7 +18,7 @@ const createDocumentAction = document => ({
  *  dispatches all document in an array to the reducer
  * @param {array} documents - fetched documents
  */
-const fetchAllDocumentsAction = documents => ({
+const fetchAllDocumentsSuccess = documents => ({
   type: FETCH_ALL_DOCUMENTS,
   payload: documents
 });
@@ -30,8 +30,8 @@ const fetchAllDocumentsAction = documents => ({
 const createDocument = document => dispatch =>
 axios.post('/api/documents', document).then((response) => {
   const documentData = response.data;
-  dispatch(createDocumentAction(documentData));
-}).catch(error => error);
+  dispatch(createDocumentSuccess(documentData));
+}).catch(error => error.response.data);
 
 /**
  * @return {array} - array of documents with pagination
@@ -39,21 +39,19 @@ axios.post('/api/documents', document).then((response) => {
  * @param {object} params - limits and offset as queries
  */
 
-const fetchAllDocuments = params => (dispatch) => {
-  return axios
+const fetchAllDocuments = params => dispatch => axios
   .get(`/api/documents/?limit=${params.limit}&offset=${params.offset}`)
   .then((response) => {
     const documents = response.data;
-    dispatch(fetchAllDocumentsAction(documents));
+    dispatch(fetchAllDocumentsSuccess(documents));
   }).catch(error => error);
-};
 
 /**
  * @return {array} - array of users document
  * dispatch fetchDocument payload to the reducer
  * @param {array} document - fetched user document
  */
-const fetchDocumentAction = document => ({
+const fetchDocumentSuccess = document => ({
   type: FETCH_USER_DOCUMENTS,
   payload: document
 });
@@ -68,7 +66,7 @@ axios.get(`/api/users/${user.id}/documents/
 ?limit=${user.limit}&offset=${user.offset}`)
 .then((response) => {
   const userDocuments = response.data;
-  dispatch(fetchDocumentAction(userDocuments));
+  dispatch(fetchDocumentSuccess(userDocuments));
 }).catch(error => error);
 
 /**
@@ -76,7 +74,7 @@ axios.get(`/api/users/${user.id}/documents/
  * dispatches the update document payload to the reducer
  * @param {object} document - updated document
  */
-const updateDocumentAction = document => ({
+const updateDocumentSuccess = document => ({
   type: UPDATE_DOCUMENT,
   document
 });
@@ -91,7 +89,7 @@ const updateDocument = (document) => {
   const documentId = document.documentId;
   return dispatch => axios.put(`/api/documents/${documentId}`, document)
   .then((response) => {
-    dispatch(updateDocumentAction(response.data));
+    dispatch(updateDocumentSuccess(response.data));
   }).catch(error => error);
 };
 
@@ -100,7 +98,7 @@ const updateDocument = (document) => {
  * dispatch the deleted document id to the reducer
  * @param {number} documentId - document id of deleted document
  */
-const deleteDocumentAction = documentId => ({
+const deleteDocumentSuccess = documentId => ({
   type: DELETE_DOCUMENT,
   payload: documentId
 });
@@ -112,7 +110,7 @@ const deleteDocumentAction = documentId => ({
  */
 const deleteDocument = document => dispatch =>
  axios.delete(`api/documents/${document.documentId}`).then(() => {
-   dispatch(deleteDocumentAction(document.documentId));
+   dispatch(deleteDocumentSuccess(document.documentId));
  }).catch(error => error);
 
 /**
@@ -120,7 +118,7 @@ const deleteDocument = document => dispatch =>
  * dispatches the searchResults to the reducer
  * @param {object} searchDocuments - array of searched documents
  */
-const searchDocumentAction = searchDocuments => ({
+const searchDocumentSuccess = searchDocuments => ({
   type: SEARCH_DOCUMENT,
   searchDocuments,
 });
@@ -134,13 +132,13 @@ const searchDocument = (search) => {
   const title = search.searchString;
   return dispatch => axios.get(`api/search/documents/?q=${title}`)
   .then((response) => {
-    dispatch(searchDocumentAction(response.data));
+    dispatch(searchDocumentSuccess(response.data));
   }).catch(error => error);
 };
 
 
-export { createDocumentAction,
-   createDocument, fetchDocumentAction,
+export { createDocumentSuccess,
+   createDocument, fetchDocumentSuccess,
   fetchDocument, fetchAllDocuments,
-  fetchAllDocumentsAction, updateDocument, searchDocument, deleteDocument };
+  fetchAllDocumentsSuccess, updateDocument, searchDocument, deleteDocument };
 

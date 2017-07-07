@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import toastr from 'toastr';
+import { withRouter } from 'react-router-dom';
 import NavigationBar from '../users/NavigationBar.jsx';
 import { searchUser } from '../../actions/userActions';
 import SearchedUsersList from './SearchedUsersList.jsx';
@@ -29,6 +30,9 @@ class SearchUsers extends React.Component {
    * @memberof SearchUsers
    */
   componentDidMount() {
+    if (this.props.isAuthenticated === false) {
+      this.props.history.push('/');
+    }
     $('.button-collapse').sideNav('hide');
   }
   /**
@@ -59,6 +63,7 @@ class SearchUsers extends React.Component {
     });
   }
   render() {
+    if (this.props.isAuthenticated === false) return null;
     const searchUsersList = this.state.searchList;
     const searchUsersListFiltered = searchUsersList.filter(
       user => user.roleId !== 1
@@ -96,10 +101,14 @@ class SearchUsers extends React.Component {
   }
 }
 SearchUsers.propTypes = {
-  search: PropTypes.array,
-  searchUser: PropTypes.func.isRequired
+  search: PropTypes.object,
+  searchUser: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 };
 const mapStateToProps = state => ({
-  search: state.usersReducer.users
+  search: state.usersReducer.users,
+  isAuthenticated: state.usersReducer.isAuthenticated
 });
-export default connect(mapStateToProps, { searchUser })(SearchUsers);
+export default
+  connect(mapStateToProps, { searchUser })(withRouter(SearchUsers));

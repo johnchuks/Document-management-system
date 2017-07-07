@@ -57,8 +57,8 @@ class UpdateDocumentForm extends React.Component {
   }
   /**
    *
-   * @return {*} - null
-   * @param {*} event - on click event for submitting the form
+   * @return {void} - null
+   * @param {void} event - on click event for submitting the form
    * @memberof UpdateDocumentForm
    */
   onSubmit(event) {
@@ -69,6 +69,7 @@ class UpdateDocumentForm extends React.Component {
   }
 
   render() {
+    console.log(this.state);
     return (
       <div>
         <Modal
@@ -97,7 +98,7 @@ class UpdateDocumentForm extends React.Component {
               </div>
               <div className="input-field col s12">
                 <TinyMCE
-                  onChange={this.handleChange}
+                  onChange={this.handleEditorChange}
                   content={this.state.content}
                 />
               </div>

@@ -453,5 +453,15 @@ describe('Documents', () => {
           expect(res.body).to.have.property('rows');
         });
      });
+     it('Should throw an error if the searched document is not found', () => {
+       const query='jk';
+       chai.request(server)
+        .get(`/api/search/documents/?q=${query}`)
+        .set({'authorization': userToken })
+        .end((err, res) => {
+          expect(res.status).to.equal(404);
+          expect(res.body).to.have.property('message').to.equal('Document not found');
+        });
+     })
    });
 });

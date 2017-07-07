@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { editProfile } from '../../actions/userActions';
 import NavigationBar from './NavigationBar.jsx';
@@ -30,6 +31,9 @@ class EditProfile extends React.Component {
    * @memberof EditProfile
    */
   componentDidMount() {
+    if (this.props.isAuthenticated === false) {
+      this.props.history.push('/');
+    }
     $('.button-collapse').sideNav('hide');
   }
   /**
@@ -54,6 +58,7 @@ class EditProfile extends React.Component {
     });
   }
   render() {
+    if (this.props.isAuthenticated === false) return null;
     const profileStyle = {
       marginLeft: '400px'
     };
@@ -135,13 +140,17 @@ class EditProfile extends React.Component {
 }
 EditProfile.propTypes = {
   profile: PropTypes.func.isRequired,
-  user: PropTypes.object
+  user: PropTypes.object,
+  history: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  user: state.usersReducer.user
+  user: state.usersReducer.user,
+  isAuthenticated: state.usersReducer.isAuthenticated
 });
 const mapDispatchToProps = dispatch => ({
   profile: profileCredentials => dispatch(editProfile(profileCredentials))
 });
-export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);
+export default
+  connect(mapStateToProps, mapDispatchToProps)(withRouter(EditProfile));

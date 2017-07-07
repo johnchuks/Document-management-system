@@ -317,6 +317,11 @@ module.exports = {
       ]
     })
       .then((document) => {
+        if (document.count === 0) {
+          return res.status(404).json({
+            message: 'Document not found'
+          });
+        }
         res.status(200).send(document);
       })
       .catch(error => res.status(400).send(error));

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { fetchUser } from '../../actions/userActions';
 import NavigationBar from './NavigationBar.jsx';
@@ -24,6 +25,9 @@ class ViewAllUsers extends React.Component {
    * @memberof ViewAllUsers
    */
   componentDidMount() {
+    if (this.props.isAuthenticated === false) {
+      this.props.history.push('/');
+    }
     $('.button-collapse').sideNav('hide');
     this.props.fetchUser();
   }
@@ -37,6 +41,7 @@ class ViewAllUsers extends React.Component {
     this.setState({ allUsers: nextProps.usersList });
   }
   render() {
+    if (this.props.isAuthenticated === false) return null;
     const users = this.state.allUsers.filter(user => user.roleId !== 1);
     return (
       <div>
@@ -49,9 +54,13 @@ class ViewAllUsers extends React.Component {
 }
 ViewAllUsers.propTypes = {
   fetchUser: PropTypes.func.isRequired,
-  usersList: PropTypes.array.isRequired
+  usersList: PropTypes.array,
+  isAuthenticated: PropTypes.bool.isRequired,
+  history: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
-  usersList: state.usersReducer.users
+  usersList: state.usersReducer.users,
+  isAuthenticated: state.usersReducer.isAuthenticated
 });
-export default connect(mapStateToProps, { fetchUser })(ViewAllUsers);
+export default
+  connect(mapStateToProps, { fetchUser })(withRouter(ViewAllUsers));

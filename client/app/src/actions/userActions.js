@@ -1,6 +1,6 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import { CREATE_USERS, FETCH_USERS, SET_LOGIN_USERS
+import { FETCH_USERS, SET_AUTH_USERS
   , SEARCH_USERS, EDIT_PROFILE, DELETE_USER } from '../constants/actionTypes';
 import Authorization from '../../utils/authorization';
 
@@ -49,10 +49,15 @@ axios.get(`/api/search/users/?q=${params.searchString}`)
  * sends created user response as a payload to the reducer
  * @param {object} user - created user payload
  */
-const createUserAction = user => ({
-  type: CREATE_USERS,
-  payload: user
+// const createUserAction = user => ({
+//   type: CREATE_USERS,
+//   payload: user
+// });
+const setAuthUser = user => ({
+  type: SET_AUTH_USERS,
+  user
 });
+
 
 /**
  * @return {object} - created user from the server side
@@ -64,7 +69,7 @@ axios.post('/users', userData).then((response) => {
   const token = response.data.token;
   localStorage.setItem('jwtToken', token);
   Authorization.setAuthToken(token);
-  dispatch(createUserAction(jwtDecode(token)));
+  dispatch(setAuthUser(jwtDecode(token)));
 }).catch(error => error);
 
 /**
@@ -72,10 +77,6 @@ axios.post('/users', userData).then((response) => {
  *sends the decoded user payload to the reducer
  * @param {object} user - logged in user payload
  */
-const setLoginUser = user => ({
-  type: SET_LOGIN_USERS,
-  payload: user
-});
 
 /**
  *  @return {object} - array of users
@@ -87,7 +88,7 @@ axios.post('/users/login', user).then((response) => {
   const token = response.data.token;
   localStorage.setItem('jwtToken', token);
   Authorization.setAuthToken(token);
-  dispatch(setLoginUser(jwtDecode(token)));
+  dispatch(setAuthUser(jwtDecode(token)));
 }).catch(error => (error));
 
 /**
@@ -136,6 +137,5 @@ const deleteUser = user => dispatch =>
 
 
 export { signupAction, fetchUser,
-   loginAction, setLoginUser,
-   createUserAction, editProfile, searchUser, deleteUser };
+   loginAction, setAuthUser, editProfile, searchUser, deleteUser };
 
