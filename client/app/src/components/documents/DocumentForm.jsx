@@ -13,7 +13,7 @@ import { createDocument } from '../../actions/documentActions';
  * @class DocumentForm
  * @extends {React.Component}
  */
-class DocumentForm extends React.Component {
+export class DocumentForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

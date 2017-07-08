@@ -13,7 +13,7 @@ import { deleteUser } from '../../actions/userActions';
  * @class DeleteUser
  * @extends {React.Component}
  */
-class DeleteUser extends React.Component {
+export class DeleteUser extends React.Component {
   constructor(props) {
     super(props);
 

@@ -1,72 +1,99 @@
 import React from 'react';
-import {Provider} from 'react-redux';
+import PropTypes from 'prop-types';
+import { Provider } from 'react-redux';
 import { assert, expect } from 'chai';
+import spies from 'chai-spies';
 import chai from 'chai';
 import chaiEnzyme from 'chai-enzyme';
 import 'babel-polyfill';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import  SearchDocuments  from '../../src/components/documents/SearchDocuments';
-import NavigationBar from '../../src/components/users/NavigationBar';
-import SearchedDocumentList from '../../src/components/documents/SearchedDocumentList';
+import {
+  SearchDocuments
+} from '../../src/components/documents/SearchDocuments';
+import { NavigationBar } from '../../src/components/users/NavigationBar';
+import SearchedDocumentList
+  from '../../src/components/documents/SearchedDocumentList';
 
 chai.use(chaiEnzyme());
+chai.use(spies);
+const pushSpy = sinon.spy();
+
 describe('<SearchDocuments />', () => {
-  const mockStore = configureMockStore([thunk]);
-  let store;
-  beforeEach(() =>{
-    store = mockStore({
-      fetchDocuments: {
-      document:[
-        {id:2, title: 'audax', content:'audax is coding'}
-      ],
-    },
-    usersReducer: {
-      user:{
-        id: 2,
-        email:'john@qdl.com',
-        fullName:'john',
-        roleId: 2
-      }
-    }
+  describe('when user is not authenticated', () => {
+    const props = {
+      isAuthenticated: false,
+      searchDocument: () => {},
+      history: { push: pushSpy }
+    };
+    const wrapper = mount(<SearchDocuments {...props} />);
+    it('Should not render, and should redirect to home', () => {
+      expect(pushSpy.callCount).to.equal(1);
+      expect(pushSpy.calledWith('/')).to.equal(true);
+      expect(wrapper.find(NavigationBar).length).to.equal(0);
     });
   });
-  it('should exists',  () => {
-    assert.isDefined(SearchDocuments)
-});
-  const wrapper = shallow(
-  <Provider store={store}>
-  <SearchDocuments  />
-  </Provider>
-  );
- it('Should render the container component', () => {
-   const wrapper = shallow(
-  <Provider store={store}>
-  <SearchDocuments  />
-  </Provider>
-  );
-   expect(wrapper.find(SearchDocuments).length).to.equal(1);
+  describe('when user is authenticated', () => {
+    beforeEach(() => {
+      pushSpy.reset();
+    });
+    const props = {
+      isAuthenticated: true,
+      error:{},
+      searchDocument: () => {pushSpy},
+      history: { push: pushSpy },
+      userRoleId: 1,
+      searchResult: [],
+      onSubmit: () => {},
+      onHandlechange:() => {}
+    };
+    const store = {
+      subscribe: () => {},
+      dispatch: () => {},
+      getState: () => ({
+        usersReducer: {
+          user: {
+            roleId: 1,
+            fullName: 'Test Test',
+            email: 'test@test.com'
+          },
+          isAuthenticated: true
+        }
+      })
+    };
+    const wrapper = mount(<SearchDocuments {...props} />, {
+      context: {
+        store,
+        router: { history: { push: pushSpy, createHref: () => {} } }
+      },
+      childContextTypes: { store: PropTypes.object, router: PropTypes.object }
+    });
+    it('Should not push to home if user is authenticated', () => {
+      expect(pushSpy.callCount).to.equal(0);
+      expect(pushSpy.calledWith('/')).to.equal(false);
 
- });
- it('Should render the navigation bar component', () => {
-
-   const container = wrapper.find(SearchDocuments);
-   assert.isDefined(wrapper.find(NavigationBar));
-
- });
- it('Should have an enclosing div tag', () => {
-  const container = wrapper.find(SearchDocuments);
-  assert.isDefined(container.find('div'));
- });
-
- it('Should have a search button', () => {
-   const container = wrapper.find(SearchDocuments);
-   assert.isDefined(container.find('#searchButton'));
-
- });
- it('Should render the searchdocument list component', () => {
-   assert.isDefined(wrapper.find(SearchedDocumentList));
- })
+    });
+    it('Should render the navigation component', () => {
+       expect(wrapper.find(NavigationBar).length).to.equal(1);
+    });
+    it('Should have a div class for the search component', () => {
+      expect(wrapper).to.have.tagName('div');
+    });
+    it('Should have input field for the search component', () => {
+      expect(wrapper.find('.searchBar')).to.not.be.blank();
+    });
+    it('Should have an onChange function', () => {
+      const handleChangeSpy = sinon.spy(wrapper.instance(), 'onHandleChange');
+      const inputWrapper = wrapper.find('input');
+      inputWrapper.simulate('change');
+      expect(handleChangeSpy.called).to.be.false;
+    });
+    // it('Should have an onClick function', (done) => {
+    //   const submitSpy = sinon.spy(wrapper.instance(), 'onSubmit');
+    //   const search = props.searchDocument();
+    //      wrapper.find('button').simulate('click');
+    //      expect(submitSpy.called).to.be.true;
+    //      done();
+    // });
+  });
 });

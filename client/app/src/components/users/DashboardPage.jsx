@@ -12,7 +12,7 @@ import  NavigationBar from './NavigationBar.jsx';
  * @class Dashboard
  * @extends {React.Component}
  */
-class Dashboard extends React.Component {
+export class Dashboard extends React.Component {
 
   /**
    * @return {*}

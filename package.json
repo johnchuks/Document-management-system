@@ -7,12 +7,24 @@
     "test": "npm run test:server",
     "test:server": "npm run test-build && NODE_ENV=test PORT=4000 nyc --reporter=text mocha --timeout 10000 --compilers js:babel-register -- ./server/tests/**/*.spec.js",
     "start": "npm run build",
-    "test:client": " nyc --reporter=text mocha --compilers js:babel-core/register ./client/app/tests/helpers/browser.js ./client/app/tests/**/*.spec.js --timeout 10000",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "test:client": "NODE_ENV=test nyc -e .jsx -e es6 mocha --compilers js:babel-core/register ./client/app/tests/helpers/browser.js ./client/app/tests/**/* --timeout 10000",
+    "coverage": "nyc report --reporter=text-lcov  | coveralls",
     "build": "webpack -w & babel-node -- server/config/server.js & nodemon server/config/server.js",
     "rebuild:testdb": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate",
     "seed:testdb": "NODE_ENV=test sequelize db:seed:all",
     "test-build": "npm run rebuild:testdb && npm run seed:testdb"
+  },
+  "nyc": {
+    "require": [
+      "babel-register"
+    ],
+    "reporter": [
+      "lcov",
+      "text",
+      "html"
+    ],
+    "sourceMap": false,
+    "instrument": false
   },
   "repository": {
     "type": "git",
@@ -116,6 +128,7 @@
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.0.0",
+    "babel-plugin-istanbul": "^4.1.3",
     "babel-preset-env": "^1.5.2",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
@@ -125,6 +138,7 @@
     "chai-enzyme": "^0.8.0",
     "chai-http": "^3.0.0",
     "chai-redux-mock-store": "^1.1.0",
+    "chai-spies": "^0.7.1",
     "coveralls": "^2.13.1",
     "css-loader": "^0.28.4",
     "enzyme": "^2.9.1",

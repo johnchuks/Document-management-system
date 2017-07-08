@@ -14,7 +14,7 @@ import SearchedDocumentList from '../documents/SearchedDocumentList.jsx';
  * @class SearchDocument
  * @extends {React.Component}
  */
-class SearchDocuments extends React.Component {
+export class SearchDocuments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -52,8 +52,7 @@ class SearchDocuments extends React.Component {
    * @param {*} event null
    * @memberof SearchDocument
    */
-  onSubmit(event) {
-    event.preventDefault();
+  onSubmit() {
     this.setState({ errors: {} });
     this.props.searchDocument(this.state).then((error) => {
       if (!error) {

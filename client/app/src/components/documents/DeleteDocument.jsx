@@ -12,7 +12,7 @@ import { deleteDocument } from '../../actions/documentActions';
  * @class DeleteDocument
  * @extends {React.Component}
  */
-class DeleteDocument extends React.Component {
+export class DeleteDocument extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

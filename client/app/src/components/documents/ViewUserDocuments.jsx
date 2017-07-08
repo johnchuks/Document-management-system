@@ -17,7 +17,7 @@ import DocumentView from './DocumentView.jsx';
  * @class ViewUserDocuments
  * @extends {React.Component}
  */
-class ViewUserDocuments extends React.Component {
+export class ViewUserDocuments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
