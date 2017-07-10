@@ -4,7 +4,7 @@
   "description": "managing documents, roles and privledges",
   "main": "server/config/server.js",
   "scripts": {
-    "test": "npm run test:server",
+    "test": " npm run test:server && npm run test:client",
     "test:server": "npm run test-build && NODE_ENV=test PORT=4000 nyc --reporter=text mocha --timeout 10000 --compilers js:babel-register -- ./server/tests/**/*.spec.js",
     "start": "npm run build",
     "test:client": "NODE_ENV=test nyc -e .jsx -e es6 mocha --compilers js:babel-core/register ./client/app/tests/helpers/browser.js ./client/app/tests/**/* --timeout 10000",
@@ -123,6 +123,7 @@
     "webpack-hot-middleware": "^2.18.0"
   },
   "devDependencies": {
+    "axios-mock-adapter": "^1.9.0",
     "babel": "^6.23.0",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",

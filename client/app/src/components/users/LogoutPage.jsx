@@ -1,6 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 /**
  *
@@ -21,7 +19,6 @@ class LogoutPage extends React.Component {
    */
   onSubmit() {
     localStorage.removeItem('jwtToken');
-    this.props.history.push('/');
   }
   render() {
     return (
@@ -55,7 +52,4 @@ class LogoutPage extends React.Component {
     );
   }
 }
-LogoutPage.propTypes = {
-  history: PropTypes.object.isRequired
-};
-export default withRouter(LogoutPage);
+export default LogoutPage;

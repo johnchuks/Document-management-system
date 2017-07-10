@@ -12,11 +12,13 @@ function copyProps(src, target) {
 
 global.window = window;
 global.document = window.document;
+global.tinymce;
 global.navigator = {
   userAgent: 'node.js'
 };
 global.$ = () => ({
   sideNav: () => {},
-  collapsible: () => {}
+  collapsible: () => {},
+  modal: () => {}
 });
 copyProps(window, global);

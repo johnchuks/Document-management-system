@@ -8,25 +8,21 @@ import chaiEnzyme from 'chai-enzyme';
 import 'babel-polyfill';
 import sinon from 'sinon';
 import { mount, shallow } from 'enzyme';
-import {
-  SearchDocuments
-} from '../../src/components/documents/SearchDocuments';
+import {EditProfile} from '../../src/components/users/EditProfile';
 import { NavigationBar } from '../../src/components/users/NavigationBar';
-import SearchedDocumentList
-  from '../../src/components/documents/SearchedDocumentList';
 
 chai.use(chaiEnzyme());
-chai.use(spies);
 const pushSpy = sinon.spy();
 
-describe('<SearchDocuments />', () => {
+describe('<EditProfile />', () => {
   describe('when user is not authenticated', () => {
     const props = {
       isAuthenticated: false,
       searchDocument: () => {},
-      history: { push: pushSpy }
+      history: { push: pushSpy },
+      user: {}
     };
-    const wrapper = mount(<SearchDocuments {...props} />);
+    const wrapper = mount(<EditProfile {...props} />);
     it('Should not render, and should redirect to home', () => {
       expect(pushSpy.callCount).to.equal(1);
       expect(pushSpy.calledWith('/')).to.equal(true);
@@ -37,11 +33,18 @@ describe('<SearchDocuments />', () => {
     beforeEach(() => {
       pushSpy.reset();
     });
+
     const props = {
       isAuthenticated: true,
       error:{},
       searchDocument: () => {pushSpy},
       history: { push: pushSpy },
+      user: {
+        fullName: 'john james',
+        userName: 'john',
+        email:'john@john.com',
+        id: 4
+      },
       userRoleId: 1,
       searchResult: [],
       onSubmit: () => {},
@@ -61,52 +64,65 @@ describe('<SearchDocuments />', () => {
         }
       })
     };
-    const wrapper = mount(<SearchDocuments {...props} />, {
+    const wrapper = mount(<EditProfile {...props} />,{
       context: {
         store,
         router: { history: { push: pushSpy, createHref: () => {} } }
       },
       childContextTypes: { store: PropTypes.object, router: PropTypes.object }
-    });
-    it('Should not push to home if user is authenticated', () => {
+    }
+    );
+    const changeSpy = sinon.spy(wrapper.instance(), "onChange");
+     it('Should not push to home if user is authenticated', () => {
       expect(pushSpy.callCount).to.equal(0);
       expect(pushSpy.calledWith('/')).to.equal(false);
-
     });
     it('Should render the navigation component', () => {
        expect(wrapper.find(NavigationBar).length).to.equal(1);
     });
-    it('Should have a div class for the search component', () => {
-      expect(wrapper).to.have.tagName('div');
+    it('Should have input fields for editing profile', () => {
+      expect(wrapper.find('input')).to.have.length(4);
     });
-    it('Should have input field for the search component', () => {
-      expect(wrapper.find('.searchBar')).to.not.be.blank();
-    });
-    it('Should have an onChange function', (done) => {
-      const event = {target: {value: 'john'}};
-      const handleChangeSpy = sinon.spy(wrapper.instance(), 'onHandleChange');
-      const inputWrapper = wrapper.find('input');
+    it('Should respond the profile name update', (done) => {
+      const event = {
+        target: {
+          value:"john"
+        }
+      };
+      const inputWrap = wrapper.find('#full_name');
       wrapper.update();
-      inputWrapper.simulate('change', event);
-      expect(handleChangeSpy.called).to.be.true;
+      inputWrap.simulate('change', event);
+      expect(changeSpy.called).to.equal(true);
+      expect(changeSpy.callCount).to.equal(1);
+      expect(inputWrap).to.have.length(1);
       done();
     });
-    // it('Should have an onClick function', (done) => {
-    //   const submitSpy = sinon.spy(wrapper.instance(), 'onSubmit');
-    //   const search = props.searchDocument();
-    //      wrapper.find('button').simulate('click');
-    //      expect(submitSpy.called).to.be.true;
-    //      done();
-    // });
-    it('Should have initial state of searchstring and searchList', () => {
-        expect(wrapper.state().searchString).to.have.length(4);
-        expect(wrapper.state().searchList).to.have.length(0);
-
+    it('Should respond the profile email update', (done) => {
+      const event = {
+        target: {
+          value:"john@john.com"
+        }
+      };
+      const inputWrap = wrapper.find('#editEmail');
+      wrapper.update();
+      inputWrap.simulate('change', event);
+      expect(changeSpy.called).to.equal(true);
+      expect(inputWrap).to.have.length(1);
+      expect(changeSpy.callCount).to.equal(2);
+      done();
+    });
+    it('Should respond the profile userName update', (done) => {
+      const event = {
+        target: {
+          value:"john12"
+        }
+      };
+      const inputWrap = wrapper.find('#user_name');
+      wrapper.update();
+      inputWrap.simulate('change', event);
+      expect(changeSpy.callCount).to.equal(3);
+      expect(inputWrap).to.have.length(1);
+      done();
+    });
   });
-  it('Should change the intital state of searchList', () => {
-    wrapper.setState().searchList = props.searchResult;
-    expect(wrapper.setState().searchList).to.have.length(0);
-  });
-  });
-
 });

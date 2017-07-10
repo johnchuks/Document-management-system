@@ -5,6 +5,7 @@ import striptags from 'striptags';
 import { withRouter } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import { fetchAllDocuments } from '../../actions/documentActions';
+//import NavigationBar from '../../components/users/NavigationBar';
 import DocumentView from '../documents/DocumentView.jsx';
 
 /**
@@ -14,7 +15,7 @@ import DocumentView from '../documents/DocumentView.jsx';
  * @class AllDocuments
  * @extends {React.Component}
  */
-class AllDocuments extends React.Component {
+export class AllDocuments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

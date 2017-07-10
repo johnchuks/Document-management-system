@@ -11,9 +11,9 @@ describe('<Logout />', () => {
   const wrapper = shallow(<LogoutPage />);
 
   it('Should have div tags in the render function', () => {
-    expect(wrapper.find('div').length).to.equal(0);
+    expect(wrapper.find('div').length).to.equal(3);
   });
   it('Should have a nav tag in the render function', () => {
-    expect(wrapper.find('#nav').length).to.equal(0);
+    expect(wrapper.find('#nav').length).to.equal(1);
   });
 });

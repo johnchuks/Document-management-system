@@ -61,8 +61,7 @@ export class DocumentForm extends React.Component {
    * @param {string} event - null
    * @memberof DocumentForm
    */
-  onSubmit(event) {
-    event.preventDefault();
+  onSubmit() {
     this.setState({ errors: {} });
     this.props.document(this.state).then((error) => {
       if (error) {
@@ -94,7 +93,7 @@ export class DocumentForm extends React.Component {
                 <input name="title" onChange={this.handleChange}
                   className="validate" placeholder="Title..." />
                 {errors.title &&
-                  <span className="alert alert-danger">
+                  <span>
                     {errors.title}
                   </span>}
               </div>
@@ -104,7 +103,7 @@ export class DocumentForm extends React.Component {
                   onChange={this.handleEditorChange}
                 />
                 {errors.content &&
-                  <div className="alert alert-danger">
+                  <div>
                     {errors.content}
                   </div>}
               </div>
@@ -121,7 +120,7 @@ export class DocumentForm extends React.Component {
                   <option value="role">Role</option>
                 </select>
                 {errors.value &&
-                  <div className="alert alert-danger">
+                  <div>
                     {errors.value}
                   </div>}
               </div>

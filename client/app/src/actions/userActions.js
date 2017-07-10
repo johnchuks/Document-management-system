@@ -137,5 +137,5 @@ const deleteUser = user => dispatch =>
 
 
 export { signupAction, fetchUser,
-   loginAction, setAuthUser, editProfile, searchUser, deleteUser };
+   loginAction, setAuthUser, fetchUserAction, editProfile, searchUser, deleteUser, deleteUserAction, editProfileAction };
 

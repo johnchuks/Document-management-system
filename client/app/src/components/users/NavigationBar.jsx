@@ -126,8 +126,8 @@ export class NavigationBar extends React.Component {
     }
     return (
       <div id="navBar">
-        {/* <LogoutPage /> */}
-        {Navigation}
+         <LogoutPage />
+          {Navigation}
       </div>
     );
   }

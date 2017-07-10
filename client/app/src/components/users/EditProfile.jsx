@@ -12,7 +12,7 @@ import NavigationBar from './NavigationBar.jsx';
  * @class EditProfile
  * @extends {React.Component}
  */
-class EditProfile extends React.Component {
+export class EditProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -77,7 +77,7 @@ class EditProfile extends React.Component {
                   type="text"
                   onChange={this.onChange}
                   value={this.state.fullName}
-                  className="validate"
+                  className="text"
                 />
                 <label htmlFor="full_name">Full Name</label>
               </div>
