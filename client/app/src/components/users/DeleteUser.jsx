@@ -45,19 +45,19 @@ export class DeleteUser extends React.Component {
           }
           actions={
             <div>
-              <Button
+              <button
                 className="modal-action modal-close btn orange"
                 id="noButton"
               >
                 No
-              </Button>
-              <Button
+              </button>
+              <button
                 className="modal-action modal-close btn orange"
                 id="yesButton"
                 onClick={this.onDeleteUser}
               >
                 Yes
-              </Button>
+              </button>
             </div>
           }
         >

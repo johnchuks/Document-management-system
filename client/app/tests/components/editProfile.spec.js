@@ -33,11 +33,11 @@ describe('<EditProfile />', () => {
     beforeEach(() => {
       pushSpy.reset();
     });
-
+    const profileUpdate = sinon.spy(() => Promise.resolve());
     const props = {
       isAuthenticated: true,
+      profileUpdate,
       error:{},
-      searchDocument: () => {pushSpy},
       history: { push: pushSpy },
       user: {
         fullName: 'john james',
@@ -45,8 +45,6 @@ describe('<EditProfile />', () => {
         email:'john@john.com',
         id: 4
       },
-      userRoleId: 1,
-      searchResult: [],
       onSubmit: () => {},
       onHandlechange:() => {}
     };
@@ -123,6 +121,10 @@ describe('<EditProfile />', () => {
       expect(changeSpy.callCount).to.equal(3);
       expect(inputWrap).to.have.length(1);
       done();
+    });
+    it('Should send the profile update with a submit button', () => {
+     wrapper.find('button').simulate('click');
+     expect(profileUpdate.callCount).to.equal(1);
     });
   });
 });

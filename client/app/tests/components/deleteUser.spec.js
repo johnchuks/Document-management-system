@@ -11,13 +11,12 @@ import { mount, shallow } from 'enzyme';
 import { DeleteUser } from '../../src/components/users/DeleteUser';
 
 chai.use(chaiEnzyme());
-
-describe('<DeleteUser />', () => {
-  const props = {
-    deleteUser: () => {},
+const deleteUser = sinon.spy(() => Promise.resolve());
+ const props = {
+   deleteUser,
     user: 4,
-
   };
+describe('<DeleteUser />', () => {
   const wrapper = mount(<DeleteUser {...props} />);
   it('Should exist', () => {
     expect(wrapper).to.have.length(1);
@@ -31,9 +30,4 @@ describe('<DeleteUser />', () => {
   it('Should have a div for the modal', () => {
     expect(wrapper.find('div').length).to.equal(1);
   });
-  // it('Should have an onClick function to delete user', () => {
-  //   const deleteSpy = sinon.spy(wrapper.instance(), 'onDeleteUser');
-  //   wrapper.find('#yesButton').simulate('click');
-  //   expect(deleteSpy.callCount).to.equal(0);
-  // });
 });

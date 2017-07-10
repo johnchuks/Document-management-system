@@ -15,11 +15,12 @@ describe('<DocumentForm />', () => {
       subscribe: () => {},
       dispatch: () => {},
    };
+  const document = sinon.spy(() => Promise.resolve());
   const props = {
   title: 'document',
   content: 'the boy is going to school',
   userId: 3,
-  document: () => {},
+  document,
   getContent: () => {}
 
 };
@@ -75,11 +76,10 @@ describe('<DocumentForm />', () => {
     expect(handleChangeSpy.callCount).to.equal(0);
   });
   it('Should have an onSubmit button', () => {
-     const submitSpy = sinon.spy(wrapper.instance(), 'onSubmit');
      wrapper.find('Button').simulate('click');
-     expect(submitSpy.callCount).to.equal(1);
+     expect(document.callCount).to.equal(1);
   });
   it('Should have a div tag for the error messages', () => {
     expect(wrapper.find('div')).to.have.length(5);
-  })
+  });
 });

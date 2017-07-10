@@ -11,7 +11,7 @@ import Navigation from './Navigation.jsx';
  * @class SignupPage
  * @extends {React.Component}
  */
-class SignupPage extends React.Component {
+export class SignupPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

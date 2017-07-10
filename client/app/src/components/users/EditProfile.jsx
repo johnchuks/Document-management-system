@@ -53,7 +53,7 @@ export class EditProfile extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.profile(this.state).then(() => {
+    this.props.profileUpdate(this.state).then(() => {
       toastr.success('Profile updated successfully');
     });
   }
@@ -139,7 +139,7 @@ export class EditProfile extends React.Component {
   }
 }
 EditProfile.propTypes = {
-  profile: PropTypes.func.isRequired,
+  profileUpdate: PropTypes.func.isRequired,
   user: PropTypes.object,
   history: PropTypes.object.isRequired,
   isAuthenticated: PropTypes.bool.isRequired
@@ -150,7 +150,7 @@ const mapStateToProps = state => ({
   isAuthenticated: state.usersReducer.isAuthenticated
 });
 const mapDispatchToProps = dispatch => ({
-  profile: profileCredentials => dispatch(editProfile(profileCredentials))
+  profileUpdate: profileCredentials => dispatch(editProfile(profileCredentials))
 });
 export default
   connect(mapStateToProps, mapDispatchToProps)(withRouter(EditProfile));

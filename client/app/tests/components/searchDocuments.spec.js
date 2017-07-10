@@ -37,10 +37,11 @@ describe('<SearchDocuments />', () => {
     beforeEach(() => {
       pushSpy.reset();
     });
+    const searchDocument = sinon.spy(() => Promise.resolve());
     const props = {
       isAuthenticated: true,
       error:{},
-      searchDocument: () => {pushSpy},
+      searchDocument,
       history: { push: pushSpy },
       userRoleId: 1,
       searchResult: [],
@@ -91,13 +92,10 @@ describe('<SearchDocuments />', () => {
       expect(handleChangeSpy.called).to.be.true;
       done();
     });
-    // it('Should have an onClick function', (done) => {
-    //   const submitSpy = sinon.spy(wrapper.instance(), 'onSubmit');
-    //   const search = props.searchDocument();
-    //      wrapper.find('button').simulate('click');
-    //      expect(submitSpy.called).to.be.true;
-    //      done();
-    // });
+    it('Should have an onClick function', () => {
+         wrapper.find('button').simulate('click');
+         expect(searchDocument.callCount).to.equal(1);
+    });
     it('Should have initial state of searchstring and searchList', () => {
         expect(wrapper.state().searchString).to.have.length(4);
         expect(wrapper.state().searchList).to.have.length(0);
