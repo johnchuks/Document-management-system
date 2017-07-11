@@ -61,7 +61,7 @@ export class ViewUserDocuments extends React.Component {
     const selected = data.selected;
     const offset = Math.ceil(selected * this.state.limit);
     this.setState({ offset }, () => {
-      this.props.fetchDocument(this.state);
+      this.props.fetchDocument({ id: this.state.id, offset, limit: this.state.limit });
     });
   }
 
