@@ -10,9 +10,9 @@ module.exports = {
   /**
    *
    * Create a user
-   * @param {any} req
-   * @param {any} res
-   * @returns - an object of a created user and a token
+   * @param {object} req - request from user
+   * @param {object} res - newly created user or error
+   * @returns {object} - an object of a created user and a token
    */
   createUserWithJwt(req, res) {
     if (!req.body.fullName) {
@@ -82,9 +82,9 @@ module.exports = {
   /**
    *
    * Find a user by Id
-   * @param {any} req
-   * @param {any} res
-   * @returns - an object of found user
+   * @param {number} req - request for user using the id of the user
+   * @param {object} res - an object of the user(s) found or error
+   * @returns {object} - an object of found user
    */
   findUser(req, res) {
     if (req.decoded.roleId !== 1) {
@@ -108,9 +108,9 @@ module.exports = {
   /**
    *
    *Update a user by Id
-   * @param {any} req
-   * @param {any} res
-   * @returns - return an object of the updated user
+   * @param {object} req - updated user object
+   * @param {object} res - updated user object or error
+   * @returns {object} - return an object of the updated user
    */
   updateUser(req, res) {
     if (Number(req.decoded.id) !== Number(req.params.id)) {
@@ -143,9 +143,9 @@ module.exports = {
   /**
    *
    * delete a user by Id
-   * @param {any} req
-   * @param {any} res
-   * @returns - null
+   * @param {number} req - delete user with an id
+   * @param {object} res - message
+   * @returns {object} - null
    */
   deleteUser(req, res) {
     if (req.decoded.roleId !== 1) {
@@ -173,9 +173,9 @@ module.exports = {
   /**
    *
    *log In user with JWT
-   * @param {object} req
-   * @param {object} res
-   * @returns - an object of the logged in user and a token
+   * @param {object} req - request from log in user
+   * @param {object} res - authenicated user details
+   * @returns {object} - an object of the logged in user and a token
    */
   logInWithJwt(req, res) {
     if (!req.body.email) {
@@ -231,9 +231,9 @@ module.exports = {
   /**
    * get all users
    *
-   * @param {number} req
-   * @param {number} res
-   * @returns - an array of users
+   * @param {number} req - limit and offset for getting all user
+   * @param {array} res - array of users or error
+   * @returns {array} - an array of users
    */
   getAllUsers(req, res) {
     const limit = req.query.limit;
@@ -247,8 +247,9 @@ module.exports = {
   /**
    *Log the user out
    *
-   * @param {string} req
-   * @param {object} res
+   * @param {string} req - null
+   * @param {object} res - message of sucessfully loggint out
+   * @return {object} - message
    */
   logOutUser(req, res) {
     res.status(200).json({
@@ -258,9 +259,9 @@ module.exports = {
   /**
    *search for user using a query string
    *
-   * @param {string} req
-   * @param {array} res
-   * @returns - array users searched
+   * @param {string} req - search query as a string
+   * @param {array} res - array of users
+   * @returns {array} - array users searched
    */
   searchUser(req, res) {
     const searchQuery = req.query.q;
