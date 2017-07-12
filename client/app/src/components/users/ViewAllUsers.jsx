@@ -12,7 +12,7 @@ import AllUsersList from './AllUsersList.jsx';
  * @class ViewAllUsers
  * @extends {React.Component}
  */
-class ViewAllUsers extends React.Component {
+export class ViewAllUsers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

@@ -10,7 +10,7 @@ import LogoutPage from './LogoutPage.jsx';
  * @class NavigationBar
  * @extends {React.Component}
  */
-class NavigationBar extends React.Component {
+export class NavigationBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -126,8 +126,8 @@ class NavigationBar extends React.Component {
     }
     return (
       <div id="navBar">
-        <LogoutPage />
-        {Navigation}
+         <LogoutPage />
+          {Navigation}
       </div>
     );
   }

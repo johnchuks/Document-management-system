@@ -12,7 +12,7 @@ import NavigationBar from './NavigationBar.jsx';
  * @class EditProfile
  * @extends {React.Component}
  */
-class EditProfile extends React.Component {
+export class EditProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +53,7 @@ class EditProfile extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.profile(this.state).then(() => {
+    this.props.profileUpdate(this.state).then(() => {
       toastr.success('Profile updated successfully');
     });
   }
@@ -77,7 +77,7 @@ class EditProfile extends React.Component {
                   type="text"
                   onChange={this.onChange}
                   value={this.state.fullName}
-                  className="validate"
+                  className="text"
                 />
                 <label htmlFor="full_name">Full Name</label>
               </div>
@@ -139,7 +139,7 @@ class EditProfile extends React.Component {
   }
 }
 EditProfile.propTypes = {
-  profile: PropTypes.func.isRequired,
+  profileUpdate: PropTypes.func.isRequired,
   user: PropTypes.object,
   history: PropTypes.object.isRequired,
   isAuthenticated: PropTypes.bool.isRequired
@@ -150,7 +150,7 @@ const mapStateToProps = state => ({
   isAuthenticated: state.usersReducer.isAuthenticated
 });
 const mapDispatchToProps = dispatch => ({
-  profile: profileCredentials => dispatch(editProfile(profileCredentials))
+  profileUpdate: profileCredentials => dispatch(editProfile(profileCredentials))
 });
 export default
   connect(mapStateToProps, mapDispatchToProps)(withRouter(EditProfile));

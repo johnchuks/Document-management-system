@@ -34,10 +34,6 @@
     z-index: -1;
 
 }
-// #background {
-//   background:url('https://s-media-cache-ak0.pinimg.com/236x/6d/83/76/6d837628f4dedc36e0eb9cfec50daac4.jpg')
-// }
-
 #signup {
   border: 10px solid #F5F3EE;
   padding: inherit;
@@ -73,6 +69,12 @@
 }
 #errorAlert {
   color: red;
+}
+.landing {
+  color: white;
+  text-align: center;
+  font-family:cursive;
+  font-size: 25px;
 }
   #loginButton {
     width: 100%;

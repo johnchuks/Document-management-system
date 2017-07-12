@@ -12,7 +12,7 @@ import Navigation from './Navigation.jsx';
  * @class LoginPage
  * @extends {React.Component}
  */
-class LoginPage extends React.Component {
+export class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -41,10 +41,9 @@ class LoginPage extends React.Component {
    * @param {*} event - on click event
    * @memberof LoginPage
    */
-  onSubmit(event) {
-    event.preventDefault();
+  onSubmit() {
     this.setState({ errors: {}, isLoading: true });
-    this.props.login(this.state).then((error) => {
+    this.props.loginAction(this.state).then((error) => {
       if (!error) {
         this.props.history.push('/dashboard');
         toastr.success('You are Logged in successfully');
@@ -143,11 +142,11 @@ class LoginPage extends React.Component {
 const mapStateToProps = state => ({
   user: state.usersReducer.user.id
 });
-const mapDispatchToProps = dispatch => ({
-  login: loginCrendentials => dispatch(loginAction(loginCrendentials))
-});
+// const mapDispatchToProps = dispatch => ({
+//   login: loginCrendentials => dispatch(loginAction(loginCrendentials))
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(
+export default connect(mapStateToProps, { loginAction })(
   withRouter(LoginPage)
 );
 
@@ -155,5 +154,5 @@ LoginPage.propTypes = {
   history: PropTypes.object.isRequired
 };
 LoginPage.propTypes = {
-  login: PropTypes.func.isRequired
+  loginAction: PropTypes.func.isRequired
 };

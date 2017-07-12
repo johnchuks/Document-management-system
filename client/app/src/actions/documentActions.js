@@ -61,9 +61,9 @@ const fetchDocumentSuccess = document => ({
  *fetches all user documents with the limit and offsets as queries
  * @param {object} user - an object containing the id and offsets limits
  */
-const fetchDocument = user => dispatch =>
-axios.get(`/api/users/${user.id}/documents/
-?limit=${user.limit}&offset=${user.offset}`)
+const fetchDocument = ({ limit, offset, id }) => dispatch =>
+axios.get(`/api/users/${id}/documents/
+?limit=${limit}&offset=${offset}`)
 .then((response) => {
   const userDocuments = response.data;
   dispatch(fetchDocumentSuccess(userDocuments));

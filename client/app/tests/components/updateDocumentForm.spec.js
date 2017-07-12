@@ -8,7 +8,6 @@ import { shallow } from 'enzyme';
 import { UpdateDocumentForm } from '../../src/components/documents/UpdateDocumentForm';
 
 chai.use(chaiEnzyme());
-
 describe('<UpdateDocumentForm />', () => {
   const props = {
     cardDocuments: {

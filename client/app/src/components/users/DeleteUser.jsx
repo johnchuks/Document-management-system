@@ -13,7 +13,7 @@ import { deleteUser } from '../../actions/userActions';
  * @class DeleteUser
  * @extends {React.Component}
  */
-class DeleteUser extends React.Component {
+export class DeleteUser extends React.Component {
   constructor(props) {
     super(props);
 
@@ -45,19 +45,19 @@ class DeleteUser extends React.Component {
           }
           actions={
             <div>
-              <Button
+              <button
                 className="modal-action modal-close btn orange"
                 id="noButton"
               >
                 No
-              </Button>
-              <Button
+              </button>
+              <button
                 className="modal-action modal-close btn orange"
                 id="yesButton"
                 onClick={this.onDeleteUser}
               >
                 Yes
-              </Button>
+              </button>
             </div>
           }
         >

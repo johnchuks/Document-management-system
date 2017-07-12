@@ -13,7 +13,7 @@ import SearchedUsersList from './SearchedUsersList.jsx';
  * @class SearchUsers
  * @extends {React.Component}
  */
-class SearchUsers extends React.Component {
+export class SearchUsers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

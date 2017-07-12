@@ -3,10 +3,10 @@ import { shallow, mount } from 'enzyme';
 import { expect,assert } from 'chai';
 import chai from 'chai';
 import chaiEnzyme from 'chai-enzyme';
-import Dashboard from '../../src/components/users/DashboardPage.jsx';
+import { Dashboard } from '../../src/components/users/DashboardPage.jsx';
 import AllDocuments from '../../src/components/documents/AllDocuments.jsx';
-import DocumentForm from '../../src/components/documents/DocumentForm.jsx';
-import NavigationBar from '../../src/components/users/NavigationBar.jsx';
+import { DocumentForm } from '../../src/components/documents/DocumentForm.jsx';
+import { NavigationBar } from '../../src/components/users/NavigationBar.jsx';
 
 chai.use(chaiEnzyme());
 

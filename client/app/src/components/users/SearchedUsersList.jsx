@@ -5,11 +5,10 @@ import PropTypes from 'prop-types';
  *
  * renders the searched users list
  * @class SearchedUsersList
+ * @param {props} - users array list
  * @extends {React.Component}
  */
-class SearchedUsersList extends React.Component {
-  render() {
-    return (
+const SearchedUsersList = props => (
       <div>
         <table className="bordered">
           <thead>
@@ -19,7 +18,7 @@ class SearchedUsersList extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.users.map(user => (
+            {props.users.map(user => (
               <tr key={user.id}>
                 <td>{user.fullName}</td>
                 <td>{user.email}</td>
@@ -28,9 +27,7 @@ class SearchedUsersList extends React.Component {
           </tbody>
         </table>
       </div>
-    );
-  }
-}
+  );
 SearchedUsersList.propTypes = {
   users: PropTypes.array.isRequired
 };

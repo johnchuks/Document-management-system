@@ -13,7 +13,7 @@ import { updateDocument } from '../../actions/documentActions';
  * @class UpdateDocumentForm
  * @extends {React.Component}
  */
-class UpdateDocumentForm extends React.Component {
+export class UpdateDocumentForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -69,7 +69,6 @@ class UpdateDocumentForm extends React.Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div>
         <Modal
