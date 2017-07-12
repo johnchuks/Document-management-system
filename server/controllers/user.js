@@ -118,8 +118,9 @@ module.exports = {
         message: 'You are not authorized to access this user'
       });
     }
+    const queryId = Number(req.params.id);
     return User
-      .findById(req.params.id)
+      .findById(queryId)
       .then((user) => {
         if (!user) {
           return res.status(404).send({

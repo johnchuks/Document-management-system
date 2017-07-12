@@ -1,5 +1,5 @@
-const Sequelize = require("sequelize");
-const models = require("../models");
+const Sequelize = require('sequelize');
+const models = require('../models');
 
 const Document = models.Document;
 const User = models.User;
@@ -16,17 +16,17 @@ module.exports = {
   createDocument(req, res) {
     if (!req.body.title) {
       return res.status(401).json({
-        title: "This Field is Required"
+        title: 'This Field is Required'
       });
     }
     if (!req.body.content) {
       return res.status(401).json({
-        content: "This Field is Required"
+        content: 'This Field is Required'
       });
     }
     if (!req.body.value) {
       return res.status(401).json({
-        value: "This Field is Required"
+        value: 'This Field is Required'
       });
     }
     Document.findAll({
@@ -43,11 +43,10 @@ module.exports = {
         })
       .then(documentResponse => res.status(200).send(documentResponse))
       .catch(error => res.status(400).send(error));
-      } else {
-        return res.status(403).json({
-          title: 'Document already exists'
-        });
       }
+      return res.status(403).json({
+        title: 'Document already exists'
+      });
     }).catch(error => res.status(400).send(error));
   },
 
@@ -60,11 +59,15 @@ module.exports = {
    * @returns
    */
   updateDocument(req, res) {
-    return Document.findById(req.params.id)
+    if (isNaN(req.params.id)) {
+      return res.status(400);
+    }
+    const queryId = Number(req.params.id);
+    return Document.findById(queryId)
       .then((document) => {
         if (!document) {
           return res.status(404).send({
-            message: "Document Not Found"
+            message: 'Document Not Found'
           });
         }
         if (
@@ -72,7 +75,7 @@ module.exports = {
           Number(document.userId) !== Number(req.decoded.id)
         ) {
           return res.status(403).json({
-            message: "You are not authorized to delete this document"
+            message: 'You are not authorized to delete this document'
           });
         }
         return document
@@ -115,7 +118,7 @@ module.exports = {
           }
           return res.status(200).send(document);
         }
-        if (document.access === "role") {
+        if (document.access === 'role') {
           return models.User
             .findById(document.userId)
             .then((documentOwner) => {
@@ -125,7 +128,7 @@ module.exports = {
               ) {
                 return res.status(401).json({
                   success: false,
-                  message: "You are not authorized to view this document"
+                  message: 'You are not authorized to view this document'
                 });
               }
               return res.status(200).send(document);
@@ -148,7 +151,7 @@ module.exports = {
       .then((document) => {
         if (!document) {
           return res.status(404).send({
-            message: "Document Not Found"
+            message: 'Document Not Found'
           });
         }
         if (
@@ -156,7 +159,7 @@ module.exports = {
           Number(document.userId) !== Number(req.decoded.id)
         ) {
           return res.status(403).json({
-            message: "You are not authorized to delete this document"
+            message: 'You are not authorized to delete this document'
           });
         }
         return document
@@ -183,13 +186,13 @@ module.exports = {
         offset,
         where: {
           access: {
-            $ne: "private"
+            $ne: 'private'
           }
         },
         include: [
           {
             model: User,
-            attributes: ["userName", "roleId"]
+            attributes: ['userName', 'roleId']
           }
         ]
       })
@@ -215,7 +218,7 @@ module.exports = {
         include: [
           {
             model: User,
-            attributes: ["userName", "roleId"],
+            attributes: ['userName', 'roleId'],
             where: {
               roleId: req.decoded.roleId
             },
@@ -223,7 +226,7 @@ module.exports = {
         ],
         where: {
           access: {
-            $ne: "private"
+            $ne: 'private'
           }
         },
 
@@ -259,7 +262,7 @@ module.exports = {
       .then((user) => {
         if (!user) {
           return res.status(400).json({
-            message: "User not found"
+            message: 'User not found'
           });
         }
         return Document.findAndCountAll({
@@ -297,7 +300,7 @@ module.exports = {
     const queryString = req.query.q;
     if (!queryString) {
       return res.status(400).json({
-        message: "Invalid search input"
+        message: 'Invalid search input'
       });
     }
     return Document.findAndCountAll({
@@ -306,13 +309,13 @@ module.exports = {
           $like: `%${queryString}%`
         },
         access: {
-          $ne: "private"
+          $ne: 'private'
         }
       },
       include: [
         {
           model: User,
-          attributes: ["roleId"]
+          attributes: ['roleId']
         }
       ]
     })
