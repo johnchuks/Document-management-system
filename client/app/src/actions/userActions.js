@@ -1,7 +1,7 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { FETCH_USERS, SET_AUTH_USERS
-  , SEARCH_USERS, EDIT_PROFILE, DELETE_USER } from '../constants/actionTypes';
+  , SEARCH_USERS, EDIT_PROFILE, DELETE_USER, GET_USER } from '../constants/actionTypes';
 import Authorization from '../../utils/authorization';
 
 /**
@@ -18,9 +18,9 @@ const fetchUserAction = users => ({
  *  @return {array} - array of users
  * fetches all users from the server side
  */
-const fetchUser = () => dispatch =>
- axios.get('/api/users').then((response) => {
-   dispatch(fetchUserAction(response.data.rows));
+const fetchUser = ({ limit, offset }) => dispatch =>
+ axios.get(`/api/users/?limit=${limit}&offset=${offset}`).then((response) => {
+   dispatch(fetchUserAction(response.data));
  });
 
 /**
@@ -38,10 +38,11 @@ const searchUserAction = users => ({
  *sends a search string as a query to retrieve search results
  * @param {object} params - searchstring as a param
  */
-const searchUser = params => dispatch =>
-axios.get(`/api/search/users/?q=${params.searchString}`)
+const searchUser = ({ offset, searchString, limit }) =>
+dispatch => axios.get(`/api/search/users/?
+q=${searchString}&limit=${limit}&offset=${offset}`)
   .then((response) => {
-    dispatch(searchUserAction(response.data.rows));
+    dispatch(searchUserAction(response.data));
   }).catch(error => error);
 
 /**
@@ -92,14 +93,41 @@ axios.post('/users/login', user).then((response) => {
 }).catch(error => (error));
 
 /**
+ *
+ *
+ * @param {any} user
+ * @returns
+ */
+const getUserSuccess = (user) => {
+  return {
+    type: GET_USER,
+    user
+  }
+}
+/**
+ *
+ *
+ * @param {any} profileId
+ * @returns
+ */
+const getUser = (profileId) => {
+  return (dispatch) => {
+    return axios.get(`api/users/${profileId}`).then((response) => {
+      dispatch(getUserSuccess(response.data));
+    }).catch(error => error);
+  }
+}
+
+/**
  *  @return {object} - an object of edited user
  * dispatches the updated user to the reducer
  * @param {object} user - edited user payload
  */
 const editProfileAction = user => ({
   type: EDIT_PROFILE,
-  payload: user
+  user
 });
+
 /**
  *
  * update logged in user with the current user detail supplied
@@ -108,9 +136,10 @@ const editProfileAction = user => ({
  */
 const editProfile = (user) => {
   const id = user.userId;
-  return dispatch => axios.put(`/api/users/${id}`, user).then((response) => {
+  return dispatch => axios.put(`/api/users/${id}`, user).then().then((response) => {
     dispatch(editProfileAction(response.data));
-  }).catch(error => error);
+  })
+  .catch(error => error);
 };
 
 /**
@@ -136,7 +165,7 @@ const deleteUser = user => dispatch =>
   }).catch(error => error);
 
 
-export { signupAction, fetchUser,
+export { signupAction, fetchUser, getUser,
    loginAction, setAuthUser, fetchUserAction,
     editProfile, searchUser, deleteUser, deleteUserAction, editProfileAction };
 

@@ -152,7 +152,7 @@ describe('UserActions', () => {
     it('Should make an AJAX call to update user', (done) => {
       const user = { email: 'john@test.com', fullName: 'john james', id: 3 };
       const store = mockStore({});
-      const expected = [{ type: types.EDIT_PROFILE, payload: user }];
+      const expected = [{ type: types.EDIT_PROFILE, user: user }];
       store.dispatch(editProfile(user)).then(() => {
         expect(store.getActions()).to.deep.equal(expected);
       });
@@ -161,7 +161,7 @@ describe('UserActions', () => {
     it('Should dispatch the update user action', () => {
       const user = { email: 'john@test.com', fullName: 'john james', id: 3 };
       const store = mockStore({});
-      const expected = [{ type: types.EDIT_PROFILE, payload: user }];
+      const expected = [{ type: types.EDIT_PROFILE, user: user }];
       const profileUpdate = store.dispatch(editProfileAction(user));
       expect(store.getActions()).to.deep.equal(expected);
     });

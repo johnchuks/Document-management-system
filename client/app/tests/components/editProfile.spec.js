@@ -16,9 +16,12 @@ const pushSpy = sinon.spy();
 
 describe('<EditProfile />', () => {
   describe('when user is not authenticated', () => {
+    const getUser = sinon.spy(() => Promise.resolve());
     const props = {
       isAuthenticated: false,
       searchDocument: () => {},
+      getUser,
+      editProfile: () => {},
       history: { push: pushSpy },
       user: {}
     };
@@ -34,9 +37,13 @@ describe('<EditProfile />', () => {
       pushSpy.reset();
     });
     const profileUpdate = sinon.spy(() => Promise.resolve());
+    const getUser = sinon.spy(() => Promise.resolve());
+    const editProfile =  sinon.spy(() => Promise.resolve());
     const props = {
       isAuthenticated: true,
       profileUpdate,
+      editProfile,
+      getUser,
       error:{},
       history: { push: pushSpy },
       user: {
@@ -124,7 +131,7 @@ describe('<EditProfile />', () => {
     });
     it('Should send the profile update with a submit button', () => {
      wrapper.find('button').simulate('click');
-     expect(profileUpdate.callCount).to.equal(1);
+     expect(editProfile.callCount).to.equal(1);
     });
   });
 });

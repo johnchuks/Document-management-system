@@ -39,8 +39,8 @@ axios.post('/api/documents', document).then((response) => {
  * @param {object} params - limits and offset as queries
  */
 
-const fetchAllDocuments = params => dispatch => axios
-  .get(`/api/documents/?limit=${params.limit}&offset=${params.offset}`)
+const fetchAllDocuments = ({ offset, limit }) => dispatch => axios
+  .get(`/api/documents/?limit=${limit}&offset=${offset}`)
   .then((response) => {
     const documents = response.data;
     dispatch(fetchAllDocumentsSuccess(documents));
@@ -108,8 +108,8 @@ const deleteDocumentSuccess = documentId => ({
  * performs a delete document request to the server
  * @param {object} document - document to be deleted
  */
-const deleteDocument = document => dispatch =>
- axios.delete(`api/documents/${document.documentId}`).then(() => {
+const deleteDocument = ({ documentId }) => dispatch =>
+ axios.delete(`api/documents/${documentId}`).then(() => {
    dispatch(deleteDocumentSuccess(document.documentId));
  }).catch(error => error);
 
@@ -128,13 +128,11 @@ const searchDocumentSuccess = searchDocuments => ({
  * @param {object} search - search input
  * @returns {func} a dispatch function that makes an api call to the server
  */
-const searchDocument = (search) => {
-  const title = search.searchString;
-  return dispatch => axios.get(`api/search/documents/?q=${title}`)
+const searchDocument = ({ offset, searchString, limit }) =>
+ dispatch => axios.get(`api/search/documents/?q=${searchString}&limit=${limit}&offset=${offset}`)
   .then((response) => {
     dispatch(searchDocumentSuccess(response.data));
   }).catch(error => error);
-};
 
 
 export { createDocumentSuccess,

@@ -1,9 +1,12 @@
 const jwt = require('jsonwebtoken');
 const models = require('../models');
 const bcrypt = require('bcrypt-nodejs');
+const pagination = require('../helpers/helper.js');
+
 
 const jwtSecret = process.env.JWT_SECRET;
 const User = models.User;
+const metaData = pagination.paginationMetaData;
 const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 module.exports = {
@@ -16,27 +19,27 @@ module.exports = {
    */
   createUserWithJwt(req, res) {
     if (!req.body.fullName) {
-      return res.status(401).json({
+      return res.status(400).json({
         fullName: 'This Field is Required'
       });
     }
     if (!req.body.userName) {
-      return res.status(401).json({
+      return res.status(400).json({
         userName: 'This Field is Required'
       });
     }
     if (!req.body.email) {
-      return res.status(401).json({
+      return res.status(400).json({
         email: 'This Field is Required'
       });
     }
     if (!emailRegex.test(req.body.email)) {
-      return res.status(401).json({
+      return res.status(400).json({
         email: 'Email is not rightly formatted'
       });
     }
     if (!req.body.password) {
-      return res.status(401).json({
+      return res.status(400).json({
         password: 'This Field is Required'
       });
     }
@@ -67,13 +70,12 @@ module.exports = {
           const token = jwt.sign(payload, jwtSecret, {
             expiresIn: 2880
           });
-          res.status(200).json({
+          res.status(201).json({
             success: true,
-            message: 'Enjoy your token',
             token
           });
         }).catch((error) => {
-          res.status(401).json(error);
+          res.status(400).json(error);
         });
       }
     });
@@ -96,7 +98,7 @@ module.exports = {
       .findById(req.params.id)
       .then((user) => {
         if (!user) {
-          return res.status(400).json({
+          return res.status(404).json({
             message: 'User not found'
           });
         }
@@ -114,7 +116,7 @@ module.exports = {
    */
   updateUser(req, res) {
     if (Number(req.decoded.id) !== Number(req.params.id)) {
-      return res.status(403).json({
+      return res.status(401).json({
         message: 'You are not authorized to access this user'
       });
     }
@@ -150,7 +152,7 @@ module.exports = {
    */
   deleteUser(req, res) {
     if (req.decoded.roleId !== 1) {
-      return res.status(403).json({
+      return res.status(401).json({
         message: 'You are not authorized to access this field'
       });
     }
@@ -158,7 +160,7 @@ module.exports = {
     .findById(req.params.id)
     .then((user) => {
       if (!user) {
-        return res.status(400).send({
+        return res.status(404).send({
           message: 'User Not Found',
         });
       }
@@ -180,15 +182,15 @@ module.exports = {
    */
   logInWithJwt(req, res) {
     if (!req.body.email) {
-      return res.status(401).json({
+      return res.status(400).json({
         message: 'This field is required'
       });
     } else if (!emailRegex.test(req.body.email)) {
-      return res.status(401).json({
+      return res.status(400).json({
         email: 'Email is invalid'
       });
     } else if (!req.body.password) {
-      return res.status(401).json({
+      return res.status(400).json({
         message: 'This field is required'
       });
     }
@@ -197,8 +199,7 @@ module.exports = {
       .then((user) => {
         const existingUser = user[0];
         if (!existingUser) {
-          res.status(401).json({
-            success: false,
+          res.status(400).json({
             message: 'Invalid User Credentials' });
         } else if (existingUser) {
           if (bcrypt.compareSync(req.body.password, existingUser.password)) {
@@ -213,11 +214,9 @@ module.exports = {
             const token = jwt.sign(payLoad, jwtSecret, {
               expiresIn: 60 * 60 * 24
             });
-            res.status(200).json({
+            res.status(201).json({
               success: true,
-              message: 'Enjoy your token',
               token,
-              existingUser
             });
           } else {
             res.status(401).json({
@@ -240,8 +239,17 @@ module.exports = {
     const limit = req.query.limit;
     const offset = req.query.offset;
     return User
-    .findAndCountAll({ limit, offset })
-    .then(user => res.status(200).send(user))
+    .findAndCountAll(
+      { limit,
+        offset,
+        attributes: { exclude: ['password'] }
+      })
+    .then(({ rows: user, count }) => {
+      res.status(200).send({
+        user,
+        pagination: metaData(count, limit, offset)
+      });
+    })
     .catch(error => res.status(400).send(error));
   },
 
@@ -265,7 +273,9 @@ module.exports = {
    * @returns {array} - array users searched
    */
   searchUser(req, res) {
-    const searchQuery = req.query.q;
+    const searchQuery = req.query.q,
+      limit = req.query.limit,
+      offset = req.query.offset;
     if (!searchQuery) {
       return res.status(400).json({
         message: 'Invalid search input'
@@ -273,13 +283,24 @@ module.exports = {
     }
     return User
     .findAndCountAll({
+      limit,
+      offset,
+      attributes: { exclude: ['password'] },
       where: {
         fullName: {
-          $like: `%${searchQuery}%`
+          $like: `%${searchQuery}%`,
         }
       }
-    }).then((user) => {
-      res.status(200).send(user);
+    }).then(({ rows: user, count }) => {
+      if (count === 0) {
+        return res.status(400).json({
+          message: 'User not found'
+        });
+      }
+      res.status(200).send({
+        user,
+        pagination: metaData(count, limit, offset)
+      });
     }).catch(error => res.status(400).send(error));
   }
 };

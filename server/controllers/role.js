@@ -5,12 +5,12 @@ const Role = models.Role;
 module.exports = {
   createRole(req, res) {
     if (!req.body.title) {
-      return res.status(401).json({
+      return res.status(400).json({
         message: 'This field is required'
       });
     }
     if (typeof (req.body.title) !== 'string') {
-      return res.status(403).json({
+      return res.status(400).json({
         message: 'Invalid input credentials'
       });
     }
@@ -21,7 +21,7 @@ module.exports = {
             .create({
               title: req.body.title
             }).then((role) => {
-              res.send({
+              res.status(204).send({
                 message: 'Role successfully created',
                 role
               });
@@ -43,7 +43,7 @@ module.exports = {
       .findById(req.params.id)
       .then((role) => {
         if (!role) {
-          return res.status(400).json({
+          return res.status(404).json({
             message: 'Role not found'
           });
         } else {
@@ -56,13 +56,13 @@ module.exports = {
       .findById(req.params.id)
       .then((role) => {
         if (!role) {
-          return res.status(400).json({
+          return res.status(404).json({
             message: 'Role not found'
           });
         }
         return role
             .destroy()
-            .then(() => res.status(200).json({ message: 'Role has been deleted successfully' }))
+            .then(() => res.status(204))
             .catch(error => res.status(400).send(error));
       }).catch(error => res.json(error));
   },
@@ -74,7 +74,7 @@ module.exports = {
       .findById(req.params.id)
       .then((role) => {
         if (!role) {
-          return res.status(400).json({
+          return res.status(404).json({
             message: 'Role not found'
           });
         }

@@ -5,7 +5,6 @@ import striptags from 'striptags';
 import { withRouter } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import { fetchAllDocuments } from '../../actions/documentActions';
-//import NavigationBar from '../../components/users/NavigationBar';
 import DocumentView from '../documents/DocumentView.jsx';
 
 /**
@@ -37,7 +36,8 @@ export class AllDocuments extends React.Component {
     if (this.props.isAuthenticated === false) {
       this.props.history.push('/');
     }
-    this.props.fetchAllDocuments(this.state);
+    const { limit, offset } = this.state;
+    this.props.fetchAllDocuments({ limit, offset });
   }
   /** updates the state of documents and role id upon rendering
    *
@@ -63,7 +63,8 @@ export class AllDocuments extends React.Component {
     const selected = page.selected;
     const offset = Math.ceil(selected * this.state.limit);
     this.setState({ offset }, () => {
-      this.props.fetchAllDocuments(this.state);
+      const { limit } = this.state;
+      this.props.fetchAllDocuments({ offset, limit });
     });
   }
 

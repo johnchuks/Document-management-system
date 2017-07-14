@@ -1,14 +1,15 @@
 import isEmpty from 'lodash/isEmpty';
 import { SET_AUTH_USERS,
-  FETCH_USERS, SEARCH_USERS, EDIT_USER,
-  DELETE_USER
+  FETCH_USERS, SEARCH_USERS, EDIT_PROFILE,
+  DELETE_USER, GET_USER
 } from '../constants/actionTypes';
 
 
 const initialState = {
   isAuthenticated: false,
   user: {},
-  users: {}
+  users: [],
+  pagination: {}
 };
 
  /**
@@ -26,15 +27,30 @@ const usersReducer = (state = initialState, action = {}) => {
         isAuthenticated: !isEmpty(action.user)
       };
     }
+    case GET_USER: {
+      return {
+        user: action.user,
+        isAuthenticated: !isEmpty(action.user)
+      };
+    }
     case FETCH_USERS: {
-      return { ...state, users: action.users };
+      return { ...state,
+        users: action.users.user,
+        pagination: action.users.pagination
+      };
     }
     case SEARCH_USERS: {
-      return { ...state, users: action.users };
+      return { ...state,
+        users: action.users.user,
+        pagination: action.users.pagination.pageCount
+      };
     }
 
-    case EDIT_USER: {
-      return { ...state, user: action.payload };
+    case EDIT_PROFILE: {
+      return {
+        user: action.user,
+        isAuthenticated: !isEmpty(action.user)
+      };
     }
     case DELETE_USER: {
       const remainingUsers = state.users

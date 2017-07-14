@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import toastr from 'toastr';
 import { withRouter } from 'react-router-dom';
+import ReactPaginate from 'react-paginate';
 import NavigationBar from '../users/NavigationBar.jsx';
 import { searchUser } from '../../actions/userActions';
 import SearchedUsersList from './SearchedUsersList.jsx';
@@ -18,11 +19,13 @@ export class SearchUsers extends React.Component {
     super(props);
     this.state = {
       searchString: '',
-      searchList: [],
-      error: {}
+      limit: 6,
+      offset: 0,
+      searchList: []
     };
     this.onHandleChange = this.onHandleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
   }
   /**
    *
@@ -34,6 +37,11 @@ export class SearchUsers extends React.Component {
       this.props.history.push('/');
     }
     $('.button-collapse').sideNav('hide');
+  }
+  componenentWillReceiveProps(nextProps) {
+    this.setState({
+      searchList: nextProps.searchList
+    });
   }
   /**
    *
@@ -52,26 +60,37 @@ export class SearchUsers extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.setState({ errors: {} });
-    this.props.searchUser(this.state).then((error) => {
+    const { offset, searchString, limit } = this.state;
+    this.props.searchUser({ offset, searchString, limit }).then((error) => {
       if (!error) {
-        this.setState({ searchList: this.props.search });
+        this.setState({ searchList: this.props.searchList });
       } else {
-        this.setState({ error: error.response.data.message });
-        toastr.error(this.state.error);
+        toastr.error(error.response.data.message);
       }
     });
   }
+  /**
+   *
+   *
+   * @param {any} data
+   * @memberof SearchUsers
+   */
+  handlePageChange(data) {
+    const selected = data.selected;
+    const { limit, searchString } = this.state;
+    const offset = Math.ceil(selected * limit);
+    this.setState({ offset }, () => {
+      this.props.searchUser({ offset, searchString, limit });
+    });
+  }
+
   render() {
     if (this.props.isAuthenticated === false) return null;
-    const searchUsersList = this.state.searchList;
-    const searchUsersListFiltered = searchUsersList.filter(
+    const { pageCount, searchList } = this.state;
+
+    const searchUsersList = searchList.filter(
       user => user.roleId !== 1
     );
-    const inputStyle = {
-      width: '50%',
-      marginLeft: '350px'
-    };
     return (
       <div>
         <NavigationBar />
@@ -84,7 +103,6 @@ export class SearchUsers extends React.Component {
             name="search"
             onChange={this.onHandleChange}
             placeholder="Search.."
-            style={inputStyle}
           />
           <button
             className="waves-effect waves-light btn orange"
@@ -95,19 +113,40 @@ export class SearchUsers extends React.Component {
             Search
           </button>
         </div>
-        <SearchedUsersList users={searchUsersListFiltered} />
+        <SearchedUsersList users={searchUsersList} />
+        <div className="rows">
+        { searchList.length > 0 ?
+         <ReactPaginate
+          previousLabel={'previous'}
+          nextLabel={'next'}
+          breakLabel={<a href="">...</a>}
+          breakClassName={'break-me'}
+          pageCount={this.props.pageCount}
+          initialPage={0}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={this.handlePageChange}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
+        />
+        : ''
+        }
+        </div>
       </div>
     );
   }
 }
 SearchUsers.propTypes = {
-  search: PropTypes.object,
+  searchList: PropTypes.array,
   searchUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
+  pageCount: PropTypes.number,
   isAuthenticated: PropTypes.bool.isRequired
 };
 const mapStateToProps = state => ({
-  search: state.usersReducer.users,
+  searchList: state.usersReducer.users,
+  pageCount: state.usersReducer.pagination,
   isAuthenticated: state.usersReducer.isAuthenticated
 });
 export default

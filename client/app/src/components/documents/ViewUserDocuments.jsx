@@ -39,7 +39,8 @@ export class ViewUserDocuments extends React.Component {
     if (this.props.isAuthenticated === false) {
       this.props.history.push('/');
     }
-    this.props.fetchDocument(this.state);
+    const { id, limit, offset } = this.state;
+    this.props.fetchDocument({ id, limit, offset });
   }
   /**
    * @returns {*} - null
@@ -61,7 +62,8 @@ export class ViewUserDocuments extends React.Component {
     const selected = data.selected;
     const offset = Math.ceil(selected * this.state.limit);
     this.setState({ offset }, () => {
-      this.props.fetchDocument({ id: this.state.id, offset, limit: this.state.limit });
+      const { id, limit } = this.state;
+      this.props.fetchDocument({ id, offset, limit });
     });
   }
 
@@ -73,21 +75,6 @@ export class ViewUserDocuments extends React.Component {
         <DocumentForm />
         <NavigationBar />
         <h5>My Documents</h5>
-        <ReactPaginate
-          previousLabel={'previous'}
-          nextLabel={'next'}
-          breakLabel={<a href="">...</a>}
-          breakClassName={'break-me'}
-          pageCount={this.props.pageCount}
-          initialPage={0}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={this.handlePageChange}
-          containerClassName={'pagination'}
-          subContainerClassName={'pages pagination'}
-          activeClassName={'active'}
-        />
-
         <div className="container">
           <div className="row">
             {userDocuments.map(document => (
@@ -110,6 +97,23 @@ export class ViewUserDocuments extends React.Component {
               </div>
             ))}
           </div>
+          <div className="row">
+          {userDocuments.length > 0 ?
+          <ReactPaginate
+          previousLabel={'previous'}
+          nextLabel={'next'}
+          breakLabel={<a href="">...</a>}
+          breakClassName={'break-me'}
+          pageCount={this.props.pageCount}
+          initialPage={0}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={this.handlePageChange}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
+        /> : '' }
+        </div>
         </div>
       </div>
     );

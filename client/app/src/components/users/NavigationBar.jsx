@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import LogoutPage from './LogoutPage.jsx';
+import { getUser } from '../../actions/userActions';
 
 /**
  *
@@ -14,12 +15,21 @@ export class NavigationBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      profile: this.props.profileId,
+      profile: this.props.roleId,
+      userId: this.props.id,
       name: this.props.profileName,
-      email: this.props.profileEmail
+      email: this.props.profileEmail,
     };
   }
 
+  /**
+   *
+   *
+   * @memberof NavigationBar
+   */
+  componentWillMount() {
+    this.props.getUser(this.state.userId);
+  }
   /**
    *
    * @return {void} - null
@@ -31,6 +41,19 @@ export class NavigationBar extends React.Component {
       $('.button-collapse').sideNav();
       $('.collapsible').collapsible();
     }
+  }
+  /**
+   *
+   *
+   * @param {any} nextProps
+   * @memberof NavigationBar
+   */
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    this.setState({
+      name: nextProps.profileName,
+      email: nextProps.profileEmail
+    });
   }
 
   render() {
@@ -133,17 +156,20 @@ export class NavigationBar extends React.Component {
   }
 }
 NavigationBar.propTypes = {
-  profileId: PropTypes.number.isRequired,
+  roleId: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired,
   profileEmail: PropTypes.string.isRequired,
   profileName: PropTypes.string.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  getUser: PropTypes.func.isRequired
 
 };
 
 const mapStateToProps = state => ({
-  profileId: state.usersReducer.user.roleId,
+  roleId: state.usersReducer.user.roleId,
+  id: state.usersReducer.user.id,
   profileName: state.usersReducer.user.fullName,
   profileEmail: state.usersReducer.user.email,
   isAuthenticated: state.usersReducer.isAuthenticated
 });
-export default connect(mapStateToProps)(NavigationBar);
+export default connect(mapStateToProps, { getUser })(NavigationBar);

@@ -76,7 +76,8 @@ describe('<DocumentForm />', () => {
     expect(handleChangeSpy.callCount).to.equal(0);
   });
   it('Should have an onSubmit button', () => {
-     wrapper.find('Button').simulate('click');
+    const event = {preventDefault: () => {}};
+     wrapper.find('Button').simulate('click', event);
      expect(document.callCount).to.equal(1);
   });
   it('Should have a div tag for the error messages', () => {

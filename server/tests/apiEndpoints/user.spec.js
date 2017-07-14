@@ -40,7 +40,7 @@ describe('Users', () => {
         .post('/users/')
         .send(user)
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(400);
           expect(res.body).to.have.property('fullName').to.equal('This Field is Required');
           done();
         });
@@ -56,7 +56,7 @@ describe('Users', () => {
         .post('/users/')
         .send(user)
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(400);
           expect(res.body).to.have.property('userName').to.equal('This Field is Required');
           done();
         });
@@ -72,7 +72,7 @@ describe('Users', () => {
         .post('/users/')
         .send(user)
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(400);
           expect(res.body).to.have.property('email').to.equal('This Field is Required');
           done();
         });
@@ -88,7 +88,7 @@ describe('Users', () => {
         .post('/users/')
         .send(user)
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(400);
           expect(res.body).to.have.property('password').to.equal('This Field is Required');
           done();
         });
@@ -98,7 +98,7 @@ describe('Users', () => {
         .post('/users')
         .send(samples.sampleUser1)
         .end((err, res) => {
-          expect(res.status).to.equal(200);
+          expect(res.status).to.equal(201);
           done();
         });
     });
@@ -107,9 +107,8 @@ describe('Users', () => {
         .post('/users')
         .send(samples.sampleUser3)
         .end((err, res) => {
-          expect(res.status).to.equal(200);
+          expect(res.status).to.equal(201);
           expect(res.body).to.have.property('success').to.equal(true);
-          expect(res.body).to.have.property('message').to.equal('Enjoy your token');
           expect(res.body).to.have.property('token');
           done();
         });
@@ -120,7 +119,7 @@ describe('Users', () => {
         .post('/users')
         .send(samples.sampleUser2)
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(400);
           expect(res.body).to.have.property('email').to.equal('Email is not rightly formatted');
           done();
         });
@@ -136,12 +135,12 @@ describe('Users', () => {
         });
     });
 
-    it('Should post the user crendentials upon login', (done) => {
+    it('Should create the user crendentials upon login', (done) => {
       chai.request(server)
         .post('/users/login')
         .send(samples.user)
         .end((err, res) => {
-          expect(res.status).to.equal(200);
+          expect(res.status).to.equal(201);
           done();
         });
     });
@@ -150,9 +149,8 @@ describe('Users', () => {
         .post('/users/login')
         .send(samples.user)
         .end((err, res) => {
-          expect(res.status).to.equal(200);
+          expect(res.status).to.equal(201);
           expect(res.body).to.have.property('success').to.equal(true);
-          expect(res.body).to.have.property('message').to.equal('Enjoy your token');
           expect(res.body).to.have.property('token');
           done();
         });
@@ -162,8 +160,7 @@ describe('Users', () => {
         .post('/users/login')
         .send(samples.user2)
         .end((err, res) => {
-          expect(res.status).to.equal(401);
-          expect(res.body).to.have.property('success').to.equal(false);
+          expect(res.status).to.equal(400);
           expect(res.body).to.have.property('message').to.equal('Invalid User Credentials');
           done();
         });
@@ -177,7 +174,7 @@ describe('Users', () => {
         .post('/users/login')
         .send(mockUser)
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(400);
           expect(res.body).to.have.property('message').to.equal('This field is required');
           done();
         });
@@ -191,7 +188,7 @@ describe('Users', () => {
         .post('/users/login')
         .send(mockUser)
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(400);
           expect(res.body).to.have.property('email').to.equal('Email is invalid');
           done();
         });
@@ -220,6 +217,8 @@ describe('Users', () => {
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
+          expect(res.body).to.have.property('user');
+          expect(res.body).to.have.property('pagination');
           done();
         });
     });
@@ -228,7 +227,7 @@ describe('Users', () => {
         .get('/api/users')
         .set({ 'authorization': userToken })
         .end((err, res) => {
-          expect(res.status).to.equal(403);
+          expect(res.status).to.equal(401);
           expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('You are not authorized');
           done();
@@ -291,7 +290,7 @@ describe('Users', () => {
         .get(`/api/users/${id}`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
-          expect(res.status).to.equal(403);
+          expect(res.status).to.equal(401);
           expect(res.body).be.a('object');
           expect(res.body).to.have.property('message').to.equal('You are not authorized');
           done();
@@ -314,7 +313,7 @@ describe('Users', () => {
         .get(`/api/users/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
+          expect(res.status).to.equal(404);
           expect(res.body).to.have.property('message').to.equal('User not found');
           done();
         });
@@ -398,7 +397,7 @@ describe('Users', () => {
         .set({ 'authorization': userToken })
         .send({ email: 'jakedoe@andela.com' })
         .end((err, res) => {
-          expect(res.status).to.equal(403);
+          expect(res.status).to.equal(401);
           expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('You are not authorized to access this user');
           done();
@@ -411,7 +410,7 @@ describe('Users', () => {
         .set({ 'authorization': userToken })
         .send({ email: 'jakedoe@andela.com' })
         .end((err, res) => {
-          expect(res.status).to.equal(403);
+          expect(res.status).to.equal(401);
           expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('You are not authorized to access this user');
           done();
@@ -426,7 +425,6 @@ describe('Users', () => {
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(204);
-          expect(res.body).to.be.a('object');
           done();
         });
     });
@@ -436,8 +434,7 @@ describe('Users', () => {
         .delete(`/api/users/${id}`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
-          expect(res.status).to.equal(403);
-          expect(res.body).to.be.a('object');
+          expect(res.status).to.equal(401);
           expect(res.body).to.have.property('message').to.equal('You are not authorized to access this field');
           done();
         });
@@ -448,7 +445,7 @@ describe('Users', () => {
         .delete(`/api/users/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
+          expect(res.status).to.equal(404);
           expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('User Not Found');
           done();

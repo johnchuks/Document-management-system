@@ -61,7 +61,8 @@ export class DocumentForm extends React.Component {
    * @param {string} event - null
    * @memberof DocumentForm
    */
-  onSubmit() {
+  onSubmit(event) {
+    event.preventDefault();
     this.setState({ errors: {} });
     this.props.document(this.state).then((error) => {
       if (error) {

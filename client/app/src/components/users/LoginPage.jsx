@@ -140,7 +140,7 @@ export class LoginPage extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  user: state.usersReducer.user.id
+  user: state.usersReducer.user
 });
 // const mapDispatchToProps = dispatch => ({
 //   login: loginCrendentials => dispatch(loginAction(loginCrendentials))
