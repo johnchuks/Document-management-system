@@ -98,25 +98,20 @@ axios.post('/users/login', user).then((response) => {
  * @param {any} user
  * @returns
  */
-const getUserSuccess = (user) => {
-  return {
-    type: GET_USER,
-    user
-  }
-}
+const getUserSuccess = user => ({
+  type: GET_USER,
+  user
+});
 /**
  *
  *
  * @param {any} profileId
  * @returns
  */
-const getUser = (profileId) => {
-  return (dispatch) => {
-    return axios.get(`api/users/${profileId}`).then((response) => {
-      dispatch(getUserSuccess(response.data));
-    }).catch(error => error);
-  }
-}
+const getUser = profileId => dispatch =>
+ axios.get(`api/users/${profileId}`).then((response) => {
+   dispatch(getUserSuccess(response.data[0]));
+ }).catch(error => error);
 
 /**
  *  @return {object} - an object of edited user

@@ -17,7 +17,7 @@ export class ViewAllUsers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      limit: 6,
+      limit: 4,
       offset: 0,
       allUsers: [],
       pageCount: 0

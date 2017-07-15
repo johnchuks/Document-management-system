@@ -75,6 +75,23 @@ export class ViewUserDocuments extends React.Component {
         <DocumentForm />
         <NavigationBar />
         <h5>My Documents</h5>
+        <div className="rows">
+          {userDocuments.length > 0 ?
+          <ReactPaginate
+          previousLabel={'previous'}
+          nextLabel={'next'}
+          breakLabel={<a href="">...</a>}
+          breakClassName={'break-me'}
+          pageCount={this.props.pageCount}
+          initialPage={0}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={this.handlePageChange}
+          containerClassName={'pagination'}
+          subContainerClassName={'pages pagination'}
+          activeClassName={'active'}
+        /> : '' }
+        </div>
         <div className="container">
           <div className="row">
             {userDocuments.map(document => (
@@ -97,23 +114,6 @@ export class ViewUserDocuments extends React.Component {
               </div>
             ))}
           </div>
-          <div className="row">
-          {userDocuments.length > 0 ?
-          <ReactPaginate
-          previousLabel={'previous'}
-          nextLabel={'next'}
-          breakLabel={<a href="">...</a>}
-          breakClassName={'break-me'}
-          pageCount={this.props.pageCount}
-          initialPage={0}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={this.handlePageChange}
-          containerClassName={'pagination'}
-          subContainerClassName={'pages pagination'}
-          activeClassName={'active'}
-        /> : '' }
-        </div>
         </div>
       </div>
     );

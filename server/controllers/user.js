@@ -95,9 +95,14 @@ module.exports = {
       });
     }
     return User
-      .findById(req.params.id)
+      .findAll({
+        where: {
+          id: req.params.id,
+        },
+        attributes: { exclude: ['password'] }
+      })
       .then((user) => {
-        if (!user) {
+        if (!user.length) {
           return res.status(404).json({
             message: 'User not found'
           });
