@@ -19,7 +19,6 @@ export class LoginPage extends React.Component {
       email: '',
       password: '',
       errors: {},
-      isLoading: false,
       userId: ''
     };
 
@@ -41,14 +40,17 @@ export class LoginPage extends React.Component {
    * @param {*} event - on click event
    * @memberof LoginPage
    */
-  onSubmit() {
-    this.setState({ errors: {}, isLoading: true });
+  onSubmit(event) {
+    event.preventDefault();
+    this.setState({ errors: {} });
     this.props.loginAction(this.state).then((error) => {
       if (!error) {
         this.props.history.push('/dashboard');
         toastr.success('You are Logged in successfully');
       } else {
-        this.setState({ errors: error.response.data, isLoading: false });
+        this.setState({ errors: error.response.data });
+        const { errors } = this.state;
+        toastr.error(errors.message);
         this.props.history.push('/');
       }
     });
@@ -64,14 +66,10 @@ export class LoginPage extends React.Component {
         <Navigation />
         <div className="loginContainer">
           <div className="row" style={rowStyle}>
-            <div className="col s12  z-depth-5" id="login">
+            <div className="col s12  z-depth-5" id="login" onSubmit={this.onSubmit}>
               <div className="row">
                 <div className="col s12">
                   <h5 id="loginId">Login into your account</h5>
-                  {errors.message &&
-                    <div className="alert alert-danger">
-                      {errors.message}
-                    </div>}
                 </div>
               </div>
               <div className="row">

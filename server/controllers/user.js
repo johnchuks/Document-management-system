@@ -188,7 +188,7 @@ module.exports = {
   logInWithJwt(req, res) {
     if (!req.body.email) {
       return res.status(400).json({
-        message: 'This field is required'
+        message: 'All fields are required'
       });
     } else if (!emailRegex.test(req.body.email)) {
       return res.status(400).json({
@@ -196,7 +196,7 @@ module.exports = {
       });
     } else if (!req.body.password) {
       return res.status(400).json({
-        message: 'This field is required'
+        message: 'All fields are required'
       });
     }
     return User

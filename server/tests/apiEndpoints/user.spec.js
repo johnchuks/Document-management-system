@@ -144,7 +144,7 @@ describe('Users', () => {
           done();
         });
     });
-    it('Should generate a token when the user is logged in successfully', (done) => {
+    it('Should generate a token when the user is successfully authenticated', (done) => {
       chai.request(server)
         .post('/users/login')
         .send(samples.user)
@@ -175,7 +175,7 @@ describe('Users', () => {
         .send(mockUser)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('message').to.equal('This field is required');
+          expect(res.body).to.have.property('message').to.equal('All fields are required');
           done();
         });
     });
