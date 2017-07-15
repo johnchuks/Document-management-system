@@ -274,13 +274,12 @@ describe('Users', () => {
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).be.a('object');
-          expect(res.body).to.have.property('fullName');
-          expect(res.body).to.have.property('id');
-          expect(res.body).to.have.property('userName');
-          expect(res.body).to.have.property('email');
-          expect(res.body).to.have.property('password');
-          expect(res.body).to.have.property('roleId');
+          expect(res.body).be.a('array');
+          expect(res.body[0]).to.have.property('fullName');
+          expect(res.body[0]).to.have.property('id');
+          expect(res.body[0]).to.have.property('userName');
+          expect(res.body[0]).to.have.property('email');
+          expect(res.body[0]).to.have.property('roleId');
           done();
         });
     });
