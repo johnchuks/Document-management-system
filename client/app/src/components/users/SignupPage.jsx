@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import toastr from 'toastr';
 import PropTypes from 'prop-types';
 import { signupAction } from '../../actions/userActions';
 import Navigation from './Navigation.jsx';
@@ -42,12 +43,15 @@ export class SignupPage extends React.Component {
   onSubmit(event) {
     this.setState({ errors: {} });
     event.preventDefault();
-    this.props.signup(this.state).then(
-      () => {
+    this.props.signup(this.state).then((error) => {
+      if (!error) {
         this.props.history.push('/dashboard');
-      },
-      error => this.setState({ errors: error.response.data })
-    );
+        toastr.success('You have successfully signed up');
+      } else {
+        this.setState({ errors: error.response.data, isLoading: false });
+        this.props.history.push('/signup');
+      }
+    });
   }
   render() {
     const errorAlert = {
