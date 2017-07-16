@@ -1,8 +1,10 @@
-const Sequelize = require("sequelize");
-const models = require("../models");
+const Sequelize = require('sequelize');
+const models = require('../models');
+const pagination = require('../helpers/helper.js');
 
 const Document = models.Document;
 const User = models.User;
+const metaData = pagination.paginationMetaData;
 
 module.exports = {
   // create a new document
@@ -15,18 +17,18 @@ module.exports = {
    */
   createDocument(req, res) {
     if (!req.body.title) {
-      return res.status(401).json({
-        title: "This Field is Required"
+      return res.status(400).json({
+        title: 'This Field is Required'
       });
     }
     if (!req.body.content) {
-      return res.status(401).json({
-        content: "This Field is Required"
+      return res.status(400).json({
+        content: 'This Field is Required'
       });
     }
     if (!req.body.value) {
-      return res.status(401).json({
-        value: "This Field is Required"
+      return res.status(400).json({
+        value: 'This Field is Required'
       });
     }
     Document.findAll({
@@ -41,13 +43,12 @@ module.exports = {
           access: req.body.value,
           userId: req.body.userId
         })
-      .then(documentResponse => res.status(200).send(documentResponse))
+      .then(documentResponse => res.status(201).send(documentResponse))
       .catch(error => res.status(400).send(error));
-      } else {
-        return res.status(403).json({
-          title: 'Document already exists'
-        });
       }
+      return res.status(403).json({
+        title: 'Document already exists'
+      });
     }).catch(error => res.status(400).send(error));
   },
 
@@ -60,19 +61,20 @@ module.exports = {
    * @returns
    */
   updateDocument(req, res) {
-    return Document.findById(req.params.id)
+    if (isNaN(req.params.id)) {
+      return res.status(400);
+    }
+    const queryId = Number(req.params.id);
+    return Document.findById(queryId)
       .then((document) => {
         if (!document) {
           return res.status(404).send({
-            message: "Document Not Found"
+            message: 'Document Not Found'
           });
         }
-        if (
-          req.decoded.roleId !== 1 &&
-          Number(document.userId) !== Number(req.decoded.id)
-        ) {
-          return res.status(403).json({
-            message: "You are not authorized to delete this document"
+        if (Number(document.userId) !== Number(req.decoded.id)) {
+          return res.status(401).json({
+            message: 'You are not authorized to delete this document'
           });
         }
         return document
@@ -99,41 +101,42 @@ module.exports = {
     return Document.findById(req.params.id)
       .then((document) => {
         if (!document) {
-          return res.status(400).json({
-            success: false,
+          return res.status(404).json({
             message: 'Document not found'
           });
+        }
+        if (req.decoded.roleId === 1) {
+          return document;
         }
         if (document.access === 'public') {
           return res.status(200).send(document);
         }
         if (document.access === 'private') {
           if (document.userId !== req.decoded.id) {
-            return res.status(403).json({
+            return res.status(401).json({
               message: 'You are not authorized to view this document'
             });
           }
           return res.status(200).send(document);
         }
-        if (document.access === "role") {
+        if (document.access === 'role') {
+
           return models.User
             .findById(document.userId)
             .then((documentOwner) => {
               if (
-                req.decoded.roleId !== 1 &&
                 Number(documentOwner.roleId) !== Number(req.decoded.roleId)
               ) {
                 return res.status(401).json({
-                  success: false,
-                  message: "You are not authorized to view this document"
+                  message: 'You are not authorized to view this document'
                 });
               }
               return res.status(200).send(document);
             })
-            .catch(error => res.status(404).send(error));
+            .catch(error => res.status(400).send(error));
         }
       })
-      .catch(error => res.status(404).send(error));
+      .catch(error => res.status(400).send(error));
   },
   // Delete a document by Id
   /**
@@ -148,21 +151,21 @@ module.exports = {
       .then((document) => {
         if (!document) {
           return res.status(404).send({
-            message: "Document Not Found"
+            message: 'Document Not Found'
           });
         }
         if (
           req.decoded.roleId !== 1 &&
           Number(document.userId) !== Number(req.decoded.id)
         ) {
-          return res.status(403).json({
-            message: "You are not authorized to delete this document"
+          return res.status(401).json({
+            message: 'You are not authorized to delete this document'
           });
         }
         return document
           .destroy()
-          .then(() => res.status(200).send())
-          .catch(error => res.status(404).send(error));
+          .then(() => res.status(204).send())
+          .catch(error => res.status(400).send(error));
       })
       .catch(error => res.status(400).send(error));
   },
@@ -183,28 +186,20 @@ module.exports = {
         offset,
         where: {
           access: {
-            $ne: "private"
+            $ne: 'private'
           }
         },
         include: [
           {
             model: User,
-            attributes: ["userName", "roleId"]
+            attributes: ['userName', 'roleId']
           }
         ]
       })
-      .then((document) => {
-        const pagination = {
-          totalCount: document.count,
-          pageCount: Math.ceil(document.count / limit),
-          page: Math.floor(offset / limit) + 1,
-          pageSize: document.rows.length
-        };
+      .then(({ rows: document, count }) => {
         res.status(200).send({
-          document: document.rows,
-          pagination,
-          offset,
-          limit
+          document,
+          pagination: metaData(count, limit, offset),
         });
       })
       .catch(error => res.status(400).send(error));
@@ -215,7 +210,7 @@ module.exports = {
         include: [
           {
             model: User,
-            attributes: ["userName", "roleId"],
+            attributes: ['userName', 'roleId'],
             where: {
               roleId: req.decoded.roleId
             },
@@ -223,23 +218,15 @@ module.exports = {
         ],
         where: {
           access: {
-            $ne: "private"
+            $ne: 'private'
           }
         },
 
       })
-      .then((document) => {
-        const pagination = {
-          totalCount: document.count,
-          pageCount: Math.ceil(document.count / limit),
-          page: Math.floor(offset / limit) + 1,
-          pageSize: document.rows.length
-        };
+      .then(({ rows: document, count }) => {
         res.status(200).send({
-          document: document.rows,
-          pagination,
-          offset,
-          limit
+          document,
+          pagination: metaData(count, limit, offset),
         });
       })
       .catch(error => res.status(400).send(error));
@@ -258,8 +245,8 @@ module.exports = {
     User.findById(req.params.id)
       .then((user) => {
         if (!user) {
-          return res.status(400).json({
-            message: "User not found"
+          return res.status(404).json({
+            message: 'User not found'
           });
         }
         return Document.findAndCountAll({
@@ -269,19 +256,13 @@ module.exports = {
             userId: user.id
           }
         })
-          .then((document) => {
-            const pagination = {
-              totalCount: document.count,
-              pageCount: Math.ceil(document.count / limit),
-              page: Math.floor(offset / limit) + 1,
-              pageSize: document.rows.length
-            };
+          .then(({ rows: document, count }) => {
             res.status(200).send({
-              document: document.rows,
-              pagination
+              document,
+              pagination: metaData(count, limit, offset),
             });
           })
-          .catch(error => res.status(404).send(error));
+          .catch(error => res.status(400).send(error));
       })
       .catch(error => res.status(400).send(error));
   },
@@ -294,36 +275,80 @@ module.exports = {
    * @returns
    */
   searchDocuments(req, res) {
-    const queryString = req.query.q;
+    const limit = req.query.limit,
+      offset = req.query.offset,
+      queryString = req.query.q;
     if (!queryString) {
       return res.status(400).json({
-        message: "Invalid search input"
+        message: 'Invalid search input'
       });
     }
-    return Document.findAndCountAll({
-      where: {
-        title: {
-          $like: `%${queryString}%`
+    if (req.decoded.roleId === 1) {
+      return Document.findAndCountAll({
+        limit,
+        offset,
+        where: {
+          access: {
+            $ne: 'private'
+          },
+          title: {
+            $like: `%${queryString}%`
+          }
         },
-        access: {
-          $ne: "private"
-        }
-      },
-      include: [
-        {
-          model: User,
-          attributes: ["roleId"]
-        }
-      ]
-    })
-      .then((document) => {
-        if (document.count === 0) {
+        include: [
+          {
+            model: User,
+            attributes: ['userName', 'roleId']
+          }
+        ]
+      })
+      .then(({ rows: document, count }) => {
+        if (count === 0) {
           return res.status(404).json({
             message: 'Document not found'
           });
         }
-        res.status(200).send(document);
+        res.status(200).send({
+          document,
+          pagination: metaData(count, limit, offset),
+        });
       })
       .catch(error => res.status(400).send(error));
+    } else if (req.decoded.roleId !== 1) {
+      return Document.findAndCountAll({
+        limit,
+        offset,
+        include: [
+          {
+            model: User,
+            attributes: ['userName', 'roleId'],
+            where: {
+              roleId: req.decoded.roleId
+            },
+          },
+        ],
+        where: {
+          access: {
+            $ne: 'private'
+          },
+          title: {
+            $like: `%${queryString}%`
+          }
+        },
+
+      })
+      .then(({ rows: document, count }) => {
+        if (count === 0) {
+          return res.status(404).json({
+            message: 'Document not found'
+          });
+        }
+        res.status(200).send({
+          document,
+          pagination: metaData(count, limit, offset),
+        });
+      })
+      .catch(error => res.status(400).send(error));
+    }
   }
 };

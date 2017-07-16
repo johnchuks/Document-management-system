@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import toastr from 'toastr';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { editProfile } from '../../actions/userActions';
+import { editProfile, getUser } from '../../actions/userActions';
 import NavigationBar from './NavigationBar.jsx';
 
 /**
@@ -16,18 +16,33 @@ export class EditProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fullName: this.props.user.fullName,
-      userName: this.props.user.userName,
-      email: this.props.user.email,
+      fullName: '',
+      userName: '',
+      email: '',
       password: '',
-      userId: this.props.user.id
+      userId: this.props.id
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
   /**
    * hides the side navigation when the component is rendered
-   * @return{*} - null
+   * @return{void} - null
+   * @memberof EditProfile
+   */
+  componentWillMount() {
+    this.props.getUser(this.state.userId).then(() => {
+      this.setState({
+        fullName: this.props.fullName,
+        userName: this.props.userName,
+        email: this.props.email,
+        password: '',
+      });
+    });
+  }
+  /**
+   *
+   *@return{void} - void
    * @memberof EditProfile
    */
   componentDidMount() {
@@ -35,6 +50,7 @@ export class EditProfile extends React.Component {
       this.props.history.push('/');
     }
     $('.button-collapse').sideNav('hide');
+    this.props.getUser(this.state.userId);
   }
   /**
    *
@@ -42,6 +58,7 @@ export class EditProfile extends React.Component {
    * @param {string} event - on Change value from the inpput field
    * @memberof EditProfile
    */
+
   onChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
@@ -53,7 +70,8 @@ export class EditProfile extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.profileUpdate(this.state).then(() => {
+    this.props.editProfile(this.state).then(() => {
+      this.props.getUser(this.state.userId);
       toastr.success('Profile updated successfully');
     });
   }
@@ -139,18 +157,23 @@ export class EditProfile extends React.Component {
   }
 }
 EditProfile.propTypes = {
-  profileUpdate: PropTypes.func.isRequired,
+  editProfile: PropTypes.func.isRequired,
+  getUser: PropTypes.func.isRequired,
+  fullName: PropTypes.string.isRequired,
+  userName: PropTypes.string,
+  email: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   user: PropTypes.object,
   history: PropTypes.object.isRequired,
   isAuthenticated: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  user: state.usersReducer.user,
+  id: state.usersReducer.user.id,
+  fullName: state.usersReducer.user.fullName,
+  userName: state.usersReducer.user.userName,
+  email: state.usersReducer.user.email,
   isAuthenticated: state.usersReducer.isAuthenticated
 });
-const mapDispatchToProps = dispatch => ({
-  profileUpdate: profileCredentials => dispatch(editProfile(profileCredentials))
-});
 export default
-  connect(mapStateToProps, mapDispatchToProps)(withRouter(EditProfile));
+  connect(mapStateToProps, { editProfile, getUser })(withRouter(EditProfile));

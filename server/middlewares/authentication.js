@@ -27,7 +27,7 @@ module.exports = {
     if (req.decoded.roleId === 1) {
       next();
     } else {
-      return res.status(403).json({
+      return res.status(401).json({
         message: 'You are not authorized',
       });
     }

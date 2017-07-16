@@ -29,7 +29,7 @@ export class Dashboard extends React.Component {
     return (
       <div>
         <NavigationBar />
-        <h5>Public And Role Documents</h5>
+        <h5>All Documents</h5>
         <AllDocuments />
         <DocumentForm />
       </div>

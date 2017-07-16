@@ -36,7 +36,7 @@ describe('Roles', () => {
       .send({ title: 'kiba' })
       .set({ 'authorization': adminToken })
       .end((err, res) => {
-        expect(res.status).to.equal(200);
+        expect(res.status).to.equal(204);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message').to.equal('Role successfully created');
         expect(res.body).to.have.property('role');
@@ -44,15 +44,12 @@ describe('Roles', () => {
       done();
     });
     it('should add a new role if the user is an admin', (done) => {
-      // const role = {
-      //   title: 'hajksfhaskjdfhk'
-      // };
       chai.request(server)
       .post('/api/roles')
       .send({ title: 'king' })
       .set({ 'authorization': adminToken })
       .end((err, res) => {
-        expect(res.status).to.equal(200);
+        expect(res.status).to.equal(204);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message').to.equal('Role successfully created');
         expect(res.body).to.have.property('role');
@@ -68,7 +65,7 @@ describe('Roles', () => {
         .set({ 'authorization': userToken })
       .send(role)
       .end((err, res) => {
-        expect(res.status).to.equal(403);
+        expect(res.status).to.equal(401);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message').to.equal('You are not authorized');
         done();
@@ -80,11 +77,11 @@ describe('Roles', () => {
         .set({ 'authorization': adminToken })
         .send({ title: '' })
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(400);
           expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('This field is required');
-          done();
         });
+        done();
     });
     it('Should return an error if the title is not a string', (done) => {
       chai.request(server)
@@ -92,7 +89,7 @@ describe('Roles', () => {
         .set({ 'authorization': adminToken })
         .send({ title: 358583 })
         .end((err, res) => {
-          expect(res.status).to.equal(403);
+          expect(res.status).to.equal(400);
           expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('Invalid input credentials');
           done();
@@ -105,7 +102,7 @@ describe('Roles', () => {
         .set({ 'authorization': adminToken })
         .send({ title: '' })
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(400);
           expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('This field is required');
           done();
@@ -130,7 +127,7 @@ describe('Roles', () => {
         .get('/api/roles')
         .set({ 'authorization': userToken })
         .end((err, res) => {
-          expect(res.status).to.equal(403);
+          expect(res.status).to.equal(401);
           expect(res.body).to.be.have.property('message').to.equal('You are not authorized');
           done();
         });
@@ -157,7 +154,7 @@ describe('Roles', () => {
         .get(`/api/roles/${id}`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
-          expect(res.status).to.equal(403);
+          expect(res.status).to.equal(401);
           expect(res.body).to.have.property('message').to.equal('You are not authorized');
           done();
         });
@@ -179,7 +176,7 @@ describe('Roles', () => {
         .get(`/api/roles/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
+          expect(res.status).to.equal(404);
           expect(res.body).to.have.property('message').to.equal('Role not found');
           done();
         });
@@ -218,7 +215,7 @@ describe('Roles', () => {
          .set({ 'authorization': userToken })
         .send({ title: 'kiba' })
         .end((err, res) => {
-          expect(res.status).to.equal(403);
+          expect(res.status).to.equal(401);
           expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('You are not authorized');
           done();
@@ -232,7 +229,7 @@ describe('Roles', () => {
          .set({ 'authorization': adminToken })
         .send({ title: 'kiba' })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
+          expect(res.status).to.equal(404);
           expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('Role not found');
           done();
@@ -259,11 +256,10 @@ describe('Roles', () => {
         .delete(`/api/roles/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
-          expect(res.status).to.equal(200);
+          expect(res.status).to.equal(204);
           expect(res.body).to.be.a('object');
-          expect(res.body).to.have.property('message').to.equal('Role has been deleted successfully');
-          done();
         });
+       done();
     });
     it('Should fail to delete a role given the user has no admin access', (done) => {
       const id = 3;
@@ -271,7 +267,7 @@ describe('Roles', () => {
         .delete(`/api/roles/${id}`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
-          expect(res.status).to.equal(403);
+          expect(res.status).to.equal(401);
           expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('You are not authorized');
           done();
@@ -283,7 +279,7 @@ describe('Roles', () => {
         .delete(`/api/roles/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
+          expect(res.status).to.equal(404);
           expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('Role not found');
           done();

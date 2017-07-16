@@ -7429,6 +7429,14 @@ thead tr th {
 
 #editpassword {
   color: black; }
+
+.pagination {
+  cursor: pointer; }
+
+.rows {
+  margin-left: 40%;
+  margin-right: auto;
+  margin-top: 50px; }
 .toast-title {
   font-weight: bold; }
 

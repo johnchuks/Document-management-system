@@ -27,7 +27,8 @@ export class DeleteDocument extends React.Component {
    * @memberof DeleteDocument
    */
   onDelete() {
-    this.props.deleteDocument(this.state).then(() => {
+    const { documentId } = this.state;
+    this.props.deleteDocument({ documentId }).then(() => {
       toastr.success('document deleted successfully');
     });
   }

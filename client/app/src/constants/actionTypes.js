@@ -10,3 +10,5 @@ export const EDIT_PROFILE = 'EDIT_PROFILE';
 export const DELETE_DOCUMENT = 'DELETE_DOCUMENT';
 export const UPDATE_DOCUMENT = 'UPDATE_DOCUMENT';
 export const SEARCH_DOCUMENT = 'SEARCH_DOCUMENT';
+export const GET_USER = 'GET_USER';
+export const SET_AUTH_DATA = 'SET_AUTH_DATA';
