@@ -18,7 +18,7 @@ export class NavigationBar extends React.Component {
       profile: this.props.roleId,
       userId: this.props.id,
       name: this.props.profileName,
-      email: this.props.profileEmail,
+      email: this.props.profileEmail
     };
   }
 
@@ -49,7 +49,6 @@ export class NavigationBar extends React.Component {
    * @memberof NavigationBar
    */
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
     this.setState({
       name: nextProps.profileName,
       email: nextProps.profileEmail
@@ -61,8 +60,52 @@ export class NavigationBar extends React.Component {
       margin: 0
     };
     const userName = this.state.name.split('');
+
     const initials = userName[0].toUpperCase();
-    let Navigation = (
+
+    const nonAdminUser = [
+      {
+        to: '/dashboard',
+        icon: 'dashboard',
+        text: 'View Documents',
+        key: 'documentNav'
+      },
+      {
+        to: '/documents',
+        icon: 'work',
+        text: 'My Documents',
+        key: 'mydocumentNav'
+      },
+      {
+        to: '/searchdocument',
+        icon: 'search',
+        text: 'Search Documents',
+        key: 'searchdocumentNav'
+      },
+      {
+        to: '/profile',
+        icon: 'account_box',
+        text: 'Edit Profile',
+        key: 'editprofileNav'
+      }
+    ];
+    const adminUser = [
+      ...nonAdminUser,
+      {
+        to: '/searchuser',
+        icon: 'search',
+        text: 'search Users',
+        key: 'searchuserNav'
+      },
+      {
+        to: '/viewusers',
+        icon: 'people',
+        text: 'Manage Users',
+        key: 'manageusersNav'
+      }
+    ];
+
+    const Navigation = (
       <div>
         <ul id="slide-out" className="side-nav">
           <li>
@@ -73,84 +116,31 @@ export class NavigationBar extends React.Component {
               <span className="name" id="welcomeName">
                 Welcome {this.state.name}!
               </span>
-
             </div>
           </li>
-          <li>
-            <Link to="/dashboard">
-              <i className="material-icons">dashboard</i>View documents
-            </Link>
-          </li>
-          <li>
-            <Link to="/documents">
-              <i className="material-icons">work</i>My documents
-            </Link>
-          </li>
-          <li>
-            <Link to="/searchdocument">
-              <i className="material-icons">search</i>Search Document
-            </Link>
-          </li>
-          <li>
-            <Link to="/profile">
-              <i className="material-icons">account_box</i>Edit Profile
-            </Link>
-          </li>
-        </ul>
+          {this.state.profile !== 1
+            ? nonAdminUser.map(({ to, icon, text, key }) => (
+                <li key={key}>
+                  <Link id={key} to={to}>
+                    <i className="material-icons">{icon}</i>{text}
+                  </Link>
+                </li>
+              ))
+            : adminUser.map(({ to, icon, text, key }) => (
+                <li key={key}>
+                  <Link id={key} to={to}>
+                    <i className="material-icons">{icon}</i>{text}
+                  </Link>
+                </li>
+              ))}
 
+        </ul>
       </div>
     );
-
-    if (this.state.profile === 1) {
-      Navigation = (
-        <ul id="slide-out" className="side-nav">
-          <li>
-            <div className="user-view">
-              <div className="background profile grey lighten-4">
-                <h1 className="intitalTag">{initials}</h1>
-              </div>
-              <span className="name" id="welcomeName">
-                Welcome {this.state.name}!
-              </span>
-            </div>
-          </li>
-          <li>
-            <Link to="/dashboard">
-              <i className="material-icons">work</i>View all documents
-            </Link>
-          </li>
-          <li>
-            <Link to="/documents">
-              <i className="material-icons">work</i>My documents
-            </Link>
-          </li>
-          <li>
-            <Link to="/viewusers">
-              <i className="material-icons">people</i>Manage Users
-            </Link>
-          </li>
-          <li>
-            <Link to="/searchuser">
-              <i className="material-icons">search</i>Search for users
-            </Link>
-          </li>
-          <li>
-            <Link to="/searchdocument">
-              <i className="material-icons">search</i>Search Document
-            </Link>
-          </li>
-          <li>
-            <Link to="/profile">
-              <i className="material-icons">account_box</i>Edit Profile
-            </Link>
-          </li>
-        </ul>
-      );
-    }
     return (
       <div id="navBar">
-         <LogoutPage />
-          {Navigation}
+        <LogoutPage />
+        {Navigation}
       </div>
     );
   }
@@ -162,7 +152,6 @@ NavigationBar.propTypes = {
   profileName: PropTypes.string.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   getUser: PropTypes.func.isRequired
-
 };
 
 const mapStateToProps = state => ({

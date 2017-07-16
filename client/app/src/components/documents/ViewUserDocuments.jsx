@@ -74,7 +74,7 @@ export class ViewUserDocuments extends React.Component {
       <div>
         <DocumentForm />
         <NavigationBar />
-        <h5>My Documents</h5>
+        <h5 className="my-document">My Documents</h5>
         <div className="rows">
           {userDocuments.length > 0 ?
           <ReactPaginate

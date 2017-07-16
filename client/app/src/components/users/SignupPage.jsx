@@ -63,7 +63,7 @@ export class SignupPage extends React.Component {
         <Navigation />
         <div className="signupContainer">
           <div className="row">
-            <form className="col s12 z-depth-5" id="signup">
+            <form className="col s12 z-depth-5" id="signupForm" onSubmit={this.onSubmit}>
               <div className="row">
                 <div className="col s12">
                   <h5 id="signupId"> Sign Up to DocumentME</h5>
@@ -135,7 +135,7 @@ export class SignupPage extends React.Component {
               </div>
               <div className="row">
                 <div className="col m6 s12">
-                  <a
+                  <button
                     className="waves-effect wave-light btn orange"
                     id="signupButton"
                     type="submit"
@@ -143,7 +143,7 @@ export class SignupPage extends React.Component {
                     onClick={this.onSubmit}
                   >
                     SignUp
-                  </a>
+                  </button>
                 </div>
 
               </div>

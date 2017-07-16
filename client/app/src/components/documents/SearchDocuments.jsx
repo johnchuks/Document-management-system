@@ -98,7 +98,7 @@ export class SearchDocuments extends React.Component {
       <div>
         <NavigationBar />
         <br />
-        <h5>Search For Documents</h5>
+        <h5 className="search-doc">Search For Documents</h5>
         <div className="searchBar">
           <input
             id="searchBar"
