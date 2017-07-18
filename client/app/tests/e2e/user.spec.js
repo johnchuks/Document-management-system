@@ -6,46 +6,40 @@ const userName = faker.internet.userName();
 const email = faker.internet.email();
 const password = faker.internet.password();
 export default {
-  // 'Sign up a user': browser =>
-  //   browser
-  //     .url(config.url)
-  //     .waitForElementVisible('#navSignup')
-  //     .click('#navSignup')
-  //     .setValue('input[name=fullName]', fullName)
-  //     .setValue('input[name=userName]', userName)
-  //     .setValue('input[name=email]', email)
-  //     .setValue('input[name=password]', password)
-  //     .click('#signupButton')
-  //     .waitForElementVisible('h5.all-documents')
-  //     .click('#searchdocumentNav')
-  //     .waitForElementVisible('h5.search-doc')
-  //     .click('a#navLogout')
-  //     .waitForElementVisible('div#navLogin')
-  //     .assert.containsText('#navLogin', 'DocumentME')
-  //     .end(),
+  'Sign up a user': browser =>
+    browser
+      .url(config.url)
+      .waitForElementVisible('#navSignup')
+      .click('#navSignup')
+      .setValue('input[name=fullName]', fullName)
+      .setValue('input[name=userName]', userName)
+      .setValue('input[name=email]', email)
+      .setValue('input[name=password]', password)
+      .click('#signupButton')
+      .waitForElementVisible('h5.all-documents')
+      .click('a#navLogout')
+      .waitForElementVisible('div#navLogin')
+      .assert.containsText('#navLogin', 'DocumentME')
+      .end(),
 
-  // 'Invalid signup': browser =>
-  //   browser
-  //     .url(config.url)
-  //     .waitForElementVisible('body')
-  //     .click('#navSignup')
-  //     .click('#signupButton')
-  //     .waitForElementVisible('span.help-block')
-  //     .assert.containsText('span.help-block', 'This Field is Required')
-  //     .end(),
+  'Invalid signup': browser =>
+    browser
+      .url(config.url)
+      .waitForElementVisible('body')
+      .click('#navSignup')
+      .click('#signupButton')
+      .waitForElementVisible('span.help-block')
+      .assert.containsText('span.help-block', 'This Field is Required')
+      .end(),
 
   'Sign a user in successfully': browser =>
     browser
       .url(config.url)
       .waitForElementVisible('#navLogin')
       .setValue('input[name=email]', 'johnbosco.ohia@andela.com')
-      .setValue('input[name=password', 'adminpassword')
+      .setValue('input[name=password]', 'adminpassword')
       .click('#loginButton')
       .waitForElementVisible('h5.all-documents')
-      .click('.button-collapse')
-      .click('#mydocumentNav')
-      .waitForElementVisible('h5.my-document')
-      .click('.drag-target')
       .click('a#navLogout')
       .waitForElementVisible('div#navLogin')
       .assert.containsText('#navLogin', 'DocumentME'),
@@ -55,7 +49,7 @@ export default {
       .url(config.url)
       .waitForElementVisible('body')
       .setValue('input[name=email]', 'baddest@ogbeni.com')
-      .setValue('input[name=password', 'baddest')
+      .setValue('input[name=password]', 'baddest')
       .click('#loginButton')
       .waitForElementVisible('div.toast-message')
       .assert.containsText('.toast-message', 'Invalid User Credentials'),
@@ -83,18 +77,19 @@ export default {
       .waitForElementVisible('h4.searchHeading')
       .assert.containsText('h4.searchHeading', 'Edit Profile')
       .setValue('input[name=fullName]', 'john chukwuemeka')
-      .setValue('input[name=userName', 'oj811')
+      .setValue('input[name=userName]', 'oj811')
       .click('button#editButton')
       .waitForElementVisible('div.toast-message')
       .click('.button-collapse')
-      .waitForElementVisible('span#welcomeName'),
+      .waitForElementVisible('span#welcomeName')
+      .end(),
 
   'Delete a user as an admin': browser =>
     browser
       .url(config.url)
       .waitForElementVisible('body')
       .setValue('input[name=email]', 'johnbosco.ohia@andela.com')
-      .setValue('input[name=password', 'adminpassword')
+      .setValue('input[name=password]', 'adminpassword')
       .click('#loginButton')
       .waitForElementVisible('h5.all-documents')
       .click('.button-collapse')
@@ -116,15 +111,16 @@ export default {
       .url(config.url)
       .waitForElementVisible('body')
       .setValue('input[name=email]', 'johnbosco.ohia@andela.com')
-      .setValue('input[name=password', 'adminpassword')
+      .setValue('input[name=password]', 'adminpassword')
       .click('#loginButton')
       .waitForElementVisible('h5.all-documents')
       .click('.button-collapse')
-      .click('#searchuserNav')
-      .waitForElementVisible('h4.searchHeading')
-      .assert.containsText('h4.searchHeading', 'Search For Users')
+      .click('a#searchuserNav')
+      .waitForElementVisible('h4.search-heading')
+      .assert.containsText('h4.search-heading', 'Search For Users')
       .setValue('input[name=search]', 'john')
       .click('button#searchButton')
+      .pause(2000)
       .waitForElementVisible('td')
       .end(),
 };

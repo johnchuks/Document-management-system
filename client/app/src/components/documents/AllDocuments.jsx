@@ -120,8 +120,8 @@ AllDocuments.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  publicDocument: state.fetchDocuments.document,
-  pageCount: state.fetchDocuments.pagination.pageCount,
+  publicDocument: state.documentReducer.document,
+  pageCount: state.documentReducer.pagination.pageCount,
   roleId: state.usersReducer.user.roleId,
   isAuthenticated: state.usersReducer.isAuthenticated
 });

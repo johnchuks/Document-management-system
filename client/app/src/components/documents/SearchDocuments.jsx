@@ -145,8 +145,8 @@ SearchDocuments.propTypes = {
   history: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
-  searchResult: state.fetchDocuments.document,
-  pageCount: state.fetchDocuments.pagination.pageCount,
+  searchResult: state.documentReducer.document,
+  pageCount: state.documentReducer.pagination.pageCount,
   isAuthenticated: state.usersReducer.isAuthenticated
 });
 export default

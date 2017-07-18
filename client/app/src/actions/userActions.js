@@ -9,7 +9,7 @@ import Authorization from '../../utils/authorization';
  * dispatches the fetch users payload to the reducer
  * @param {array} users - array of users
  */
-const fetchUserAction = users => ({
+const fetchUserSuccess = users => ({
   type: FETCH_USERS,
   users,
 });
@@ -20,7 +20,7 @@ const fetchUserAction = users => ({
  */
 const fetchUser = ({ limit, offset }) => dispatch =>
  axios.get(`/api/users/?limit=${limit}&offset=${offset}`).then((response) => {
-   dispatch(fetchUserAction(response.data));
+   dispatch(fetchUserSuccess(response.data));
  });
 
 /**
@@ -28,7 +28,7 @@ const fetchUser = ({ limit, offset }) => dispatch =>
  * sends the array of users to the reducer
  * @param {array} users - array of search users
  */
-const searchUserAction = users => ({
+const searchUserSuccess = users => ({
   type: SEARCH_USERS,
   users
 });
@@ -42,7 +42,7 @@ const searchUser = ({ offset, searchString, limit }) =>
 dispatch => axios.get(`/api/search/users/?
 q=${searchString}&limit=${limit}&offset=${offset}`)
   .then((response) => {
-    dispatch(searchUserAction(response.data));
+    dispatch(searchUserSuccess(response.data));
   }).catch(error => error);
 
 /**
@@ -118,7 +118,7 @@ const getUser = profileId => dispatch =>
  * dispatches the updated user to the reducer
  * @param {object} user - edited user payload
  */
-const editProfileAction = user => ({
+const editProfileSuccess = user => ({
   type: EDIT_PROFILE,
   user
 });
@@ -132,7 +132,7 @@ const editProfileAction = user => ({
 const editProfile = (user) => {
   const id = user.userId;
   return dispatch => axios.put(`/api/users/${id}`, user).then().then((response) => {
-    dispatch(editProfileAction(response.data));
+    dispatch(editProfileSuccess(response.data));
   })
   .catch(error => error);
 };
@@ -143,7 +143,7 @@ const editProfile = (user) => {
  * @param {number} user - user id of the deleted user
  * @returns {object} payload container the user id of the deleted user
  */
-const deleteUserAction = user => ({
+const deleteUserSuccess = user => ({
   type: DELETE_USER,
   payload: user
 });
@@ -156,11 +156,11 @@ const deleteUserAction = user => ({
  */
 const deleteUser = user => dispatch =>
   axios.delete(`api/users/${user}`).then(() => {
-    dispatch(deleteUserAction(user));
+    dispatch(deleteUserSuccess(user));
   }).catch(error => error);
 
 
-export { signupAction, fetchUser, getUser,
-   loginAction, setAuthUser, fetchUserAction,
-    editProfile, searchUser, deleteUser, deleteUserAction, editProfileAction };
+export { signupAction, fetchUser, getUser, getUserSuccess,
+   loginAction, setAuthUser, fetchUserSuccess,
+    editProfile, searchUser, deleteUser, deleteUserSuccess, editProfileSuccess, searchUserSuccess };
 

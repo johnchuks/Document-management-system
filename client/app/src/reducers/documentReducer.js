@@ -15,7 +15,7 @@ const initialState = {
  * @param {array} action - contains payload from the action
  * @returns {array} - returns an array of documents after updating the state
  */
-const fetchDocuments = (state = initialState, action) => {
+const documentReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ALL_DOCUMENTS: {
       return {
@@ -64,4 +64,4 @@ const fetchDocuments = (state = initialState, action) => {
   }
 };
 
-export default fetchDocuments;
+export default documentReducer;

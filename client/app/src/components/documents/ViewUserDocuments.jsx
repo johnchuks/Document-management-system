@@ -106,8 +106,10 @@ export class ViewUserDocuments extends React.Component {
                   <div className="card-action">
                     <p>{document.access}</p>
                     <DeleteDocument cardDocument={document.id} />
+                    <div id="editIcon">
                     <UpdateDocumentForm cardDocuments={document}
                      />
+                     </div>
                      <DocumentView documentView={document} />
                   </div>
                 </div>
@@ -130,8 +132,8 @@ ViewUserDocuments.propTypes = {
 const mapStateToProps = state => ({
   userId: state.usersReducer.user.id,
   isAuthenticated: state.usersReducer.isAuthenticated,
-  userDocument: state.fetchDocuments.document,
-  pageCount: state.fetchDocuments.pagination.pageCount
+  userDocument: state.documentReducer.document,
+  pageCount: state.documentReducer.pagination.pageCount
 });
 export default
   connect(mapStateToProps, { fetchDocument })(withRouter(ViewUserDocuments));

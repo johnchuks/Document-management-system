@@ -142,7 +142,14 @@ module.exports = {
             password: req.body.password || user.password,
             roleId: req.body.roleId || user.roleId
           })
-          .then(() => res.status(200).send(user))
+          .then((updatedUser) => {
+            res.status(200).send({
+              id: updatedUser.id,
+              fullName: updatedUser.fullName,
+              userName: updatedUser.userName,
+              email: updatedUser.email
+            });
+          })
           .catch(error => res.status(400).send(error));
       })
       .catch(error => res.status(400).send(error));

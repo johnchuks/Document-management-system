@@ -95,7 +95,7 @@ export class SearchUsers extends React.Component {
       <div>
         <NavigationBar />
         <br />
-        <h4 className="searchHeading">Search For Users</h4>
+        <h4 className="search-heading">Search For Users</h4>
         <div className="searchBar">
           <input
             id="searchBar"

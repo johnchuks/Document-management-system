@@ -83,7 +83,7 @@ export class DocumentForm extends React.Component {
           trigger={
             <div className="fixed-action-btn horizontal">
               <Button className="btn-floating btn-large red">
-                <i className="material-icons md-36">create</i>
+                <i id="creatDoc" className="material-icons md-36">create</i>
               </Button>
             </div>
           }
@@ -100,7 +100,11 @@ export class DocumentForm extends React.Component {
               </div>
               <div className="input-field col s12">
                 <TinyMCE
-                content={this.state.content}
+                  config={{
+                    plugins: 'link image code',
+                    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+                  }}
+                  content={this.state.content}
                   onChange={this.handleEditorChange}
                 />
                 {errors.content &&

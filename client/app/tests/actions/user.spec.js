@@ -8,11 +8,11 @@ import {
   loginAction,
   signupAction,
   fetchUser,
-  fetchUserAction,
+  fetchUserSuccess,
   deleteUser,
-  deleteUserAction,
+  deleteUserSuccess,
   editProfile,
-  editProfileAction,
+  editProfileSuccess,
   searchUser
 } from '../../src/actions/userActions';
 import Authorization from '../../utils/authorization';
@@ -125,7 +125,7 @@ describe('UserActions', () => {
         { email: 'test@test.com', fullName: 'john test', id: 4, roleId: 2 }
       ];
       const expected = [{ type: types.FETCH_USERS, users }];
-      store.dispatch(fetchUserAction(users));
+      store.dispatch(fetchUserSuccess(users));
       expect(store.getActions()).to.deep.equal(expected);
       done();
     });
@@ -144,7 +144,7 @@ describe('UserActions', () => {
       const userId = 4;
       const store = mockStore({});
       const expected = [{ type: types.DELETE_USER, payload: userId }];
-      store.dispatch(deleteUserAction(userId));
+      store.dispatch(deleteUserSuccess(userId));
       expect(store.getActions()).to.deep.equal(expected);
     });
   });
@@ -162,7 +162,7 @@ describe('UserActions', () => {
       const user = { email: 'john@test.com', fullName: 'john james', id: 3 };
       const store = mockStore({});
       const expected = [{ type: types.EDIT_PROFILE, user: user }];
-      const profileUpdate = store.dispatch(editProfileAction(user));
+      const profileUpdate = store.dispatch(editProfileSuccess(user));
       expect(store.getActions()).to.deep.equal(expected);
     });
   });

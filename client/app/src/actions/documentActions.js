@@ -108,9 +108,9 @@ const deleteDocumentSuccess = documentId => ({
  * performs a delete document request to the server
  * @param {object} document - document to be deleted
  */
-const deleteDocument = ({ documentId }) => dispatch =>
+const deleteDocument = documentId => dispatch =>
  axios.delete(`api/documents/${documentId}`).then(() => {
-   dispatch(deleteDocumentSuccess(document.documentId));
+   dispatch(deleteDocumentSuccess(documentId));
  }).catch(error => error);
 
 /**
@@ -137,6 +137,7 @@ const searchDocument = ({ offset, searchString, limit }) =>
 
 export { createDocumentSuccess,
    createDocument, fetchDocumentSuccess,
-  fetchDocument, fetchAllDocuments,
-  fetchAllDocumentsSuccess, updateDocument, searchDocument, deleteDocument };
+  fetchDocument, fetchAllDocuments, deleteDocumentSuccess,
+  fetchAllDocumentsSuccess, updateDocument, updateDocumentSuccess, searchDocument, deleteDocument };
+
 
