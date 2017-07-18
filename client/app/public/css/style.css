@@ -7240,7 +7240,7 @@ button.picker__close:focus {
   height: 100%;
   z-index: -1; }
 
-#signup {
+#signupForm {
   border: 10px solid #F5F3EE;
   padding: inherit;
   width: 50%;
@@ -7264,7 +7264,6 @@ button.picker__close:focus {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -7338,7 +7337,6 @@ h5 {
 #editIcon {
   cursor: pointer;
   margin-top: -100px;
-  float: left;
   margin-top: -26px; }
 
 input[type=text] {
@@ -7365,7 +7363,7 @@ input[type=password] {
   margin-top: 3%;
   margin-left: 3%; }
 
-#searchHeading {
+.searchHeading {
   margin-left: 40%; }
 
 #navLogin {

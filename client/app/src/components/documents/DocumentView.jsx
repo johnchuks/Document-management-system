@@ -15,12 +15,12 @@ const DocumentView = props => (
         id={`title${props.documentView.id}`}
         header={props.documentView.title}
         trigger={
-          <a href="#">
+          <a id="viewdocs"href="#">
             View
           </a>
         }
       >
-        <p>{striptags(props.documentView.content)}</p>
+        <p id="documentcontent">{striptags(props.documentView.content)}</p>
       </Modal>
     </div>
   );

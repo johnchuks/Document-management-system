@@ -98,7 +98,7 @@ export class SearchDocuments extends React.Component {
       <div>
         <NavigationBar />
         <br />
-        <h5>Search For Documents</h5>
+        <h5 className="search-doc">Search For Documents</h5>
         <div className="searchBar">
           <input
             id="searchBar"
@@ -145,8 +145,8 @@ SearchDocuments.propTypes = {
   history: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
-  searchResult: state.fetchDocuments.document,
-  pageCount: state.fetchDocuments.pagination.pageCount,
+  searchResult: state.documentReducer.document,
+  pageCount: state.documentReducer.pagination.pageCount,
   isAuthenticated: state.usersReducer.isAuthenticated
 });
 export default

@@ -86,7 +86,7 @@ export class SearchUsers extends React.Component {
 
   render() {
     if (this.props.isAuthenticated === false) return null;
-    const { pageCount, searchList } = this.state;
+    const { searchList } = this.state;
 
     const searchUsersList = searchList.filter(
       user => user.roleId !== 1
@@ -95,7 +95,7 @@ export class SearchUsers extends React.Component {
       <div>
         <NavigationBar />
         <br />
-        <h4 id="searchHeading">Search For Users</h4>
+        <h4 className="search-heading">Search For Users</h4>
         <div className="searchBar">
           <input
             id="searchBar"

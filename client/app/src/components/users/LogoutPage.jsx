@@ -36,7 +36,7 @@ class LogoutPage extends React.Component {
             <div className="brand-logo left" id="navLogout">DocumentME</div>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
               <li>
-                <a
+                <a id="navLogout"
                   className="waves-effect wave-light"
                   href="/"
                   onClick={this.onSubmit}

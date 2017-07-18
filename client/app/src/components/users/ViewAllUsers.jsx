@@ -61,7 +61,7 @@ export class ViewAllUsers extends React.Component {
     return (
       <div>
         <NavigationBar />
-        <h5>Manage Users </h5>
+        <h5 className="manage-users">Manage Users </h5>
         <AllUsersList allUsers={users} />
         <div className="rows">
           <ReactPaginate

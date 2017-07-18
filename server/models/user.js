@@ -37,14 +37,13 @@ module.exports = (sequelize, DataTypes) => {
           hooks: true
         });
         User.belongsTo(models.Role, {
-
           foreignKey: 'roleId'
         });
       }
     },
     freezeTableName: true,
     instanceMethods: {
-      validPassword(password) {
+      isValidPassword(password) {
         return bcrypt.compareSync(password, this.password);
       },
       generateHashPassword() {
@@ -56,7 +55,9 @@ module.exports = (sequelize, DataTypes) => {
         user.generateHashPassword();
       },
       beforeUpdate(user) {
-        user.generateHashPassword();
+        if (user._changed.password) {
+          user.generateHashPassword();
+        }
       }
     }
   });

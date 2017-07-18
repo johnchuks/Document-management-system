@@ -16,7 +16,7 @@ const Navigation = () => (
             </a>
           </li>
           <li>
-            <a className="waves-effect wave-light" href="/signup">Signup</a>
+            <a id="navSignup" className="waves-effect wave-light" href="/signup">Signup</a>
           </li>
         </ul>
       </div>

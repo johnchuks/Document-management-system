@@ -84,7 +84,7 @@ export class EditProfile extends React.Component {
       <div>
         <NavigationBar />
         <br />
-        <h4 id="searchHeading">Edit Profile</h4>
+        <h4 className="searchHeading">Edit Profile</h4>
         <div id="formField" style={profileStyle}>
           <div className="col s12 z-depth 5">
             <div className="row">

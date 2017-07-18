@@ -75,11 +75,9 @@ export class UpdateDocumentForm extends React.Component {
           id={`titleHeader${this.state.documentId}`}
           header="update document"
           trigger={
-            <div id="editIcon">
               <i className="material-icons md-36" id={this.state.documentId}>
                 create
               </i>
-            </div>
           }
         >
           <form className="col s12">
@@ -114,7 +112,7 @@ export class UpdateDocumentForm extends React.Component {
                   <option value="role">Role</option>
                 </select>
               </div>
-              <Button id="documentbutton"
+              <Button id="updatedocbutton"
                 className="btn modal-action modal-close orange"
                 onClick={this.onSubmit}
               >
@@ -132,6 +130,6 @@ UpdateDocumentForm.propTypes = {
   updateDocument: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
-  document: state.fetchDocuments.document
+  document: state.documentReducer.document
 });
 export default connect(mapStateToProps, { updateDocument })(UpdateDocumentForm);
