@@ -89,7 +89,8 @@ module.exports = {
    * @returns {object} - an object of found user
    */
   findUser(req, res) {
-    if (req.decoded.roleId !== 1) {
+    const userQuery = Number(req.params.id);
+    if ((req.decoded.id !== userQuery) && (req.decoded.roleId !== 1)) {
       return res.status(401).json({
         message: 'Unauthorized Access'
       });

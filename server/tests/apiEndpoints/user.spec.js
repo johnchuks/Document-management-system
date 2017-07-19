@@ -8,7 +8,7 @@ const server = require('../../config/server');
 const samples = require('./mockdata');
 
 chai.use(chaiHttp);
-let userToken, adminToken;
+let userToken, adminToken, sampleUserToken;
 describe('Users', () => {
   before((done) => {
     chai.request(server)
@@ -28,6 +28,15 @@ describe('Users', () => {
         done();
       });
   });
+  before((done) => {
+    chai.request(server)
+      .post('/users/login')
+      .send({ email: 'mayor@andela.com', password: 'jamestest' })
+      .end((err, res) => {
+        sampleUserToken  = res.body.token;
+        done();
+      })
+  })
   describe('/POST users', () => {
     it('it should not post a user without a full name', (done) => {
       const user = {
@@ -283,15 +292,19 @@ describe('Users', () => {
           done();
         });
     });
-    it('Should fail get a user by id if the user has no admin access', (done) => {
+    it('Should get the user if the requested user is the current user', (done) => {
       const id = 2;
       chai.request(server)
         .get(`/api/users/${id}`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
-          expect(res.status).to.equal(401);
-          expect(res.body).be.a('object');
-          expect(res.body).to.have.property('message').to.equal('You are not authorized');
+          expect(res.status).to.equal(200);
+          expect(res.body).be.a('array');
+          expect(res.body[0]).to.have.property('fullName');
+          expect(res.body[0]).to.have.property('id');
+          expect(res.body[0]).to.have.property('userName');
+          expect(res.body[0]).to.have.property('email');
+          expect(res.body[0]).to.have.property('roleId');
           done();
         });
     });
@@ -306,6 +319,17 @@ describe('Users', () => {
           done();
         });
     });
+    it('should fail to get the user if the requester is not the owner', (done) => {
+      const id = 2;
+      chai.request(server)
+        .get(`api/users/${id}`)
+        .set({'authorization': sampleUserToken})
+        .end((err, res) => {
+          expect(res.status).to.equal(401);
+          expect(res.body).to.have.property('message').to.equal('Unauthorized access');
+        });
+        done();
+    })
     it('Should fail to get a user by id if the user does not exist', (done) => {
       const id = 250;
       chai.request(server)
