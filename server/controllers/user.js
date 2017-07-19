@@ -147,7 +147,8 @@ module.exports = {
               id: updatedUser.id,
               fullName: updatedUser.fullName,
               userName: updatedUser.userName,
-              email: updatedUser.email
+              email: updatedUser.email,
+              roleId: updatedUser.roleId
             });
           })
           .catch(error => res.status(400).send(error));
