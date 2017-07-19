@@ -10,12 +10,8 @@ module.exports = {
 
   },
   test: {
-    "database": "doc-management-test",
-    "username":"andeladeveloper",
-    "password":null,
-    "port":5433,
-    "dialect": "postgres"
-
+    use_env_variable: 'DATABASE_URL',
+    dialect: 'postgres'
   },
   production: {
     use_env_variable: 'DATABASE_URL_PROD',
