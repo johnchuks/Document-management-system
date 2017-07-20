@@ -41,7 +41,6 @@ export class SearchUsers extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.error, '---...>>>');
     this.setState({
       searchList: nextProps.searchList,
       errors: nextProps.error
