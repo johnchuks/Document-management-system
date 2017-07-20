@@ -56,7 +56,7 @@ deleteDocumentSuccess } from '../../src/actions/documentActions';
              { id: 24, title: 'WSTRN',
             }]
           }
-           const updateDoc = { id:83, title: 'new document' };
+           const updateDoc = { id: 83, title: 'new document' };
            const action = updateDocumentSuccess(updateDoc);
             const newState = documentReducer(initialState, action);
            const updatedDocument = newState.document.find(doc => doc.id == updateDoc.id);
@@ -92,23 +92,4 @@ deleteDocumentSuccess } from '../../src/actions/documentActions';
       done();
       });
     });
-
-    describe('DELETE_DOCUMENT', () => {
-      it('should delete a document when DELETE_DOCUMENT', () => {
-        const initialState = {
-          document: [{
-              id: 83,
-              title: 'john james',
-            },
-             { id: 24, title: 'WSTRN',
-            }, {id: 20, title: 'document it!!!'}]
-        }
-        const deleteDocument = {id: 83 };
-        const action = deleteDocumentSuccess(deleteDocument);
-        const newState = documentReducer(initialState, action);
-        const deleteDoc = newState.document.find(doc => doc.id === deleteDocument.id);
-        const untouchedDoc = newState.document.find(doc => doc.id === 24);
-        console.log(newState, '---->>')
-      })
-    })
   });

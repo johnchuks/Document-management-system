@@ -5,7 +5,7 @@ const auth = require('../middlewares/authentication.js');
 
 module.exports = (app) => {
  // User Routes
-  app.post('/users/', userController.createUserWithJwt);
+  app.post('/users/', userController.createUser);
   app.get('/api/users/', auth.adminAccess, userController.getAllUsers);
   app.get('/api/users/:id', userController.findUser);
   app.put('/api/users/:id', userController.updateUser);
@@ -30,7 +30,7 @@ module.exports = (app) => {
   app.delete('/api/roles/:id', auth.adminAccess, roleController.deleteRole);
 
   // Login and Logout User Route
-  app.post('/users/login', userController.logInWithJwt);
+  app.post('/users/login', userController.logInUser);
   app.post('api/logout', userController.logOutUser);
 };
 

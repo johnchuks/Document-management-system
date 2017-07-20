@@ -28,6 +28,9 @@ export class DocumentForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.handleEditorChange = this.handleEditorChange.bind(this);
   }
+  componentWillReceiveProps(nextProps) {
+    this.setState({ errors: nextProps.error.message });
+  }
   /**
    * handles an on change event filling in the signup form
    * @return {null} - return null
@@ -63,10 +66,10 @@ export class DocumentForm extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.setState({ errors: {} });
-    this.props.document(this.state).then((error) => {
-      if (error) {
-        this.setState({ errors: error });
+    this.props.document(this.state).then(() => {
+      if (this.state.errors) {
+        toastr.error(this.state.errors);
+        this.setState({ errors: {} });
       } else {
         toastr.success('Document created successfully');
       }
@@ -74,7 +77,6 @@ export class DocumentForm extends React.Component {
   }
 
   render() {
-    const { errors } = this.state;
     return (
       <div>
         <Modal
@@ -93,10 +95,6 @@ export class DocumentForm extends React.Component {
               <div className="input-field col s12">
                 <input name="title" onChange={this.handleChange}
                   className="validate" placeholder="Title..." />
-                {errors.title &&
-                  <span>
-                    {errors.title}
-                  </span>}
               </div>
               <div className="input-field col s12">
                 <TinyMCE
@@ -107,10 +105,6 @@ export class DocumentForm extends React.Component {
                   content={this.state.content}
                   onChange={this.handleEditorChange}
                 />
-                {errors.content &&
-                  <div>
-                    {errors.content}
-                  </div>}
               </div>
               <div className="col s6">
                 <label>Select role type</label>
@@ -124,10 +118,6 @@ export class DocumentForm extends React.Component {
                   <option value="private">Private</option>
                   <option value="role">Role</option>
                 </select>
-                {errors.value &&
-                  <div>
-                    {errors.value}
-                  </div>}
               </div>
               <Button
                 className="btn modal-action btn-large blue"
@@ -145,10 +135,12 @@ export class DocumentForm extends React.Component {
 }
 DocumentForm.propTypes = {
   document: PropTypes.func.isRequired,
-  user: PropTypes.number
+  user: PropTypes.number,
+  error: PropTypes.object
 };
 const mapStateToProps = state => ({
-  user: state.usersReducer.user.id
+  user: state.usersReducer.user.id,
+  error: state.documentReducer.error
 });
 const mapDispatchToProps = dispatch => ({
   document: documentDetails => dispatch(createDocument(documentDetails))

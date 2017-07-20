@@ -70,10 +70,10 @@ describe('Documents', () => {
       .send({'authorization': userToken })
       .end((err, res) => {
         expect(res.status).to.equal(403);
-        expect(res.body).to.have.property('title').to.equal('Document already exists');
+        expect(res.body).to.have.property('message').to.equal('Document already exists');
       });
     });
-    it('should fail to  add a new document if the value field is missing', (done) => {
+    it('should fail to add a new document if the value field is missing', (done) => {
       const document = {
         title: 'kiba-team',
         content: 'Andela is really awesome!!!',
@@ -87,7 +87,7 @@ describe('Documents', () => {
       .end((err, res) => {
         expect(res.status).to.equal(400);
         expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('value').to.be.equal('This Field is Required');
+        expect(res.body).to.have.property('message').to.be.equal('This Field is Required');
         done();
       });
     });
@@ -105,7 +105,7 @@ describe('Documents', () => {
       .end((err, res) => {
         expect(res.status).to.equal(400);
         expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('title').to.be.equal('This Field is Required');
+        expect(res.body).to.have.property('message').to.be.equal('This Field is Required');
         done();
       });
     });
@@ -123,7 +123,7 @@ describe('Documents', () => {
       .end((err, res) => {
         expect(res.status).to.equal(400);
         expect(res.body).to.be.a('object');
-        expect(res.body).to.have.property('content').to.be.equal('This Field is Required');
+        expect(res.body).to.have.property('message').to.be.equal('This Field is Required');
         done();
       });
     });

@@ -1,7 +1,10 @@
 import axios from 'axios';
-import { CREATE_DOCUMENT, FETCH_USER_DOCUMENTS,
-   FETCH_ALL_DOCUMENTS, DELETE_DOCUMENT,
-UPDATE_DOCUMENT, SEARCH_DOCUMENT } from '../constants/actionTypes';
+import { CREATE_DOCUMENT, CREATE_DOCUMENT_ERROR,
+   FETCH_USER_DOCUMENTS,
+   FETCH_USER_DOCUMENTS_ERROR, FETCH_ALL_DOCUMENTS_ERROR,
+   FETCH_ALL_DOCUMENTS, DELETE_DOCUMENT, DELETE_DOCUMENT_ERROR,
+UPDATE_DOCUMENT, UPDATE_DOCUMENT_ERROR,
+SEARCH_DOCUMENT, SEARCH_DOCUMENT_ERROR } from '../constants/actionTypes';
 
 /**
  *@return {object} - object of created document
@@ -13,14 +16,73 @@ const createDocumentSuccess = document => ({
   document,
 });
 
+const createDocumentError = error => ({
+  type: CREATE_DOCUMENT_ERROR,
+  error
+});
 /**
  * @return {array} - returns array of documents
  *  dispatches all document in an array to the reducer
  * @param {array} documents - fetched documents
  */
+/**
+ *
+ *
+ * @param {array} documents
+ */
 const fetchAllDocumentsSuccess = documents => ({
   type: FETCH_ALL_DOCUMENTS,
   payload: documents
+});
+
+/**
+ *
+ *
+ * @param {object} error
+ */
+const fetchAllDocumentsError = error => ({
+  type: FETCH_ALL_DOCUMENTS_ERROR,
+  error
+});
+
+/**
+ *
+ *
+ * @param {object} error
+ */
+const fetchDocumentError = error => ({
+  type: FETCH_USER_DOCUMENTS_ERROR,
+  error
+});
+
+/**
+ *
+ *
+ * @param {object} error
+ */
+const updateDocumentError = error => ({
+  type: UPDATE_DOCUMENT_ERROR,
+  error
+});
+
+/**
+ *
+ *
+ * @param {object} error
+ */
+const deleteDocumentError = error => ({
+  type: DELETE_DOCUMENT_ERROR,
+  error
+});
+
+/**
+ *
+ *
+ * @param {object} error
+ */
+const searchDocumentError = error => ({
+  type: SEARCH_DOCUMENT_ERROR,
+  error
 });
 /**
  * @return {object} - newly created document
@@ -31,7 +93,9 @@ const createDocument = document => dispatch =>
 axios.post('/api/documents', document).then((response) => {
   const documentData = response.data;
   dispatch(createDocumentSuccess(documentData));
-}).catch(error => error.response.data);
+}).catch((error) => {
+  dispatch(createDocumentError(error.response.data));
+});
 
 /**
  * @return {array} - array of documents with pagination
@@ -44,7 +108,9 @@ const fetchAllDocuments = ({ offset, limit }) => dispatch => axios
   .then((response) => {
     const documents = response.data;
     dispatch(fetchAllDocumentsSuccess(documents));
-  }).catch(error => error);
+  }).catch((error) => {
+    dispatch(fetchAllDocumentsError(error.response.data));
+  });
 
 /**
  * @return {array} - array of users document
@@ -67,7 +133,9 @@ axios.get(`/api/users/${id}/documents/
 .then((response) => {
   const userDocuments = response.data;
   dispatch(fetchDocumentSuccess(userDocuments));
-}).catch(error => error);
+}).catch((error) => {
+  dispatch(fetchDocumentError(error.response.data));
+});
 
 /**
  * @return {object} - updated document
@@ -90,7 +158,9 @@ const updateDocument = (document) => {
   return dispatch => axios.put(`/api/documents/${documentId}`, document)
   .then((response) => {
     dispatch(updateDocumentSuccess(response.data));
-  }).catch(error => error);
+  }).catch((error) => {
+    dispatch(updateDocumentError(error.response.data));
+  });
 };
 
 /**
@@ -100,7 +170,7 @@ const updateDocument = (document) => {
  */
 const deleteDocumentSuccess = documentId => ({
   type: DELETE_DOCUMENT,
-  payload: documentId
+  documentId
 });
 
 /**
@@ -111,7 +181,9 @@ const deleteDocumentSuccess = documentId => ({
 const deleteDocument = documentId => dispatch =>
  axios.delete(`api/documents/${documentId}`).then(() => {
    dispatch(deleteDocumentSuccess(documentId));
- }).catch(error => error);
+ }).catch((error) => {
+   dispatch(deleteDocumentError(error.response.data));
+ });
 
 /**
  * @return {array} - searched documents payload
@@ -132,7 +204,9 @@ const searchDocument = ({ offset, searchString, limit }) =>
  dispatch => axios.get(`api/search/documents/?q=${searchString}&limit=${limit}&offset=${offset}`)
   .then((response) => {
     dispatch(searchDocumentSuccess(response.data));
-  }).catch(error => error);
+  }).catch((error) => {
+    dispatch(searchDocumentError(error.response.data));
+  });
 
 
 export { createDocumentSuccess,

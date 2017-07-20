@@ -18,17 +18,17 @@ module.exports = {
   createDocument(req, res) {
     if (!req.body.title) {
       return res.status(400).json({
-        title: 'This Field is Required'
+        message: 'This Field is Required'
       });
     }
     if (!req.body.content) {
       return res.status(400).json({
-        content: 'This Field is Required'
+        message: 'This Field is Required'
       });
     }
     if (!req.body.value) {
       return res.status(400).json({
-        value: 'This Field is Required'
+        message: 'This Field is Required'
       });
     }
     Document.findAll({
@@ -47,7 +47,7 @@ module.exports = {
       .catch(error => res.status(400).send(error));
       }
       return res.status(403).json({
-        title: 'Document already exists'
+        message: 'Document already exists'
       });
     }).catch(error => res.status(400).send(error));
   },

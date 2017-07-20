@@ -24,6 +24,7 @@ export class SearchDocuments extends React.Component {
       limit: 6,
       offset: 0,
       searchList: [],
+      errors: {}
     };
     this.onHandleChange = this.onHandleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -41,6 +42,9 @@ export class SearchDocuments extends React.Component {
     }
     $('.button-collapse').sideNav('hide');
   }
+  componentWillMount() {
+    this.setState({ errors: this.props.error });
+  }
   /**
    *
    *
@@ -48,7 +52,14 @@ export class SearchDocuments extends React.Component {
    * @memberof SearchDocuments
    */
   componentWillReceiveProps(nextProps) {
-    this.setState({ searchList: nextProps.searchResult });
+    this.setState({
+      searchList: nextProps.searchResult,
+      errors: nextProps.error
+    }, () => {
+      if (this.state.errors.message) {
+        toastr.error(this.state.errors.message);
+      }
+    });
   }
   /**
    *
@@ -69,18 +80,12 @@ export class SearchDocuments extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     const { offset, searchString, limit } = this.state;
-    this.props.searchDocument({ offset, searchString, limit }).then((error) => {
-      if (!error) {
-        this.setState({ searchList: this.props.searchResult });
-      } else {
-        toastr.error(error.response.data.message);
-      }
-    });
+    this.props.searchDocument({ offset, searchString, limit });
   }
   /**
    *
-   *
-   * @param {any} data
+   *@return {void} - void
+   * @param {number} data
    * @memberof SearchDocuments
    */
   handlePageChange(data) {
@@ -93,6 +98,8 @@ export class SearchDocuments extends React.Component {
   }
   render() {
     const { searchList } = this.state;
+
+
     if (this.props.isAuthenticated === false) return null;
     return (
       <div>
@@ -142,12 +149,14 @@ SearchDocuments.propTypes = {
   pageCount: PropTypes.number,
   searchDocument: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  error: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
   searchResult: state.documentReducer.document,
   pageCount: state.documentReducer.pagination.pageCount,
-  isAuthenticated: state.usersReducer.isAuthenticated
+  isAuthenticated: state.usersReducer.isAuthenticated,
+  error: state.documentReducer.error
 });
 export default
   connect(mapStateToProps, { searchDocument })(withRouter(SearchDocuments));

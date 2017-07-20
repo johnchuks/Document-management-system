@@ -57,7 +57,6 @@ describe('User Reducer', () => {
       const updateUser = {id: 2, fullName: 'mayowa', userName: 'mayor'};
       const action = editProfileSuccess(updateUser);
       const newState = usersReducer(initialState, action);
-      console.log(newState, '---->');
       expect(newState.user.fullName).to.equal('mayowa');
       expect(newState.user.userName).to.equal('mayor');
     });
@@ -70,7 +69,6 @@ describe('User Reducer', () => {
       const getUser = { id: 2, fullName: 'johnbosco', userName: 'jbl12', email: 'jb@gmail.com'};
       const action = getUserSuccess(getUser);
       const newState = usersReducer(initialState, action);
-      console.log(newState, '>>----');
       expect(newState.user.fullName).to.equal('johnbosco');
       expect(newState.user.email).to.equal('jb@gmail.com');
     });
@@ -83,7 +81,6 @@ describe('User Reducer', () => {
       const searchResult = {fullName: 'johnbosco'};
       const action = searchUserSuccess({ user: searchResult, pagination: {}});
       const newState = usersReducer(initialState, action);
-      console.log(newState);
       expect(newState.users.fullName).to.equal('johnbosco');
     });
   });

@@ -25,10 +25,13 @@ export class LoginPage extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  componentWillReceiveProps(nextProps) {
+    this.setState({ errors: nextProps.error });
+  }
   /**
    *
-   * @return {*} updated state of the user details
-   * @param {string} event - on change event value from the input field
+   * @return {void} updated state of the user details
+   * @param {void} event - on change event value from the input field
    * @memberof LoginPage
    */
   handleChange(event) {
@@ -36,37 +39,32 @@ export class LoginPage extends React.Component {
   }
   /**
    *
-   * @return {*} the login action is dispatched
-   * @param {*} event - on click event
+   * @return {void} the login action is dispatched
+   * @param {void} event - on click event
    * @memberof LoginPage
    */
   onSubmit(event) {
     event.preventDefault();
-    this.setState({ errors: {} });
-    this.props.loginAction(this.state).then((error) => {
-      if (!error) {
+    this.props.loginAction(this.state).then(() => {
+      if (!this.state.errors.message) {
         this.props.history.push('/dashboard');
         toastr.success('You are Logged in successfully');
       } else {
-        this.setState({ errors: error.response.data });
         const { errors } = this.state;
         toastr.error(errors.message);
         this.props.history.push('/');
+        this.setState({ errors: {} });
       }
     });
   }
   render() {
-    const rowStyle = {
-      marginTop: '100px'
-    };
-    const { errors } = this.state;
-
     return (
       <div>
         <Navigation />
         <div className="loginContainer">
-          <div className="row" style={rowStyle}>
-            <div className="col s12  z-depth-5" id="login" onSubmit={this.onSubmit}>
+          <div className="row">
+            <div className="col s12  z-depth-5" id="login"
+            onSubmit={this.onSubmit}>
               <div className="row">
                 <div className="col s12">
                   <h5 id="loginId">Login into your account</h5>
@@ -85,10 +83,6 @@ export class LoginPage extends React.Component {
                     onChange={this.handleChange}
                   />
                   <label htmlFor="email" id="label">Email</label>
-                  {errors.email &&
-                    <span id="errorAlert" className="help-block">
-                      {errors.email}
-                    </span>}
                 </div>
               </div>
               <div className="row">
@@ -104,10 +98,6 @@ export class LoginPage extends React.Component {
                     onChange={this.handleChange}
                   />
                   <label htmlFor="password" id="label">Password</label>
-                  {errors.password &&
-                    <span id="errorAlert" className="help-block">
-                      {errors.password}
-                    </span>}
                 </div>
               </div>
               <div className="row">
@@ -137,20 +127,19 @@ export class LoginPage extends React.Component {
     );
   }
 }
+LoginPage.propTypes = {
+  history: PropTypes.object.isRequired,
+  loginAction: PropTypes.func.isRequired,
+  error: PropTypes.object.isRequired
+};
+
 const mapStateToProps = state => ({
-  user: state.usersReducer.user
+  user: state.usersReducer.user,
+  error: state.usersReducer.error
 });
-// const mapDispatchToProps = dispatch => ({
-//   login: loginCrendentials => dispatch(loginAction(loginCrendentials))
-// });
 
 export default connect(mapStateToProps, { loginAction })(
   withRouter(LoginPage)
 );
 
-LoginPage.propTypes = {
-  history: PropTypes.object.isRequired
-};
-LoginPage.propTypes = {
-  loginAction: PropTypes.func.isRequired
-};
+

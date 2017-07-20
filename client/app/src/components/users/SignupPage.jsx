@@ -25,9 +25,12 @@ export class SignupPage extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  componentWillReceiveProps(nextProps) {
+    this.setState({ errors: nextProps.error });
+  }
   /**
    *
-   * @return {*} - updated state of the inputs
+   * @return {void} - updated state of the inputs
    * @param {string} event - returns the on change value from the input fields
    * @memberof SignupPage
    */
@@ -36,19 +39,20 @@ export class SignupPage extends React.Component {
   }
   /**
    *
-   * @return {*} - dispatches the action
-   * @param {*} event - null
+   * @return {void} - dispatches the action
+   * @param {void} event - null
    * @memberof SignupPage
    */
   onSubmit(event) {
     this.setState({ errors: {} });
     event.preventDefault();
-    this.props.signup(this.state).then((error) => {
-      if (!error) {
+    this.props.signup(this.state).then(() => {
+      if (!this.state.errors) {
         this.props.history.push('/dashboard');
         toastr.success('You have successfully signed up');
       } else {
-        this.setState({ errors: error.response.data, isLoading: false });
+        const { errors } = this.state;
+        toastr.error(errors.message);
         this.props.history.push('/signup');
       }
     });
@@ -158,7 +162,12 @@ SignupPage.propTypes = {
   history: PropTypes.object.isRequired,
   signup: PropTypes.func.isRequired
 };
+const mapStateToProps = state => ({
+  error: state.usersReducer.error
+});
 const mapDispatchToProps = dispatch => ({
   signup: signupCredentials => dispatch(signupAction(signupCredentials))
 });
-export default connect(null, mapDispatchToProps)(withRouter(SignupPage));
+
+export default connect(mapStateToProps,
+ mapDispatchToProps)(withRouter(SignupPage));

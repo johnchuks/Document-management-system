@@ -17,30 +17,15 @@ module.exports = {
    * @param {object} res - newly created user or error
    * @returns {object} - an object of a created user and a token
    */
-  createUserWithJwt(req, res) {
-    if (!req.body.fullName) {
+  createUser(req, res) {
+    if (!req.body.fullName || !req.body.userName || !req.body.email || !req.body.password) {
       return res.status(400).json({
-        fullName: 'This Field is Required'
-      });
-    }
-    if (!req.body.userName) {
-      return res.status(400).json({
-        userName: 'This Field is Required'
-      });
-    }
-    if (!req.body.email) {
-      return res.status(400).json({
-        email: 'This Field is Required'
+        message: 'All fields are required'
       });
     }
     if (!emailRegex.test(req.body.email)) {
       return res.status(400).json({
-        email: 'Email is not rightly formatted'
-      });
-    }
-    if (!req.body.password) {
-      return res.status(400).json({
-        password: 'This Field is Required'
+        message: 'Email is not rightly formatted'
       });
     }
     if (req.body.roleId === 1) {
@@ -194,18 +179,14 @@ module.exports = {
    * @param {object} res - authenicated user details
    * @returns {object} - an object of the logged in user and a token
    */
-  logInWithJwt(req, res) {
-    if (!req.body.email) {
+  logInUser(req, res) {
+    if (!req.body.email || !req.body.password) {
       return res.status(400).json({
         message: 'All fields are required'
       });
     } else if (!emailRegex.test(req.body.email)) {
       return res.status(400).json({
-        email: 'Email is invalid'
-      });
-    } else if (!req.body.password) {
-      return res.status(400).json({
-        message: 'All fields are required'
+        message: 'Email is invalid'
       });
     }
     return User
@@ -214,7 +195,7 @@ module.exports = {
         const existingUser = user[0];
         if (!existingUser) {
           res.status(400).json({
-            message: 'Invalid User Credentials' });
+            message: 'This account does not exist' });
         } else if (existingUser) {
           if (bcrypt.compareSync(req.body.password, existingUser.password)) {
             const payLoad = (
@@ -235,7 +216,7 @@ module.exports = {
           } else {
             res.status(401).json({
               success: false,
-              password: 'Password is Invalid'
+              message: 'Password is Invalid'
             });
           }
         }
