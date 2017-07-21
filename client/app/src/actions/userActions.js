@@ -27,7 +27,7 @@ const fetchUserError = error => ({
  * fetches all users from the server side
  */
 const fetchUser = ({ limit, offset }) => dispatch =>
- axios.get(`/api/users/?limit=${limit}&offset=${offset}`).then((response) => {
+ axios.get(`/api/v1/users/?limit=${limit}&offset=${offset}`).then((response) => {
    dispatch(fetchUserSuccess(response.data));
  }).catch((error) => {
    dispatch(fetchUserError(error.response.data));
@@ -53,7 +53,7 @@ const searchUserError = error => ({
  * @param {object} params - searchstring as a param
  */
 const searchUser = ({ offset, searchString, limit }) =>
-dispatch => axios.get(`/api/search/users/?
+dispatch => axios.get(`/api/v1/search/users/?
 q=${searchString}&limit=${limit}&offset=${offset}`)
   .then((response) => {
     dispatch(searchUserSuccess(response.data));
@@ -86,7 +86,7 @@ const setAuthUserError = error => ({
  * @param {object} userData - userdetails to be registered
  */
 const signupAction = userData => dispatch =>
-axios.post('/users', userData).then((response) => {
+axios.post('/api/v1/users', userData).then((response) => {
   const token = response.data.token;
   localStorage.setItem('jwtToken', token);
   Authorization.setAuthToken(token);
@@ -107,7 +107,7 @@ axios.post('/users', userData).then((response) => {
  * @param {object} user - logged in user payload
  */
 const loginAction = user => dispatch =>
-axios.post('/users/login', user).then((response) => {
+axios.post('/api/v1/users/login', user).then((response) => {
   const token = response.data.token;
   localStorage.setItem('jwtToken', token);
   Authorization.setAuthToken(token);
@@ -138,7 +138,7 @@ const getUserError = error => ({
  * @returns
  */
 const getUser = profileId => dispatch =>
- axios.get(`api/users/${profileId}`).then((response) => {
+ axios.get(`/api/v1/users/${profileId}`).then((response) => {
    dispatch(getUserSuccess(response.data[0]));
  }).catch((error) => {
    dispatch(getUserError(error.response.data));
@@ -167,7 +167,7 @@ const editProfileError = error => ({
  */
 const editProfile = (user) => {
   const id = user.userId;
-  return dispatch => axios.put(`/api/users/${id}`, user).then().then((response) => {
+  return dispatch => axios.put(`/api/v1/users/${id}`, user).then().then((response) => {
     dispatch(editProfileSuccess(response.data));
   })
   .catch((error) => {
@@ -198,7 +198,7 @@ const deleteUserError = error => ({
  * @returns {null} - null
  */
 const deleteUser = user => dispatch =>
-  axios.delete(`api/users/${user}`).then(() => {
+  axios.delete(`/api/v1/users/${user}`).then(() => {
     dispatch(deleteUserSuccess(user));
   }).catch((error) => {
     dispatch(deleteUserError(error));

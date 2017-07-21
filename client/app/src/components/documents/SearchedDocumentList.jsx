@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import striptags from 'striptags';
 
+
 /**
  * This component renders the array of document objects
  *

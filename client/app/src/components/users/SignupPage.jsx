@@ -5,6 +5,7 @@ import toastr from 'toastr';
 import PropTypes from 'prop-types';
 import { signupAction } from '../../actions/userActions';
 import Navigation from './Navigation.jsx';
+import Footer from './Footer';
 
 /**
  *
@@ -149,11 +150,11 @@ export class SignupPage extends React.Component {
                     SignUp
                   </button>
                 </div>
-
               </div>
             </form>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

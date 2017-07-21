@@ -90,7 +90,7 @@ const searchDocumentError = error => ({
  * @param {object} document - document payload to be created
  */
 const createDocument = document => dispatch =>
-axios.post('/api/documents', document).then((response) => {
+axios.post('/api/v1/documents', document).then((response) => {
   const documentData = response.data;
   dispatch(createDocumentSuccess(documentData));
 }).catch((error) => {
@@ -104,7 +104,7 @@ axios.post('/api/documents', document).then((response) => {
  */
 
 const fetchAllDocuments = ({ offset, limit }) => dispatch => axios
-  .get(`/api/documents/?limit=${limit}&offset=${offset}`)
+  .get(`/api/v1/documents/?limit=${limit}&offset=${offset}`)
   .then((response) => {
     const documents = response.data;
     dispatch(fetchAllDocumentsSuccess(documents));
@@ -128,7 +128,7 @@ const fetchDocumentSuccess = document => ({
  * @param {object} user - an object containing the id and offsets limits
  */
 const fetchDocument = ({ limit, offset, id }) => dispatch =>
-axios.get(`/api/users/${id}/documents/
+axios.get(`/api/v1/users/${id}/documents/
 ?limit=${limit}&offset=${offset}`)
 .then((response) => {
   const userDocuments = response.data;
@@ -155,7 +155,7 @@ const updateDocumentSuccess = document => ({
  */
 const updateDocument = (document) => {
   const documentId = document.documentId;
-  return dispatch => axios.put(`/api/documents/${documentId}`, document)
+  return dispatch => axios.put(`/api/v1/documents/${documentId}`, document)
   .then((response) => {
     dispatch(updateDocumentSuccess(response.data));
   }).catch((error) => {
@@ -179,7 +179,7 @@ const deleteDocumentSuccess = documentId => ({
  * @param {object} document - document to be deleted
  */
 const deleteDocument = documentId => dispatch =>
- axios.delete(`api/documents/${documentId}`).then(() => {
+ axios.delete(`/api/v1/documents/${documentId}`).then(() => {
    dispatch(deleteDocumentSuccess(documentId));
  }).catch((error) => {
    dispatch(deleteDocumentError(error.response.data));
@@ -201,7 +201,7 @@ const searchDocumentSuccess = searchDocuments => ({
  * @returns {func} a dispatch function that makes an api call to the server
  */
 const searchDocument = ({ offset, searchString, limit }) =>
- dispatch => axios.get(`api/search/documents/?q=${searchString}&limit=${limit}&offset=${offset}`)
+ dispatch => axios.get(`/api/v1/search/documents/?q=${searchString}&limit=${limit}&offset=${offset}`)
   .then((response) => {
     dispatch(searchDocumentSuccess(response.data));
   }).catch((error) => {

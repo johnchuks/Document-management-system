@@ -7,6 +7,7 @@ import ReactPaginate from 'react-paginate';
 import NavigationBar from '../users/NavigationBar.jsx';
 import { searchUser } from '../../actions/userActions';
 import SearchedUsersList from './SearchedUsersList.jsx';
+import Footer from './Footer';
 
 /**
  *
@@ -52,7 +53,7 @@ export class SearchUsers extends React.Component {
   }
   /**
    *
-   * @return{*} - updated state of the searchString
+   * @return{void} - updated state of the searchString
    * @param {string} event - onchange value for from search input field
    * @memberof SearchUsers
    */
@@ -61,7 +62,7 @@ export class SearchUsers extends React.Component {
   }
   /**
    *
-   * @return{*} returns the search list from redux store
+   * @return{void} returns the search list from redux store
    * @param {*} event - null
    * @memberof SearchUsers
    */
@@ -69,6 +70,7 @@ export class SearchUsers extends React.Component {
     event.preventDefault();
     const { offset, searchString, limit } = this.state;
     this.props.searchUser({ offset, searchString, limit });
+
   }
   /**
    *
@@ -134,6 +136,7 @@ export class SearchUsers extends React.Component {
         : ''
         }
         </div>
+        <Footer />
       </div>
     );
   }

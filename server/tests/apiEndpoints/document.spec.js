@@ -12,7 +12,7 @@ let userToken, adminToken, sampleUserToken;
 describe('Documents', () => {
   before((done) => {
     chai.request(server)
-      .post('/users/login')
+      .post('/api/v1/users/login')
       .send({ email: 'johnbosco.ohia@andela.com', password: process.env.PASSWORD })
       .end((err, res) => {
         adminToken = res.body.token;
@@ -21,7 +21,7 @@ describe('Documents', () => {
   });
   before((done) => {
     chai.request(server)
-      .post('/users/login')
+      .post('/api/v1/users/login')
       .send(samples.user)
       .end((err, res) => {
         userToken = res.body.token;
@@ -30,7 +30,7 @@ describe('Documents', () => {
   });
   before((done) => {
     chai.request(server)
-      .post('/users/login')
+      .post('/api/v1/users/login')
       .send({ email: 'testdoe@andela.com', password: 'jamestest' })
       .end((err, res) => {
         sampleUserToken = res.body.token;
@@ -46,7 +46,7 @@ describe('Documents', () => {
         userId: 2,
       };
       chai.request(server)
-      .post('/api/documents')
+      .post('/api/v1/documents')
       .send(document)
       .set({ 'authorization': userToken })
       .end((err, res) => {
@@ -66,7 +66,7 @@ describe('Documents', () => {
         access: 'public',
       };
       chai.request(server)
-      .post('/api/documents')
+      .post('/api/v1/documents')
       .send({'authorization': userToken })
       .end((err, res) => {
         expect(res.status).to.equal(403);
@@ -81,7 +81,7 @@ describe('Documents', () => {
         userId: 1,
       };
       chai.request(server)
-      .post('/api/documents')
+      .post('/api/v1/documents')
       .send(document)
       .set({ 'authorization': userToken })
       .end((err, res) => {
@@ -99,7 +99,7 @@ describe('Documents', () => {
         userId: 2,
       };
       chai.request(server)
-      .post('/api/documents')
+      .post('/api/v1/documents')
       .send(document)
       .set({ 'authorization': userToken })
       .end((err, res) => {
@@ -117,7 +117,7 @@ describe('Documents', () => {
         userId: 2,
       };
       chai.request(server)
-      .post('/api/documents')
+      .post('/api/v1/documents')
       .send(document)
       .set({ 'authorization': userToken })
       .end((err, res) => {
@@ -135,7 +135,7 @@ describe('Documents', () => {
         userId: 2,
       };
       chai.request(server)
-      .post('/api/documents')
+      .post('/api/v1/documents')
       .send(document)
       .end((err, res) => {
         expect(res.status).to.equal(403);
@@ -148,7 +148,7 @@ describe('Documents', () => {
   describe('/GET Documents', () => {
     it('Should get all documents for the user that is authenticated', (done) => {
       chai.request(server)
-      .get('/api/documents')
+      .get('/api/v1/documents')
       .set({ 'authorization': userToken })
       .end((err, res) => {
         expect(res.status).to.equal(200);
@@ -160,7 +160,7 @@ describe('Documents', () => {
     });
     it('should fail to get all documents if the user is not authenticated', (done) => {
       chai.request(server)
-      .get('/api/documents/')
+      .get('/api/v1/documents/')
       .end((err, res) => {
         expect(res.status).to.equal(403);
         expect(res.body).to.be.a('object');
@@ -172,7 +172,7 @@ describe('Documents', () => {
     it('Should get all documents with correct limit as a query', (done) => {
       const limit = 1;
       chai.request(server)
-        .get(`/api/documents?limit=${limit}`)
+        .get(`/api/v1/documents?limit=${limit}`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -183,7 +183,7 @@ describe('Documents', () => {
     it('Should get all documents with correct offset as a query', (done) => {
       const offset = 0;
       chai.request(server)
-        .get(`/api/documents?limit=${offset}`)
+        .get(`/api/v1/documents?limit=${offset}`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -196,7 +196,7 @@ describe('Documents', () => {
     it('Should fail to get documents if the user does not exist', (done) => {
       const userId = 9;
       chai.request(server)
-        .get(`/api/users/${userId}/documents`)
+        .get(`/api/v1/users/${userId}/documents`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(404);
@@ -208,7 +208,7 @@ describe('Documents', () => {
     it('Should fail to get documents if there is no token present', (done) => {
       const userId = 2;
       chai.request(server)
-        .get(`/api/users/${userId}/documents`)
+        .get(`/api/v1/users/${userId}/documents`)
         .end((err, res) => {
           expect(res.status).to.equal(403);
           expect(res.body).be.a('object');
@@ -220,7 +220,7 @@ describe('Documents', () => {
     it('Should get documents for the user with its unique userId', (done) => {
       const userId = 2;
       chai.request(server)
-        .get(`/api/users/${userId}/documents`)
+        .get(`/api/v1/users/${userId}/documents`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -234,7 +234,7 @@ describe('Documents', () => {
     it('Should fail to get document if it doesn`t exist', (done) => {
       const documentId = 8;
       chai.request(server)
-        .get(`/api/documents/${documentId}/`)
+        .get(`/api/v1/documents/${documentId}/`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(404);
@@ -246,7 +246,7 @@ describe('Documents', () => {
     it('Should get all public regardless of id', (done) => {
       const documentId = 4;
       chai.request(server)
-        .get(`/api/documents/${documentId}/`)
+        .get(`/api/v1/documents/${documentId}/`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -260,7 +260,7 @@ describe('Documents', () => {
     it('Should fail to get a private document if the requester does not own it', (done) => {
       const documentId = 2;
       chai.request(server)
-        .get(`/api/documents/${documentId}/`)
+        .get(`/api/v1/documents/${documentId}/`)
         .set({ 'authorization': sampleUserToken })
         .end((err, res) => {
           expect(res.status).to.equal(401);
@@ -272,7 +272,7 @@ describe('Documents', () => {
      it('Should get a private document the requester is the owner', (done) => {
       const documentId = 2;
       chai.request(server)
-        .get(`/api/documents/${documentId}/`)
+        .get(`/api/v1/documents/${documentId}/`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -286,7 +286,7 @@ describe('Documents', () => {
     it('Should fail get a role document if the users are not on the same role', (done) => {
       const documentId = 3;
       chai.request(server)
-        .get(`/api/documents/${documentId}/`)
+        .get(`/api/v1/documents/${documentId}/`)
         .set({ 'authorization': sampleUserToken })
         .end((err, res) => {
           expect(res.status).to.equal(401);
@@ -298,7 +298,7 @@ describe('Documents', () => {
     it('Should get a role document if the users are on the same role', (done) => {
       const documentId = 3;
       chai.request(server)
-        .get(`/api/documents/${documentId}/`)
+        .get(`/api/v1/documents/${documentId}/`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -312,7 +312,7 @@ describe('Documents', () => {
     it('Should get a role document if the user is an admin', (done) => {
       const documentId = 3;
       chai.request(server)
-        .get(`/api/documents/${documentId}/`)
+        .get(`/api/v1/documents/${documentId}/`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -329,7 +329,7 @@ describe('Documents', () => {
      (done) => {
       const id = 2;
       chai.request(server)
-        .put(`/api/documents/${id}`)
+        .put(`/api/v1/documents/${id}`)
         .set({ 'authorization': userToken })
         .send({ title: 'narruto shippuden' })
         .end((err, res) => {
@@ -344,7 +344,7 @@ describe('Documents', () => {
      (done) => {
       const id = 2;
       chai.request(server)
-        .put(`/api/documents/${id}`)
+        .put(`/api/v1/documents/${id}`)
         .set({ 'authorization': sampleUserToken })
         .send({ title: 'narruto shippuden' })
         .end((err, res) => {
@@ -358,7 +358,7 @@ describe('Documents', () => {
      (done) => {
       const id = 2;
       chai.request(server)
-        .put(`/api/documents/${id}`)
+        .put(`/api/v1/documents/${id}`)
         .set({ 'authorization': adminToken })
         .send({ title: 'narruto' })
         .end((err, res) => {
@@ -370,13 +370,13 @@ describe('Documents', () => {
      (done) => {
       const id = 10;
       chai.request(server)
-        .put(`/api/documents/${id}`)
+        .put(`/api/v1/documents/${id}`)
         .set({ 'authorization': userToken })
         .send({ title: 'narruto shippuden' })
         .end((err, res) => {
           expect(res.status).to.equal(404);
           expect(res.body).to.be.a('object');
-          expect(res.body).to.have.property('message').to.equal('Document Not Found');
+          expect(res.body).to.have.property('message').to.equal('Document not found');
           done();
        });
     });
@@ -386,7 +386,7 @@ describe('Documents', () => {
     it('Should delete a document given the user has admin access', (done) => {
       const id = 3;
       chai.request(server)
-        .delete(`/api/documents/${id}`)
+        .delete(`/api/v1/documents/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(204);
@@ -397,7 +397,7 @@ describe('Documents', () => {
      it('Should delete a document given the user is the owner', (done) => {
       const id = 2;
       chai.request(server)
-        .delete(`/api/documents/${id}`)
+        .delete(`/api/v1/documents/${id}`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(204);
@@ -408,7 +408,7 @@ describe('Documents', () => {
      it('Should fail to delete the document given the user is not the owner', (done) => {
       const id = 1;
       chai.request(server)
-        .delete(`/api/documents/${id}`)
+        .delete(`/api/v1/documents/${id}`)
         .set({ 'authorization': sampleUserToken })
         .end((err, res) => {
           expect(res.status).to.equal(401);
@@ -420,12 +420,12 @@ describe('Documents', () => {
     it('Should fail to delete if the document does not exist', (done) => {
       const id = 234;
       chai.request(server)
-        .delete(`/api/documents/${id}`)
+        .delete(`/api/v1/documents/${id}`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(404);
           expect(res.body).to.be.a('object');
-          expect(res.body).to.have.property('message').to.equal('Document Not Found');
+          expect(res.body).to.have.property('message').to.equal('Document not found');
           done();
         });
     });
@@ -434,7 +434,7 @@ describe('Documents', () => {
      it('Should return an error if no querystring is provided', () => {
        const query='';
        chai.request(server)
-        .get(`/api/search/documents/?q=${query}`)
+        .get(`/api/v1/search/documents/?q=${query}`)
         .set({'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(400);
@@ -444,7 +444,7 @@ describe('Documents', () => {
      it('Should return a search list of the required search input', () => {
        const query='John';
        chai.request(server)
-        .get(`/api/search/documents/?q=${query}`)
+        .get(`/api/v1/search/documents/?q=${query}`)
         .set({'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -455,7 +455,7 @@ describe('Documents', () => {
      it('Should throw an error if the searched document is not found', () => {
        const query='jk';
        chai.request(server)
-        .get(`/api/search/documents/?q=${query}`)
+        .get(`/api/v1/search/documents/?q=${query}`)
         .set({'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(404);

@@ -7,7 +7,7 @@ import toastr from 'toastr';
 import NavigationBar from '../users/NavigationBar.jsx';
 import { searchDocument } from '../../actions/documentActions';
 import SearchedDocumentList from '../documents/SearchedDocumentList.jsx';
-
+import Footer from '../users/Footer';
 
 /**
  *
@@ -140,6 +140,7 @@ export class SearchDocuments extends React.Component {
           activeClassName={'active'}
         /> : '' }
         </div>
+        <Footer />
       </div>
     );
   }

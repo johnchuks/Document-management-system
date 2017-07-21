@@ -1,10 +1,11 @@
-const Sequelize = require('sequelize');
 const models = require('../models');
 const pagination = require('../helpers/helper.js');
+const responseHelper = require('../helpers/helper').responseHelper;
 
 const Document = models.Document;
 const User = models.User;
 const metaData = pagination.paginationMetaData;
+
 
 module.exports = {
   // create a new document
@@ -68,13 +69,11 @@ module.exports = {
     return Document.findById(queryId)
       .then((document) => {
         if (!document) {
-          return res.status(404).send({
-            message: 'Document Not Found'
-          });
+          return responseHelper(res);
         }
         if (Number(document.userId) !== Number(req.decoded.id)) {
           return res.status(401).json({
-            message: 'You are not authorized to delete this document'
+            message: 'You are not authorized to update this document'
           });
         }
         return document
@@ -101,9 +100,7 @@ module.exports = {
     return Document.findById(req.params.id)
       .then((document) => {
         if (!document) {
-          return res.status(404).json({
-            message: 'Document not found'
-          });
+          return responseHelper(res);
         }
         if (req.decoded.roleId === 1) {
           return document;
@@ -150,9 +147,7 @@ module.exports = {
     return Document.findById(req.params.id)
       .then((document) => {
         if (!document) {
-          return res.status(404).send({
-            message: 'Document Not Found'
-          });
+          return responseHelper(res);
         }
         if (
           req.decoded.roleId !== 1 &&
@@ -164,7 +159,7 @@ module.exports = {
         }
         return document
           .destroy()
-          .then(() => res.status(204).send())
+          .then(() => res.status(204).send({ message: 'Document deleted successfully' }))
           .catch(error => res.status(400).send(error));
       })
       .catch(error => res.status(400).send(error));
@@ -304,9 +299,7 @@ module.exports = {
       })
       .then(({ rows: document, count }) => {
         if (count === 0) {
-          return res.status(404).json({
-            message: 'Document not found'
-          });
+          return responseHelper(res);
         }
         res.status(200).send({
           document,
@@ -339,9 +332,7 @@ module.exports = {
       })
       .then(({ rows: document, count }) => {
         if (count === 0) {
-          return res.status(404).json({
-            message: 'Document not found'
-          });
+          return responseHelper(res);
         }
         res.status(200).send({
           document,

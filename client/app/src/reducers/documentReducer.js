@@ -45,11 +45,18 @@ const documentReducer = (state = initialState, action) => {
         error: {}
       };
     }
-    case SEARCH_DOCUMENT_ERROR:
+    case SEARCH_DOCUMENT_ERROR: {
+      return {
+        ...state,
+        error: action.error,
+        document: [],
+        pagination: {}
+      };
+    }
     case CREATE_DOCUMENT_ERROR:
       return {
         ...state,
-        error: action.error
+        error: action.error,
       };
 
     case UPDATE_DOCUMENT: {

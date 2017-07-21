@@ -66,7 +66,7 @@ export class DocumentForm extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.document(this.state).then(() => {
+    this.props.createDocument(this.state).then(() => {
       if (this.state.errors) {
         toastr.error(this.state.errors);
         this.setState({ errors: {} });
@@ -134,7 +134,7 @@ export class DocumentForm extends React.Component {
   }
 }
 DocumentForm.propTypes = {
-  document: PropTypes.func.isRequired,
+  createDocument: PropTypes.func.isRequired,
   user: PropTypes.number,
   error: PropTypes.object
 };
@@ -143,7 +143,7 @@ const mapStateToProps = state => ({
   error: state.documentReducer.error
 });
 const mapDispatchToProps = dispatch => ({
-  document: documentDetails => dispatch(createDocument(documentDetails))
+  createDocument: documentDetails => dispatch(createDocument(documentDetails))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DocumentForm);

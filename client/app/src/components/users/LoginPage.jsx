@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import toastr from 'toastr';
 import { loginAction } from '../../actions/userActions';
 import Navigation from './Navigation.jsx';
-
+import Footer from './Footer';
 /**
  *
  * renders the login page component
@@ -123,6 +123,7 @@ export class LoginPage extends React.Component {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

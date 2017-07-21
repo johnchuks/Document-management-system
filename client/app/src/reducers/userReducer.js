@@ -66,7 +66,8 @@ const usersReducer = (state = initialState, action = {}) => {
     case FETCH_USERS_ERROR:
     case SET_AUTH_USERS_ERROR:
       return { ...state,
-        error: action.error
+        error: action.error,
+        users: []
       };
 
     default:

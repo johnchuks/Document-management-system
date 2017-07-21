@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { editProfile, getUser } from '../../actions/userActions';
 import NavigationBar from './NavigationBar.jsx';
+import Footer from './Footer';
 
 /**
  *
@@ -152,6 +153,7 @@ export class EditProfile extends React.Component {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

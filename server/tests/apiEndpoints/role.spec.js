@@ -12,7 +12,7 @@ let userToken, adminToken;
 describe('Roles', () => {
   before((done) => {
     chai.request(server)
-      .post('/users/login')
+      .post('/api/v1/users/login')
       .send({ email: 'johnbosco.ohia@andela.com', password: process.env.PASSWORD })
       .end((err, res) => {
         adminToken = res.body.token;
@@ -21,7 +21,7 @@ describe('Roles', () => {
   });
   before((done) => {
     chai.request(server)
-      .post('/users/login')
+      .post('/api/v1/users/login')
       .send(samples.user)
       .end((err, res) => {
         userToken = res.body.token;
@@ -32,7 +32,7 @@ describe('Roles', () => {
   describe('/POST Role', () => {
     it('should add a new role if the user is an admin', (done) => {
       chai.request(server)
-      .post('/api/roles')
+      .post('/api/v1/roles')
       .send({ title: 'kiba' })
       .set({ 'authorization': adminToken })
       .end((err, res) => {
@@ -45,7 +45,7 @@ describe('Roles', () => {
     });
     it('should add a new role if the user is an admin', (done) => {
       chai.request(server)
-      .post('/api/roles')
+      .post('/api/v1/roles')
       .send({ title: 'king' })
       .set({ 'authorization': adminToken })
       .end((err, res) => {
@@ -61,7 +61,7 @@ describe('Roles', () => {
         title: 'kiba-team'
       };
       chai.request(server)
-        .post('/api/roles/')
+        .post('/api/v1/roles/')
         .set({ 'authorization': userToken })
       .send(role)
       .end((err, res) => {
@@ -73,7 +73,7 @@ describe('Roles', () => {
     });
     it('Should return an error if the title field is not given', (done) => {
       chai.request(server)
-        .post('/api/roles')
+        .post('/api/v1/roles')
         .set({ 'authorization': adminToken })
         .send({ title: '' })
         .end((err, res) => {
@@ -85,7 +85,7 @@ describe('Roles', () => {
     });
     it('Should return an error if the title is not a string', (done) => {
       chai.request(server)
-        .post('/api/roles')
+        .post('/api/v1/roles')
         .set({ 'authorization': adminToken })
         .send({ title: 358583 })
         .end((err, res) => {
@@ -98,7 +98,7 @@ describe('Roles', () => {
 
     it('Should return an error if the title field is not given', (done) => {
       chai.request(server)
-        .post('/api/roles')
+        .post('/api/v1/roles')
         .set({ 'authorization': adminToken })
         .send({ title: '' })
         .end((err, res) => {
@@ -113,7 +113,7 @@ describe('Roles', () => {
   describe('/GET Role', () => {
     it('Should get all the roles if the user is an admin', (done) => {
       chai.request(server)
-        .get('/api/roles')
+        .get('/api/v1/roles')
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -124,7 +124,7 @@ describe('Roles', () => {
     });
     it('Should fail to get the roles if the user is not admin', (done) => {
       chai.request(server)
-        .get('/api/roles')
+        .get('/api/v1/roles')
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(401);
@@ -138,7 +138,7 @@ describe('Roles', () => {
     it('Should get a role by id if the user is an admin', (done) => {
       const id = 2;
       chai.request(server)
-        .get(`/api/roles/${id}`)
+        .get(`/api/v1/roles/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -151,7 +151,7 @@ describe('Roles', () => {
     it('Should fail to get a role by id if the user is not an admin', (done) => {
       const id = 2;
       chai.request(server)
-        .get(`/api/roles/${id}`)
+        .get(`/api/v1/roles/${id}`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(401);
@@ -162,7 +162,7 @@ describe('Roles', () => {
     it('Should fail to get a role by id if the user enters an invalid input', (done) => {
       const id = 'fddjsdcdjn';
       chai.request(server)
-        .get(`/api/roles/${id}`)
+        .get(`/api/v1/roles/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(400);
@@ -173,7 +173,7 @@ describe('Roles', () => {
     it('Should fail to get a role by id if the role does not exist', (done) => {
       const id = 250;
       chai.request(server)
-        .get(`/api/roles/${id}`)
+        .get(`/api/v1/roles/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(404);
@@ -184,7 +184,7 @@ describe('Roles', () => {
     it('Should fail to get a role by id if the id is out of range', (done) => {
       const id = 500000000000000000000;
       chai.request(server)
-        .get(`/api/roles/${id}`)
+        .get(`/api/v1/roles/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(400);
@@ -197,7 +197,7 @@ describe('Roles', () => {
     it('Should update a role by id if the user has admin access', (done) => {
       const id = 2;
       chai.request(server)
-          .put(`/api/roles/${id}`)
+          .put(`/api/v1/roles/${id}`)
          .set({ 'authorization': adminToken })
         .send({ title: 'kiba' })
         .end((err, res) => {
@@ -211,7 +211,7 @@ describe('Roles', () => {
     it('Should fail to update a role by id if the user has no admin access', (done) => {
       const id = 2;
       chai.request(server)
-          .put(`/api/roles/${id}`)
+          .put(`/api/v1/roles/${id}`)
          .set({ 'authorization': userToken })
         .send({ title: 'kiba' })
         .end((err, res) => {
@@ -225,7 +225,7 @@ describe('Roles', () => {
       , (done) => {
         const id = 200;
         chai.request(server)
-          .put(`/api/roles/${id}`)
+          .put(`/api/v1/roles/${id}`)
          .set({ 'authorization': adminToken })
         .send({ title: 'kiba' })
         .end((err, res) => {
@@ -238,7 +238,7 @@ describe('Roles', () => {
     it('Should fail to update a role by id if the admin enters an id that is out range', (done) => {
       const id = 2000000000000000;
       chai.request(server)
-          .put(`/api/roles/${id}`)
+          .put(`/api/v1/roles/${id}`)
          .set({ 'authorization': adminToken })
         .send({ title: 'regular' })
         .end((err, res) => {
@@ -253,7 +253,7 @@ describe('Roles', () => {
     it('Should delete a role given the user has admin access', (done) => {
       const id = 3;
       chai.request(server)
-        .delete(`/api/roles/${id}`)
+        .delete(`/api/v1/roles/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(204);
@@ -264,7 +264,7 @@ describe('Roles', () => {
     it('Should fail to delete a role given the user has no admin access', (done) => {
       const id = 3;
       chai.request(server)
-        .delete(`/api/roles/${id}`)
+        .delete(`/api/v1/roles/${id}`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(401);
@@ -276,7 +276,7 @@ describe('Roles', () => {
     it('Should fail to delete a role given the admin enters an invalid input', (done) => {
       const id = 300;
       chai.request(server)
-        .delete(`/api/roles/${id}`)
+        .delete(`/api/v1/roles/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(404);
@@ -288,7 +288,7 @@ describe('Roles', () => {
     it('Should fail to delete a role given the admin enters an input that is out of range', (done) => {
       const id = 3000000000000000;
       chai.request(server)
-        .delete(`/api/roles/${id}`)
+        .delete(`/api/v1/roles/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);

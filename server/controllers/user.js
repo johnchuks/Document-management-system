@@ -1,12 +1,13 @@
 const jwt = require('jsonwebtoken');
 const models = require('../models');
 const bcrypt = require('bcrypt-nodejs');
-const pagination = require('../helpers/helper.js');
+const helper = require('../helpers/helper.js');
 
 
 const jwtSecret = process.env.JWT_SECRET;
 const User = models.User;
-const metaData = pagination.paginationMetaData;
+const metaData = helper.paginationMetaData;
+const responseUserHelper = helper.responseUserHelper;
 const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 module.exports = {
@@ -89,9 +90,7 @@ module.exports = {
       })
       .then((user) => {
         if (!user.length) {
-          return res.status(404).json({
-            message: 'User not found'
-          });
+          return responseUserHelper(res);
         }
         res.status(200).send(user);
       })
@@ -116,9 +115,7 @@ module.exports = {
       .findById(queryId)
       .then((user) => {
         if (!user) {
-          return res.status(404).send({
-            message: 'User Not Found',
-          });
+          return responseUserHelper(res);
         }
         return user
           .update({
@@ -159,9 +156,7 @@ module.exports = {
     .findById(req.params.id)
     .then((user) => {
       if (!user) {
-        return res.status(404).send({
-          message: 'User Not Found',
-        });
+        return responseUserHelper(res);
       }
       return user
         .destroy()
@@ -288,9 +283,7 @@ module.exports = {
       }
     }).then(({ rows: user, count }) => {
       if (count === 0) {
-        return res.status(400).json({
-          message: 'User not found'
-        });
+        return responseUserHelper(res);
       }
       res.status(200).send({
         user,
