@@ -350,7 +350,7 @@ describe('Documents', () => {
         .end((err, res) => {
           expect(res.status).to.equal(401);
           expect(res.body).to.be.a('object');
-          expect(res.body).to.have.property('message').to.equal('You are not authorized to delete this document');
+          expect(res.body).to.have.property('message').to.equal('You are not authorized to update this document');
           done();
         });
     });

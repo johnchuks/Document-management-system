@@ -59,10 +59,6 @@ export class SignupPage extends React.Component {
     });
   }
   render() {
-    const errorAlert = {
-      color: 'red'
-    };
-    const { errors } = this.state;
     return (
       <div>
         <Navigation />
@@ -84,10 +80,6 @@ export class SignupPage extends React.Component {
                     onChange={this.handleChange}
                   />
                   <label htmlFor="full_Name" id="label">Full Name</label>
-                  {errors.fullName &&
-                    <span className="help-block" style={errorAlert}>
-                      {errors.fullName}
-                    </span>}
                 </div>
               </div>
               <div className="row">
@@ -100,10 +92,6 @@ export class SignupPage extends React.Component {
                     onChange={this.handleChange}
                   />
                   <label htmlFor="user_Name" id="label">User Name</label>
-                  {errors.userName &&
-                    <span className="help-block" style={errorAlert}>
-                      {errors.userName}
-                    </span>}
                 </div>
               </div>
               <div className="row">
@@ -116,10 +104,6 @@ export class SignupPage extends React.Component {
                     onChange={this.handleChange}
                   />
                   <label htmlFor="email" id="label">Email</label>
-                  {errors.email &&
-                    <span className="help-block" style={errorAlert}>
-                      {errors.email}
-                    </span>}
                 </div>
               </div>
               <div className="row">
@@ -132,10 +116,6 @@ export class SignupPage extends React.Component {
                     onChange={this.handleChange}
                   />
                   <label htmlFor="password" id="label">Password</label>
-                  {errors.password &&
-                    <span className="help-block" style={errorAlert}>
-                      {errors.password}
-                    </span>}
                 </div>
               </div>
               <div className="row">
@@ -161,7 +141,8 @@ export class SignupPage extends React.Component {
 }
 SignupPage.propTypes = {
   history: PropTypes.object.isRequired,
-  signup: PropTypes.func.isRequired
+  signup: PropTypes.func.isRequired,
+  error: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
   error: state.usersReducer.error

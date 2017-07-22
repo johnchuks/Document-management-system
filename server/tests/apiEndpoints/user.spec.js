@@ -469,7 +469,7 @@ describe('Users', () => {
         .end((err, res) => {
           expect(res.status).to.equal(404);
           expect(res.body).to.be.a('object');
-          expect(res.body).to.have.property('message').to.equal('User Not Found');
+          expect(res.body).to.have.property('message').to.equal('User not found');
           done();
         });
     });

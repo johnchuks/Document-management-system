@@ -10,17 +10,18 @@ import { mount, shallow } from 'enzyme';
 import { DocumentForm } from '../../src/components/documents/DocumentForm';
 
 chai.use(chaiEnzyme());
+const createDocument = sinon.spy(() => Promise.resolve());
 describe('<DocumentForm />', () => {
    const store = {
       subscribe: () => {},
       dispatch: () => {},
    };
-  const document = sinon.spy(() => Promise.resolve());
+
   const props = {
   title: 'document',
   content: 'the boy is going to school',
   userId: 3,
-  document,
+  createDocument,
   getContent: () => {}
 
 };
@@ -78,7 +79,7 @@ describe('<DocumentForm />', () => {
   it('Should have an onSubmit button', () => {
     const event = {preventDefault: () => {}};
      wrapper.find('Button').simulate('click', event);
-     expect(document.callCount).to.equal(1);
+     expect(createDocument.callCount).to.equal(1);
   });
   it('Should have a div tag for the error messages', () => {
     expect(wrapper.find('div')).to.have.length(5);
