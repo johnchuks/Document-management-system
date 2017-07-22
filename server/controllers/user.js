@@ -1,12 +1,13 @@
 const jwt = require('jsonwebtoken');
 const models = require('../models');
 const bcrypt = require('bcrypt-nodejs');
-const pagination = require('../helpers/helper.js');
+const helper = require('../helpers/helper.js');
 
 
 const jwtSecret = process.env.JWT_SECRET;
 const User = models.User;
-const metaData = pagination.paginationMetaData;
+const metaData = helper.paginationMetaData;
+const responseUserHelper = helper.responseUserHelper;
 const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 module.exports = {
@@ -17,30 +18,15 @@ module.exports = {
    * @param {object} res - newly created user or error
    * @returns {object} - an object of a created user and a token
    */
-  createUserWithJwt(req, res) {
-    if (!req.body.fullName) {
+  createUser(req, res) {
+    if (!req.body.fullName || !req.body.userName || !req.body.email || !req.body.password) {
       return res.status(400).json({
-        fullName: 'This Field is Required'
-      });
-    }
-    if (!req.body.userName) {
-      return res.status(400).json({
-        userName: 'This Field is Required'
-      });
-    }
-    if (!req.body.email) {
-      return res.status(400).json({
-        email: 'This Field is Required'
+        message: 'All fields are required'
       });
     }
     if (!emailRegex.test(req.body.email)) {
       return res.status(400).json({
-        email: 'Email is not rightly formatted'
-      });
-    }
-    if (!req.body.password) {
-      return res.status(400).json({
-        password: 'This Field is Required'
+        message: 'Email is not rightly formatted'
       });
     }
     if (req.body.roleId === 1) {
@@ -89,7 +75,8 @@ module.exports = {
    * @returns {object} - an object of found user
    */
   findUser(req, res) {
-    if (req.decoded.roleId !== 1) {
+    const userQuery = Number(req.params.id);
+    if ((req.decoded.id !== userQuery) && (req.decoded.roleId !== 1)) {
       return res.status(401).json({
         message: 'Unauthorized Access'
       });
@@ -103,9 +90,7 @@ module.exports = {
       })
       .then((user) => {
         if (!user.length) {
-          return res.status(404).json({
-            message: 'User not found'
-          });
+          return responseUserHelper(res);
         }
         res.status(200).send(user);
       })
@@ -130,9 +115,7 @@ module.exports = {
       .findById(queryId)
       .then((user) => {
         if (!user) {
-          return res.status(404).send({
-            message: 'User Not Found',
-          });
+          return responseUserHelper(res);
         }
         return user
           .update({
@@ -173,9 +156,7 @@ module.exports = {
     .findById(req.params.id)
     .then((user) => {
       if (!user) {
-        return res.status(404).send({
-          message: 'User Not Found',
-        });
+        return responseUserHelper(res);
       }
       return user
         .destroy()
@@ -193,18 +174,14 @@ module.exports = {
    * @param {object} res - authenicated user details
    * @returns {object} - an object of the logged in user and a token
    */
-  logInWithJwt(req, res) {
-    if (!req.body.email) {
+  logInUser(req, res) {
+    if (!req.body.email || !req.body.password) {
       return res.status(400).json({
         message: 'All fields are required'
       });
     } else if (!emailRegex.test(req.body.email)) {
       return res.status(400).json({
-        email: 'Email is invalid'
-      });
-    } else if (!req.body.password) {
-      return res.status(400).json({
-        message: 'All fields are required'
+        message: 'Email is invalid'
       });
     }
     return User
@@ -213,7 +190,7 @@ module.exports = {
         const existingUser = user[0];
         if (!existingUser) {
           res.status(400).json({
-            message: 'Invalid User Credentials' });
+            message: 'This account does not exist' });
         } else if (existingUser) {
           if (bcrypt.compareSync(req.body.password, existingUser.password)) {
             const payLoad = (
@@ -234,7 +211,7 @@ module.exports = {
           } else {
             res.status(401).json({
               success: false,
-              password: 'Password is Invalid'
+              message: 'Password is Invalid'
             });
           }
         }
@@ -306,9 +283,7 @@ module.exports = {
       }
     }).then(({ rows: user, count }) => {
       if (count === 0) {
-        return res.status(400).json({
-          message: 'User not found'
-        });
+        return responseUserHelper(res);
       }
       res.status(200).send({
         user,

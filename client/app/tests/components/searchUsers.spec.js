@@ -78,15 +78,6 @@ describe('<SearchUsers/>', () =>  {
     it('Should a search button', () => {
       expect(wrapper.find('#searchButton').length).to.equal(1);
     });
-    it('Should respond to event change on the input field', (done) => {
-      const handleSpy = sinon.spy(wrapper.instance(), 'onHandleChange');
-      const event = { target: {value: 'john'}};
-      const inputWrapper = wrapper.find('input');
-      wrapper.update();
-      inputWrapper.simulate('change', event);
-      expect(handleSpy.callCount).to.equal(1);
-      done();
-    });
     it('Should respond to onClick events', () => {
       wrapper.find('#searchButton').simulate('click');
       expect(searchUser.callCount).to.equal(1);

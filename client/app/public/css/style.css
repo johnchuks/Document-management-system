@@ -7221,7 +7221,7 @@ button.picker__close:focus {
   border-left-color: rgba(255, 255, 255, 0.4);
   border-bottom-color: rgba(60, 60, 60, 0.4);
   border-right-color: rgba(60, 60, 60, 0.4);
-  margin-top: 10px; }
+  margin-top: 100px; }
 
 .loginContainer {
   background-image: url("http://oxford.sch.ae/wp-content/uploads/sites/2/2013/10/Library-Books1.jpg");
@@ -7231,7 +7231,6 @@ button.picker__close:focus {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -7309,11 +7308,6 @@ h5 {
   margin-top: 20px;
   margin-left: 100px;
   height: 50px; }
-
-#titleHeader {
-  margin-left: 150px;
-  margin-bottom: 40px;
-  margin-top: 35px; }
 
 #formField {
   margin-left: 400px !important;
@@ -7435,6 +7429,10 @@ thead tr th {
   margin-left: 40%;
   margin-right: auto;
   margin-top: 50px; }
+
+#updatedocbutton {
+  margin-top: 4%;
+  margin-left: 17%; }
 .toast-title {
   font-weight: bold; }
 

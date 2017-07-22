@@ -7,6 +7,7 @@ import ReactPaginate from 'react-paginate';
 import NavigationBar from '../users/NavigationBar.jsx';
 import { searchUser } from '../../actions/userActions';
 import SearchedUsersList from './SearchedUsersList.jsx';
+import Footer from './Footer';
 
 /**
  *
@@ -21,7 +22,8 @@ export class SearchUsers extends React.Component {
       searchString: '',
       limit: 6,
       offset: 0,
-      searchList: []
+      searchList: [],
+      errors: {}
     };
     this.onHandleChange = this.onHandleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -29,7 +31,7 @@ export class SearchUsers extends React.Component {
   }
   /**
    *
-   * @return {*} - null
+   * @return {void} - null
    * @memberof SearchUsers
    */
   componentDidMount() {
@@ -38,14 +40,20 @@ export class SearchUsers extends React.Component {
     }
     $('.button-collapse').sideNav('hide');
   }
-  componenentWillReceiveProps(nextProps) {
+
+  componentWillReceiveProps(nextProps) {
     this.setState({
-      searchList: nextProps.searchList
+      searchList: nextProps.searchList,
+      errors: nextProps.error
+    }, () => {
+      if (this.state.errors.message) {
+        toastr.error(this.state.errors.message);
+      }
     });
   }
   /**
    *
-   * @return{*} - updated state of the searchString
+   * @return{void} - updated state of the searchString
    * @param {string} event - onchange value for from search input field
    * @memberof SearchUsers
    */
@@ -54,20 +62,15 @@ export class SearchUsers extends React.Component {
   }
   /**
    *
-   * @return{*} returns the search list from redux store
+   * @return{void} returns the search list from redux store
    * @param {*} event - null
    * @memberof SearchUsers
    */
   onSubmit(event) {
     event.preventDefault();
     const { offset, searchString, limit } = this.state;
-    this.props.searchUser({ offset, searchString, limit }).then((error) => {
-      if (!error) {
-        this.setState({ searchList: this.props.searchList });
-      } else {
-        toastr.error(error.response.data.message);
-      }
-    });
+    this.props.searchUser({ offset, searchString, limit });
+
   }
   /**
    *
@@ -133,6 +136,7 @@ export class SearchUsers extends React.Component {
         : ''
         }
         </div>
+        <Footer />
       </div>
     );
   }
@@ -146,8 +150,9 @@ SearchUsers.propTypes = {
 };
 const mapStateToProps = state => ({
   searchList: state.usersReducer.users,
-  pageCount: state.usersReducer.pagination,
-  isAuthenticated: state.usersReducer.isAuthenticated
+  pageCount: state.usersReducer.pagination.pageCount,
+  isAuthenticated: state.usersReducer.isAuthenticated,
+  error: state.usersReducer.error
 });
 export default
   connect(mapStateToProps, { searchUser })(withRouter(SearchUsers));

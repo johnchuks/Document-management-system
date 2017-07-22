@@ -22,7 +22,7 @@ chai.use(chaiEnzyme());
   }
 describe('<SignupPage />', () => {
   const wrapper = mount(<SignupPage {...props} />, {
-    ontext: {
+    context: {
         router: { history: { push: pushSpy, createHref: () => {} } }
       },
   })
@@ -37,15 +37,16 @@ describe('<SignupPage />', () => {
     expect(wrapper.find('input').length).to.equal(4);
   });
   it('Should update for the input field- email', (done) => {
-    const event = {target:{value:'john@john.com'}};
+    const event = {target:{value:'john@john.com', name:'email'}};
     const emailWrap = wrapper.find('#email');
+    console.log(emailWrap);
     wrapper.update();
     emailWrap.simulate('change', event);
     expect(handleSpy.callCount).to.equal(1);
     done();
   });
   it('Should update for the input field - password', (done) => {
-    const event = {target:{value:'john'}};
+    const event = {target:{ name:'password', value:'john'}};
     const passwordWrap = wrapper.find('#password');
     wrapper.update();
     passwordWrap.simulate('change', event);
@@ -53,7 +54,7 @@ describe('<SignupPage />', () => {
     done();
   });
   it('Should update for the input field -full Name', (done) => {
-    const event = {target:{value:'john12'}};
+    const event = {target:{name: 'fullName', value:'john12' }};
     const passwordWrap = wrapper.find('#full_Name');
     wrapper.update();
     passwordWrap.simulate('change', event);
@@ -61,7 +62,7 @@ describe('<SignupPage />', () => {
     done();
   });
   it('Should update for the input field -userName', (done) => {
-    const event = {target:{value:'john12'}};
+    const event = {target:{name:'userName', value:'john12'}};
     const passwordWrap = wrapper.find('#user_Name');
     wrapper.update();
     passwordWrap.simulate('change', event);

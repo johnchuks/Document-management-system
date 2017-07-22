@@ -62,7 +62,7 @@ module.exports = {
         }
         return role
             .destroy()
-            .then(() => res.status(204))
+            .then(() => res.status(204).send({message: 'Role deleted successfully'}))
             .catch(error => res.status(400).send(error));
       }).catch(error => res.json(error));
   },

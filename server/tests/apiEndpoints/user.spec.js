@@ -1,5 +1,4 @@
 process.env.NODE_ENV = 'test';
-// Require the dev-dependencies
 const chai = require('chai');
 require('dotenv').config()
 const expect = chai.expect;
@@ -8,11 +7,11 @@ const server = require('../../config/server');
 const samples = require('./mockdata');
 
 chai.use(chaiHttp);
-let userToken, adminToken;
+let userToken, adminToken, sampleUserToken;
 describe('Users', () => {
   before((done) => {
     chai.request(server)
-      .post('/users/login')
+      .post('/api/v1/users/login')
       .send({ email: 'johnbosco.ohia@andela.com', password: process.env.PASSWORD })
         .end((err, res) => {
           adminToken = res.body.token;
@@ -21,13 +20,22 @@ describe('Users', () => {
   });
   before((done) => {
     chai.request(server)
-      .post('/users/login')
+      .post('/api/v1/users/login')
       .send(samples.user)
       .end((err, res) => {
         userToken = res.body.token;
         done();
       });
   });
+  before((done) => {
+    chai.request(server)
+      .post('/api/v1/users/login')
+      .send({ email: 'mayor@andela.com', password: 'jamestest' })
+      .end((err, res) => {
+        sampleUserToken  = res.body.token;
+        done();
+      })
+  })
   describe('/POST users', () => {
     it('it should not post a user without a full name', (done) => {
       const user = {
@@ -37,11 +45,11 @@ describe('Users', () => {
         password: 'jameskhan',
       };
       chai.request(server)
-        .post('/users/')
+        .post('/api/v1/users/')
         .send(user)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('fullName').to.equal('This Field is Required');
+          expect(res.body).to.have.property('message').to.equal('All fields are required');
           done();
         });
     });
@@ -53,11 +61,11 @@ describe('Users', () => {
         password: 'jameskhan',
       };
       chai.request(server)
-        .post('/users/')
+        .post('/api/v1/users/')
         .send(user)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('userName').to.equal('This Field is Required');
+          expect(res.body).to.have.property('message').to.equal('All fields are required');
           done();
         });
     });
@@ -69,11 +77,11 @@ describe('Users', () => {
         password: 'jameskhan',
       };
       chai.request(server)
-        .post('/users/')
+        .post('/api/v1/users/')
         .send(user)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('email').to.equal('This Field is Required');
+          expect(res.body).to.have.property('message').to.equal('All fields are required');
           done();
         });
     });
@@ -85,17 +93,17 @@ describe('Users', () => {
         password: '',
       };
       chai.request(server)
-        .post('/users/')
+        .post('/api/v1/users/')
         .send(user)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('password').to.equal('This Field is Required');
+          expect(res.body).to.have.property('message').to.equal('All fields are required');
           done();
         });
     });
     it('Should post a user if the required fields are required', (done) => {
       chai.request(server)
-        .post('/users')
+        .post('/api/v1/users')
         .send(samples.sampleUser1)
         .end((err, res) => {
           expect(res.status).to.equal(201);
@@ -104,7 +112,7 @@ describe('Users', () => {
     });
     it('Should generate a token when the user is created', (done) => {
       chai.request(server)
-        .post('/users')
+        .post('/api/v1/users')
         .send(samples.sampleUser3)
         .end((err, res) => {
           expect(res.status).to.equal(201);
@@ -116,17 +124,17 @@ describe('Users', () => {
 
     it('Should fail if a user enters an invalid email address', (done) => {
       chai.request(server)
-        .post('/users')
+        .post('/api/v1/users')
         .send(samples.sampleUser2)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('email').to.equal('Email is not rightly formatted');
+          expect(res.body).to.have.property('message').to.equal('Email is not rightly formatted');
           done();
         });
     });
     it('Should fail if a user trys to create an admin role', (done) => {
       chai.request(server)
-        .post('/users')
+        .post('/api/v1/users')
         .send(samples.sampleUser4)
         .end((err, res) => {
           expect(res.status).to.equal(403);
@@ -137,7 +145,7 @@ describe('Users', () => {
 
     it('Should create the user crendentials upon login', (done) => {
       chai.request(server)
-        .post('/users/login')
+        .post('/api/v1/users/login')
         .send(samples.user)
         .end((err, res) => {
           expect(res.status).to.equal(201);
@@ -146,7 +154,7 @@ describe('Users', () => {
     });
     it('Should generate a token when the user is successfully authenticated', (done) => {
       chai.request(server)
-        .post('/users/login')
+        .post('/api/v1/users/login')
         .send(samples.user)
         .end((err, res) => {
           expect(res.status).to.equal(201);
@@ -157,11 +165,11 @@ describe('Users', () => {
     });
     it('Should fail if the user enters incorrect crendentials upon login', (done) => {
       chai.request(server)
-        .post('/users/login')
+        .post('/api/v1/users/login')
         .send(samples.user2)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('message').to.equal('Invalid User Credentials');
+          expect(res.body).to.have.property('message').to.equal('This account does not exist');
           done();
         });
     });
@@ -171,7 +179,7 @@ describe('Users', () => {
         password: ''
       };
       chai.request(server)
-        .post('/users/login')
+        .post('/api/v1/users/login')
         .send(mockUser)
         .end((err, res) => {
           expect(res.status).to.equal(400);
@@ -185,11 +193,11 @@ describe('Users', () => {
         password: 'user'
       };
       chai.request(server)
-        .post('/users/login')
+        .post('/api/v1/users/login')
         .send(mockUser)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('email').to.equal('Email is invalid');
+          expect(res.body).to.have.property('message').to.equal('Email is invalid');
           done();
         });
     });
@@ -199,11 +207,11 @@ describe('Users', () => {
         password: 'useri21'
       };
       chai.request(server)
-        .post('/users/login')
+        .post('/api/v1/users/login')
         .send(mockUser)
         .end((err, res) => {
           expect(res.status).to.equal(401);
-          expect(res.body).to.have.property('password').to.equal('Password is Invalid');
+          expect(res.body).to.have.property('message').to.equal('Password is Invalid');
           expect(res.body).to.have.property('success').to.equal(false);
           done();
         });
@@ -212,7 +220,7 @@ describe('Users', () => {
   describe('/GET Users', () => {
     it('Should get all users if the user is an admin ', (done) => {
       chai.request(server)
-        .get('/api/users')
+        .get('/api/v1/users')
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -224,7 +232,7 @@ describe('Users', () => {
     });
     it('Should fail to get all users if the user has no admin access ', (done) => {
       chai.request(server)
-        .get('/api/users')
+        .get('/api/v1/users')
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(401);
@@ -235,7 +243,7 @@ describe('Users', () => {
     });
     it('Should fail to get all users if no token was provided', (done) => {
       chai.request(server)
-        .get('/api/users')
+        .get('/api/v1/users')
         .end((err, res) => {
           expect(res.status).to.equal(403);
           expect(res.body).to.be.a('object');
@@ -246,7 +254,7 @@ describe('Users', () => {
     it('Should get all users with correct limit as a query', (done) => {
       const limit = 1;
       chai.request(server)
-        .get(`/api/users?limit=${limit}`)
+        .get(`/api/v1/users?limit=${limit}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -257,7 +265,7 @@ describe('Users', () => {
     it('Should get all users with correct offset as a query', (done) => {
       const offset = 0;
       chai.request(server)
-        .get(`/api/users?limit=${offset}`)
+        .get(`/api/v1/users?limit=${offset}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -270,7 +278,7 @@ describe('Users', () => {
     it('Should get a user by id if the user is an admin', (done) => {
       const id = 2;
       chai.request(server)
-        .get(`/api/users/${id}`)
+        .get(`/api/v1/users/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
@@ -283,22 +291,26 @@ describe('Users', () => {
           done();
         });
     });
-    it('Should fail get a user by id if the user has no admin access', (done) => {
+    it('Should get the user if the requested user is the current user', (done) => {
       const id = 2;
       chai.request(server)
-        .get(`/api/users/${id}`)
+        .get(`/api/v1/users/${id}`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
-          expect(res.status).to.equal(401);
-          expect(res.body).be.a('object');
-          expect(res.body).to.have.property('message').to.equal('You are not authorized');
+          expect(res.status).to.equal(200);
+          expect(res.body).be.a('array');
+          expect(res.body[0]).to.have.property('fullName');
+          expect(res.body[0]).to.have.property('id');
+          expect(res.body[0]).to.have.property('userName');
+          expect(res.body[0]).to.have.property('email');
+          expect(res.body[0]).to.have.property('roleId');
           done();
         });
     });
     it('Should fail to get a user by id if an invalid input is entered', (done) => {
       const id = 'fddjsdcdjn';
       chai.request(server)
-        .get(`/api/users/${id}`)
+        .get(`/api/v1/users/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(400);
@@ -306,10 +318,21 @@ describe('Users', () => {
           done();
         });
     });
+    it('should fail to get the user if the requester is not the owner', (done) => {
+      const id = 2;
+      chai.request(server)
+        .get(`api/users/${id}`)
+        .set({'authorization': sampleUserToken})
+        .end((err, res) => {
+          expect(res.status).to.equal(401);
+          expect(res.body).to.have.property('message').to.equal('Unauthorized access');
+        });
+        done();
+    })
     it('Should fail to get a user by id if the user does not exist', (done) => {
       const id = 250;
       chai.request(server)
-        .get(`/api/users/${id}`)
+        .get(`/api/v1/users/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(404);
@@ -320,7 +343,7 @@ describe('Users', () => {
     it('Should fail to get a user by id if the id is out of range', (done) => {
       const id = 500000000000000000;
       chai.request(server)
-        .get(`/api/users/${id}`)
+        .get(`/api/v1/users/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(400);
@@ -334,7 +357,7 @@ describe('Users', () => {
      (done) => {
       const id = 2;
       chai.request(server)
-        .put(`/api/users/${id}`)
+        .put(`/api/v1/users/${id}`)
         .set({ 'authorization': userToken })
         .send({ fullName: 'jake doe' })
         .end((err, res) => {
@@ -348,7 +371,7 @@ describe('Users', () => {
     it('Should update a user`s email by id if the user has the same id', (done) => {
       const id = 2;
       chai.request(server)
-        .put(`/api/users/${id}`)
+        .put(`/api/v1/users/${id}`)
         .set({ 'authorization': userToken })
         .send({ email: 'jakedoe@andela.com' })
         .end((err, res) => {
@@ -363,7 +386,7 @@ describe('Users', () => {
      (done) => {
       const id = 2;
       chai.request(server)
-        .put(`/api/users/${id}`)
+        .put(`/api/v1/users/${id}`)
         .set({ 'authorization': userToken })
         .send({ email: 'jakedoe@andela.com' })
         .end((err, res) => {
@@ -378,7 +401,7 @@ describe('Users', () => {
      (done) => {
       const id = 2;
       chai.request(server)
-        .put(`/api/users/${id}`)
+        .put(`/api/v1/users/${id}`)
         .set({ 'authorization': userToken })
         .send({ userName: 'jakedoe12' })
         .end((err, res) => {
@@ -392,7 +415,7 @@ describe('Users', () => {
     it('Should fail to update a user`s details if the user does not have the same user id', (done) => {
       const id = 3;
       chai.request(server)
-        .put(`/api/users/${id}`)
+        .put(`/api/v1/users/${id}`)
         .set({ 'authorization': userToken })
         .send({ email: 'jakedoe@andela.com' })
         .end((err, res) => {
@@ -405,7 +428,7 @@ describe('Users', () => {
     it('Should fail to update a user`s details if the user enters an invalid user id', (done) => {
       const id = 2302;
       chai.request(server)
-        .put(`/api/users/${id}`)
+        .put(`/api/v1/users/${id}`)
         .set({ 'authorization': userToken })
         .send({ email: 'jakedoe@andela.com' })
         .end((err, res) => {
@@ -420,7 +443,7 @@ describe('Users', () => {
     it('Should delete a user given the user has admin access', (done) => {
       const id = 3;
       chai.request(server)
-        .delete(`/api/users/${id}`)
+        .delete(`/api/v1/users/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(204);
@@ -430,7 +453,7 @@ describe('Users', () => {
     it('Should fail delete a user given the user has no admin access', (done) => {
       const id = 3;
       chai.request(server)
-        .delete(`/api/users/${id}`)
+        .delete(`/api/v1/users/${id}`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(401);
@@ -441,12 +464,12 @@ describe('Users', () => {
     it('Should fail delete a user given the user doesn`t exist', (done) => {
       const id = 23;
       chai.request(server)
-        .delete(`/api/users/${id}`)
+        .delete(`/api/v1/users/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(404);
           expect(res.body).to.be.a('object');
-          expect(res.body).to.have.property('message').to.equal('User Not Found');
+          expect(res.body).to.have.property('message').to.equal('User not found');
           done();
         });
     });
@@ -455,7 +478,7 @@ describe('Users', () => {
      it('Should return an error if no querystring is provided', () => {
        const query='';
        chai.request(server)
-        .get(`/api/search/users/?q=${query}`)
+        .get(`/api/v1/search/users/?q=${query}`)
         .set({'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(400);
@@ -465,7 +488,7 @@ describe('Users', () => {
        it('Should return a search list response of the required search input', () => {
        const query='jame';
        chai.request(server)
-        .get(`/api/search/users/?q=${query}`)
+        .get(`/api/v1/search/users/?q=${query}`)
         .set({'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);

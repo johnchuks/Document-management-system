@@ -1,11 +1,12 @@
 import {
-  CREATE_DOCUMENT, FETCH_USER_DOCUMENTS,
-  FETCH_ALL_DOCUMENTS, DELETE_DOCUMENT, UPDATE_DOCUMENT, SEARCH_DOCUMENT
+  CREATE_DOCUMENT, CREATE_DOCUMENT_ERROR, FETCH_USER_DOCUMENTS,
+  FETCH_ALL_DOCUMENTS, DELETE_DOCUMENT, UPDATE_DOCUMENT, SEARCH_DOCUMENT, SEARCH_DOCUMENT_ERROR
 } from '../constants/actionTypes';
 
 const initialState = {
   document: [],
-  pagination: {}
+  pagination: {},
+  error: {}
 };
 
  /**
@@ -18,20 +19,20 @@ const initialState = {
 const documentReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ALL_DOCUMENTS: {
-      return {
+      return { ...state,
         document: action.payload.document,
         pagination: action.payload.pagination
       };
     }
     case FETCH_USER_DOCUMENTS: {
-      return {
+      return { ...state,
         document: action.payload.document,
         pagination: action.payload.pagination
       };
     }
     case DELETE_DOCUMENT: {
       const documentsRemaining = state.document.filter(document =>
-       document.id !== action.payload);
+       document.id !== action.documentId);
       return {
         ...state, document: documentsRemaining
       };
@@ -40,22 +41,40 @@ const documentReducer = (state = initialState, action) => {
       const result = [action.document, ...state.document];
       return {
         ...state,
-        document: result
+        document: result,
+        error: {}
       };
     }
+    case SEARCH_DOCUMENT_ERROR: {
+      return {
+        ...state,
+        error: action.error,
+        document: [],
+        pagination: {}
+      };
+    }
+    case CREATE_DOCUMENT_ERROR:
+      return {
+        ...state,
+        error: action.error,
+      };
+
     case UPDATE_DOCUMENT: {
       const updatedDocument = state.document.map((document) => {
         if (document.id === action.document.id) return action.document;
         return document;
       });
       return {
-        ...state, document: updatedDocument
+        ...state,
+        document: updatedDocument,
+        error: {}
       };
     }
     case SEARCH_DOCUMENT: {
-      return {
+      return { ...state,
         document: action.searchDocuments.document,
-        pagination: action.searchDocuments.pagination
+        pagination: action.searchDocuments.pagination,
+        error: {}
       };
     }
 

@@ -1,7 +1,11 @@
 import axios from 'axios';
 import jwtDecode from 'jwt-decode';
-import { FETCH_USERS, SET_AUTH_USERS
-  , SEARCH_USERS, EDIT_PROFILE, DELETE_USER, GET_USER } from '../constants/actionTypes';
+import { FETCH_USERS, FETCH_USERS_ERROR,
+   SET_AUTH_USERS, SET_AUTH_USERS_ERROR
+  , SEARCH_USERS, SEARCH_USERS_ERROR,
+  EDIT_PROFILE, EDIT_PROFILE_ERROR,
+    DELETE_USER, DELETE_USER_ERROR,
+    GET_USER, GET_USER_ERROR } from '../constants/actionTypes';
 import Authorization from '../../utils/authorization';
 
 /**
@@ -14,13 +18,19 @@ const fetchUserSuccess = users => ({
   users,
 });
 
+const fetchUserError = error => ({
+  type: FETCH_USERS_ERROR,
+  error
+});
 /**
  *  @return {array} - array of users
  * fetches all users from the server side
  */
 const fetchUser = ({ limit, offset }) => dispatch =>
- axios.get(`/api/users/?limit=${limit}&offset=${offset}`).then((response) => {
+ axios.get(`/api/v1/users/?limit=${limit}&offset=${offset}`).then((response) => {
    dispatch(fetchUserSuccess(response.data));
+ }).catch((error) => {
+   dispatch(fetchUserError(error.response.data));
  });
 
 /**
@@ -33,17 +43,23 @@ const searchUserSuccess = users => ({
   users
 });
 
+const searchUserError = error => ({
+  type: SEARCH_USERS_ERROR,
+  error
+});
 /**
  * @return {array} - array of users
  *sends a search string as a query to retrieve search results
  * @param {object} params - searchstring as a param
  */
 const searchUser = ({ offset, searchString, limit }) =>
-dispatch => axios.get(`/api/search/users/?
+dispatch => axios.get(`/api/v1/search/users/?
 q=${searchString}&limit=${limit}&offset=${offset}`)
   .then((response) => {
     dispatch(searchUserSuccess(response.data));
-  }).catch(error => error);
+  }).catch((error) => {
+    dispatch(searchUserError(error.response.data));
+  });
 
 /**
  * @return {object} - an object of created user
@@ -58,6 +74,10 @@ const setAuthUser = user => ({
   type: SET_AUTH_USERS,
   user
 });
+const setAuthUserError = error => ({
+  type: SET_AUTH_USERS_ERROR,
+  error
+});
 
 
 /**
@@ -66,12 +86,14 @@ const setAuthUser = user => ({
  * @param {object} userData - userdetails to be registered
  */
 const signupAction = userData => dispatch =>
-axios.post('/users', userData).then((response) => {
+axios.post('/api/v1/users', userData).then((response) => {
   const token = response.data.token;
   localStorage.setItem('jwtToken', token);
   Authorization.setAuthToken(token);
   dispatch(setAuthUser(jwtDecode(token)));
-}).catch(error => error);
+}).catch((error) => {
+  dispatch(setAuthUserError(error.response.data));
+});
 
 /**
  * @return {object} - returns an object of logged in user
@@ -85,12 +107,14 @@ axios.post('/users', userData).then((response) => {
  * @param {object} user - logged in user payload
  */
 const loginAction = user => dispatch =>
-axios.post('/users/login', user).then((response) => {
+axios.post('/api/v1/users/login', user).then((response) => {
   const token = response.data.token;
   localStorage.setItem('jwtToken', token);
   Authorization.setAuthToken(token);
   dispatch(setAuthUser(jwtDecode(token)));
-}).catch(error => (error));
+}).catch((error) => {
+  dispatch(setAuthUserError(error.response.data));
+});
 
 /**
  *
@@ -102,6 +126,11 @@ const getUserSuccess = user => ({
   type: GET_USER,
   user
 });
+
+const getUserError = error => ({
+  type: GET_USER_ERROR,
+  error
+});
 /**
  *
  *
@@ -109,9 +138,11 @@ const getUserSuccess = user => ({
  * @returns
  */
 const getUser = profileId => dispatch =>
- axios.get(`api/users/${profileId}`).then((response) => {
+ axios.get(`/api/v1/users/${profileId}`).then((response) => {
    dispatch(getUserSuccess(response.data[0]));
- }).catch(error => error);
+ }).catch((error) => {
+   dispatch(getUserError(error.response.data));
+ });
 
 /**
  *  @return {object} - an object of edited user
@@ -123,6 +154,11 @@ const editProfileSuccess = user => ({
   user
 });
 
+const editProfileError = error => ({
+  type: EDIT_PROFILE_ERROR,
+  error
+});
+
 /**
  *
  * update logged in user with the current user detail supplied
@@ -131,10 +167,12 @@ const editProfileSuccess = user => ({
  */
 const editProfile = (user) => {
   const id = user.userId;
-  return dispatch => axios.put(`/api/users/${id}`, user).then().then((response) => {
+  return dispatch => axios.put(`/api/v1/users/${id}`, user).then().then((response) => {
     dispatch(editProfileSuccess(response.data));
   })
-  .catch(error => error);
+  .catch((error) => {
+    dispatch(editProfileError(error.response.data));
+  });
 };
 
 /**
@@ -148,6 +186,11 @@ const deleteUserSuccess = user => ({
   payload: user
 });
 
+const deleteUserError = error => ({
+  type: DELETE_USER_ERROR,
+  error
+});
+
 /**
  *
  *Performs a delete request of a user taking in the user id as a param
@@ -155,9 +198,11 @@ const deleteUserSuccess = user => ({
  * @returns {null} - null
  */
 const deleteUser = user => dispatch =>
-  axios.delete(`api/users/${user}`).then(() => {
+  axios.delete(`/api/v1/users/${user}`).then(() => {
     dispatch(deleteUserSuccess(user));
-  }).catch(error => error);
+  }).catch((error) => {
+    dispatch(deleteUserError(error));
+  });
 
 
 export { signupAction, fetchUser, getUser, getUserSuccess,

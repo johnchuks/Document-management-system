@@ -28,6 +28,15 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date(),
     },
+    {
+      fullName: 'mayowa mack',
+      userName: 'mayor',
+      email: 'mayor@andela.com',
+      password: bcrypt.hashSync('jamestest', bcrypt.genSaltSync(8), null),
+      roleId: 2,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
     ], {});
   },
 

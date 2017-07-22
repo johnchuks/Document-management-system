@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty';
-import { SET_AUTH_USERS,
-  FETCH_USERS, SEARCH_USERS, EDIT_PROFILE,
+import { SET_AUTH_USERS, SET_AUTH_USERS_ERROR, FETCH_USERS_ERROR,
+  FETCH_USERS, SEARCH_USERS, SEARCH_USERS_ERROR, EDIT_PROFILE,
   DELETE_USER, GET_USER
 } from '../constants/actionTypes';
 
@@ -9,7 +9,8 @@ const initialState = {
   isAuthenticated: false,
   user: {},
   users: [],
-  pagination: {}
+  pagination: {},
+  error: {}
 };
 
  /**
@@ -22,32 +23,36 @@ const initialState = {
 const usersReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case SET_AUTH_USERS: {
-      return {
+      return { ...state,
         user: action.user,
-        isAuthenticated: !isEmpty(action.user)
+        isAuthenticated: !isEmpty(action.user),
+        error: {}
       };
     }
     case GET_USER: {
-      return {
+      return { ...state,
         user: action.user,
-        isAuthenticated: !isEmpty(action.user)
+        isAuthenticated: !isEmpty(action.user),
+        error: {}
       };
     }
     case FETCH_USERS: {
       return { ...state,
         users: action.users.user,
-        pagination: action.users.pagination
+        pagination: action.users.pagination,
+        error: {}
       };
     }
     case SEARCH_USERS: {
       return { ...state,
         users: action.users.user,
-        pagination: action.users.pagination.pageCount
+        pagination: action.users.pagination,
+        error: {}
       };
     }
 
     case EDIT_PROFILE: {
-      return {
+      return { ...state,
         user: action.user,
         isAuthenticated: !isEmpty(action.user)
       };
@@ -57,6 +62,14 @@ const usersReducer = (state = initialState, action = {}) => {
         .filter(user => user.id !== action.payload);
       return { ...state, users: remainingUsers };
     }
+    case SEARCH_USERS_ERROR:
+    case FETCH_USERS_ERROR:
+    case SET_AUTH_USERS_ERROR:
+      return { ...state,
+        error: action.error,
+        users: []
+      };
+
     default:
       return state;
   }

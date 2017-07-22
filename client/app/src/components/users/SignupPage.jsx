@@ -5,6 +5,7 @@ import toastr from 'toastr';
 import PropTypes from 'prop-types';
 import { signupAction } from '../../actions/userActions';
 import Navigation from './Navigation.jsx';
+import Footer from './Footer';
 
 /**
  *
@@ -25,9 +26,12 @@ export class SignupPage extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  componentWillReceiveProps(nextProps) {
+    this.setState({ errors: nextProps.error });
+  }
   /**
    *
-   * @return {*} - updated state of the inputs
+   * @return {void} - updated state of the inputs
    * @param {string} event - returns the on change value from the input fields
    * @memberof SignupPage
    */
@@ -36,28 +40,25 @@ export class SignupPage extends React.Component {
   }
   /**
    *
-   * @return {*} - dispatches the action
-   * @param {*} event - null
+   * @return {void} - dispatches the action
+   * @param {void} event - null
    * @memberof SignupPage
    */
   onSubmit(event) {
     this.setState({ errors: {} });
     event.preventDefault();
-    this.props.signup(this.state).then((error) => {
-      if (!error) {
+    this.props.signup(this.state).then(() => {
+      if (!this.state.errors) {
         this.props.history.push('/dashboard');
         toastr.success('You have successfully signed up');
       } else {
-        this.setState({ errors: error.response.data, isLoading: false });
+        const { errors } = this.state;
+        toastr.error(errors.message);
         this.props.history.push('/signup');
       }
     });
   }
   render() {
-    const errorAlert = {
-      color: 'red'
-    };
-    const { errors } = this.state;
     return (
       <div>
         <Navigation />
@@ -79,10 +80,6 @@ export class SignupPage extends React.Component {
                     onChange={this.handleChange}
                   />
                   <label htmlFor="full_Name" id="label">Full Name</label>
-                  {errors.fullName &&
-                    <span className="help-block" style={errorAlert}>
-                      {errors.fullName}
-                    </span>}
                 </div>
               </div>
               <div className="row">
@@ -95,10 +92,6 @@ export class SignupPage extends React.Component {
                     onChange={this.handleChange}
                   />
                   <label htmlFor="user_Name" id="label">User Name</label>
-                  {errors.userName &&
-                    <span className="help-block" style={errorAlert}>
-                      {errors.userName}
-                    </span>}
                 </div>
               </div>
               <div className="row">
@@ -111,10 +104,6 @@ export class SignupPage extends React.Component {
                     onChange={this.handleChange}
                   />
                   <label htmlFor="email" id="label">Email</label>
-                  {errors.email &&
-                    <span className="help-block" style={errorAlert}>
-                      {errors.email}
-                    </span>}
                 </div>
               </div>
               <div className="row">
@@ -127,10 +116,6 @@ export class SignupPage extends React.Component {
                     onChange={this.handleChange}
                   />
                   <label htmlFor="password" id="label">Password</label>
-                  {errors.password &&
-                    <span className="help-block" style={errorAlert}>
-                      {errors.password}
-                    </span>}
                 </div>
               </div>
               <div className="row">
@@ -145,20 +130,26 @@ export class SignupPage extends React.Component {
                     SignUp
                   </button>
                 </div>
-
               </div>
             </form>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
 }
 SignupPage.propTypes = {
   history: PropTypes.object.isRequired,
-  signup: PropTypes.func.isRequired
+  signup: PropTypes.func.isRequired,
+  error: PropTypes.object.isRequired
 };
+const mapStateToProps = state => ({
+  error: state.usersReducer.error
+});
 const mapDispatchToProps = dispatch => ({
   signup: signupCredentials => dispatch(signupAction(signupCredentials))
 });
-export default connect(null, mapDispatchToProps)(withRouter(SignupPage));
+
+export default connect(mapStateToProps,
+ mapDispatchToProps)(withRouter(SignupPage));

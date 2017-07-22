@@ -2,9 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import DocumentForm from '../documents/DocumentForm.jsx';
+//import DocumentForm from '../documents/DocumentForm.jsx';
 import AllDocuments from '../documents/AllDocuments.jsx';
 import  NavigationBar from './NavigationBar.jsx';
+import Footer from '../users/Footer';
 
 /**
  * renders all documents component and document form component
@@ -31,7 +32,7 @@ export class Dashboard extends React.Component {
         <NavigationBar />
         <h5 className="all-documents">All Documents</h5>
         <AllDocuments />
-        <DocumentForm />
+        <Footer />
       </div>
     );
   }
