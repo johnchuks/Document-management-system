@@ -119,6 +119,10 @@ describe('Roles', () => {
           expect(res.status).to.equal(200);
           expect(res.body).to.have.length(4);
           expect(res.body).to.be.a('array');
+          expect(res.body[0]).to.have.property('id').to.equal(1);
+          expect(res.body[0]).to.have.property('title').to.equal('admin')
+          expect(res.body[1]).to.have.property('id').to.equal(2);
+          expect(res.body[1]).to.have.property('title').to.equal('regular');
           done();
         });
     });
@@ -133,7 +137,7 @@ describe('Roles', () => {
         });
     });
   });
-  //test get a role by Id
+
   describe('/GET/:id Role', () => {
     it('Should get a role by id if the user is an admin', (done) => {
       const id = 2;
@@ -143,8 +147,8 @@ describe('Roles', () => {
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).be.a('object');
-          expect(res.body).to.have.property('title');
-          expect(res.body).to.have.property('id');
+          expect(res.body).to.have.property('title').to.equal('regular');
+          expect(res.body).to.have.property('id').to.equal(2);
           done();
         });
     });

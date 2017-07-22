@@ -39,7 +39,6 @@ describe('<SignupPage />', () => {
   it('Should update for the input field- email', (done) => {
     const event = {target:{value:'john@john.com', name:'email'}};
     const emailWrap = wrapper.find('#email');
-    console.log(emailWrap);
     wrapper.update();
     emailWrap.simulate('change', event);
     expect(handleSpy.callCount).to.equal(1);

@@ -259,17 +259,8 @@ describe('Users', () => {
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
-          done();
-        });
-    });
-    it('Should get all users with correct offset as a query', (done) => {
-      const offset = 0;
-      chai.request(server)
-        .get(`/api/v1/users?limit=${offset}`)
-        .set({ 'authorization': adminToken })
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('object');
+          expect(res.body.user[0]).to.have.property('fullName').to.equal('Johnbosco Ohia');
+          expect(res.body.user[0]).to.have.property('userName').to.equal('admin');
           done();
         });
     });
@@ -283,11 +274,11 @@ describe('Users', () => {
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).be.a('array');
-          expect(res.body[0]).to.have.property('fullName');
-          expect(res.body[0]).to.have.property('id');
-          expect(res.body[0]).to.have.property('userName');
-          expect(res.body[0]).to.have.property('email');
-          expect(res.body[0]).to.have.property('roleId');
+          expect(res.body[0]).to.have.property('fullName').to.equal('test user');
+          expect(res.body[0]).to.have.property('id').to.equal(2);
+          expect(res.body[0]).to.have.property('userName').to.equal('user');
+          expect(res.body[0]).to.have.property('email').to.equal('test@test.com');
+          expect(res.body[0]).to.have.property('roleId').to.equal(2);
           done();
         });
     });
@@ -299,11 +290,11 @@ describe('Users', () => {
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).be.a('array');
-          expect(res.body[0]).to.have.property('fullName');
-          expect(res.body[0]).to.have.property('id');
-          expect(res.body[0]).to.have.property('userName');
-          expect(res.body[0]).to.have.property('email');
-          expect(res.body[0]).to.have.property('roleId');
+          expect(res.body[0]).to.have.property('fullName').to.equal('test user');
+          expect(res.body[0]).to.have.property('id').to.equal(2);
+          expect(res.body[0]).to.have.property('userName').to.equal('user');
+          expect(res.body[0]).to.have.property('email').to.equal('test@test.com');
+          expect(res.body[0]).to.have.property('roleId').to.equal(2);
           done();
         });
     });
