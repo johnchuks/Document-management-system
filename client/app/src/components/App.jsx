@@ -1,3 +1,4 @@
+/* eslint import/no-named-as-default:off */
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';

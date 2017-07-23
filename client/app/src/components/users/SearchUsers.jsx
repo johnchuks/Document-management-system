@@ -1,3 +1,4 @@
+/* eslint import/no-named-as-default:off */
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,7 +8,7 @@ import ReactPaginate from 'react-paginate';
 import NavigationBar from '../users/NavigationBar.jsx';
 import { searchUser } from '../../actions/userActions';
 import SearchedUsersList from './SearchedUsersList.jsx';
-import Footer from './Footer';
+import Footer from './Footer.jsx';
 
 /**
  *
@@ -41,6 +42,14 @@ export class SearchUsers extends React.Component {
     $('.button-collapse').sideNav('hide');
   }
 
+  /**
+   * This function receives error messages as props from the
+   * store if they are any and an array of search results
+   * @param {object|array} nextProps - object or array of search results
+   * and error from the store
+   * @return {void} null
+   * @memberof SearchUsers
+   */
   componentWillReceiveProps(nextProps) {
     this.setState({
       searchList: nextProps.searchList,
@@ -70,12 +79,12 @@ export class SearchUsers extends React.Component {
     event.preventDefault();
     const { offset, searchString, limit } = this.state;
     this.props.searchUser({ offset, searchString, limit });
-
   }
   /**
    *
-   *
-   * @param {any} data
+   * @return {void} null
+   * @param {object} data - contains actual number of
+   * selected page
    * @memberof SearchUsers
    */
   handlePageChange(data) {
@@ -146,7 +155,8 @@ SearchUsers.propTypes = {
   searchUser: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   pageCount: PropTypes.number,
-  isAuthenticated: PropTypes.bool.isRequired
+  isAuthenticated: PropTypes.bool.isRequired,
+  error: PropTypes.object
 };
 const mapStateToProps = state => ({
   searchList: state.usersReducer.users,

@@ -29,6 +29,12 @@ export default {
     .waitForElementVisible('div.toast-message')
     .assert.containsText('div.toast-message', 'Document created successfully')
     .pause(1000)
+    .waitForElementVisible('h5.my-document')
+    .pause(1000)
+    .waitForElementVisible('span.card-title')
+    .assert.containsText('span.card-title', 'document it!!')
+    .pause(1000)
+    .assert.containsText('p', 'faker documents are here bro')
     .click('#materialize-modal-overlay-1'),
 
 'Update document': browser =>
@@ -39,8 +45,10 @@ export default {
     .waitForElementVisible('input#title')
     .pause(1000)
     .setValue('input[name=title]', 'WEST Side')
+    .pause(1000)
     .click('select.browser-default')
     .click('option[value="private"]')
+    .pause(1000)
     .click('#updatedocbutton')
     .waitForElementVisible('div.toast-message')
     .assert.containsText('div.toast-message', 'document updated successfully'),
@@ -74,5 +82,6 @@ export default {
     .setValue('input[name=search]', 'water')
     .click('#searchButton')
     .waitForElementVisible('div.card-content')
+    .pause(1000)
     .end(),
 };

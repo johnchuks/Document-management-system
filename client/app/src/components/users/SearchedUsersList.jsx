@@ -4,9 +4,8 @@ import PropTypes from 'prop-types';
 /**
  *
  * renders the searched users list
- * @class SearchedUsersList
- * @param {props} - users array list
- * @extends {React.Component}
+ * @return {void} null
+ * @param {array} props - users array list
  */
 const SearchedUsersList = props => (
       <div>

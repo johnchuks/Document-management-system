@@ -5,7 +5,7 @@ import toastr from 'toastr';
 import PropTypes from 'prop-types';
 import { signupAction } from '../../actions/userActions';
 import Navigation from './Navigation.jsx';
-import Footer from './Footer';
+import Footer from './Footer.jsx';
 
 /**
  *
@@ -26,13 +26,20 @@ export class SignupPage extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  /**
+   * This function receives error messages as props from the
+   * store if they are any
+   * @param {object} nextProps - error object from store
+   * @return {void} null
+   * @memberof SignupPage
+   */
   componentWillReceiveProps(nextProps) {
     this.setState({ errors: nextProps.error });
   }
   /**
    *
    * @return {void} - updated state of the inputs
-   * @param {string} event - returns the on change value from the input fields
+   * @param {void} event - returns the on change value from the input fields
    * @memberof SignupPage
    */
   handleChange(event) {
@@ -48,7 +55,7 @@ export class SignupPage extends React.Component {
     this.setState({ errors: {} });
     event.preventDefault();
     this.props.signup(this.state).then(() => {
-      if (!this.state.errors) {
+      if (!this.state.errors.message) {
         this.props.history.push('/dashboard');
         toastr.success('You have successfully signed up');
       } else {
@@ -64,7 +71,8 @@ export class SignupPage extends React.Component {
         <Navigation />
         <div className="signupContainer">
           <div className="row">
-            <form className="col s12 z-depth-5" id="signupForm" onSubmit={this.onSubmit}>
+            <form className="col s12 z-depth-5"
+              id="signupForm" onSubmit={this.onSubmit}>
               <div className="row">
                 <div className="col s12">
                   <h5 id="signupId"> Sign Up to DocumentME</h5>

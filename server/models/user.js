@@ -1,3 +1,4 @@
+/* eslint no-underscore-dangle:off */
 const bcrypt = require('bcrypt-nodejs');
 
 module.exports = (sequelize, DataTypes) => {
@@ -47,7 +48,8 @@ module.exports = (sequelize, DataTypes) => {
         return bcrypt.compareSync(password, this.password);
       },
       generateHashPassword() {
-        this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8), null);
+        this.password = bcrypt
+          .hashSync(this.password, bcrypt.genSaltSync(8), null);
       },
     },
     hooks: {

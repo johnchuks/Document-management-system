@@ -18,6 +18,11 @@ const fetchUserSuccess = users => ({
   users,
 });
 
+/**
+ *
+ * @return {object} - error
+ * @param {object} error dispatched error object
+ */
 const fetchUserError = error => ({
   type: FETCH_USERS_ERROR,
   error
@@ -27,11 +32,12 @@ const fetchUserError = error => ({
  * fetches all users from the server side
  */
 const fetchUser = ({ limit, offset }) => dispatch =>
- axios.get(`/api/v1/users/?limit=${limit}&offset=${offset}`).then((response) => {
-   dispatch(fetchUserSuccess(response.data));
- }).catch((error) => {
-   dispatch(fetchUserError(error.response.data));
- });
+  axios.get(`/api/v1/users/?limit=${limit}&offset=${offset}`)
+    .then((response) => {
+      dispatch(fetchUserSuccess(response.data));
+    }).catch((error) => {
+      dispatch(fetchUserError(error.response.data));
+    });
 
 /**
  * @return {array} - array of users
@@ -43,6 +49,11 @@ const searchUserSuccess = users => ({
   users
 });
 
+/**
+ *
+ * @return {object} error
+ * @param {object} error dispatched error object
+ */
 const searchUserError = error => ({
   type: SEARCH_USERS_ERROR,
   error
@@ -66,14 +77,15 @@ q=${searchString}&limit=${limit}&offset=${offset}`)
  * sends created user response as a payload to the reducer
  * @param {object} user - created user payload
  */
-// const createUserAction = user => ({
-//   type: CREATE_USERS,
-//   payload: user
-// });
 const setAuthUser = user => ({
   type: SET_AUTH_USERS,
   user
 });
+/**
+ *
+ * @return {object} error
+ * @param {error} error - dispatched error object
+ */
 const setAuthUserError = error => ({
   type: SET_AUTH_USERS_ERROR,
   error
@@ -119,14 +131,20 @@ axios.post('/api/v1/users/login', user).then((response) => {
 /**
  *
  *
- * @param {any} user
- * @returns
+ * @param {object} user -  dispatched object
+ * containing the user details
+ * @returns {object} - user object obtained from the server
  */
 const getUserSuccess = user => ({
   type: GET_USER,
   user
 });
 
+/**
+ *
+ * @return {object} - error
+ * @param {object} error dispatched error object
+ */
 const getUserError = error => ({
   type: GET_USER_ERROR,
   error
@@ -134,8 +152,8 @@ const getUserError = error => ({
 /**
  *
  *
- * @param {any} profileId
- * @returns
+ * @param {number} profileId - id of the requested user
+ * @returns {object} requested user object
  */
 const getUser = profileId => dispatch =>
  axios.get(`/api/v1/users/${profileId}`).then((response) => {
@@ -154,6 +172,11 @@ const editProfileSuccess = user => ({
   user
 });
 
+/**
+ *
+ * @return {object} - error
+ * @param {object} error - dispatched error object
+ */
 const editProfileError = error => ({
   type: EDIT_PROFILE_ERROR,
   error
@@ -167,9 +190,10 @@ const editProfileError = error => ({
  */
 const editProfile = (user) => {
   const id = user.userId;
-  return dispatch => axios.put(`/api/v1/users/${id}`, user).then().then((response) => {
-    dispatch(editProfileSuccess(response.data));
-  })
+  return dispatch =>
+    axios.put(`/api/v1/users/${id}`, user).then().then((response) => {
+      dispatch(editProfileSuccess(response.data));
+    })
   .catch((error) => {
     dispatch(editProfileError(error.response.data));
   });
@@ -186,6 +210,11 @@ const deleteUserSuccess = user => ({
   payload: user
 });
 
+/**
+ *
+ * @return {object} - error
+ * @param {object} error - dispatched error object
+ */
 const deleteUserError = error => ({
   type: DELETE_USER_ERROR,
   error
@@ -207,5 +236,7 @@ const deleteUser = user => dispatch =>
 
 export { signupAction, fetchUser, getUser, getUserSuccess,
    loginAction, setAuthUser, fetchUserSuccess,
-    editProfile, searchUser, deleteUser, deleteUserSuccess, editProfileSuccess, searchUserSuccess };
+   editProfile, searchUser, deleteUser,
+   deleteUserSuccess, editProfileSuccess, searchUserSuccess
+};
 

@@ -1,3 +1,4 @@
+/* eslint no-unused-vars:off */
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('Document', {
     id: {

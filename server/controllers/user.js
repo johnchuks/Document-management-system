@@ -19,7 +19,9 @@ module.exports = {
    * @returns {object} - an object of a created user and a token
    */
   createUser(req, res) {
-    if (!req.body.fullName || !req.body.userName || !req.body.email || !req.body.password) {
+    if (!req.body.fullName ||
+      !req.body.userName ||
+      !req.body.email || !req.body.password) {
       return res.status(400).json({
         message: 'All fields are required'
       });

@@ -1,3 +1,4 @@
+/* eslint import/no-named-as-default:off */
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -6,7 +7,7 @@ import ReactPaginate from 'react-paginate';
 import { fetchUser } from '../../actions/userActions';
 import NavigationBar from './NavigationBar.jsx';
 import AllUsersList from './AllUsersList.jsx';
-import Footer from './Footer';
+import Footer from './Footer.jsx';
 
 /**
  *
@@ -27,7 +28,7 @@ export class ViewAllUsers extends React.Component {
   }
   /**
    * dispatches the fetch user action
-   * @return{*} - null
+   * @return{void} - null
    * @memberof ViewAllUsers
    */
   componentDidMount() {
@@ -40,13 +41,23 @@ export class ViewAllUsers extends React.Component {
   }
   /**
    *
-   * @return {*} updated state of the users list
-   * @param {*} nextProps - new props of users from the store
+   * @return {void} updated state of the users list
+   * @param {void} nextProps - new props of users from the store
    * @memberof ViewAllUsers
    */
   componentWillReceiveProps(nextProps) {
-    this.setState({ allUsers: nextProps.usersList, pageCount: nextProps.pagination.pageCount });
+    this.setState({
+      allUsers: nextProps.usersList,
+      pageCount: nextProps.pagination.pageCount
+    });
   }
+  /**
+   * This function handles pagination for the component
+   * @return {void} - null
+   * @param {object} page - object contained currently selected
+   * page
+   * @memberof ViewAllUsers
+   */
   handlePageChange(page) {
     const selected = page.selected;
     const offset = Math.ceil(selected * this.state.limit);

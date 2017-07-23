@@ -23,8 +23,9 @@ export class NavigationBar extends React.Component {
   }
 
   /**
-   *
-   *
+   * componentwillmount function get the logged in user details
+   * before the component mounts
+   * @return {void} - null
    * @memberof NavigationBar
    */
   componentWillMount() {
@@ -33,7 +34,7 @@ export class NavigationBar extends React.Component {
   /**
    *
    * @return {void} - null
-   *
+   * this function checks if the user is authenticated upon mounting
    * @memberof NavigationBar
    */
   componentDidMount() {
@@ -44,8 +45,8 @@ export class NavigationBar extends React.Component {
   }
   /**
    *
-   *
-   * @param {any} nextProps
+   * @return {void} - null
+   * @param {object} nextProps - object of authenticated user
    * @memberof NavigationBar
    */
   componentWillReceiveProps(nextProps) {

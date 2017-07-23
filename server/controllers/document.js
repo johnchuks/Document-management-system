@@ -8,13 +8,12 @@ const metaData = pagination.paginationMetaData;
 
 
 module.exports = {
-  // create a new document
   /**
    *
-   *
-   * @param {any} req
-   * @param {any} res
-   * @returns
+   * create documents for users
+   * @param {object} req - document to be created
+   * @param {object} res - created document
+   * @returns {object} - created document
    */
   createDocument(req, res) {
     if (!req.body.title) {
@@ -53,13 +52,13 @@ module.exports = {
     }).catch(error => res.status(400).send(error));
   },
 
-  // update a single document for the user
+  //
   /**
+   * update a single document for the user
    *
-   *
-   * @param {any} req
-   * @param {any} res
-   * @returns
+   * @param {number} req - requested id of the document to be updated
+   * @param {object} res - object of the updated document
+   * @returns {object} - updated document
    */
   updateDocument(req, res) {
     if (isNaN(req.params.id)) {
@@ -88,13 +87,13 @@ module.exports = {
       })
       .catch(error => res.status(400).send(error));
   },
-  // find a document by Id
+
   /**
+   * find a document by Id
    *
-   *
-   * @param {any} req
-   * @param {any} res
-   * @returns
+   * @param {number} req - id of the requested document
+   * @param {object} res - object containg the requested document
+   * @returns {object} requested document
    */
   findDocument(req, res) {
     return Document.findById(req.params.id)
@@ -117,7 +116,6 @@ module.exports = {
           return res.status(200).send(document);
         }
         if (document.access === 'role') {
-
           return models.User
             .findById(document.userId)
             .then((documentOwner) => {
@@ -135,13 +133,12 @@ module.exports = {
       })
       .catch(error => res.status(400).send(error));
   },
-  // Delete a document by Id
   /**
    *
-   *
-   * @param {any} req
-   * @param {any} res
-   * @returns
+   *Delete a document by Id
+   * @param {number} req - id of the requested document
+   * @param {object} res - message
+   * @returns {object} - message
    */
   deleteDocument(req, res) {
     return Document.findById(req.params.id)
@@ -159,18 +156,17 @@ module.exports = {
         }
         return document
           .destroy()
-          .then(() => res.status(204).send({ message: 'Document deleted successfully' }))
+          .then(() => res.status(204)
+            .send({ message: 'Document deleted successfully' }))
           .catch(error => res.status(400).send(error));
       })
       .catch(error => res.status(400).send(error));
   },
-  // get all documents
   /**
-   *
-   *
-   * @param {string} req
-   * @param {object} res
-   * @returns
+   *  get all documents
+   * @param {object} req - contains an object of the query, limits and offset
+   * @param {array} res - array of documents with pagination
+   * @returns {array} - array of documents
    */
   getAllDocuments(req, res) {
     const limit = req.query.limit;
@@ -230,9 +226,10 @@ module.exports = {
 
   /**
    *
-   *
-   * @param {string} req
-   * @param {object} res
+   * Get documents for specific user
+   * @param {object} req - request object containing limit query and offset
+   * @param {array} res - array of documents for the requested user
+   * @return {array} - array of requested user's document
    */
   getSpecificUserDocuments(req, res) {
     const limit = req.query.limit;
@@ -264,10 +261,10 @@ module.exports = {
 
   /**
    *
-   *
-   * @param {string} req
-   * @param {array} res
-   * @returns
+   * Search for documents by title
+   * @param {string} req - an object containing the query, offset and limit
+   * @param {array} res - an array containing searched document
+   * @returns {array} - searched document
    */
   searchDocuments(req, res) {
     const limit = req.query.limit,
