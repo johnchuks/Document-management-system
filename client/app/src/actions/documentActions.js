@@ -1,3 +1,4 @@
+/* eslint max-len:off */
 import axios from 'axios';
 import { CREATE_DOCUMENT, CREATE_DOCUMENT_ERROR,
    FETCH_USER_DOCUMENTS,
@@ -10,12 +11,19 @@ SEARCH_DOCUMENT, SEARCH_DOCUMENT_ERROR } from '../constants/actionTypes';
  *@return {object} - object of created document
  *Dispatches created document to the reducer
  * @param {object} document - created document
+ *
  */
 const createDocumentSuccess = document => ({
   type: CREATE_DOCUMENT,
   document,
 });
 
+/**
+ *
+ * @return{object} - error object for unsuccessful document
+ * creation
+ * @param {object} error - object of error message
+ */
 const createDocumentError = error => ({
   type: CREATE_DOCUMENT_ERROR,
   error
@@ -25,11 +33,6 @@ const createDocumentError = error => ({
  *  dispatches all document in an array to the reducer
  * @param {array} documents - fetched documents
  */
-/**
- *
- *
- * @param {array} documents
- */
 const fetchAllDocumentsSuccess = documents => ({
   type: FETCH_ALL_DOCUMENTS,
   payload: documents
@@ -37,8 +40,8 @@ const fetchAllDocumentsSuccess = documents => ({
 
 /**
  *
- *
- * @param {object} error
+ * @return {object} - error object
+ * @param {object} error - error object
  */
 const fetchAllDocumentsError = error => ({
   type: FETCH_ALL_DOCUMENTS_ERROR,
@@ -47,8 +50,8 @@ const fetchAllDocumentsError = error => ({
 
 /**
  *
- *
- * @param {object} error
+ * @return {object} - error object
+ * @param {object} error - dispatched error object
  */
 const fetchDocumentError = error => ({
   type: FETCH_USER_DOCUMENTS_ERROR,
@@ -57,8 +60,8 @@ const fetchDocumentError = error => ({
 
 /**
  *
- *
- * @param {object} error
+ * @return {object} - error object
+ * @param {object} error - dispatched error object
  */
 const updateDocumentError = error => ({
   type: UPDATE_DOCUMENT_ERROR,
@@ -67,8 +70,8 @@ const updateDocumentError = error => ({
 
 /**
  *
- *
- * @param {object} error
+ * @return {object} - error object
+ * @param {object} error dispatched error object
  */
 const deleteDocumentError = error => ({
   type: DELETE_DOCUMENT_ERROR,
@@ -77,8 +80,8 @@ const deleteDocumentError = error => ({
 
 /**
  *
- *
- * @param {object} error
+ * @return {object} - error object
+ * @param {object} error - dispatched error object
  */
 const searchDocumentError = error => ({
   type: SEARCH_DOCUMENT_ERROR,
@@ -176,7 +179,7 @@ const deleteDocumentSuccess = documentId => ({
 /**
  * @return {object} - deleted document id
  * performs a delete document request to the server
- * @param {object} document - document to be deleted
+ * @param {object} documentId - document to be deleted
  */
 const deleteDocument = documentId => dispatch =>
  axios.delete(`/api/v1/documents/${documentId}`).then(() => {
@@ -201,7 +204,9 @@ const searchDocumentSuccess = searchDocuments => ({
  * @returns {func} a dispatch function that makes an api call to the server
  */
 const searchDocument = ({ offset, searchString, limit }) =>
- dispatch => axios.get(`/api/v1/search/documents/?q=${searchString}&limit=${limit}&offset=${offset}`)
+  dispatch =>
+    axios
+      .get(`/api/v1/search/documents/?q=${searchString}&limit=${limit}&offset=${offset}`)
   .then((response) => {
     dispatch(searchDocumentSuccess(response.data));
   }).catch((error) => {
@@ -212,6 +217,7 @@ const searchDocument = ({ offset, searchString, limit }) =>
 export { createDocumentSuccess,
    createDocument, fetchDocumentSuccess,
   fetchDocument, fetchAllDocuments, deleteDocumentSuccess,
-  fetchAllDocumentsSuccess, updateDocument, updateDocumentSuccess, searchDocument, deleteDocument };
-
+  fetchAllDocumentsSuccess, updateDocument,
+  updateDocumentSuccess, searchDocument, deleteDocument
+};
 

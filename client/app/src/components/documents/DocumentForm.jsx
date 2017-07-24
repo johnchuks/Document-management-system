@@ -28,6 +28,13 @@ export class DocumentForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.handleEditorChange = this.handleEditorChange.bind(this);
   }
+  /**
+   *This function receives error messages as props from the
+   * store if they are any
+   * @param {object} nextProps  error object from the store
+   * @return {void} null
+   * @memberof DocumentForm
+   */
   componentWillReceiveProps(nextProps) {
     this.setState({ errors: nextProps.error.message });
   }

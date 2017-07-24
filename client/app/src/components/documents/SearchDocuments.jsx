@@ -1,3 +1,4 @@
+/* eslint import/no-named-as-default:off */
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -7,7 +8,7 @@ import toastr from 'toastr';
 import NavigationBar from '../users/NavigationBar.jsx';
 import { searchDocument } from '../../actions/documentActions';
 import SearchedDocumentList from '../documents/SearchedDocumentList.jsx';
-import Footer from '../users/Footer';
+
 
 /**
  *
@@ -30,6 +31,7 @@ export class SearchDocuments extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.handlePageChange = this.handlePageChange.bind(this);
   }
+
   /**
    *
    *when the component mounts the side navigation bar becomes hidden
@@ -42,13 +44,10 @@ export class SearchDocuments extends React.Component {
     }
     $('.button-collapse').sideNav('hide');
   }
-  componentWillMount() {
-    this.setState({ errors: this.props.error });
-  }
   /**
    *
-   *
-   * @param {any} nextProps
+   * @return {void} - null
+   * @param {array|error} nextProps - updated state from the store
    * @memberof SearchDocuments
    */
   componentWillReceiveProps(nextProps) {
@@ -63,8 +62,8 @@ export class SearchDocuments extends React.Component {
   }
   /**
    *
-   *@return {null} - null
-   * @param {string} event - value from the search input field
+   *@return {void} - null
+   * @param {string} event - on change event from the search input field
    * @memberof SearchDocument
    */
 
@@ -74,7 +73,7 @@ export class SearchDocuments extends React.Component {
   /**
    *
    * @returns {void} - dispatches the search document action on click
-   * @param {void} event null
+   * @param {void} event - null
    * @memberof SearchDocument
    */
   onSubmit(event) {
@@ -84,8 +83,8 @@ export class SearchDocuments extends React.Component {
   }
   /**
    *
-   *@return {void} - void
-   * @param {number} data
+   * @return {void} - void
+   * @param {object} data - object containing currently selected page
    * @memberof SearchDocuments
    */
   handlePageChange(data) {
@@ -140,7 +139,6 @@ export class SearchDocuments extends React.Component {
           activeClassName={'active'}
         /> : '' }
         </div>
-        <Footer />
       </div>
     );
   }

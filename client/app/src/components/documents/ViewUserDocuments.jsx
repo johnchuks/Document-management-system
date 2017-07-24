@@ -1,3 +1,4 @@
+/* eslint import/no-named-as-default:off */
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -10,7 +11,7 @@ import NavigationBar from '../users/NavigationBar.jsx';
 import  UpdateDocumentForm  from './UpdateDocumentForm.jsx';
 import DeleteDocument  from './DeleteDocument.jsx';
 import DocumentView from './DocumentView.jsx';
-import Footer from '../users/Footer';
+import Footer from '../users/Footer.jsx';
 
 /**
  *
@@ -31,7 +32,7 @@ export class ViewUserDocuments extends React.Component {
   }
 
   /**
-   * @return {*} - null
+   * @return {void} - null
    * checks if the user is authenticated before mounting the component
    * @memberof ViewUserDocuments
    */
@@ -44,7 +45,7 @@ export class ViewUserDocuments extends React.Component {
     this.props.fetchDocument({ id, limit, offset });
   }
   /**
-   * @returns {*} - null
+   * @returns {void} - null
    * recieves new props from the redux store as the
    *  component renders or rerenders
    * @param {array} nextProps - array of document recieved from redux store
@@ -55,7 +56,7 @@ export class ViewUserDocuments extends React.Component {
   }
   /**
    * updates the offset on page change
-   * @returns{*} returns a dispatch fetch document action
+   * @returns{void} returns a dispatch fetch document action
    * @param {number} data -current page selected
    * @memberof ViewUserDocuments
    */

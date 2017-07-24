@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import toastr from 'toastr';
 import { loginAction } from '../../actions/userActions';
 import Navigation from './Navigation.jsx';
-import Footer from './Footer';
+import Footer from './Footer.jsx';
 /**
  *
  * renders the login page component
@@ -25,6 +25,13 @@ export class LoginPage extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  /**
+   *
+   *
+   * @param {object} nextProps - error object from the store
+   * @return {void} - null
+   * @memberof LoginPage
+   */
   componentWillReceiveProps(nextProps) {
     this.setState({ errors: nextProps.error });
   }
@@ -142,5 +149,4 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, { loginAction })(
   withRouter(LoginPage)
 );
-
 

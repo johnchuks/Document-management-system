@@ -1,3 +1,4 @@
+/* eslint import/no-named-as-default:off */
 import React from 'react';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
@@ -5,7 +6,6 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { editProfile, getUser } from '../../actions/userActions';
 import NavigationBar from './NavigationBar.jsx';
-import Footer from './Footer';
 
 /**
  *
@@ -153,7 +153,6 @@ export class EditProfile extends React.Component {
             </div>
           </div>
         </div>
-        <Footer />
       </div>
     );
   }

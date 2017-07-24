@@ -1,7 +1,5 @@
 import { expect } from 'chai';
 import thunk from 'redux-thunk';
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
 import configureMockStore from 'redux-mock-store';
 import {
   setAuthUser,
@@ -21,7 +19,6 @@ import * as types from '../../src/constants/actionTypes';
 describe('UserActions', () => {
   const middleware = [thunk];
   const mockStore = configureMockStore(middleware);
-  const mock = new MockAdapter(axios);
   describe('dispatch Authenticated User', () => {
     it('Should set a new authenticated user', () => {
       const store = mockStore({});
@@ -51,10 +48,6 @@ describe('UserActions', () => {
   });
 
   describe('dispatch logged in user', () => {
-    beforeEach(() => {
-      mock.reset();
-    });
-
     it('Should create an AJAX CALL and login in the user successfully', (done) => {
       const userData = {
         email: 'john@test.com',
@@ -107,8 +100,18 @@ describe('UserActions', () => {
   describe('Fetch users', () => {
     it('Should create an AJAX CALL and fetch users', () => {
       const users = [
-        { email: 'john@test.com', fullName: 'john james', id: 3, roleId: 2 },
-        { email: 'test@test.com', fullName: 'john test', id: 4, roleId: 2 }
+        {
+          email: 'john@test.com',
+          fullName: 'john james',
+          id: 3,
+          roleId: 2
+        },
+        {
+          email: 'test@test.com',
+          fullName: 'john test',
+          id: 4,
+          roleId: 2
+        }
       ];
       const expected = { type: types.FETCH_USERS, user: users };
       const store = mockStore({}, expected);
@@ -121,8 +124,18 @@ describe('UserActions', () => {
     it('Should dispatch the fetch users payload', (done) => {
       const store = mockStore({});
       const users = [
-        { email: 'john@test.com', fullName: 'john james', id: 3, roleId: 2 },
-        { email: 'test@test.com', fullName: 'john test', id: 4, roleId: 2 }
+        {
+          email: 'john@test.com',
+          fullName: 'john james',
+          id: 3,
+          roleId: 2
+        },
+        {
+          email: 'test@test.com',
+          fullName: 'john test',
+          id: 4,
+          roleId: 2
+        }
       ];
       const expected = [{ type: types.FETCH_USERS, users }];
       store.dispatch(fetchUserSuccess(users));
@@ -134,7 +147,10 @@ describe('UserActions', () => {
     it('Should create an ajax request to delete users', (done) => {
       const userId = 4;
       const store = mockStore({});
-      const expected = [{ type: types.DELETE_USER, payload: userId }];
+      const expected = [{
+        type: types.DELETE_USER,
+        payload: userId
+      }];
       store.dispatch(deleteUser(userId)).then(() => {
         expect(store.getActions()).to.deep.equal(expected);
       });
@@ -143,14 +159,21 @@ describe('UserActions', () => {
     it('Should dispatch the delete user action', () => {
       const userId = 4;
       const store = mockStore({});
-      const expected = [{ type: types.DELETE_USER, payload: userId }];
+      const expected = [{
+        type: types.DELETE_USER,
+        payload: userId
+      }];
       store.dispatch(deleteUserSuccess(userId));
       expect(store.getActions()).to.deep.equal(expected);
     });
   });
   describe('Edit Profile', () => {
     it('Should make an AJAX call to update user', (done) => {
-      const user = { email: 'john@test.com', fullName: 'john james', id: 3 };
+      const user = {
+        email: 'john@test.com',
+        fullName: 'john james',
+        id: 3
+      };
       const store = mockStore({});
       const expected = [{ type: types.EDIT_PROFILE, user: user }];
       store.dispatch(editProfile(user)).then(() => {
@@ -159,7 +182,11 @@ describe('UserActions', () => {
       done();
     });
     it('Should dispatch the update user action', () => {
-      const user = { email: 'john@test.com', fullName: 'john james', id: 3 };
+      const user = {
+        email: 'john@test.com',
+        fullName: 'john james',
+        id: 3
+      };
       const store = mockStore({});
       const expected = [{ type: types.EDIT_PROFILE, user: user }];
       const profileUpdate = store.dispatch(editProfileSuccess(user));

@@ -28,8 +28,8 @@ export default {
       .waitForElementVisible('body')
       .click('#navSignup')
       .click('#signupButton')
-      .waitForElementVisible('span.help-block')
-      .assert.containsText('span.help-block', 'This Field is Required')
+      .waitForElementVisible('div.toast-message')
+      .assert.containsText('div.toast-message', 'All fields are required')
       .end(),
 
   'Sign a user in successfully': browser =>
@@ -52,7 +52,7 @@ export default {
       .setValue('input[name=password]', 'baddest')
       .click('#loginButton')
       .waitForElementVisible('div.toast-message')
-      .assert.containsText('.toast-message', 'Invalid User Credentials'),
+      .assert.containsText('.toast-message', 'This account does not exist'),
 
   'Login without the required fields': browser =>
     browser
@@ -122,5 +122,7 @@ export default {
       .click('button#searchButton')
       .pause(2000)
       .waitForElementVisible('td')
+      .assert.containsText('td', 'john chuks')
+      .assert.containsText('td', 'efemonet@andela.com')
       .end(),
 };

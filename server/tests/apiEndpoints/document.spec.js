@@ -225,6 +225,11 @@ describe('Documents', () => {
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).be.a('object');
+          expect(res.body.document[1]).to.have.property('userId').to.equal(2)
+          expect(res.body.document[1]).to.have.property('title')
+          .to.equal('John naddddd');
+          expect(res.body.document[1]).to.have.property('content')
+          .to.equal('John watches american gods regularly');
           done();
         });
     });
@@ -278,8 +283,9 @@ describe('Documents', () => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('access').to.equal('private');
-          expect(res.body).to.have.property('title');
-          expect(res.body).to.have.property('id');
+          expect(res.body).to.have.property('title').to.equal('John naddddd');
+          expect(res.body).to.have.property('id').to.equal(2);
+          expect(res.body).to.have.property('userId').to.equal(2);
           done();
         });
     });
@@ -303,8 +309,8 @@ describe('Documents', () => {
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
-          expect(res.body).to.have.property('id');
-          expect(res.body).to.have.property('title');
+          expect(res.body).to.have.property('id').to.equal(3);
+          expect(res.body).to.have.property('title').to.equal('James Hannn');
           expect(res.body).to.have.property('access').to.equal('role');
           done();
         });
@@ -317,8 +323,8 @@ describe('Documents', () => {
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.be.a('object');
-          expect(res.body).to.have.property('id');
-          expect(res.body).to.have.property('title');
+          expect(res.body).to.have.property('id').to.equal(3);
+          expect(res.body).to.have.property('title').to.equal('James Hannn');
           expect(res.body).to.have.property('access').to.equal('role');
         });
         done();
@@ -390,7 +396,6 @@ describe('Documents', () => {
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(204);
-          expect(res.body).to.be.a('object');
           done();
         });
     });
@@ -401,7 +406,6 @@ describe('Documents', () => {
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(204);
-          expect(res.body).to.be.a('object');
           done();
         });
     });
@@ -449,7 +453,10 @@ describe('Documents', () => {
         .end((err, res) => {
           expect(res.status).to.equal(200);
           expect(res.body).to.have.property('document');
+          expect(res.body.document[0]).to.have.property('title').to.equal('John Doe');
+          expect(res.body.document[0]).to.have.property('content').to.equal('eze goes to school');
           expect(res.body).to.have.property('pagination');
+          expect(res.body.paginaton).to.have.property('totalCount').to.equal(1);
         });
      });
      it('Should throw an error if the searched document is not found', () => {

@@ -30,8 +30,8 @@ export class UpdateDocumentForm extends React.Component {
 
   /**
    *
-   * @return {*} - null
-   * @param {*} event - on change value from the input field
+   * @return {void} - null
+   * @param {void} event - on change event from the input field
    * @memberof UpdateDocumentForm
    */
   handleChange(event) {
@@ -39,8 +39,8 @@ export class UpdateDocumentForm extends React.Component {
   }
   /**
    *
-   * @return {*} - null
-   * @param {*} event - on option change value from the select option field
+   * @return {void} - null
+   * @param {void} event - on option change event from the select option field
    * @memberof UpdateDocumentForm
    */
   optionChange(event) {
@@ -48,8 +48,8 @@ export class UpdateDocumentForm extends React.Component {
   }
   /**
    *
-   * @return {*} - null
-   * @param {*} event - on change value from the text editor
+   * @return {void} - null
+   * @param {void} event - on change event from the text editor
    * @memberof UpdateDocumentForm
    */
   handleEditorChange(event) {
