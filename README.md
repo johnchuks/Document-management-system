@@ -1,8 +1,8 @@
 # DocumentME- Document Management System
 
 [![Build Status](https://travis-ci.org/andela-johia/Document-management-system.svg?branch=staging)](https://travis-ci.org/andela-johia/Document-management-system)
-
 [![Coverage Status](https://coveralls.io/repos/github/andela-johia/Document-management-system/badge.svg?branch=feature%2F147917171%2Fget-users-and-search-documents)](https://coveralls.io/github/andela-johia/Document-management-system?branch=feature%2F147917171%2Fget-users-and-search-documents)
+[![Code Climate](https://codeclimate.com/github/codeclimate/codeclimate/badges/gpa.svg)](https://codeclimate.com/github/codeclimate/codeclimate)
 
 
 ## Introduction
@@ -50,7 +50,14 @@ Ensure that project dependencies are installed before running tests.
 ### Server tests
 * Open a terminal and navigate to the project directory
 * Add a test database url (DATABASE_URL) to the `.env` file.
-* Run `npm test`
+* Run `npm run test:server`.
+
+### Client tests
+* Open a terminal and navigate to the project directory
+* Run `npm run test:client`.
+
+### End-to-End tests
+* Run `npm run e2e`
 
 
 ## Limitations
@@ -64,6 +71,7 @@ Contributions are always welcomed to the project. If you are interested in enhan
  * Fork the project to your repository then clone it to your local machine.
  * Create a new branch and make the necessary enhancement to the features.
  * If the you wish to update an existing enhancement submit a pull request.
+ * Pull requests should follow the standard format adopted for this project.
  * If you are unsure about certain areas in the project feel to ask for assistance.
 
 ## Licence

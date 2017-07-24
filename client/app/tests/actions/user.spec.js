@@ -48,10 +48,6 @@ describe('UserActions', () => {
   });
 
   describe('dispatch logged in user', () => {
-    beforeEach(() => {
-      mock.reset();
-    });
-
     it('Should create an AJAX CALL and login in the user successfully', (done) => {
       const userData = {
         email: 'john@test.com',
