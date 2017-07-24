@@ -36,10 +36,11 @@ describe('Roles', () => {
       .send({ title: 'kiba' })
       .set({ 'authorization': adminToken })
       .end((err, res) => {
-        expect(res.status).to.equal(204);
+        expect(res.status).to.equal(201);
         expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message').to.equal('Role successfully created');
         expect(res.body).to.have.property('role');
+        expect(res.body.role).to.have.property('title').to.equal('kiba');
       });
       done();
     });

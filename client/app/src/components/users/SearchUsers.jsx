@@ -8,7 +8,7 @@ import ReactPaginate from 'react-paginate';
 import NavigationBar from '../users/NavigationBar.jsx';
 import { searchUser } from '../../actions/userActions';
 import SearchedUsersList from './SearchedUsersList.jsx';
-import Footer from './Footer.jsx';
+
 
 /**
  *
@@ -145,7 +145,6 @@ export class SearchUsers extends React.Component {
         : ''
         }
         </div>
-        <Footer />
       </div>
     );
   }

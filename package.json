@@ -12,7 +12,8 @@
     "build": "webpack -w & babel-node -- server/config/server.js & nodemon server/config/server.js",
     "rebuild:testdb": "NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate",
     "seed:testdb": "NODE_ENV=test sequelize db:seed:all",
-    "test-build": "npm run rebuild:testdb && npm run seed:testdb"
+    "test-build": "npm run rebuild:testdb && npm run seed:testdb",
+    "e2e": "nightwatch"
   },
   "nyc": {
     "require": [
