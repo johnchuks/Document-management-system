@@ -78,9 +78,10 @@ describe('Authentication', () => {
         url: '/api/v1/documents/',
         headers: { 'x-access-token': userToken }
       });
-      request.locals = { decoded: { roleId: 2 } }
+      request.decoded = { roleId: 2 };
       const response = httpMocks.createResponse();
       const nextCallBack = () => { };
+      auth.adminAccess(request, response, nextCallBack);
       response.on('end', () => {
         expect(response._getData().message).to.equal('You are not authorized');
       });
@@ -92,9 +93,10 @@ describe('Authentication', () => {
         url: '/api/v1/documents/',
         headers: { 'x-access-token': adminToken }
       });
-      request.locals = { decoded: { roleId: 1 } }
+      request.decoded = { roleId: 1 };
       const response = httpMocks.createResponse();
       const nextCallBack = () => { };
+      auth.adminAccess(request, response, nextCallBack);
       response.on('end', () => {
         expect(response._getData().message).to.equal(undefined);
       });
