@@ -74,7 +74,7 @@ describe('<AllDocuments />', () => {
       expect(wrapper.find('div').length).to.equal(3);
     });
     it('Should have a ReactPaginate component', () => {
-      expect(wrapper.find(ReactPaginate).length).to.equal(1);
+      expect(wrapper.find(ReactPaginate).length).to.equal(0);
     });
    });
 });
