@@ -1,11 +1,11 @@
+/* eslint import/no-named-as-default:off */
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-//import DocumentForm from '../documents/DocumentForm.jsx';
 import AllDocuments from '../documents/AllDocuments.jsx';
 import  NavigationBar from './NavigationBar.jsx';
-import Footer from '../users/Footer';
+import Footer from '../users/Footer.jsx';
 
 /**
  * renders all documents component and document form component

@@ -11,7 +11,6 @@ import NavigationBar from '../users/NavigationBar.jsx';
 import  UpdateDocumentForm  from './UpdateDocumentForm.jsx';
 import DeleteDocument  from './DeleteDocument.jsx';
 import DocumentView from './DocumentView.jsx';
-import Footer from '../users/Footer.jsx';
 
 /**
  *
@@ -119,7 +118,6 @@ export class ViewUserDocuments extends React.Component {
             ))}
           </div>
         </div>
-        <Footer />
       </div>
     );
   }

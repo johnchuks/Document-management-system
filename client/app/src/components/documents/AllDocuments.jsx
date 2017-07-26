@@ -73,20 +73,21 @@ export class AllDocuments extends React.Component {
     const publicRoleDocument = this.state.documents;
     return (
       <div>
-        <ReactPaginate
-          previousLabel={'previous'}
-          nextLabel={'next'}
-          breakLabel={<a href="">...</a>}
-          breakClassName={'break-me'}
-          pageCount={this.props.pageCount}
-          initialPage={0}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={this.handlePageChange}
-          containerClassName={'pagination'}
-          subContainerClassName={'pages pagination'}
-          activeClassName={'active'}
-        />
+        {publicRoleDocument.length > 0 ?
+          <ReactPaginate
+            previousLabel={'previous'}
+            nextLabel={'next'}
+            breakLabel={<a href="">...</a>}
+            breakClassName={'break-me'}
+            pageCount={this.props.pageCount}
+            initialPage={0}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={this.handlePageChange}
+            containerClassName={'pagination'}
+            subContainerClassName={'pages pagination'}
+            activeClassName={'active'}
+          /> : ''}
         <div className="container">
           <div className="row">
             {publicRoleDocument.map((documents, index) => (
