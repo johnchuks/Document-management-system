@@ -114,7 +114,7 @@ export class DocumentForm extends React.Component {
                 />
               </div>
               <div className="col s6">
-                <label>Select role type</label>
+                <label>Select access type</label>
                 <select
                   className="browser-default"
                   onChange={this.optionChange}

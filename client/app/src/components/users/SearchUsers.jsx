@@ -103,11 +103,14 @@ export class SearchUsers extends React.Component {
     const searchUsersList = searchList.filter(
       user => user.roleId !== 1
     );
+    const search = {
+      marginLeft: '40%',
+    };
     return (
       <div>
         <NavigationBar />
         <br />
-        <h4 className="search-heading">Search For Users</h4>
+        <h4 className="search-heading" style={search}>Search For Users</h4>
         <div className="searchBar">
           <input
             id="searchBar"

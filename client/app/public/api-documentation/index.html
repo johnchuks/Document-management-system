@@ -307,6 +307,9 @@
                   </li>
               </ul>
           </li>
+          <li>
+            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+          </li>
       </div>
         <ul class="toc-footer">
             <li><span>&copy; Johnbosco Ohia</span></li>
@@ -318,14 +321,17 @@
         <h1 id='introduction'>Introduction</h1>
 <p>DocumentME contains restful API endpoints that allow users to create, read, update, and delete documents. It also has dedicated restful endpoints for the admin which allows deleting a users, creating, updated and deleting roles. These endpoints are only accessed when the user is authenticated</p>
 <h2 id='development'>Development</h2>
-<p>DocumentME is a <a href="http://nodejs.org/">NodeJs</a> application. <a href="http://docs.sequelizejs.com/">Sequelize</a> is used as the ORM with <a href="http://postgresql.com/">Postgres</a>.</p>
+<p>DocumentME is a <a href="http://nodejs.org/">NodeJs</a> application. <a href="http://docs.sequelizejs.com/">Sequelize</a> is used as the ORM with <a href="http://postgresql.com/">Postgresql</a>.</p>
 <h2 id='installation'>Installation</h2>
-<p>Follow the steps below to setup a local development environment. First ensure you have <a href="https://www.postgresql.org/">Postgresql</a> installed, and a version of <a href="http://nodejs.org/">Node.js</a> greater than or equal to v6.8.0.
-1. Clone the repository from a terminal with `<code>.
-2. Move into the project directory with</code>cd Document-management-system<code>
-3. Create a</code>.env<code>file and add your database URL as the key name</code>DATABASE URL<code>.
-4. Install all project dependencies with</code>npm install<code>
-5. Run</code>npm start` to start the server.</p>
+<p>Follow the steps below to setup a local development environment. First ensure you have <a href="https://www.postgresql.org/">Postgresql</a> installed, and a version of <a href="http://nodejs.org/">Node.js</a> greater than or equal to v6.8.0.</p>
+
+<ul>
+<li>Clone the repository from a terminal with <code>https://github.com/andela-johia/Document-management-system.git</code>.</li>
+<li>Move into the project directory with <code>cd Document-management-system</code></li>
+<li>Create a <code>.env</code> file and add your database URL as the key name <code>DATABASE URL</code>.</li>
+<li>Install all project dependencies with <code>npm install</code></li>
+<li>Run <code>npm start</code> to start the server.</li>
+</ul>
 <h2 id='api-summary'>API Summary</h2><h3 id='users'>Users</h3>
 <table><thead>
 <tr>
@@ -522,6 +528,13 @@
 </ul>
 <h2 id='get-user'>Get User</h2>
 <blockquote>
+<p>Request:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="nl">id</span><span class="p">:</span><span class="mi">4</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
 <p>Response:</p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
@@ -530,7 +543,6 @@
   <span class="s2">"userName"</span><span class="p">:</span> <span class="s2">"naruto"</span><span class="p">,</span>
   <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"Justus.Ryan89@hotmail.com"</span><span class="p">,</span>
   <span class="s2">"roleId"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-  <span class="s2">"about"</span><span class="p">:</span> <span class="s2">"I love playing chess."</span>
 <span class="p">}</span>
 </code></pre><h3 id='request-3'>Request</h3>
 <ul>
@@ -747,8 +759,8 @@ Add Comment C</li>
 <p>Request:</p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
-  <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Things fall apart"</span><span class="p">,</span>
-  <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Okonkwo fought bravely against despair"</span><span class="p">,</span>
+  <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"New Document"</span><span class="p">,</span>
+  <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Okonkwo fought bravely against the foreigners"</span><span class="p">,</span>
   <span class="s2">"access"</span><span class="p">:</span> <span class="s2">"private"</span>
 <span class="p">}</span>
 </code></pre>
@@ -757,8 +769,8 @@ Add Comment C</li>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"id"</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span>
-  <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Things fall apart"</span><span class="p">,</span>
-  <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Okonkwo fought bravely against despair"</span><span class="p">,</span>
+  <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"New Document"</span><span class="p">,</span>
+  <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Okonkwo fought bravely against the foreigners"</span><span class="p">,</span>
   <span class="s2">"access"</span><span class="p">:</span> <span class="s2">"private"</span><span class="p">,</span>
   <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
   <span class="s2">"createdAt"</span><span class="p">:</span> <span class="s2">"2017-05-28T22:43:37.097Z"</span><span class="p">,</span>
@@ -775,6 +787,13 @@ Add Comment C</li>
 <li>Body <code>(application/json)</code></li>
 </ul>
 <h2 id='find-document'>Find Document</h2>
+<blockquote>
+<p>Request:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="nl">id</span><span class="p">:</span><span class="mi">45</span>
+<span class="p">}</span>
+</code></pre>
 <blockquote>
 <p>Response:</p>
 </blockquote>
@@ -1039,6 +1058,36 @@ Add Comment C</li>
 <li>Status: <code>204: No content</code></li>
 <li>Body <code>(application/json)</code></li>
 </ul>
+<h1 id='errors'>Errors</h1>
+<p>The DocumentME API uses the following error codes:</p>
+
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td>Bad Request -- This occurs when the request made was a bad request.</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized -- Your token has not been verified or invalid token.</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden -- The users and roles are hidden for administrators only.</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found --  Users or Documents not found.</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
+</tr>
+</tbody></table>
 
       </div>
       <div class="dark-box">

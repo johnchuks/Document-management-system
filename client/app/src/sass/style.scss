@@ -105,11 +105,9 @@
     height: 50px;
   }
 
-  // #titleHeader {
-  //   margin-left: 150px;
-  //   margin-bottom: 40px;
-  //   margin-top: 35px;
-  // }
+ .nav-wrapper {
+  background-color: #31874D;
+ }
   #formField {
     margin-left: 400px !important;
     z-index: -1;
@@ -191,19 +189,19 @@ input[type=password] {
 
 }
 
-// #deleteUserIcon {
-//   margin-right: 40px;
-//   margin-left: 35px;
-//   padding-top: 25px;
-// }
-
+.pagination li.active {
+  background-color: #31874D;
+}
+.page-footer {
+  background-color: #31874D;
+}
 
 #welcomeName {
   margin-left: 80px;
   color:white;
 }
 .user-view {
-  background: #ee6e73;
+ background: #31874D;
 }
 .bordered {
   max-width: 70%;
