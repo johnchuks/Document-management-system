@@ -59,6 +59,31 @@ const fetchDocumentError = error => ({
 });
 
 /**
+ * @return {array} - array of users document
+ * dispatch fetchDocument payload to the reducer
+ * @param {array} document - fetched user document
+ */
+const fetchDocumentSuccess = document => ({
+  type: FETCH_USER_DOCUMENTS,
+  payload: document
+});
+
+/**
+ * @return {array} - array of fetched documents
+ *fetches all user documents with the limit and offsets as queries
+ * @param {object} user - an object containing the id and offsets limits
+ */
+const fetchDocument = ({ limit, offset, id }) => dispatch =>
+axios.get(`/api/v1/users/${id}/documents/
+?limit=${limit}&offset=${offset}`)
+.then((response) => {
+  const userDocuments = response.data;
+  dispatch(fetchDocumentSuccess(userDocuments));
+}).catch((error) => {
+  dispatch(fetchDocumentError(error.response.data));
+});
+
+/**
  *
  * @return {object} - error object
  * @param {object} error - dispatched error object
@@ -95,7 +120,9 @@ const searchDocumentError = error => ({
 const createDocument = document => dispatch =>
 axios.post('/api/v1/documents', document).then((response) => {
   const documentData = response.data;
+  const id = documentData.userId;
   dispatch(createDocumentSuccess(documentData));
+  dispatch(fetchDocument({ id, limit: 6, offset: 0 }));
 }).catch((error) => {
   dispatch(createDocumentError(error.response.data));
 });
@@ -115,30 +142,6 @@ const fetchAllDocuments = ({ offset, limit }) => dispatch => axios
     dispatch(fetchAllDocumentsError(error.response.data));
   });
 
-/**
- * @return {array} - array of users document
- * dispatch fetchDocument payload to the reducer
- * @param {array} document - fetched user document
- */
-const fetchDocumentSuccess = document => ({
-  type: FETCH_USER_DOCUMENTS,
-  payload: document
-});
-
-/**
- * @return {array} - array of fetched documents
- *fetches all user documents with the limit and offsets as queries
- * @param {object} user - an object containing the id and offsets limits
- */
-const fetchDocument = ({ limit, offset, id }) => dispatch =>
-axios.get(`/api/v1/users/${id}/documents/
-?limit=${limit}&offset=${offset}`)
-.then((response) => {
-  const userDocuments = response.data;
-  dispatch(fetchDocumentSuccess(userDocuments));
-}).catch((error) => {
-  dispatch(fetchDocumentError(error.response.data));
-});
 
 /**
  * @return {object} - updated document
@@ -181,9 +184,11 @@ const deleteDocumentSuccess = documentId => ({
  * performs a delete document request to the server
  * @param {object} documentId - document to be deleted
  */
-const deleteDocument = documentId => dispatch =>
+const deleteDocument = ({ documentId, userId }) => dispatch =>
  axios.delete(`/api/v1/documents/${documentId}`).then(() => {
+   const id = userId;
    dispatch(deleteDocumentSuccess(documentId));
+   dispatch(fetchDocument({ id, limit: 6, offset: 0 }));
  }).catch((error) => {
    dispatch(deleteDocumentError(error.response.data));
  });

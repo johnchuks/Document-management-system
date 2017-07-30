@@ -78,7 +78,7 @@ export class NavigationBar extends React.Component {
         key: 'mydocumentNav'
       },
       {
-        to: '/searchdocument',
+        to: '/document/search',
         icon: 'search',
         text: 'Search Documents',
         key: 'searchdocumentNav'
@@ -93,13 +93,13 @@ export class NavigationBar extends React.Component {
     const adminUser = [
       ...nonAdminUser,
       {
-        to: '/searchuser',
+        to: '/user/search',
         icon: 'search',
         text: 'search Users',
         key: 'searchuserNav'
       },
       {
-        to: '/viewusers',
+        to: '/users/manage',
         icon: 'people',
         text: 'Manage Users',
         key: 'manageusersNav'

@@ -6,8 +6,9 @@ const helper = require('../helpers/helper.js');
 
 const jwtSecret = process.env.JWT_SECRET;
 const User = models.User;
-const metaData = helper.paginationMetaData;
+const pagination = helper.paginationMetaData;
 const responseUserHelper = helper.responseUserHelper;
+const updateProfileHelper = helper.updateProfile;
 const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 module.exports = {
@@ -119,24 +120,15 @@ module.exports = {
         if (!user) {
           return responseUserHelper(res);
         }
-        return user
-          .update({
-            fullName: req.body.fullName || user.fullName,
-            userName: req.body.userName || user.userName,
-            email: req.body.email || user.email,
-            password: req.body.password || user.password,
-            roleId: req.body.roleId || user.roleId
-          })
-          .then((updatedUser) => {
-            res.status(200).send({
-              id: updatedUser.id,
-              fullName: updatedUser.fullName,
-              userName: updatedUser.userName,
-              email: updatedUser.email,
-              roleId: updatedUser.roleId
-            });
-          })
-          .catch(error => res.status(400).send(error));
+        if (req.body.oldPassword) {
+          if (bcrypt.compareSync(req.body.oldPassword, user.password)) {
+            return updateProfileHelper(req, res, user);
+          }
+          return res.status(400).json({
+            message: 'Invalid password'
+          });
+        }
+        return updateProfileHelper(req, res, user);
       })
       .catch(error => res.status(400).send(error));
   },
@@ -239,7 +231,7 @@ module.exports = {
     .then(({ rows: user, count }) => {
       res.status(200).send({
         user,
-        pagination: metaData(count, limit, offset)
+        pagination: pagination(count, limit, offset)
       });
     })
     .catch(error => res.status(400).send(error));
@@ -289,7 +281,7 @@ module.exports = {
       }
       res.status(200).send({
         user,
-        pagination: metaData(count, limit, offset)
+        pagination: pagination(count, limit, offset)
       });
     }).catch(error => res.status(400).send(error));
   }

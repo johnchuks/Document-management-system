@@ -196,6 +196,7 @@ const editProfile = (user) => {
     })
   .catch((error) => {
     dispatch(editProfileError(error.response.data));
+    return error;
   });
 };
 

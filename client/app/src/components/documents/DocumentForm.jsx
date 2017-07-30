@@ -28,6 +28,7 @@ export class DocumentForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.handleEditorChange = this.handleEditorChange.bind(this);
   }
+
   /**
    *This function receives error messages as props from the
    * store if they are any
@@ -36,7 +37,10 @@ export class DocumentForm extends React.Component {
    * @memberof DocumentForm
    */
   componentWillReceiveProps(nextProps) {
-    this.setState({ errors: nextProps.error.message });
+    this.setState({
+      errors: nextProps.error.message,
+      content:''
+  });
   }
   /**
    * handles an on change event filling in the signup form
@@ -45,7 +49,7 @@ export class DocumentForm extends React.Component {
    * @memberof DocumentForm
    */
   handleChange(event) {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ title: event.target.value });
   }
   /**
    * Handles change in the Tiny mc editor
@@ -54,7 +58,7 @@ export class DocumentForm extends React.Component {
    * @memberof DocumentForm
    */
   handleEditorChange(e) {
-    this.setState({ content: e.target.getContent() });
+    this.setState({ content: e.target.getContent({ format: 'raw' }) });
   }
   /**
    * Handles the onClick funtion
@@ -74,6 +78,11 @@ export class DocumentForm extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     this.props.createDocument(this.state).then(() => {
+      this.setState({
+        title: '',
+        value: '',
+        content: ''
+      });
       if (this.state.errors) {
         toastr.error(this.state.errors);
         this.setState({ errors: {} });
@@ -101,7 +110,7 @@ export class DocumentForm extends React.Component {
             <div className="row">
               <div className="input-field col s12">
                 <input name="title" onChange={this.handleChange}
-                  className="validate" placeholder="Title..." />
+                  className="validate" placeholder="Title" value={this.state.title} />
               </div>
               <div className="input-field col s12">
                 <TinyMCE
@@ -127,7 +136,7 @@ export class DocumentForm extends React.Component {
                 </select>
               </div>
               <Button
-                className="btn modal-action btn-large blue"
+                className="btn modal-action modal-close btn-large blue"
                 id="documentbutton"
                 onClick={this.onSubmit}
               >

@@ -40,6 +40,7 @@
   },
   "rules": {
     "import/no-unresolved": 0,
+    "import/no-named-as-default":0,
     "one-var": 0,
     "one-var-declaration-per-line": 0,
     "new-cap": 0,

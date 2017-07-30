@@ -1,4 +1,3 @@
-/* eslint import/no-named-as-default:off */
 import React from 'react';
 import { connect } from 'react-redux';
 import toastr from 'toastr';
@@ -20,8 +19,11 @@ export class EditProfile extends React.Component {
       fullName: '',
       userName: '',
       email: '',
+      oldPassword: '',
       password: '',
-      userId: this.props.id
+      confirmPassword: '',
+      userId: this.props.id,
+      error: {}
     };
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -53,9 +55,10 @@ export class EditProfile extends React.Component {
     $('.button-collapse').sideNav('hide');
     this.props.getUser(this.state.userId);
   }
+
   /**
    *
-   * @return {*} - returns a new state of the inputs
+   * @return {void} - returns a new state of the inputs
    * @param {string} event - on Change value from the inpput field
    * @memberof EditProfile
    */
@@ -65,18 +68,28 @@ export class EditProfile extends React.Component {
   }
   /**
    *
-   * @return {*} displays a toastr on success
-   * @param {*} event on click dispatches the edit profile action
+   * @return {void} displays a toastr on success
+   * @param {void} event on click dispatches the edit profile action
    * @memberof EditProfile
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.editProfile(this.state).then(() => {
-      this.props.getUser(this.state.userId);
-      toastr.success('Profile updated successfully');
-    });
+    this.setState({ error: {} });
+    if (this.state.password !== this.state.confirmPassword) {
+      toastr.error('Passwords do not match');
+    } else {
+      this.props.editProfile(this.state).then((error) => {
+        if (error) {
+          this.setState({ error: error.response.data });
+        } else {
+          this.props.getUser(this.state.userId);
+          toastr.success('Profile updated successfully');
+        }
+      });
+    }
   }
   render() {
+    const { error } = this.state;
     if (this.props.isAuthenticated === false) return null;
     const profileStyle = {
       marginLeft: '400px'
@@ -131,12 +144,39 @@ export class EditProfile extends React.Component {
               <div className="input-field col s6">
                 <input
                   id="editpassword"
+                  name="oldPassword"
+                  type="password"
+                  onChange={this.onChange}
+                  className="validate"
+                />
+                {error.message &&
+                 <span className="error-block">{error.message}
+                   </span>}
+                <label htmlFor="oldPassword">Old Password</label>
+              </div>
+            </div>
+             <div className="row">
+              <div className="input-field col s6">
+                <input
+                  id="editpassword"
                   name="password"
                   type="password"
                   onChange={this.onChange}
                   className="validate"
                 />
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">New Password</label>
+              </div>
+            </div>
+             <div className="row">
+              <div className="input-field col s6">
+                <input
+                  id="editpassword"
+                  name="confirmPassword"
+                  type="password"
+                  onChange={this.onChange}
+                  className="validate"
+                />
+                <label htmlFor="confirmPassword">Confirm Password</label>
               </div>
             </div>
             <div className="row">
@@ -147,7 +187,7 @@ export class EditProfile extends React.Component {
                   type="submit"
                   onClick={this.onSubmit}
                 >
-                  Edit Profile
+                  Save
                 </button>
               </div>
             </div>
@@ -166,7 +206,7 @@ EditProfile.propTypes = {
   id: PropTypes.number.isRequired,
   user: PropTypes.object,
   history: PropTypes.object.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -174,7 +214,7 @@ const mapStateToProps = state => ({
   fullName: state.usersReducer.user.fullName,
   userName: state.usersReducer.user.userName,
   email: state.usersReducer.user.email,
-  isAuthenticated: state.usersReducer.isAuthenticated
+  isAuthenticated: state.usersReducer.isAuthenticated,
 });
 export default
   connect(mapStateToProps, { editProfile, getUser })(withRouter(EditProfile));

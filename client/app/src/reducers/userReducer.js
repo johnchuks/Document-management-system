@@ -3,6 +3,7 @@ import {
   SET_AUTH_USERS, SET_AUTH_USERS_ERROR,
   FETCH_USERS_ERROR,
   FETCH_USERS, SEARCH_USERS,
+  EDIT_PROFILE_ERROR,
   SEARCH_USERS_ERROR, EDIT_PROFILE,
   DELETE_USER, GET_USER
 } from '../constants/actionTypes';
@@ -57,7 +58,8 @@ const usersReducer = (state = initialState, action = {}) => {
     case EDIT_PROFILE: {
       return { ...state,
         user: action.user,
-        isAuthenticated: !isEmpty(action.user)
+        isAuthenticated: !isEmpty(action.user),
+        error: {}
       };
     }
     case DELETE_USER: {
@@ -65,6 +67,7 @@ const usersReducer = (state = initialState, action = {}) => {
         .filter(user => user.id !== action.payload);
       return { ...state, users: remainingUsers };
     }
+    case EDIT_PROFILE_ERROR:
     case SEARCH_USERS_ERROR:
     case FETCH_USERS_ERROR:
     case SET_AUTH_USERS_ERROR:

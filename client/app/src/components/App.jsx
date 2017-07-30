@@ -39,9 +39,9 @@ ReactDOM.render(
   <Route exact path="/dashboard" component={DashboardPage}/>
   <Route path="/documents" component={ViewUserDocuments} />
   <Route path="/profile" component={EditProfile} />
-  <Route path="/searchdocument" component={SearchDocuments} />
-  <Route path="/viewusers" component={ViewAllUsers} />
-  <Route path="/searchuser" component={SearchUsers} />
+  <Route path="/document/search" component={SearchDocuments} />
+  <Route path="/users/manage" component={ViewAllUsers} />
+  <Route path="/user/search" component={SearchUsers} />
 
   </Switch>
 </Router>

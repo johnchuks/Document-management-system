@@ -1,10 +1,10 @@
 const models = require('../models');
-const pagination = require('../helpers/helper.js');
+const paginationHelper = require('../helpers/helper.js');
 const responseHelper = require('../helpers/helper').responseHelper;
 
 const Document = models.Document;
 const User = models.User;
-const metaData = pagination.paginationMetaData;
+const pagination = paginationHelper.paginationMetaData;
 
 
 module.exports = {
@@ -190,7 +190,7 @@ module.exports = {
       .then(({ rows: document, count }) => {
         res.status(200).send({
           document,
-          pagination: metaData(count, limit, offset),
+          pagination: pagination(count, limit, offset),
         });
       })
       .catch(error => res.status(400).send(error));
@@ -217,7 +217,7 @@ module.exports = {
       .then(({ rows: document, count }) => {
         res.status(200).send({
           document,
-          pagination: metaData(count, limit, offset),
+          pagination: pagination(count, limit, offset),
         });
       })
       .catch(error => res.status(400).send(error));
@@ -232,8 +232,8 @@ module.exports = {
    * @return {array} - array of requested user's document
    */
   getSpecificUserDocuments(req, res) {
-    const limit = req.query.limit;
-    const offset = req.query.offset;
+    const limit = req.query.limit || 6;
+    const offset = req.query.offset || 0;
     User.findById(req.params.id)
       .then((user) => {
         if (!user) {
@@ -251,7 +251,7 @@ module.exports = {
           .then(({ rows: document, count }) => {
             res.status(200).send({
               document,
-              pagination: metaData(count, limit, offset),
+              pagination: pagination(count, limit, offset),
             });
           })
           .catch(error => res.status(400).send(error));
@@ -284,7 +284,7 @@ module.exports = {
             $ne: 'private'
           },
           title: {
-            $like: `%${queryString}%`
+            $like: new RegExp(`%${queryString}%`, 'i')
           }
         },
         include: [
@@ -300,7 +300,7 @@ module.exports = {
         }
         res.status(200).send({
           document,
-          pagination: metaData(count, limit, offset),
+          pagination: pagination(count, limit, offset),
         });
       })
       .catch(error => res.status(400).send(error));
@@ -333,7 +333,7 @@ module.exports = {
         }
         res.status(200).send({
           document,
-          pagination: metaData(count, limit, offset),
+          pagination: pagination(count, limit, offset),
         });
       })
       .catch(error => res.status(400).send(error));
