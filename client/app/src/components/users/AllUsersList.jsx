@@ -1,4 +1,3 @@
-/* eslint import/no-named-as-default:off */
 import React from 'react';
 import PropTypes from 'prop-types';
 import DeleteUser from './DeleteUser.jsx';

@@ -44,12 +44,12 @@ module.exports = {
           userId: req.body.userId
         })
       .then(documentResponse => res.status(201).send(documentResponse))
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(500).send(error));
       }
       return res.status(403).json({
         message: 'Document already exists'
       });
-    }).catch(error => res.status(400).send(error));
+    }).catch(error => res.status(500).send(error));
   },
 
   //
@@ -83,9 +83,9 @@ module.exports = {
             userId: req.body.userId || document.userId
           })
           .then(() => res.status(200).send(document))
-          .catch(error => res.status(400).send(error));
+          .catch(error => res.status(500).send(error));
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(500).send(error));
   },
 
   /**
@@ -128,10 +128,10 @@ module.exports = {
               }
               return res.status(200).send(document);
             })
-            .catch(error => res.status(400).send(error));
+            .catch(error => res.status(500).send(error));
         }
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(500).send(error));
   },
   /**
    *
@@ -158,9 +158,9 @@ module.exports = {
           .destroy()
           .then(() => res.status(204)
             .send({ message: 'Document deleted successfully' }))
-          .catch(error => res.status(400).send(error));
+          .catch(error => res.status(500).send(error));
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(500).send(error));
   },
   /**
    *  get all documents
@@ -193,7 +193,7 @@ module.exports = {
           pagination: pagination(count, limit, offset),
         });
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(500).send(error));
     } else if (req.decoded.roleId !== 1) {
       return Document.findAndCountAll({
         limit,
@@ -220,7 +220,7 @@ module.exports = {
           pagination: pagination(count, limit, offset),
         });
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(500).send(error));
     }
   },
 
@@ -246,7 +246,8 @@ module.exports = {
           offset,
           where: {
             userId: user.id
-          }
+          },
+          order: [['createdAt', 'DESC']]
         })
           .then(({ rows: document, count }) => {
             res.status(200).send({
@@ -254,9 +255,9 @@ module.exports = {
               pagination: pagination(count, limit, offset),
             });
           })
-          .catch(error => res.status(400).send(error));
+          .catch(error => res.status(500).send(error));
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(500).send(error));
   },
 
   /**
@@ -284,7 +285,7 @@ module.exports = {
             $ne: 'private'
           },
           title: {
-            $like: new RegExp(`%${queryString}%`, 'i')
+            $iLike: `%${queryString}%`
           }
         },
         include: [
@@ -322,7 +323,7 @@ module.exports = {
             $ne: 'private'
           },
           title: {
-            $like: `%${queryString}%`
+            $iLike: `%${queryString}%`
           }
         },
 
@@ -336,7 +337,7 @@ module.exports = {
           pagination: pagination(count, limit, offset),
         });
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(500).send(error));
     }
   }
 };

@@ -86,7 +86,7 @@ describe('<EditProfile />', () => {
        expect(wrapper.find(NavigationBar).length).to.equal(1);
     });
     it('Should have input fields for editing profile', () => {
-      expect(wrapper.find('input')).to.have.length(4);
+      expect(wrapper.find('input')).to.have.length(6);
     });
     it('Should respond the profile name update', (done) => {
       const event = {

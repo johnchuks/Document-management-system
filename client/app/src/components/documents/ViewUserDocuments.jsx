@@ -1,4 +1,3 @@
-/* eslint import/no-named-as-default:off */
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';

@@ -83,15 +83,17 @@ export class UpdateDocumentForm extends React.Component {
           <form className="col s12">
             <div className="row">
               <div className="input-field col s12">
+                <div id="input">
                 <input
                   id="title"
                   name="title"
                   type="text"
+                  placeholder="Title"
                   onChange={this.handleChange}
                   value={this.state.title}
                   className="validate"
                 />
-                <label htmlFor="title">Title</label>
+                </div>
               </div>
               <div className="input-field col s12">
                 <TinyMCE

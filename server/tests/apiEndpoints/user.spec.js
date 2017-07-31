@@ -49,7 +49,7 @@ describe('Users', () => {
         .send(user)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('message').to.equal('All fields are required');
+          expect(res.body).to.have.property('fullName').to.equal('This Field is Required');
           done();
         });
     });
@@ -65,7 +65,7 @@ describe('Users', () => {
         .send(user)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('message').to.equal('All fields are required');
+          expect(res.body).to.have.property('userName').to.equal('This Field is Required');
           done();
         });
     });
@@ -81,7 +81,7 @@ describe('Users', () => {
         .send(user)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('message').to.equal('All fields are required');
+          expect(res.body).to.have.property('email').to.equal('This Field is Required');
           done();
         });
     });
@@ -97,7 +97,7 @@ describe('Users', () => {
         .send(user)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('message').to.equal('All fields are required');
+          expect(res.body).to.have.property('password').to.equal('This Field is Required');
           done();
         });
     });
@@ -128,7 +128,7 @@ describe('Users', () => {
         .send(samples.sampleUser2)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('message').to.equal('Email is not rightly formatted');
+          expect(res.body).to.have.property('email').to.equal('Email is not rightly formatted');
           done();
         });
     });
@@ -158,7 +158,6 @@ describe('Users', () => {
         .send(samples.user)
         .end((err, res) => {
           expect(res.status).to.equal(201);
-          expect(res.body).to.have.property('success').to.equal(true);
           expect(res.body).to.have.property('token');
           done();
         });
@@ -183,7 +182,7 @@ describe('Users', () => {
         .send(mockUser)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('message').to.equal('All fields are required');
+          expect(res.body).to.have.property('email').to.equal('This field is required');
           done();
         });
     });
@@ -197,7 +196,7 @@ describe('Users', () => {
         .send(mockUser)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('message').to.equal('Email is invalid');
+          expect(res.body).to.have.property('email').to.equal('Email is invalid');
           done();
         });
     });
@@ -211,8 +210,7 @@ describe('Users', () => {
         .send(mockUser)
         .end((err, res) => {
           expect(res.status).to.equal(401);
-          expect(res.body).to.have.property('message').to.equal('Password is Invalid');
-          expect(res.body).to.have.property('success').to.equal(false);
+          expect(res.body).to.have.property('password').to.equal('Password is Invalid');
           done();
         });
     });
@@ -304,7 +302,7 @@ describe('Users', () => {
         .get(`/api/v1/users/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
+          expect(res.status).to.equal(500);
           expect(res.body).to.have.property('message').to.equal(`invalid input syntax for integer: "${id}"`);
           done();
         });
@@ -337,7 +335,7 @@ describe('Users', () => {
         .get(`/api/v1/users/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
+          expect(res.status).to.equal(500);
           expect(res.body).to.have.property('message').to.equal(`value "${id}" is out of range for type integer`);
           done();
         });

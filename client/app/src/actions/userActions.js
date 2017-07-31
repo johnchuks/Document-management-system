@@ -126,6 +126,7 @@ axios.post('/api/v1/users/login', user).then((response) => {
   dispatch(setAuthUser(jwtDecode(token)));
 }).catch((error) => {
   dispatch(setAuthUserError(error.response.data));
+  return error;
 });
 
 /**

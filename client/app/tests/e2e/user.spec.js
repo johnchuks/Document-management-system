@@ -17,9 +17,28 @@ export default {
       .setValue('input[name=password]', password)
       .click('#signupButton')
       .waitForElementVisible('h5.all-documents')
-      .click('a#navLogout')
-      .waitForElementVisible('div#navLogin')
-      .assert.containsText('#navLogin', 'DocumentME')
+      .assert.containsText('h5.all-documents', 'All Documents'),
+
+   'Update a user': browser =>
+    browser
+      .url(`${config.url}/profile`)
+      .waitForElementVisible('body')
+      .waitForElementVisible('h4.searchHeading')
+      .pause(500)
+      .assert.containsText('h4.searchHeading', 'Edit Profile')
+      .clearValue('input[name=fullName]')
+      .setValue('input[name=fullName]', fullName)
+      .pause(500)
+      .clearValue('input[name=userName]')
+      .setValue('input[name=userName]', userName)
+      .click('button#editButton')
+      .pause(500)
+      .waitForElementVisible('div.toast-message')
+      .pause(500)
+      .click('a.button-collapse.navigationCollapse')
+      .waitForElementVisible('span#welcomeName')
+      .pause(1000)
+      .assert.containsText('span#welcomeName.name', `Welcome ${fullName}!`)
       .end(),
 
   'Invalid signup': browser =>
@@ -28,9 +47,11 @@ export default {
       .waitForElementVisible('body')
       .click('#navSignup')
       .click('#signupButton')
-      .waitForElementVisible('div.toast-message')
-      .assert.containsText('div.toast-message', 'All fields are required')
+      .waitForElementVisible('span.error-block')
+      .assert.containsText('span.error-block', 'This Field is Required')
       .end(),
+
+
 
   'Sign a user in successfully': browser =>
     browser
@@ -40,6 +61,7 @@ export default {
       .setValue('input[name=password]', 'adminpassword')
       .click('#loginButton')
       .waitForElementVisible('h5.all-documents')
+      .assert.containsText('h5.all-documents', 'All Documents')
       .click('a#navLogout')
       .waitForElementVisible('div#navLogin')
       .assert.containsText('#navLogin', 'DocumentME'),
@@ -61,50 +83,10 @@ export default {
       .setValue('input[name=email', '')
       .setValue('input[name=password]', '')
       .click('#loginButton')
-      .waitForElementVisible('div.toast-message')
-      .assert.containsText('div.toast-message', 'All fields are required'),
-
-  'Update a user': browser =>
-    browser
-      .url(config.url)
-      .waitForElementVisible('body')
-      .setValue('input[name=email]', 'mayowa@gmail.com')
-      .setValue('input[name=password]', 'mayor')
-      .click('#loginButton')
-      .waitForElementVisible('h5.all-documents')
-      .click('.button-collapse')
-      .click('#editprofileNav')
-      .waitForElementVisible('h4.searchHeading')
-      .assert.containsText('h4.searchHeading', 'Edit Profile')
-      .setValue('input[name=fullName]', 'john chukwuemeka')
-      .setValue('input[name=userName]', 'oj811')
-      .click('button#editButton')
-      .waitForElementVisible('div.toast-message')
-      .click('.button-collapse')
-      .waitForElementVisible('span#welcomeName')
+      .waitForElementVisible('span.error-block')
+      .assert.containsText('span.error-block', 'This field is required')
+      .pause(1000)
       .end(),
-
-  'Delete a user as an admin': browser =>
-    browser
-      .url(config.url)
-      .waitForElementVisible('body')
-      .setValue('input[name=email]', 'johnbosco.ohia@andela.com')
-      .setValue('input[name=password]', 'adminpassword')
-      .click('#loginButton')
-      .waitForElementVisible('h5.all-documents')
-      .click('.button-collapse')
-      .click('a#manageusersNav')
-      .waitForElementVisible('h5.manage-users')
-      .assert.containsText('h5.manage-users', 'Manage Users')
-      .click('li.next')
-      .waitForElementVisible('button#deleteUserButton')
-      .click('button#deleteUserButton')
-      .waitForElementVisible('div.modal-content')
-      .assert.containsText(
-        'div.modal-content',
-        'Are you sure you want to delete this user'
-      )
-      .click('button#noButton'),
 
   'Search for users': browser =>
     browser
@@ -122,7 +104,36 @@ export default {
       .click('button#searchButton')
       .pause(2000)
       .waitForElementVisible('td')
-      .assert.containsText('td', 'john chuks')
-      .assert.containsText('td', 'efemonet@andela.com')
+      .assert.containsText('td', 'john bosco')
       .end(),
+
+  'Delete a user as an admin': browser =>
+    browser
+      .url(config.url)
+      .waitForElementVisible('body')
+      .setValue('input[name=email]', 'johnbosco.ohia@andela.com')
+      .setValue('input[name=password]', 'adminpassword')
+      .click('#loginButton')
+      .waitForElementVisible('h5.all-documents')
+      .click('.button-collapse')
+      .pause(500)
+      .click('a#manageusersNav')
+      .pause(500)
+      .waitForElementVisible('h5.manage-users')
+      .pause(500)
+      .assert.containsText('h5.manage-users', 'Manage Users')
+      .click('li.next')
+      .waitForElementVisible('button#deleteUserButton')
+      .pause(500)
+      .click('button#deleteUserButton')
+      .waitForElementVisible('div.modal-content')
+      .pause(500)
+      .assert.containsText(
+        'div.modal-content',
+        'Are you sure you want to delete this user'
+      )
+      .click('button#yesButton')
+      .waitForElementVisible('div.toast-message')
+      .assert.containsText('div.toast-message', 'user deleted successfully'),
+
 };

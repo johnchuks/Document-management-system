@@ -59,6 +59,7 @@ export class DocumentForm extends React.Component {
    */
   handleEditorChange(e) {
     this.setState({ content: e.target.getContent({ format: 'raw' }) });
+    this.tinymce = e.target;
   }
   /**
    * Handles the onClick funtion
@@ -78,6 +79,7 @@ export class DocumentForm extends React.Component {
   onSubmit(event) {
     event.preventDefault();
     this.props.createDocument(this.state).then(() => {
+      if (this.tinymce) this.tinymce.setContent('');
       this.setState({
         title: '',
         value: '',

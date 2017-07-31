@@ -200,7 +200,6 @@ describe('Documents', () => {
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(404);
-          expect(res.body).be.a('object');
           expect(res.body).to.have.property('message').to.equal('User not found');
           done();
         });
@@ -211,9 +210,7 @@ describe('Documents', () => {
         .get(`/api/v1/users/${userId}/documents`)
         .end((err, res) => {
           expect(res.status).to.equal(403);
-          expect(res.body).be.a('object');
           expect(res.body).to.have.property('message').to.equal('No token provided.');
-          expect(res.body).to.have.property('success').to.equal(false);
           done();
         });
     });
@@ -223,13 +220,13 @@ describe('Documents', () => {
         .get(`/api/v1/users/${userId}/documents`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
+          console.log(res.body.document, '------>');
           expect(res.status).to.equal(200);
-          expect(res.body).be.a('object');
-          expect(res.body.document[1]).to.have.property('userId').to.equal(2)
-          expect(res.body.document[1]).to.have.property('title')
-          .to.equal('John naddddd');
-          expect(res.body.document[1]).to.have.property('content')
-          .to.equal('John watches american gods regularly');
+          expect(res.body.document[0]).to.have.property('userId').to.equal(2);
+          expect(res.body.document[0]).to.have.property('title')
+          .to.equal('kiba-team');
+          expect(res.body.document[0]).to.have.property('content')
+          .to.equal('Andela is really awesome!!!');
           done();
         });
     });
@@ -243,7 +240,6 @@ describe('Documents', () => {
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(404);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('Document not found');
           done();
         });
@@ -255,7 +251,6 @@ describe('Documents', () => {
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('id').to.equal(4);
           expect(res.body).to.have.property('title').to.equal('kiba-team');
           expect(res.body).to.have.property('access').to.equal('public');
@@ -269,7 +264,6 @@ describe('Documents', () => {
         .set({ 'authorization': sampleUserToken })
         .end((err, res) => {
           expect(res.status).to.equal(401);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('You are not authorized to view this document');
           done();
         });
@@ -308,7 +302,6 @@ describe('Documents', () => {
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('id').to.equal(3);
           expect(res.body).to.have.property('title').to.equal('James Hannn');
           expect(res.body).to.have.property('access').to.equal('role');
@@ -322,7 +315,6 @@ describe('Documents', () => {
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('id').to.equal(3);
           expect(res.body).to.have.property('title').to.equal('James Hannn');
           expect(res.body).to.have.property('access').to.equal('role');
@@ -340,7 +332,6 @@ describe('Documents', () => {
         .send({ title: 'narruto shippuden' })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('id').to.equal(2);
           expect(res.body).to.have.property('title').to.equal('narruto shippuden');
           done();
@@ -355,7 +346,6 @@ describe('Documents', () => {
         .send({ title: 'narruto shippuden' })
         .end((err, res) => {
           expect(res.status).to.equal(401);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('You are not authorized to update this document');
           done();
         });
@@ -381,7 +371,6 @@ describe('Documents', () => {
         .send({ title: 'narruto shippuden' })
         .end((err, res) => {
           expect(res.status).to.equal(404);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('Document not found');
           done();
        });
@@ -416,7 +405,6 @@ describe('Documents', () => {
         .set({ 'authorization': sampleUserToken })
         .end((err, res) => {
           expect(res.status).to.equal(401);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('You are not authorized to delete this document');
           done();
         });
@@ -428,7 +416,6 @@ describe('Documents', () => {
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(404);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('Document not found');
           done();
         });

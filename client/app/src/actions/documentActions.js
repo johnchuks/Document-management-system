@@ -185,10 +185,12 @@ const deleteDocumentSuccess = documentId => ({
  * @param {object} documentId - document to be deleted
  */
 const deleteDocument = ({ documentId, userId }) => dispatch =>
- axios.delete(`/api/v1/documents/${documentId}`).then(() => {
-   const id = userId;
-   dispatch(deleteDocumentSuccess(documentId));
-   dispatch(fetchDocument({ id, limit: 6, offset: 0 }));
+ axios.delete(`/api/v1/documents/${documentId}`).then((response) => {
+   if (response.status === 204) {
+     const id = userId;
+     dispatch(fetchDocument({ id, limit: 6, offset: 0 }));
+     dispatch(deleteDocumentSuccess(documentId));
+   }
  }).catch((error) => {
    dispatch(deleteDocumentError(error.response.data));
  });

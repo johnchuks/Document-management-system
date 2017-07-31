@@ -20,16 +20,29 @@ module.exports = {
    * @returns {object} - an object of a created user and a token
    */
   createUser(req, res) {
-    if (!req.body.fullName ||
-      !req.body.userName ||
-      !req.body.email || !req.body.password) {
+    if (!req.body.fullName) {
       return res.status(400).json({
-        message: 'All fields are required'
+        fullName: 'This Field is Required'
+      });
+    }
+    if (!req.body.userName) {
+      return res.status(400).json({
+        userName: 'This Field is Required'
+      });
+    }
+    if (!req.body.email) {
+      return res.status(400).json({
+        email: 'This Field is Required'
+      });
+    }
+    if (!req.body.password) {
+      return res.status(400).json({
+        password: 'This Field is Required'
       });
     }
     if (!emailRegex.test(req.body.email)) {
       return res.status(400).json({
-        message: 'Email is not rightly formatted'
+        email: 'Email is not rightly formatted'
       });
     }
     if (req.body.roleId === 1) {
@@ -64,7 +77,7 @@ module.exports = {
             token
           });
         }).catch((error) => {
-          res.status(400).json(error);
+          res.status(500).json(error);
         });
       }
     });
@@ -97,7 +110,7 @@ module.exports = {
         }
         res.status(200).send(user);
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(500).send(error));
   },
 
   /**
@@ -130,7 +143,7 @@ module.exports = {
         }
         return updateProfileHelper(req, res, user);
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(500).send(error));
   },
 
   /**
@@ -158,7 +171,7 @@ module.exports = {
           message: 'User has been deleted successfully' }))
         .catch(error => res.status(400).send(error));
     })
-    .catch(error => res.status(400).send(error));
+    .catch(error => res.status(500).send(error));
   },
 
   /**
@@ -169,13 +182,17 @@ module.exports = {
    * @returns {object} - an object of the logged in user and a token
    */
   logInUser(req, res) {
-    if (!req.body.email || !req.body.password) {
+    if (!req.body.email) {
       return res.status(400).json({
-        message: 'All fields are required'
+        email: 'This field is required'
+      });
+    } if (!req.body.password) {
+      return res.status(400).json({
+        password: 'This field is required'
       });
     } else if (!emailRegex.test(req.body.email)) {
       return res.status(400).json({
-        message: 'Email is invalid'
+        email: 'Email is invalid'
       });
     }
     return User
@@ -204,12 +221,11 @@ module.exports = {
             });
           } else {
             res.status(401).json({
-              success: false,
-              message: 'Password is Invalid'
+              password: 'Password is Invalid'
             });
           }
         }
-      }).catch(error => res.status(400).send(error));
+      }).catch(error => res.status(500).send(error));
   },
 
   /**
@@ -234,7 +250,7 @@ module.exports = {
         pagination: pagination(count, limit, offset)
       });
     })
-    .catch(error => res.status(400).send(error));
+    .catch(error => res.status(500).send(error));
   },
 
   /**
@@ -283,6 +299,6 @@ module.exports = {
         user,
         pagination: pagination(count, limit, offset)
       });
-    }).catch(error => res.status(400).send(error));
+    }).catch(error => res.status(500).send(error));
   }
 };
