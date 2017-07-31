@@ -39,7 +39,7 @@ export class EditProfile extends React.Component {
         fullName: this.props.fullName,
         userName: this.props.userName,
         email: this.props.email,
-        password: '',
+        password: ''
       });
     });
   }
@@ -91,105 +91,108 @@ export class EditProfile extends React.Component {
   render() {
     const { error } = this.state;
     if (this.props.isAuthenticated === false) return null;
-    const profileStyle = {
-      marginLeft: '400px'
-    };
     return (
       <div>
         <NavigationBar />
         <br />
-        <h4 className="searchHeading">Edit Profile</h4>
-        <div id="formField" style={profileStyle}>
-          <div className="col s12 z-depth 5">
-            <div className="row">
-              <div className="input-field col s6">
-                <input
-                  id="full_name"
-                  name="fullName"
-                  type="text"
-                  onChange={this.onChange}
-                  value={this.state.fullName}
-                  className="text"
-                />
-                <label htmlFor="full_name">Full Name</label>
+        <div className="row" id="formField">
+          <div className="container-div">
+            <div className="col s6">
+              <h4 className="searchHeading">Edit Profile</h4>
+              <div className="row">
+                <div className="input-field col s12">
+                  <input
+                    id="full_name"
+                    name="fullName"
+                    type="text"
+                    onChange={this.onChange}
+                    value={this.state.fullName}
+                    className="text"
+                  />
+                  <label htmlFor="full_name">Full Name</label>
+                </div>
+              </div>
+              <div className="row">
+                <div className="input-field col s12">
+                  <input
+                    id="user_name"
+                    name="userName"
+                    type="text"
+                    onChange={this.onChange}
+                    className="validate"
+                    value={this.state.userName}
+                  />
+                  <label htmlFor="user_name">Username</label>
+                </div>
+              </div>
+              <div className="row">
+                <div className="input-field col s12">
+                  <input
+                    id="editEmail"
+                    name="email"
+                    type="email"
+                    onChange={this.onChange}
+                    className="validate"
+                    value={this.state.email}
+                  />
+                  <label htmlFor="email">Email</label>
+                </div>
               </div>
             </div>
-            <div className="row">
-              <div className="input-field col s6">
-                <input
-                  id="user_name"
-                  name="userName"
-                  type="text"
-                  onChange={this.onChange}
-                  className="validate"
-                  value={this.state.userName}
-                />
-                <label htmlFor="user_name">Username</label>
+            <div className="col s6">
+              <h4>Change Password</h4>
+              <div className="row">
+                <div className="input-field col s12">
+                  <input
+                    id="editpassword"
+                    name="oldPassword"
+                    type="password"
+                    onChange={this.onChange}
+                    className="validate"
+                  />
+                  {error.message &&
+                    <span className="error-block">
+                      {error.message}
+                    </span>}
+                  <label htmlFor="oldPassword">Old Password</label>
+                </div>
+              </div>
+              <div className="row">
+                <div className="input-field col s12">
+                  <input
+                    id="editpassword"
+                    name="password"
+                    type="password"
+                    onChange={this.onChange}
+                    className="validate"
+                  />
+                  <label htmlFor="password">New Password</label>
+                </div>
+              </div>
+              <div className="row">
+                <div className="input-field col s12">
+                  <input
+                    id="editpassword"
+                    name="confirmPassword"
+                    type="password"
+                    onChange={this.onChange}
+                    className="validate"
+                  />
+                  <label htmlFor="confirmPassword">Confirm Password</label>
+                </div>
               </div>
             </div>
-            <div className="row">
-              <div className="input-field col s6">
-                <input
-                  id="editEmail"
-                  name="email"
-                  type="email"
-                  onChange={this.onChange}
-                  className="validate"
-                  value={this.state.email}
-                />
-                <label htmlFor="email">Email</label>
-              </div>
-            </div>
-            <div className="row">
-              <div className="input-field col s6">
-                <input
-                  id="editpassword"
-                  name="oldPassword"
-                  type="password"
-                  onChange={this.onChange}
-                  className="validate"
-                />
-                {error.message &&
-                 <span className="error-block">{error.message}
-                   </span>}
-                <label htmlFor="oldPassword">Old Password</label>
-              </div>
-            </div>
-             <div className="row">
-              <div className="input-field col s6">
-                <input
-                  id="editpassword"
-                  name="password"
-                  type="password"
-                  onChange={this.onChange}
-                  className="validate"
-                />
-                <label htmlFor="password">New Password</label>
-              </div>
-            </div>
-             <div className="row">
-              <div className="input-field col s6">
-                <input
-                  id="editpassword"
-                  name="confirmPassword"
-                  type="password"
-                  onChange={this.onChange}
-                  className="validate"
-                />
-                <label htmlFor="confirmPassword">Confirm Password</label>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col s12">
-                <button
-                  className="waves-effect waves-light btn orange"
-                  id="editButton"
-                  type="submit"
-                  onClick={this.onSubmit}
-                >
-                  Save
-                </button>
-              </div>
+          </div>
+          <div className="row">
+            <div className="col s12">
+              <button
+                className="waves-effect waves-light btn orange"
+                id="editButton"
+                type="submit"
+                onClick={this.onSubmit}
+              >
+                Save
+              </button>
             </div>
           </div>
         </div>
@@ -206,7 +209,7 @@ EditProfile.propTypes = {
   id: PropTypes.number.isRequired,
   user: PropTypes.object,
   history: PropTypes.object.isRequired,
-  isAuthenticated: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -214,7 +217,8 @@ const mapStateToProps = state => ({
   fullName: state.usersReducer.user.fullName,
   userName: state.usersReducer.user.userName,
   email: state.usersReducer.user.email,
-  isAuthenticated: state.usersReducer.isAuthenticated,
+  isAuthenticated: state.usersReducer.isAuthenticated
 });
-export default
-  connect(mapStateToProps, { editProfile, getUser })(withRouter(EditProfile));
+export default connect(mapStateToProps, { editProfile, getUser })(
+  withRouter(EditProfile)
+);
