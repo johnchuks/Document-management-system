@@ -1,4 +1,3 @@
-/* eslint max-len:off */
 import axios from 'axios';
 import { CREATE_DOCUMENT, CREATE_DOCUMENT_ERROR,
    FETCH_USER_DOCUMENTS,
@@ -204,6 +203,7 @@ const searchDocumentSuccess = searchDocuments => ({
   type: SEARCH_DOCUMENT,
   searchDocuments,
 });
+const searchUrl = '/api/v1/search/documents/';
 /**
  * @return {array} - searched documents payload
  * performs a get request for the title searched for
@@ -213,7 +213,7 @@ const searchDocumentSuccess = searchDocuments => ({
 const searchDocument = ({ offset, searchString, limit }) =>
   dispatch =>
     axios
-      .get(`/api/v1/search/documents/?q=${searchString}&limit=${limit}&offset=${offset}`)
+      .get(`${searchUrl}?q=${searchString}&limit=${limit}&offset=${offset}`)
   .then((response) => {
     dispatch(searchDocumentSuccess(response.data));
   }).catch((error) => {

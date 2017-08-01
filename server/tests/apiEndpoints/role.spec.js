@@ -170,7 +170,7 @@ describe('Roles', () => {
         .get(`/api/v1/roles/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
+          expect(res.status).to.equal(500);
           expect(res.body).to.have.property('message').to.equal(`invalid input syntax for integer: "${id}"`);
           done();
         });
@@ -192,7 +192,7 @@ describe('Roles', () => {
         .get(`/api/v1/roles/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
+          expect(res.status).to.equal(500);
           expect(res.body).to.have.property('message').to.equal(`value "${id}" is out of range for type integer`);
           done();
         });
@@ -247,7 +247,7 @@ describe('Roles', () => {
          .set({ 'authorization': adminToken })
         .send({ title: 'regular' })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
+          expect(res.status).to.equal(500);
           expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal(`value "${id}" is out of range for type integer`);
           done();

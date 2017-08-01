@@ -2,7 +2,7 @@ import React from 'react';
 
 /**
  * displats static navigation header
- * @return {*} - null
+ * @return {void} - null
  */
 const Navigation = () => (
   <div>
@@ -16,7 +16,8 @@ const Navigation = () => (
             </a>
           </li>
           <li>
-            <a id="navSignup" className="waves-effect wave-light" href="/signup">Signup</a>
+            <a id="navSignup"
+              className="waves-effect wave-light" href="/signup">Signup</a>
           </li>
         </ul>
       </div>
