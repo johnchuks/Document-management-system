@@ -51,7 +51,6 @@ describe('Documents', () => {
       .set({ 'authorization': userToken })
       .end((err, res) => {
         expect(res.status).to.equal(201);
-        expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('id');
         expect(res.body).to.have.property('title').to.be.equal('kiba-team');
         expect(res.body).to.have.property('content').to.be.equal('Andela is really awesome!!!');
@@ -86,7 +85,6 @@ describe('Documents', () => {
       .set({ 'authorization': userToken })
       .end((err, res) => {
         expect(res.status).to.equal(400);
-        expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message').to.be.equal('This Field is Required');
         done();
       });
@@ -104,7 +102,6 @@ describe('Documents', () => {
       .set({ 'authorization': userToken })
       .end((err, res) => {
         expect(res.status).to.equal(400);
-        expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message').to.be.equal('This Field is Required');
         done();
       });
@@ -122,7 +119,6 @@ describe('Documents', () => {
       .set({ 'authorization': userToken })
       .end((err, res) => {
         expect(res.status).to.equal(400);
-        expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message').to.be.equal('This Field is Required');
         done();
       });
@@ -137,9 +133,8 @@ describe('Documents', () => {
       chai.request(server)
       .post('/api/v1/documents')
       .send(document)
-      .end((err, res) => {
+        .end((err, res) => {
         expect(res.status).to.equal(403);
-        expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message').to.be.equal('No token provided.');
         done();
       });
@@ -150,11 +145,15 @@ describe('Documents', () => {
       chai.request(server)
       .get('/api/v1/documents')
       .set({ 'authorization': userToken })
-      .end((err, res) => {
+        .end((err, res) => {
         expect(res.status).to.equal(200);
-        expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('document');
         expect(res.body).to.have.property('pagination');
+        expect(res.body.document[2]).to.have.property('title').to.equal('kiba-team');
+        expect(res.body.document[2]).to.have
+        .property('content').to.equal('Andela is really awesome!!!');
+        expect(res.body.document[2]).to.have.property('access').to.equal('public');
+        expect(res.body.pagination).to.have.property('totalCount').to.equal(3);
         done();
       });
     });
@@ -163,31 +162,25 @@ describe('Documents', () => {
       .get('/api/v1/documents/')
       .end((err, res) => {
         expect(res.status).to.equal(403);
-        expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message').to.be.equal('No token provided.');
-        expect(res.body).to.have.property('success').to.be.equal(false);
         done();
       });
     });
-    it('Should get all documents with correct limit as a query', (done) => {
+    it('Should get all documents with correct limit and offset as a query and ', (done) => {
       const limit = 1;
-      chai.request(server)
-        .get(`/api/v1/documents?limit=${limit}`)
-        .set({ 'authorization': userToken })
-        .end((err, res) => {
-          expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('object');
-          done();
-        });
-    });
-    it('Should get all documents with correct offset as a query', (done) => {
       const offset = 0;
       chai.request(server)
-        .get(`/api/v1/documents?limit=${offset}`)
+        .get(`/api/v1/documents?limit=${limit}&offset=${offset}`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('object');
+          expect(res.body.document[0]).to.have.property('title').to.equal('John Doe');
+          expect(res.body.document[0]).to.have.property('id').to.equal(1);
+          expect(res.body.document[0]).to.have.property('access').to.equal('public');
+          expect(res.body.document[0]).to.have.property('userId').to.equal(2);
+          expect(res.body.document[0]).to.have.property('content').to.equal('eze goes to school');
+          expect(res.body.pagination).to.have.property('totalCount').to.equal(3);
+          expect(res.body.pagination).to.have.property('pageCount').to.equal(3);
           done();
         });
     });
@@ -220,7 +213,6 @@ describe('Documents', () => {
         .get(`/api/v1/users/${userId}/documents`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
-          console.log(res.body.document, '------>');
           expect(res.status).to.equal(200);
           expect(res.body.document[0]).to.have.property('userId').to.equal(2);
           expect(res.body.document[0]).to.have.property('title')
@@ -268,14 +260,13 @@ describe('Documents', () => {
           done();
         });
     });
-     it('Should get a private document the requester is the owner', (done) => {
+     it('Should get a private document if the requester is the owner', (done) => {
       const documentId = 2;
       chai.request(server)
         .get(`/api/v1/documents/${documentId}/`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('access').to.equal('private');
           expect(res.body).to.have.property('title').to.equal('John naddddd');
           expect(res.body).to.have.property('id').to.equal(2);
@@ -290,7 +281,6 @@ describe('Documents', () => {
         .set({ 'authorization': sampleUserToken })
         .end((err, res) => {
           expect(res.status).to.equal(401);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('You are not authorized to view this document');
           done();
         });

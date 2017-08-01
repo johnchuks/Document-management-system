@@ -73,7 +73,6 @@ module.exports = {
             expiresIn: 2880
           });
           res.status(201).json({
-            success: true,
             token
           });
         }).catch((error) => {
@@ -216,7 +215,6 @@ module.exports = {
               expiresIn: 60 * 60 * 24
             });
             res.status(201).json({
-              success: true,
               token,
             });
           } else {
