@@ -48,7 +48,8 @@ export default {
     .waitForElementVisible('.modal.open h4')
     .assert.containsText('.modal.open h4', 'update document')
     .pause(1000)
-    .setValue('input#title.validate', `${title}${updatedTitle}`)
+    .clearValue('input#title.validate')
+    .setValue('input#title.validate', updatedTitle)
     .pause(500)
     .click('select.browser-default')
     .click('option[value="private"]')
@@ -56,7 +57,7 @@ export default {
     .click('#updatedocbutton')
     .waitForElementVisible('div.toast-message')
     .assert.containsText('div.toast-message', 'document updated successfully')
-    .assert.containsText('span.card-title', `${title}${updatedTitle}`),
+    .assert.containsText('span.card-title', updatedTitle),
 
 'Delete a document': browser =>
   browser
@@ -93,8 +94,8 @@ export default {
     .click('#searchButton')
     .waitForElementVisible('div.card-content')
     .pause(500)
-    .assert.containsText('span.card-title', 'waterfallsss')
-    .assert.containsText('p', 'the water is pouring down heavilyjjj')
+    .assert.containsText('span.card-title', 'waterfall')
+    .assert.containsText('p', 'file this for me')
     .pause(1000)
-   .end(),
+    .end(),
  };

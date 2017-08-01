@@ -288,7 +288,7 @@ module.exports = {
       attributes: { exclude: ['password'] },
       where: {
         fullName: {
-          $like: `%${searchQuery}%`,
+          $iLike: `%${searchQuery}%`,
         }
       }
     }).then(({ rows: user, count }) => {
