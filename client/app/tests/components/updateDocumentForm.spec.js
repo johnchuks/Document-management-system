@@ -25,7 +25,7 @@ describe('<UpdateDocumentForm />', () => {
     expect(wrapper.find('form').length).to.equal(1);
   });
   it('Should contain enclosing div tags in the render function',() => {
-    expect(wrapper.find('div').length).to.equal(5);
+    expect(wrapper.find('div').length).to.equal(6);
   });
   it('Should contain a select option tag in the render function', () => {
     expect(wrapper.find('select').length).to.equal(1);

@@ -69,7 +69,7 @@ module.exports = {
           });
         }
         res.status(200).json(role);
-      }).catch(error => res.status(400).json(error));
+      }).catch(error => res.status(500).json(error));
   },
   /**
    *
@@ -122,7 +122,7 @@ module.exports = {
             message: 'Role updated successfully',
             role
           }))
-          .catch(error => res.status(400).json(error));
-      }).catch(error => res.status(400).json(error));
+          .catch(error => res.status(500).json(error));
+      }).catch(error => res.status(500).json(error));
   }
 };

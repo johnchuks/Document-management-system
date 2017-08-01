@@ -137,7 +137,7 @@ describe('Users', () => {
         .post('/api/v1/users')
         .send(samples.sampleUser4)
         .end((err, res) => {
-          expect(res.status).to.equal(403);
+          expect(res.status).to.equal(401);
           expect(res.body).to.have.property('message').to.equal('An admin role cannot be created');
           done();
         });

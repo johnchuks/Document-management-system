@@ -27,7 +27,7 @@
         email: updatedUser.email,
         roleId: updatedUser.roleId
       });
-    }).catch(error => res.status(400).send(error));
+    }).catch(error => res.status(500).send(error));
   };
 
   module.exports.paginationMetaData = paginationMetaData;

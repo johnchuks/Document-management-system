@@ -46,7 +46,7 @@ module.exports = {
       });
     }
     if (req.body.roleId === 1) {
-      return res.status(403).json({
+      return res.status(401).json({
         message: 'An admin role cannot be created'
       });
     }
@@ -169,7 +169,7 @@ module.exports = {
         .destroy()
         .then(() => res.status(204).json({
           message: 'User has been deleted successfully' }))
-        .catch(error => res.status(400).send(error));
+        .catch(error => res.status(500).send(error));
     })
     .catch(error => res.status(500).send(error));
   },
