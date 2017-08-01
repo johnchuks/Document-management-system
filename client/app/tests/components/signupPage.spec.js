@@ -16,9 +16,10 @@ chai.use(chaiEnzyme());
   const signup = sinon.spy(() => Promise.resolve());
   const props = {
     signup,
-    history:{
+    history: {
       push: pushSpy
-    }
+    },
+    error: {}
   }
 describe('<SignupPage />', () => {
   const wrapper = mount(<SignupPage {...props} />, {
@@ -37,7 +38,7 @@ describe('<SignupPage />', () => {
     expect(wrapper.find('input').length).to.equal(4);
   });
   it('Should update for the input field- email', (done) => {
-    const event = {target:{value:'john@john.com', name:'email'}};
+    const event = {target:{value:'john@john.com'}};
     const emailWrap = wrapper.find('#email');
     wrapper.update();
     emailWrap.simulate('change', event);
@@ -45,7 +46,7 @@ describe('<SignupPage />', () => {
     done();
   });
   it('Should update for the input field - password', (done) => {
-    const event = {target:{ name:'password', value:'john'}};
+    const event = {target:{ value:'john'}};
     const passwordWrap = wrapper.find('#password');
     wrapper.update();
     passwordWrap.simulate('change', event);
@@ -53,7 +54,7 @@ describe('<SignupPage />', () => {
     done();
   });
   it('Should update for the input field -full Name', (done) => {
-    const event = {target:{name: 'fullName', value:'john12' }};
+    const event = {target:{ value:'john12' }};
     const passwordWrap = wrapper.find('#full_Name');
     wrapper.update();
     passwordWrap.simulate('change', event);
@@ -61,7 +62,7 @@ describe('<SignupPage />', () => {
     done();
   });
   it('Should update for the input field -userName', (done) => {
-    const event = {target:{name:'userName', value:'john12'}};
+    const event = {target:{ value:'john12'}};
     const passwordWrap = wrapper.find('#user_Name');
     wrapper.update();
     passwordWrap.simulate('change', event);

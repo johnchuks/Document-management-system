@@ -1,4 +1,3 @@
-/* eslint import/no-named-as-default:off */
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -25,7 +24,8 @@ export class ViewUserDocuments extends React.Component {
       id: this.props.userId,
       document: [],
       offset: 0,
-      limit: 6
+      limit: 6,
+      pageCount: 0
     };
     this.handlePageChange = this.handlePageChange.bind(this);
   }
@@ -51,7 +51,7 @@ export class ViewUserDocuments extends React.Component {
    * @memberof ViewUserDocuments
    */
   componentWillReceiveProps(nextProps) {
-    this.setState({ document: nextProps.userDocument });
+    this.setState({ document: nextProps.userDocument, pageCount: nextProps.pageCount });
   }
   /**
    * updates the offset on page change
@@ -83,7 +83,7 @@ export class ViewUserDocuments extends React.Component {
           nextLabel={'next'}
           breakLabel={<a href="">...</a>}
           breakClassName={'break-me'}
-          pageCount={this.props.pageCount}
+          pageCount={this.state.pageCount}
           initialPage={0}
           marginPagesDisplayed={2}
           pageRangeDisplayed={5}

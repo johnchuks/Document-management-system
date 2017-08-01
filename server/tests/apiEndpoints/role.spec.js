@@ -37,7 +37,6 @@ describe('Roles', () => {
       .set({ 'authorization': adminToken })
       .end((err, res) => {
         expect(res.status).to.equal(201);
-        expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message').to.equal('Role successfully created');
         expect(res.body).to.have.property('role');
         expect(res.body.role).to.have.property('title').to.equal('kiba');
@@ -51,7 +50,6 @@ describe('Roles', () => {
       .set({ 'authorization': adminToken })
       .end((err, res) => {
         expect(res.status).to.equal(204);
-        expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message').to.equal('Role successfully created');
         expect(res.body).to.have.property('role');
       });
@@ -67,7 +65,6 @@ describe('Roles', () => {
       .send(role)
       .end((err, res) => {
         expect(res.status).to.equal(401);
-        expect(res.body).to.be.a('object');
         expect(res.body).to.have.property('message').to.equal('You are not authorized');
         done();
       });
@@ -79,7 +76,6 @@ describe('Roles', () => {
         .send({ title: '' })
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('This field is required');
         });
         done();
@@ -91,7 +87,6 @@ describe('Roles', () => {
         .send({ title: 358583 })
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('Invalid input credentials');
           done();
         });
@@ -104,7 +99,6 @@ describe('Roles', () => {
         .send({ title: '' })
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('This field is required');
           done();
         });
@@ -147,7 +141,6 @@ describe('Roles', () => {
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).be.a('object');
           expect(res.body).to.have.property('title').to.equal('regular');
           expect(res.body).to.have.property('id').to.equal(2);
           done();
@@ -170,7 +163,7 @@ describe('Roles', () => {
         .get(`/api/v1/roles/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
+          expect(res.status).to.equal(500);
           expect(res.body).to.have.property('message').to.equal(`invalid input syntax for integer: "${id}"`);
           done();
         });
@@ -192,7 +185,7 @@ describe('Roles', () => {
         .get(`/api/v1/roles/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
+          expect(res.status).to.equal(500);
           expect(res.body).to.have.property('message').to.equal(`value "${id}" is out of range for type integer`);
           done();
         });
@@ -207,9 +200,10 @@ describe('Roles', () => {
         .send({ title: 'kiba' })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('Role updated successfully');
           expect(res.body).to.have.property('role');
+          expect(res.body.role).to.have.property('title').to.equal('kiba');
+          expect(res.body.role).to.have.property('id').to.equal(2);
           done();
         });
     });
@@ -221,7 +215,6 @@ describe('Roles', () => {
         .send({ title: 'kiba' })
         .end((err, res) => {
           expect(res.status).to.equal(401);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('You are not authorized');
           done();
         });
@@ -235,7 +228,6 @@ describe('Roles', () => {
         .send({ title: 'kiba' })
         .end((err, res) => {
           expect(res.status).to.equal(404);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('Role not found');
           done();
         });
@@ -247,8 +239,7 @@ describe('Roles', () => {
          .set({ 'authorization': adminToken })
         .send({ title: 'regular' })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
-          expect(res.body).to.be.a('object');
+          expect(res.status).to.equal(500);
           expect(res.body).to.have.property('message').to.equal(`value "${id}" is out of range for type integer`);
           done();
         });
@@ -262,7 +253,6 @@ describe('Roles', () => {
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(204);
-          expect(res.body).to.be.a('object');
         });
        done();
     });
@@ -273,7 +263,6 @@ describe('Roles', () => {
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(401);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('You are not authorized');
           done();
         });
@@ -285,7 +274,6 @@ describe('Roles', () => {
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(404);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('Role not found');
           done();
         });
@@ -297,7 +285,6 @@ describe('Roles', () => {
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal(`value "${id}" is out of range for type integer`);
           done();
         });

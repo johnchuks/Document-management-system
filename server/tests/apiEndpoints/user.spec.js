@@ -49,7 +49,7 @@ describe('Users', () => {
         .send(user)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('message').to.equal('All fields are required');
+          expect(res.body).to.have.property('fullName').to.equal('This Field is Required');
           done();
         });
     });
@@ -65,7 +65,7 @@ describe('Users', () => {
         .send(user)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('message').to.equal('All fields are required');
+          expect(res.body).to.have.property('userName').to.equal('This Field is Required');
           done();
         });
     });
@@ -81,7 +81,7 @@ describe('Users', () => {
         .send(user)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('message').to.equal('All fields are required');
+          expect(res.body).to.have.property('email').to.equal('This Field is Required');
           done();
         });
     });
@@ -97,7 +97,7 @@ describe('Users', () => {
         .send(user)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('message').to.equal('All fields are required');
+          expect(res.body).to.have.property('password').to.equal('This Field is Required');
           done();
         });
     });
@@ -116,7 +116,6 @@ describe('Users', () => {
         .send(samples.sampleUser3)
         .end((err, res) => {
           expect(res.status).to.equal(201);
-          expect(res.body).to.have.property('success').to.equal(true);
           expect(res.body).to.have.property('token');
           done();
         });
@@ -128,7 +127,7 @@ describe('Users', () => {
         .send(samples.sampleUser2)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('message').to.equal('Email is not rightly formatted');
+          expect(res.body).to.have.property('email').to.equal('Email is not rightly formatted');
           done();
         });
     });
@@ -137,18 +136,8 @@ describe('Users', () => {
         .post('/api/v1/users')
         .send(samples.sampleUser4)
         .end((err, res) => {
-          expect(res.status).to.equal(403);
+          expect(res.status).to.equal(401);
           expect(res.body).to.have.property('message').to.equal('An admin role cannot be created');
-          done();
-        });
-    });
-
-    it('Should create the user crendentials upon login', (done) => {
-      chai.request(server)
-        .post('/api/v1/users/login')
-        .send(samples.user)
-        .end((err, res) => {
-          expect(res.status).to.equal(201);
           done();
         });
     });
@@ -158,7 +147,6 @@ describe('Users', () => {
         .send(samples.user)
         .end((err, res) => {
           expect(res.status).to.equal(201);
-          expect(res.body).to.have.property('success').to.equal(true);
           expect(res.body).to.have.property('token');
           done();
         });
@@ -183,7 +171,7 @@ describe('Users', () => {
         .send(mockUser)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('message').to.equal('All fields are required');
+          expect(res.body).to.have.property('email').to.equal('This field is required');
           done();
         });
     });
@@ -197,7 +185,7 @@ describe('Users', () => {
         .send(mockUser)
         .end((err, res) => {
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('message').to.equal('Email is invalid');
+          expect(res.body).to.have.property('email').to.equal('Email is invalid');
           done();
         });
     });
@@ -211,8 +199,7 @@ describe('Users', () => {
         .send(mockUser)
         .end((err, res) => {
           expect(res.status).to.equal(401);
-          expect(res.body).to.have.property('message').to.equal('Password is Invalid');
-          expect(res.body).to.have.property('success').to.equal(false);
+          expect(res.body).to.have.property('password').to.equal('Password is Invalid');
           done();
         });
     });
@@ -224,9 +211,10 @@ describe('Users', () => {
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('object');
-          expect(res.body).to.have.property('user');
-          expect(res.body).to.have.property('pagination');
+          expect(res.body.user[1]).to.have.property('fullName').to.equal('test user');
+          expect(res.body.user[1]).to.have.property('userName').to.equal('user');
+          expect(res.body.user[1]).to.have.property('id').to.equal(2)
+          expect(res.body.pagination).to.have.property('totalCount').to.equal(6);
           done();
         });
     });
@@ -236,7 +224,6 @@ describe('Users', () => {
         .set({ 'authorization': userToken })
         .end((err, res) => {
           expect(res.status).to.equal(401);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('You are not authorized');
           done();
         });
@@ -246,19 +233,18 @@ describe('Users', () => {
         .get('/api/v1/users')
         .end((err, res) => {
           expect(res.status).to.equal(403);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('No token provided.');
           done();
         });
     });
-    it('Should get all users with correct limit as a query', (done) => {
+    it('Should get all users with correct limit and offset as a query', (done) => {
       const limit = 1;
+      const offset = 0;
       chai.request(server)
-        .get(`/api/v1/users?limit=${limit}`)
+        .get(`/api/v1/users?limit=${limit}&offset=${offset}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('object');
           expect(res.body.user[0]).to.have.property('fullName').to.equal('Johnbosco Ohia');
           expect(res.body.user[0]).to.have.property('userName').to.equal('admin');
           done();
@@ -304,7 +290,7 @@ describe('Users', () => {
         .get(`/api/v1/users/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
+          expect(res.status).to.equal(500);
           expect(res.body).to.have.property('message').to.equal(`invalid input syntax for integer: "${id}"`);
           done();
         });
@@ -337,7 +323,7 @@ describe('Users', () => {
         .get(`/api/v1/users/${id}`)
         .set({ 'authorization': adminToken })
         .end((err, res) => {
-          expect(res.status).to.equal(400);
+          expect(res.status).to.equal(500);
           expect(res.body).to.have.property('message').to.equal(`value "${id}" is out of range for type integer`);
           done();
         });
@@ -353,7 +339,6 @@ describe('Users', () => {
         .send({ fullName: 'jake doe' })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('id').to.equal(2);
           expect(res.body).to.have.property('fullName').to.equal('jake doe');
           done();
@@ -367,7 +352,6 @@ describe('Users', () => {
         .send({ email: 'jakedoe@andela.com' })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('id').to.equal(2);
           expect(res.body).to.have.property('email').to.equal('jakedoe@andela.com');
           done();
@@ -382,7 +366,6 @@ describe('Users', () => {
         .send({ email: 'jakedoe@andela.com' })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('id').to.equal(2);
           expect(res.body).to.have.property('email').to.equal('jakedoe@andela.com');
           done();
@@ -397,7 +380,6 @@ describe('Users', () => {
         .send({ userName: 'jakedoe12' })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('id').to.equal(2);
           expect(res.body).to.have.property('userName').to.equal('jakedoe12');
           done();
@@ -411,7 +393,6 @@ describe('Users', () => {
         .send({ email: 'jakedoe@andela.com' })
         .end((err, res) => {
           expect(res.status).to.equal(401);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('You are not authorized to access this user');
           done();
         });
@@ -424,7 +405,6 @@ describe('Users', () => {
         .send({ email: 'jakedoe@andela.com' })
         .end((err, res) => {
           expect(res.status).to.equal(401);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('You are not authorized to access this user');
           done();
         });
@@ -459,7 +439,6 @@ describe('Users', () => {
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(404);
-          expect(res.body).to.be.a('object');
           expect(res.body).to.have.property('message').to.equal('User not found');
           done();
         });

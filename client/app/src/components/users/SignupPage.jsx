@@ -55,17 +55,16 @@ export class SignupPage extends React.Component {
     this.setState({ errors: {} });
     event.preventDefault();
     this.props.signup(this.state).then(() => {
-      if (!this.state.errors.message) {
+      if (Object.keys(this.props.error).length === 0) {
         this.props.history.push('/dashboard');
         toastr.success('You have successfully signed up');
       } else {
-        const { errors } = this.state;
-        toastr.error(errors.message);
         this.props.history.push('/signup');
       }
     });
   }
   render() {
+    const { errors } = this.state;
     return (
       <div>
         <Navigation />
@@ -88,6 +87,8 @@ export class SignupPage extends React.Component {
                     onChange={this.handleChange}
                   />
                   <label htmlFor="full_Name" id="label">Full Name</label>
+                  {errors.fullName &&
+                   <span className="error-block">{errors.fullName}</span>}
                 </div>
               </div>
               <div className="row">
@@ -100,6 +101,8 @@ export class SignupPage extends React.Component {
                     onChange={this.handleChange}
                   />
                   <label htmlFor="user_Name" id="label">User Name</label>
+                  {errors.userName &&
+                   <span className="error-block">{errors.userName}</span>}
                 </div>
               </div>
               <div className="row">
@@ -112,6 +115,8 @@ export class SignupPage extends React.Component {
                     onChange={this.handleChange}
                   />
                   <label htmlFor="email" id="label">Email</label>
+                  {errors.email &&
+                   <span className="error-block">{errors.email}</span>}
                 </div>
               </div>
               <div className="row">
@@ -124,6 +129,8 @@ export class SignupPage extends React.Component {
                     onChange={this.handleChange}
                   />
                   <label htmlFor="password" id="label">Password</label>
+                  {errors.password &&
+                   <span className="error-block">{errors.password}</span>}
                 </div>
               </div>
               <div className="row">

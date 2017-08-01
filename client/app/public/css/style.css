@@ -7312,10 +7312,6 @@ h5 {
 .nav-wrapper {
   background-color: #31874D; }
 
-#formField {
-  margin-left: 400px !important;
-  z-index: -1; }
-
 #h5 {
   color: black; }
 
@@ -7360,9 +7356,6 @@ input[type=password] {
   margin-top: 3%;
   margin-left: 3%; }
 
-.searchHeading {
-  margin-left: 40%; }
-
 #navLogin {
   margin-left: 3%; }
 
@@ -7383,6 +7376,13 @@ input[type=password] {
   padding-left: 5px !important;
   margin-top: -25px;
   margin-left: -5px; }
+
+.error-block {
+  border-radius: .4rem;
+  border: 2px;
+  border-width: 2px;
+  font-size: 19px;
+  color: red; }
 
 .pagination li.active {
   background-color: #31874D; }
@@ -7442,6 +7442,15 @@ thead tr th {
 #updatedocbutton {
   margin-top: 4%;
   margin-left: 17%; }
+
+#formField {
+  text-align: center; }
+
+.container-div {
+  display: inline-block;
+  min-width: 800px;
+  margin: 0 auto;
+  text-align: left; }
 .toast-title {
   font-weight: bold; }
 

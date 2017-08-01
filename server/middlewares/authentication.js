@@ -9,7 +9,7 @@ module.exports = {
     if (token) {
       jwt.verify(token, secret, (error, decoded) => {
         if (error) {
-          return res.status(400).send({ success: false, error });
+          return res.send({ success: false, error });
         }
         req.decoded = decoded;
         return next();

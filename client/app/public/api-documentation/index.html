@@ -341,11 +341,11 @@
 </thead><tbody>
 <tr>
 <td>POST /users/login</td>
-<td>Logs in a user</td>
+<td>signs in a user</td>
 </tr>
 <tr>
 <td>POST /users/logout</td>
-<td>Logs out a user</td>
+<td>signs out a user</td>
 </tr>
 <tr>
 <td>POST /users/</td>
@@ -353,23 +353,19 @@
 </tr>
 <tr>
 <td>GET /users/</td>
-<td>Gets all users (available only to Admins)</td>
+<td>Gets all users (available only to the Admin)</td>
 </tr>
 <tr>
 <td>GET /users/:id</td>
-<td>Retrieves a particular user by the id specified</td>
+<td>Finds a user by the id specified</td>
 </tr>
 <tr>
 <td>PUT /users/:id</td>
-<td>Updates a user&#39;s details by the id specified (available only to the user and SuperAdmin)</td>
+<td>Updates a user&#39;s details by the id specified (available only to the user)</td>
 </tr>
 <tr>
 <td>DELETE /users/:id</td>
-<td>Deletes a user by the id specified (available only to the user and SuperAdmin)</td>
-</tr>
-<tr>
-<td>GET /users/:id/documents</td>
-<td>Gets all documents for a particular user by the id specified</td>
+<td>Deletes a user by the id specified</td>
 </tr>
 <tr>
 <td>GET /users/?limit={integer}&amp;offset={integer}</td>
@@ -377,7 +373,7 @@
 </tr>
 <tr>
 <td>GET /search/users/?q=query</td>
-<td>Get all users whose name, username or email matches the search query (available only to Admins)</td>
+<td>Get all users whose name  matches the search query (available only to the Admin)</td>
 </tr>
 </tbody></table>
 <h3 id='documents'>Documents</h3>
@@ -397,15 +393,19 @@
 </tr>
 <tr>
 <td>GET /documents/:id</td>
-<td>Find document by id.</td>
+<td>Finds a document by id specified.</td>
+</tr>
+<tr>
+<td>GET /users/:id/documents</td>
+<td>Gets all documents for a user by the id specified</td>
 </tr>
 <tr>
 <td>PUT /documents/:id</td>
-<td>Updates a document&#39;s details. (available only to the author and Admins)</td>
+<td>Updates a document&#39;s details. (available only to the owner)</td>
 </tr>
 <tr>
 <td>DELETE /documents/:id</td>
-<td>Delete document. (available only to the author and Admins)</td>
+<td>Delete document. (available only to the owner)</td>
 </tr>
 <tr>
 <td>GET /documents/?limit={integer}&amp;offset={integer}</td>
@@ -416,7 +416,7 @@
 <td>Get all documents with title containing the search query</td>
 </tr>
 </tbody></table>
-<h3 id='roles-available-only-to-the-superadmin'>Roles (available only to the SuperAdmin)</h3>
+<h3 id='roles-available-only-to-the-admin'>Roles (available only to the Admin)</h3>
 <table><thead>
 <tr>
 <th>EndPoint</th>
@@ -433,7 +433,7 @@
 </tr>
 <tr>
 <td>PUT /roles/:id</td>
-<td>Edit a Role by id.</td>
+<td>update a Role by id.</td>
 </tr>
 <tr>
 <td>DELETE /roles/:id</td>
@@ -513,8 +513,7 @@
 <p>Response:</p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
-  <span class="s2">"success"</span><span class="p">:</span><span class="kc">true</span>
-  <span class="s2">"token"</span><span class="p">:</span> <span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwidXNlcm5hbWUiOiJrZW5wYWNoaSIsInJvbGVJZCI6MiwiaWF0IjoxNDk2MDAxNTE4LCJleHAiOjE0OTY2MDYzMTh9.GjmEBd_9LH9b_Gdabgdfit2HfkFBZfPshquUnAmRXV8"</span>
+  <span class="s2">"token"</span><span class="p">:</span> <span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6I…Q1NH0.3by4NUzIpceVEakuPw-yGQGTjkR0XuVTr3nGk6k1bgg"</span>
 <span class="p">}</span>
 </code></pre><h3 id='request-2'>Request</h3>
 <ul>
@@ -613,8 +612,8 @@
 <p>Response:</p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
-  <span class="s2">"token"</span><span class="p">:</span> <span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhZG1pbiIsInJvbGVJZCI6MSwiaWF0IjoxNDk2MDA5MjQxLCJleHAiOjE0OTY2MTQwNDF9.hkWYITDnqi7paQjhkqhh5Fe0yAiPf34Ffji9jKHQ_Ik"</span><span class="p">,</span>
-  <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Login successful"</span>
+  <span class="s2">"token"</span><span class="p">:</span> <span class="s2">"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6I…Q1NH0.3by4NUzIpceVEakuPw-yGQGTjkR0XuVTr3nGk6k1bgg"</span>
+
 <span class="p">}</span>
 </code></pre><h3 id='request-6'>Request</h3>
 <ul>
@@ -711,7 +710,7 @@ Add Comment C</li>
     <span class="p">},</span>
     <span class="p">{</span>
       <span class="s2">"id"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-      <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Doc-Mage Welcome Message"</span><span class="p">,</span>
+      <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Document Message"</span><span class="p">,</span>
       <span class="s2">"content"</span><span class="p">:</span> <span class="s2">`Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32. The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.`</span><span class="p">,</span>
       <span class="s2">"access"</span><span class="p">:</span> <span class="s2">"public"</span><span class="p">,</span>
       <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
@@ -828,7 +827,7 @@ Add Comment C</li>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"id"</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span>
-  <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"Doc-Mage Welcome Message"</span><span class="p">,</span>
+  <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"DocumentME Welcome Message"</span><span class="p">,</span>
   <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia,"</span><span class="p">,</span>
   <span class="s2">"access"</span><span class="p">:</span> <span class="s2">"public"</span><span class="p">,</span>
   <span class="s2">"userId"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>

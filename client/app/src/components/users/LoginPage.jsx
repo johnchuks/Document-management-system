@@ -25,16 +25,7 @@ export class LoginPage extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-  /**
-   *
-   *
-   * @param {object} nextProps - error object from the store
-   * @return {void} - null
-   * @memberof LoginPage
-   */
-  componentWillReceiveProps(nextProps) {
-    this.setState({ errors: nextProps.error });
-  }
+
   /**
    *
    * @return {void} updated state of the user details
@@ -52,19 +43,22 @@ export class LoginPage extends React.Component {
    */
   onSubmit(event) {
     event.preventDefault();
-    this.props.loginAction(this.state).then(() => {
-      if (!this.state.errors.message) {
+    this.setState({ errors: { } });
+    this.props.loginAction(this.state).then((error) => {
+      if (!error) {
         this.props.history.push('/dashboard');
         toastr.success('You are Logged in successfully');
       } else {
-        const { errors } = this.state;
-        toastr.error(errors.message);
         this.props.history.push('/');
-        this.setState({ errors: {} });
+        this.setState({ errors: error.response.data });
+        if (error.response.data.message) {
+          toastr.error(this.state.errors.message);
+        }
       }
     });
   }
   render() {
+    const { errors } = this.state;
     return (
       <div>
         <Navigation />
@@ -88,7 +82,8 @@ export class LoginPage extends React.Component {
                     type="text"
                     className="validate"
                     onChange={this.handleChange}
-                  />
+                  /> {errors.email &&
+                   <span className="error-block">{errors.email}</span>}
                   <label htmlFor="email" id="label">Email</label>
                 </div>
               </div>
@@ -104,6 +99,8 @@ export class LoginPage extends React.Component {
                     className="validate"
                     onChange={this.handleChange}
                   />
+                  {errors.password &&
+                   <span className="error-block">{errors.password}</span>}
                   <label htmlFor="password" id="label">Password</label>
                 </div>
               </div>
@@ -138,12 +135,10 @@ export class LoginPage extends React.Component {
 LoginPage.propTypes = {
   history: PropTypes.object.isRequired,
   loginAction: PropTypes.func.isRequired,
-  error: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   user: state.usersReducer.user,
-  error: state.usersReducer.error
 });
 
 export default connect(mapStateToProps, { loginAction })(

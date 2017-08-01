@@ -6,8 +6,9 @@ const helper = require('../helpers/helper.js');
 
 const jwtSecret = process.env.JWT_SECRET;
 const User = models.User;
-const metaData = helper.paginationMetaData;
+const pagination = helper.paginationMetaData;
 const responseUserHelper = helper.responseUserHelper;
+const updateProfileHelper = helper.updateProfile;
 const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
 module.exports = {
@@ -19,20 +20,33 @@ module.exports = {
    * @returns {object} - an object of a created user and a token
    */
   createUser(req, res) {
-    if (!req.body.fullName ||
-      !req.body.userName ||
-      !req.body.email || !req.body.password) {
+    if (!req.body.fullName) {
       return res.status(400).json({
-        message: 'All fields are required'
+        fullName: 'This Field is Required'
+      });
+    }
+    if (!req.body.userName) {
+      return res.status(400).json({
+        userName: 'This Field is Required'
+      });
+    }
+    if (!req.body.email) {
+      return res.status(400).json({
+        email: 'This Field is Required'
+      });
+    }
+    if (!req.body.password) {
+      return res.status(400).json({
+        password: 'This Field is Required'
       });
     }
     if (!emailRegex.test(req.body.email)) {
       return res.status(400).json({
-        message: 'Email is not rightly formatted'
+        email: 'Email is not rightly formatted'
       });
     }
     if (req.body.roleId === 1) {
-      return res.status(403).json({
+      return res.status(401).json({
         message: 'An admin role cannot be created'
       });
     }
@@ -59,11 +73,10 @@ module.exports = {
             expiresIn: 2880
           });
           res.status(201).json({
-            success: true,
             token
           });
         }).catch((error) => {
-          res.status(400).json(error);
+          res.status(500).json(error);
         });
       }
     });
@@ -96,7 +109,7 @@ module.exports = {
         }
         res.status(200).send(user);
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(500).send(error));
   },
 
   /**
@@ -119,26 +132,17 @@ module.exports = {
         if (!user) {
           return responseUserHelper(res);
         }
-        return user
-          .update({
-            fullName: req.body.fullName || user.fullName,
-            userName: req.body.userName || user.userName,
-            email: req.body.email || user.email,
-            password: req.body.password || user.password,
-            roleId: req.body.roleId || user.roleId
-          })
-          .then((updatedUser) => {
-            res.status(200).send({
-              id: updatedUser.id,
-              fullName: updatedUser.fullName,
-              userName: updatedUser.userName,
-              email: updatedUser.email,
-              roleId: updatedUser.roleId
-            });
-          })
-          .catch(error => res.status(400).send(error));
+        if (req.body.oldPassword) {
+          if (bcrypt.compareSync(req.body.oldPassword, user.password)) {
+            return updateProfileHelper(req, res, user);
+          }
+          return res.status(400).json({
+            message: 'Invalid password'
+          });
+        }
+        return updateProfileHelper(req, res, user);
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(500).send(error));
   },
 
   /**
@@ -164,9 +168,9 @@ module.exports = {
         .destroy()
         .then(() => res.status(204).json({
           message: 'User has been deleted successfully' }))
-        .catch(error => res.status(400).send(error));
+        .catch(error => res.status(500).send(error));
     })
-    .catch(error => res.status(400).send(error));
+    .catch(error => res.status(500).send(error));
   },
 
   /**
@@ -177,13 +181,17 @@ module.exports = {
    * @returns {object} - an object of the logged in user and a token
    */
   logInUser(req, res) {
-    if (!req.body.email || !req.body.password) {
+    if (!req.body.email) {
       return res.status(400).json({
-        message: 'All fields are required'
+        email: 'This field is required'
+      });
+    } if (!req.body.password) {
+      return res.status(400).json({
+        password: 'This field is required'
       });
     } else if (!emailRegex.test(req.body.email)) {
       return res.status(400).json({
-        message: 'Email is invalid'
+        email: 'Email is invalid'
       });
     }
     return User
@@ -207,17 +215,15 @@ module.exports = {
               expiresIn: 60 * 60 * 24
             });
             res.status(201).json({
-              success: true,
               token,
             });
           } else {
             res.status(401).json({
-              success: false,
-              message: 'Password is Invalid'
+              password: 'Password is Invalid'
             });
           }
         }
-      }).catch(error => res.status(400).send(error));
+      }).catch(error => res.status(500).send(error));
   },
 
   /**
@@ -239,10 +245,10 @@ module.exports = {
     .then(({ rows: user, count }) => {
       res.status(200).send({
         user,
-        pagination: metaData(count, limit, offset)
+        pagination: pagination(count, limit, offset)
       });
     })
-    .catch(error => res.status(400).send(error));
+    .catch(error => res.status(500).send(error));
   },
 
   /**
@@ -280,7 +286,7 @@ module.exports = {
       attributes: { exclude: ['password'] },
       where: {
         fullName: {
-          $like: `%${searchQuery}%`,
+          $iLike: `%${searchQuery}%`,
         }
       }
     }).then(({ rows: user, count }) => {
@@ -289,8 +295,8 @@ module.exports = {
       }
       res.status(200).send({
         user,
-        pagination: metaData(count, limit, offset)
+        pagination: pagination(count, limit, offset)
       });
-    }).catch(error => res.status(400).send(error));
+    }).catch(error => res.status(500).send(error));
   }
 };
