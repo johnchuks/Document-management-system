@@ -132,7 +132,12 @@ module.exports = {
         if (!user) {
           return responseUserHelper(res);
         }
-        if (req.body.oldPassword) {
+        if (req.body.password) {
+          if (!req.body.oldPassword) {
+            return res.status(400).json({
+              message: 'Please enter your current password'
+            });
+          }
           if (bcrypt.compareSync(req.body.oldPassword, user.password)) {
             return updateProfileHelper(req, res, user);
           }
