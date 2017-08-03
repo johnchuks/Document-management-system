@@ -7451,6 +7451,10 @@ thead tr th {
   min-width: 800px;
   margin: 0 auto;
   text-align: left; }
+
+@media (max-width: 992px) {
+  .brand-logo {
+    margin-left: 50px; } }
 .toast-title {
   font-weight: bold; }
 

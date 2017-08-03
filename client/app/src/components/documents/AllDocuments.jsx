@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import striptags from 'striptags';
+import Parser from 'html-react-parser';
 import { withRouter } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import { fetchAllDocuments } from '../../actions/documentActions';
@@ -95,7 +95,7 @@ export class AllDocuments extends React.Component {
                 <div className="card small grey lighten-4">
                   <div className="card-content black-text">
                     <span className="card-title">{documents.title}</span>
-                    <p>{striptags(documents.content)}</p>
+                   {Parser(documents.content)}
                   </div>
                   <div className="card-action">
                     <p>{documents.access}</p>

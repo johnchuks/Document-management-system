@@ -9,13 +9,14 @@ import PropTypes from 'prop-types';
  */
 const SearchedUsersList = props => (
       <div>
-        <table className="bordered">
-          <thead>
-            <tr>
-              <th>Full Name</th>
-              <th>Email</th>
-            </tr>
-          </thead>
+    <table className="bordered">
+      {props.users.length > 0 ?
+        <thead>
+          <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+          </tr>
+        </thead> : ''}
           <tbody>
             {props.users.map(user => (
               <tr key={user.id}>

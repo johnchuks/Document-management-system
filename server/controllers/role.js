@@ -103,7 +103,7 @@ module.exports = {
    */
   updateRole(req, res) {
     if (req.decoded.roleId !== 1) {
-      return res.status(401)
+      return res.status(403)
         .json({ message: 'You are not authorized access the role' });
     }
     return Role

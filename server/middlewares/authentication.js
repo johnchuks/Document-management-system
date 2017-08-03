@@ -15,7 +15,7 @@ module.exports = {
         return next();
       });
     } else {
-      return res.status(403).send({
+      return res.status(401).send({
         success: false,
         message: 'No token provided.'
       });
@@ -26,7 +26,7 @@ module.exports = {
     if (req.decoded.roleId === 1) {
       next();
     } else {
-      return res.status(401).json({
+      return res.status(403).json({
         message: 'You are not authorized',
       });
     }

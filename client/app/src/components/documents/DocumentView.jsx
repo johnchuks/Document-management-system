@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal } from 'react-materialize';
 import PropTypes from 'prop-types';
-import striptags from 'striptags';
+import Parser from 'html-react-parser';
 
 /**
  *
@@ -20,7 +20,7 @@ const DocumentView = props => (
           </a>
         }
       >
-        <p id="documentcontent">{striptags(props.documentView.content)}</p>
+       {Parser(props.documentView.content)}
       </Modal>
     </div>
   );

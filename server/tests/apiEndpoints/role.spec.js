@@ -64,7 +64,7 @@ describe('Roles', () => {
         .set({ 'authorization': userToken })
       .send(role)
       .end((err, res) => {
-        expect(res.status).to.equal(401);
+        expect(res.status).to.equal(403);
         expect(res.body).to.have.property('message').to.equal('You are not authorized');
         done();
       });
@@ -126,7 +126,7 @@ describe('Roles', () => {
         .get('/api/v1/roles')
         .set({ 'authorization': userToken })
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(403);
           expect(res.body).to.be.have.property('message').to.equal('You are not authorized');
           done();
         });
@@ -152,7 +152,7 @@ describe('Roles', () => {
         .get(`/api/v1/roles/${id}`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(403);
           expect(res.body).to.have.property('message').to.equal('You are not authorized');
           done();
         });
@@ -214,7 +214,7 @@ describe('Roles', () => {
          .set({ 'authorization': userToken })
         .send({ title: 'kiba' })
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(403);
           expect(res.body).to.have.property('message').to.equal('You are not authorized');
           done();
         });
@@ -262,7 +262,7 @@ describe('Roles', () => {
         .delete(`/api/v1/roles/${id}`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(403);
           expect(res.body).to.have.property('message').to.equal('You are not authorized');
           done();
         });

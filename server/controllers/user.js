@@ -92,7 +92,7 @@ module.exports = {
   findUser(req, res) {
     const userQuery = Number(req.params.id);
     if ((req.decoded.id !== userQuery) && (req.decoded.roleId !== 1)) {
-      return res.status(401).json({
+      return res.status(403).json({
         message: 'Unauthorized Access'
       });
     }
@@ -121,7 +121,7 @@ module.exports = {
    */
   updateUser(req, res) {
     if (Number(req.decoded.id) !== Number(req.params.id)) {
-      return res.status(401).json({
+      return res.status(403).json({
         message: 'You are not authorized to access this user'
       });
     }
@@ -159,7 +159,7 @@ module.exports = {
    */
   deleteUser(req, res) {
     if (req.decoded.roleId !== 1) {
-      return res.status(401).json({
+      return res.status(403).json({
         message: 'You are not authorized to access this field'
       });
     }

@@ -223,7 +223,7 @@ describe('Users', () => {
         .get('/api/v1/users')
         .set({ 'authorization': userToken })
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(403);
           expect(res.body).to.have.property('message').to.equal('You are not authorized');
           done();
         });
@@ -232,7 +232,7 @@ describe('Users', () => {
       chai.request(server)
         .get('/api/v1/users')
         .end((err, res) => {
-          expect(res.status).to.equal(403);
+          expect(res.status).to.equal(401);
           expect(res.body).to.have.property('message').to.equal('No token provided.');
           done();
         });
@@ -343,7 +343,38 @@ describe('Users', () => {
           expect(res.body).to.have.property('fullName').to.equal('jake doe');
           done();
         });
+      });
+    it('Should fail to update a user`s password if the user current password is not provided', (done) => {
+      const id = 2;
+      const password = 'johnjames';
+      chai.request(server)
+        .put(`/api/v1/users/${id}`)
+        .set({ 'authorization': userToken })
+        .send({ password: 'johnjames' })
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body).to.have
+            .property('message').to.equal('Please enter your current password');
+          done();
+        });
     });
+    it('Should fail to update a user`s password if the user current password is invalid', (done) => {
+      const id = 2;
+      const user = {
+        oldPassword: 'test',
+        password: 'johnjames'
+      }
+       chai.request(server)
+        .put(`/api/v1/users/${id}`)
+        .set({ 'authorization': userToken })
+        .send(user)
+        .end((err, res) => {
+          expect(res.status).to.equal(400);
+          expect(res.body).to.have
+            .property('message').to.equal('Invalid password');
+          done();
+        });
+    })
     it('Should update a user`s email by id if the user has the same id', (done) => {
       const id = 2;
       chai.request(server)
@@ -392,7 +423,7 @@ describe('Users', () => {
         .set({ 'authorization': userToken })
         .send({ email: 'jakedoe@andela.com' })
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(403);
           expect(res.body).to.have.property('message').to.equal('You are not authorized to access this user');
           done();
         });
@@ -404,7 +435,7 @@ describe('Users', () => {
         .set({ 'authorization': userToken })
         .send({ email: 'jakedoe@andela.com' })
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(403);
           expect(res.body).to.have.property('message').to.equal('You are not authorized to access this user');
           done();
         });
@@ -427,7 +458,7 @@ describe('Users', () => {
         .delete(`/api/v1/users/${id}`)
         .set({ 'authorization': userToken })
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(403);
           expect(res.body).to.have.property('message').to.equal('You are not authorized to access this field');
           done();
         });
