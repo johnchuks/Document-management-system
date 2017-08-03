@@ -6,7 +6,6 @@ import ReactPaginate from 'react-paginate';
 import { fetchUser } from '../../actions/userActions';
 import NavigationBar from './NavigationBar.jsx';
 import AllUsersList from './AllUsersList.jsx';
-import Footer from './Footer.jsx';
 
 /**
  *
@@ -72,6 +71,7 @@ export class ViewAllUsers extends React.Component {
     return (
       <div>
         <NavigationBar />
+        <div className="user-manage">
         <h5 className="manage-users">Manage Users </h5>
         <AllUsersList allUsers={users} />
         <div className="rows">
@@ -90,7 +90,7 @@ export class ViewAllUsers extends React.Component {
           activeClassName={'active'}
         />
           </div>
-          <Footer />
+          </div>
         </div>
     );
   }
