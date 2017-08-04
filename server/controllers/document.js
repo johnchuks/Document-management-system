@@ -47,7 +47,7 @@ module.exports = {
       .catch(error => res.status(500).send(error));
       }
       return res.status(403).json({
-        message: 'Document already exists'
+        message: 'This title already exists'
       });
     }).catch(error => res.status(500).send(error));
   },
