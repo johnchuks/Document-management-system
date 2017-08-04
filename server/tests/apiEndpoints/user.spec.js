@@ -211,10 +211,9 @@ describe('Users', () => {
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body.user[1]).to.have.property('fullName').to.equal('test user');
-          expect(res.body.user[1]).to.have.property('userName').to.equal('user');
-          expect(res.body.user[1]).to.have.property('id').to.equal(2)
-          expect(res.body.pagination).to.have.property('totalCount').to.equal(6);
+          expect(res.body.user[1]).to.have.property('fullName').to.equal('jame doe');
+          expect(res.body.user[1]).to.have.property('userName').to.equal('testdoe');
+          expect(res.body.user[1]).to.have.property('id').to.equal(3);
           done();
         });
     });
@@ -245,8 +244,8 @@ describe('Users', () => {
         .set({ 'authorization': adminToken })
         .end((err, res) => {
           expect(res.status).to.equal(200);
-          expect(res.body.user[0]).to.have.property('fullName').to.equal('Johnbosco Ohia');
-          expect(res.body.user[0]).to.have.property('userName').to.equal('admin');
+          expect(res.body.user[0]).to.have.property('fullName').to.equal('test user');
+          expect(res.body.user[0]).to.have.property('userName').to.equal('user');
           done();
         });
     });
