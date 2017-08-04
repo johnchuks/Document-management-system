@@ -69,7 +69,8 @@ describe('Documents', () => {
       .send({'authorization': userToken })
       .end((err, res) => {
         expect(res.status).to.equal(403);
-        expect(res.body).to.have.property('message').to.equal('This title already exists');
+        expect(res.body).to.have
+          .property('message').to.equal('A document with this title <br />currently exist');
       });
     });
     it('should fail to add a new document if the value field is missing', (done) => {
