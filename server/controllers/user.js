@@ -245,6 +245,11 @@ module.exports = {
     .findAndCountAll(
       { limit,
         offset,
+        where: {
+          roleId: {
+            $ne: 1
+          }
+        },
         attributes: { exclude: ['password'] }
       })
     .then(({ rows: user, count }) => {
