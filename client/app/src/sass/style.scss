@@ -1,0 +1,277 @@
+@import '../../../../node_modules/materialize-css/sass/materialize.scss';
+
+#login {
+  border: 10px solid #F5F3EE;
+  padding: inherit;
+  width: 50%;
+  height: 50%;
+  margin-left: 300px;
+  background-color: #F5F3EE;
+  background: rgba(130,130,130,.6);
+  padding: 20px 22px;
+  border: 1px solid;
+  border-top-color: rgba(255,255,255,.4);
+  border-left-color: rgba(255,255,255,.4);
+  border-bottom-color: rgba(60,60,60,.4);
+  border-right-color: rgba(60,60,60,.4);
+  margin-top:100px;
+  }
+  .loginContainer {
+    background-image:url('http://oxford.sch.ae/wp-content/uploads/sites/2/2013/10/Library-Books1.jpg');
+     background-color: rgba(0,0,0,0.5);
+    background-repeat: none;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+
+}
+#signupForm {
+  border: 10px solid #F5F3EE;
+  padding: inherit;
+  width: 50%;
+  height: 50%;
+  margin-left: 300px;
+  margin-top: 100px;
+  background-color: #F5F3EE;
+  background: rgba(130,130,130,.6);
+  padding: 20px 22px;
+  border: 1px solid;
+  border-top-color: rgba(255,255,255,.4);
+  border-left-color: rgba(255,255,255,.4);
+  border-bottom-color: rgba(60,60,60,.4);
+  border-right-color: rgba(60,60,60,.4);
+}
+.signupContainer {
+  background-image:url('http://oxford.sch.ae/wp-content/uploads/sites/2/2013/10/Library-Books1.jpg');
+     background-color: rgba(0,0,0,0.5);
+    background-repeat: none;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+#errorAlert {
+  color: red;
+}
+.landing {
+  color: white;
+  text-align: center;
+  font-family:cursive;
+  font-size: 25px;
+}
+  #loginButton {
+    width: 100%;
+  }
+  #signupButton {
+    width: 200%;
+  }
+  #iconEmailPassword {
+    margin-left: 90%;
+    margin-top: inherit;
+    color: white
+  }
+
+  h5 {
+    text-align: center;
+  }
+  #label {
+    color: white;
+  }
+  #signupLink{
+    color: orange;
+  }
+  .alert {
+    margin-left: 200px;
+    color: red;
+  }
+  #documentbutton {
+    margin-top: 20px;
+    margin-left: 100px;
+    height: 50px;
+  }
+
+ .nav-wrapper {
+  background-color: #31874D;
+ }
+  // #formField {
+  //   margin-left: 400px !important;
+  //   z-index: -1;
+
+  // }
+
+  #h5 {
+    color: black;
+  }
+  #yesButton {
+    margin-right: 200px;
+    margin-bottom: 40px;
+  }
+  #noButton {
+    margin-right: 150px;
+  }
+  #deleteIcon {
+    cursor: pointer;
+    margin-left: 150px;
+    margin-top: -45px;
+  }
+  #editIcon {
+    cursor: pointer;
+    margin-top: -100px;
+    margin-top: -26px;
+  }
+
+input[type=text] {
+  color: black;
+}
+input[type=email] {
+  color: black;
+}
+input[type=password] {
+  color:black;
+}
+#loginLink {
+  color: white;
+  margin-left: 150px;
+}
+
+#navLogo {
+  margin-left: 3%;
+}
+
+#searchBar {
+  max-width: 50%;
+  margin-left: 250px;
+}
+#searchButton {
+  margin-top: 3%;
+  margin-left: 3%
+}
+// .searchHeading {
+//   margin-left: 40%;
+// }
+#navLogin {
+  margin-left: 3%;
+}
+
+.navigationCollapse {
+  display: block !important;
+}
+.profile {
+  border: 1px solid #90A4AE;
+  border-radius: 10rem;
+  padding: 2rem;
+  width: 8rem;
+  height: 8rem;
+  margin: 0 auto;
+
+}
+.intitalTag {
+ font-size: 6rem !important;
+ margin: 0;
+ padding-left: 5px !important;
+ margin-top: -25px;
+ margin-left: -5px;
+
+}
+.error-block {
+  border-radius: .4rem;
+  border: 2px;
+  border-width: 2px;
+  font-size: 19px;
+  color: red;
+}
+.pagination li.active {
+  background-color: #31874D;
+}
+.page-footer {
+  background-color: #31874D;
+}
+
+#welcomeName {
+  margin-left: 80px;
+  color:white;
+}
+.user-view {
+ background: #31874D;
+}
+.bordered {
+  max-width: 70%;
+  margin-left: 200px;
+}
+
+tbody tr td {
+  text-align: center;
+}
+thead tr th {
+  text-align: center;
+}
+#loginId {
+  color: white;
+}
+#email {
+  color: white;
+}
+#password {
+  color: white;
+}
+#full_Name {
+  color: white;
+}
+
+#user_Name  {
+  color: white;
+}
+#signupId {
+  color: white;
+}
+#editEmail {
+  color: black;
+}
+#editpassword {
+  color: black;
+}
+.pagination {
+  cursor: pointer;
+}
+.rows {
+  margin-left: 40%;
+  margin-right: auto;
+  margin-top: 50px;
+}
+#updatedocbutton {
+  margin-top: 4%;
+  margin-left: 17%
+}
+
+#formField {
+  text-align: center;
+}
+.container-div {
+    display: inline-block;
+    min-width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+@media (max-width: 992px) {
+  .brand-logo  {
+    margin-left: 50px
+  }
+}
+.user-manage {
+  min-height: 85% !important;
+}
