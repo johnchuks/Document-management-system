@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import striptags from 'striptags';
+import Parser from 'html-react-parser';
 
 
 /**
@@ -20,7 +20,7 @@ const SearchedDocumentList = props => (
                   <span className="card-title" value={document.id}>
                     {document.title}
                   </span>
-                  <p>{striptags(document.content)}</p>
+                 {Parser(document.content)}
                 </div>
                 <div className="card-action">
                   <p>{document.access}</p>

@@ -50,14 +50,16 @@ export class SearchUsers extends React.Component {
    * @memberof SearchUsers
    */
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      searchList: nextProps.searchList,
-      errors: nextProps.error
-    }, () => {
-      if (this.state.errors.message) {
-        toastr.error(this.state.errors.message);
-      }
-    });
+    if (nextProps.searchList.length !== 4) {
+      this.setState({
+        searchList: nextProps.searchList,
+        errors: nextProps.error
+      }, () => {
+        if (this.state.errors.message) {
+          toastr.error(this.state.errors.message);
+        }
+      });
+    }
   }
   /**
    *

@@ -8,14 +8,15 @@ import PropTypes from 'prop-types';
  * @param {array} props - users array list
  */
 const SearchedUsersList = props => (
-      <div>
-        <table className="bordered">
-          <thead>
-            <tr>
-              <th>Full Name</th>
-              <th>Email</th>
-            </tr>
-          </thead>
+  <div>
+     {props.users.length > 0 ?
+    <table className="bordered">
+        <thead>
+          <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
           <tbody>
             {props.users.map(user => (
               <tr key={user.id}>
@@ -24,7 +25,7 @@ const SearchedUsersList = props => (
               </tr>
             ))}
           </tbody>
-        </table>
+        </table> : ''}
       </div>
   );
 SearchedUsersList.propTypes = {

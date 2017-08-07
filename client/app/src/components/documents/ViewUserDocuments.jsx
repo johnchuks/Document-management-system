@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
-import striptags from 'striptags';
+import Parser from 'html-react-parser';
 import { withRouter } from 'react-router-dom';
 import { fetchDocument } from '../../actions/documentActions';
 import DocumentForm  from './DocumentForm.jsx';
@@ -102,7 +102,7 @@ export class ViewUserDocuments extends React.Component {
                     <span className="card-title" value={document.id}>
                       {document.title}
                     </span>
-                    <p>{striptags(document.content)}</p>
+                    {Parser(document.content)}
                   </div>
                   <div className="card-action">
                     <p>{document.access}</p>

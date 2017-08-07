@@ -18,17 +18,17 @@ module.exports = {
   createDocument(req, res) {
     if (!req.body.title) {
       return res.status(400).json({
-        message: 'This Field is Required'
+        message: 'Title field is Required'
       });
     }
     if (!req.body.content) {
       return res.status(400).json({
-        message: 'This Field is Required'
+        message: 'Content field is Required'
       });
     }
     if (!req.body.value) {
       return res.status(400).json({
-        message: 'This Field is Required'
+        message: 'access type is Required'
       });
     }
     Document.findAll({
@@ -47,7 +47,7 @@ module.exports = {
       .catch(error => res.status(500).send(error));
       }
       return res.status(403).json({
-        message: 'Document already exists'
+        message: 'A document with this title <br />currently exist'
       });
     }).catch(error => res.status(500).send(error));
   },
@@ -71,7 +71,7 @@ module.exports = {
           return responseHelper(res);
         }
         if (Number(document.userId) !== Number(req.decoded.id)) {
-          return res.status(401).json({
+          return res.status(403).json({
             message: 'You are not authorized to update this document'
           });
         }
@@ -109,7 +109,7 @@ module.exports = {
         }
         if (document.access === 'private') {
           if (document.userId !== req.decoded.id) {
-            return res.status(401).json({
+            return res.status(403).json({
               message: 'You are not authorized to view this document'
             });
           }
@@ -122,7 +122,7 @@ module.exports = {
               if (
                 Number(documentOwner.roleId) !== Number(req.decoded.roleId)
               ) {
-                return res.status(401).json({
+                return res.status(403).json({
                   message: 'You are not authorized to view this document'
                 });
               }
@@ -150,7 +150,7 @@ module.exports = {
           req.decoded.roleId !== 1 &&
           Number(document.userId) !== Number(req.decoded.id)
         ) {
-          return res.status(401).json({
+          return res.status(403).json({
             message: 'You are not authorized to delete this document'
           });
         }

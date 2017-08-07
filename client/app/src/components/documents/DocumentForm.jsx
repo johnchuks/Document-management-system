@@ -111,7 +111,7 @@ export class DocumentForm extends React.Component {
           <form className="col s12">
             <div className="row">
               <div className="input-field col s12">
-                <input name="title" onChange={this.handleChange}
+                <input name="title" required onChange={this.handleChange}
                   className="validate" placeholder="Title" value={this.state.title} />
               </div>
               <div className="input-field col s12">

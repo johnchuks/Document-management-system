@@ -69,7 +69,8 @@ describe('Documents', () => {
       .send({'authorization': userToken })
       .end((err, res) => {
         expect(res.status).to.equal(403);
-        expect(res.body).to.have.property('message').to.equal('Document already exists');
+        expect(res.body).to.have
+          .property('message').to.equal('A document with this title <br />currently exist');
       });
     });
     it('should fail to add a new document if the value field is missing', (done) => {
@@ -85,7 +86,7 @@ describe('Documents', () => {
       .set({ 'authorization': userToken })
       .end((err, res) => {
         expect(res.status).to.equal(400);
-        expect(res.body).to.have.property('message').to.be.equal('This Field is Required');
+        expect(res.body).to.have.property('message').to.be.equal('access type is Required');
         done();
       });
     });
@@ -102,7 +103,7 @@ describe('Documents', () => {
       .set({ 'authorization': userToken })
       .end((err, res) => {
         expect(res.status).to.equal(400);
-        expect(res.body).to.have.property('message').to.be.equal('This Field is Required');
+        expect(res.body).to.have.property('message').to.be.equal('Title field is Required');
         done();
       });
     });
@@ -119,7 +120,7 @@ describe('Documents', () => {
       .set({ 'authorization': userToken })
       .end((err, res) => {
         expect(res.status).to.equal(400);
-        expect(res.body).to.have.property('message').to.be.equal('This Field is Required');
+        expect(res.body).to.have.property('message').to.be.equal('Content field is Required');
         done();
       });
     });
@@ -134,7 +135,7 @@ describe('Documents', () => {
       .post('/api/v1/documents')
       .send(document)
         .end((err, res) => {
-        expect(res.status).to.equal(403);
+        expect(res.status).to.equal(401);
         expect(res.body).to.have.property('message').to.be.equal('No token provided.');
         done();
       });
@@ -161,7 +162,7 @@ describe('Documents', () => {
       chai.request(server)
       .get('/api/v1/documents/')
       .end((err, res) => {
-        expect(res.status).to.equal(403);
+        expect(res.status).to.equal(401);
         expect(res.body).to.have.property('message').to.be.equal('No token provided.');
         done();
       });
@@ -202,7 +203,7 @@ describe('Documents', () => {
       chai.request(server)
         .get(`/api/v1/users/${userId}/documents`)
         .end((err, res) => {
-          expect(res.status).to.equal(403);
+          expect(res.status).to.equal(401);
           expect(res.body).to.have.property('message').to.equal('No token provided.');
           done();
         });
@@ -255,7 +256,7 @@ describe('Documents', () => {
         .get(`/api/v1/documents/${documentId}/`)
         .set({ 'authorization': sampleUserToken })
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(403);
           expect(res.body).to.have.property('message').to.equal('You are not authorized to view this document');
           done();
         });
@@ -280,7 +281,7 @@ describe('Documents', () => {
         .get(`/api/v1/documents/${documentId}/`)
         .set({ 'authorization': sampleUserToken })
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(403);
           expect(res.body).to.have.property('message').to.equal('You are not authorized to view this document');
           done();
         });
@@ -335,7 +336,7 @@ describe('Documents', () => {
         .set({ 'authorization': sampleUserToken })
         .send({ title: 'narruto shippuden' })
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(403);
           expect(res.body).to.have.property('message').to.equal('You are not authorized to update this document');
           done();
         });
@@ -348,7 +349,7 @@ describe('Documents', () => {
         .set({ 'authorization': adminToken })
         .send({ title: 'narruto' })
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(403);
           done();
         });
     });
@@ -394,7 +395,7 @@ describe('Documents', () => {
         .delete(`/api/v1/documents/${id}`)
         .set({ 'authorization': sampleUserToken })
         .end((err, res) => {
-          expect(res.status).to.equal(401);
+          expect(res.status).to.equal(403);
           expect(res.body).to.have.property('message').to.equal('You are not authorized to delete this document');
           done();
         });

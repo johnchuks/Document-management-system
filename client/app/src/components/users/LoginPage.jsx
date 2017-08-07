@@ -79,7 +79,7 @@ export class LoginPage extends React.Component {
                   <input
                     id="email"
                     name="email"
-                    type="text"
+                    type="email"
                     className="validate"
                     onChange={this.handleChange}
                   /> {errors.email &&

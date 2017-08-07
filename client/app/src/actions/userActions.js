@@ -231,6 +231,7 @@ const deleteUserError = error => ({
 const deleteUser = user => dispatch =>
   axios.delete(`/api/v1/users/${user}`).then(() => {
     dispatch(deleteUserSuccess(user));
+    dispatch(fetchUser({ limit: 4, offset: 0 }));
   }).catch((error) => {
     dispatch(deleteUserError(error));
   });

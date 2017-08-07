@@ -32,9 +32,8 @@ class LogoutPage extends React.Component {
             >
               <i className="material-icons">menu</i>
             </a>
-
             <div className="brand-logo left" id="navLogout">DocumentME</div>
-            <ul id="nav-mobile" className="right hide-on-med-and-down">
+            <ul id="nav-mobile" className="right">
               <li>
                 <a id="navLogout"
                   className="waves-effect wave-light"

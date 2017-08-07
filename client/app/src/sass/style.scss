@@ -267,3 +267,11 @@ thead tr th {
     margin: 0 auto;
     text-align: left;
 }
+@media (max-width: 992px) {
+  .brand-logo  {
+    margin-left: 50px
+  }
+}
+.user-manage {
+  min-height: 85% !important;
+}
