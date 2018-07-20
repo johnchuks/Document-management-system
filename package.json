@@ -67,7 +67,7 @@
     "chai-enzyme": "^0.8.0",
     "chai-http": "^3.0.0",
     "chai-redux-mock-store": "^1.1.0",
-    "coveralls": "^2.13.1",
+    "coveralls": "^3.0.0",
     "css-loader": "^0.28.4",
     "dotenv": "^4.0.0",
     "draft-js": "^0.10.1",
