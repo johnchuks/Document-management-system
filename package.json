@@ -46,7 +46,7 @@
   },
   "homepage": "https://github.com/andela-johia/Document-management-system#readme",
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.19.0",
     "babel": "^6.23.0",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
