@@ -16,7 +16,9 @@
     "e2e": "nightwatch",
     "build": "webpack --config webpack.config.prod.js",
     "postinstall": "npm run build",
-    "start": "npm run postinstall & babel-node -- server/config/server.js & nodemon server/config/server.js"
+    "start": "npm run postinstall & babel-node -- server/config/server.js & nodemon server/config/server.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "nyc": {
     "require": [
@@ -132,7 +134,8 @@
     "webpack": "^2.6.1",
     "webpack-dev-middleware": "^1.10.2",
     "webpack-dev-server": "^2.4.5",
-    "webpack-hot-middleware": "^2.18.0"
+    "webpack-hot-middleware": "^2.18.0",
+    "snyk": "^1.189.0"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.9.0",
@@ -185,5 +188,6 @@
     "webpack": "^2.6.1",
     "webpack-dev-server": "^2.4.5",
     "webpack-hot-middleware": "^2.18.0"
-  }
+  },
+  "snyk": true
 }
